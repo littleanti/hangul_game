@@ -1,0 +1,271 @@
+/* 나무 / 가지 / 잎 시각화 */
+
+.play-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.play-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+  gap: 8px;
+}
+
+.play-header .quit-btn {
+  background: none;
+  border: 2px solid var(--navy);
+  border-radius: 100px;
+  padding: 4px 12px;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--navy);
+  opacity: 0.7;
+}
+.play-header .quit-btn:active { transform: scale(0.95); }
+
+.play-header .progress-pill {
+  font-family: 'Jua', sans-serif;
+  font-size: 0.95rem;
+  padding: 4px 14px;
+  background: var(--yellow);
+  border-radius: 100px;
+  box-shadow: 0 3px 0 var(--yellow-dark);
+}
+
+.play-header .progress-pill .num { color: var(--coral); }
+
+/* 나무 캔버스 영역 */
+.tree-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(420px, 62vh, 620px);
+  border-radius: 24px;
+  border: 3px solid var(--navy);
+  background:
+    linear-gradient(180deg, #cfe9f6 0%, #f7eed5 70%, #e0c79b 100%);
+  box-shadow: 0 6px 0 var(--navy);
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.tree-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-tree);
+  pointer-events: none;
+}
+
+.tree-svg .branch-segment {
+  fill: none;
+  stroke: var(--branch-brown);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transition: stroke-dashoffset 0.8s ease;
+}
+.tree-svg .branch-segment.grown { stroke-dashoffset: 0; }
+.tree-svg .branch-segment.candidate {
+  stroke: rgba(139, 110, 78, 0.35);
+  stroke-dasharray: 6 8;
+  stroke-width: 5;
+  stroke-dashoffset: 0;
+}
+.tree-svg .branch-segment.candidate.highlight {
+  stroke: var(--coral);
+  stroke-dasharray: 4 4;
+  stroke-width: 6;
+}
+.tree-svg .branch-segment.candidate.active-candidate {
+  stroke: var(--coral);
+  stroke-dasharray: 8 6;
+  stroke-width: 7;
+  opacity: 1;
+  animation: branchFlow 1.2s linear infinite;
+}
+.tree-svg .branch-segment.candidate.inactive-candidate {
+  opacity: 0.28;
+}
+@keyframes branchFlow {
+  to { stroke-dashoffset: -28; }
+}
+
+.tree-svg .trunk {
+  fill: none;
+  stroke: var(--branch-brown-dark);
+  stroke-width: 14;
+  stroke-linecap: round;
+}
+
+.tree-svg .ground {
+  fill: var(--root-soil);
+}
+
+.tree-svg .root-label {
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 700;
+  fill: white;
+  text-anchor: middle;
+  font-size: 38px;
+  stroke: var(--navy);
+  stroke-width: 1.2;
+  paint-order: stroke fill;
+}
+
+.tree-svg .root-circle {
+  fill: var(--coral);
+  stroke: var(--coral-dark);
+  stroke-width: 3;
+}
+
+/* 잎 */
+.leaf {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: calc(var(--z-tree) + 1);
+}
+
+.leaf.shown { transform: translate(-50%, -50%) scale(1); }
+.leaf.golden .leaf-shape { background: var(--golden-leaf); border-color: var(--golden-leaf-dark); }
+.leaf.golden .leaf-text  { color: var(--navy); }
+
+.leaf-shape {
+  position: absolute;
+  inset: 0;
+  border-radius: 50% 10% 50% 10%;
+  background: var(--leaf-green);
+  border: 2.5px solid var(--leaf-green-dark);
+  box-shadow: 0 3px 0 var(--leaf-green-dark);
+  transform: rotate(-25deg);
+}
+
+.leaf-text {
+  position: relative;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.85rem;
+  color: white;
+  z-index: 1;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  white-space: nowrap;
+}
+
+.leaf:active .leaf-shape { transform: rotate(-25deg) scale(0.92); }
+
+/* 가지 슬롯 마커 (드래그 대상 시각화) */
+.branch-slot {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 3px dashed rgba(45, 48, 71, 0.45);
+  background: rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.85rem;
+  color: var(--navy);
+  pointer-events: none;
+  z-index: calc(var(--z-tree) + 2);
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.branch-slot.active {
+  border-color: var(--coral);
+  background: rgba(255, 119, 87, 0.18);
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.branch-slot.filled {
+  display: none;
+}
+
+/* 드롭존 힌트 — 활성 가지 끝에 항상 보이는 펄스 표적 */
+.branch-slot.dropzone-hint {
+  border-color: var(--coral);
+  background: rgba(255, 119, 87, 0.15);
+  color: var(--coral);
+  z-index: calc(var(--z-tree) + 3);
+  animation: dropzonePulse 1.5s ease-in-out infinite;
+}
+.branch-slot.dropzone-hint .dropzone-icon {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.55rem;
+  color: var(--coral);
+  font-weight: 700;
+  line-height: 1;
+}
+.branch-slot.dropzone-hint::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2.5px dashed var(--coral);
+  opacity: 0.55;
+  animation: dropzoneRing 1.5s ease-out infinite;
+  pointer-events: none;
+}
+.branch-slot.dropzone-hint.active {
+  animation: none;
+  transform: translate(-50%, -50%) scale(1.22);
+  background: rgba(255, 119, 87, 0.32);
+  border-color: var(--coral-dark);
+}
+.branch-slot.dropzone-hint.active::before {
+  animation: none;
+  opacity: 0;
+}
+@keyframes dropzonePulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50%      { transform: translate(-50%, -50%) scale(1.08); }
+}
+@keyframes dropzoneRing {
+  0%   { opacity: 0.55; transform: scale(0.85); }
+  80%  { opacity: 0; transform: scale(1.55); }
+  100% { opacity: 0; transform: scale(1.55); }
+}
+
+/* 진행 도트 */
+.tree-progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.tree-progress-dots .dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gray);
+  border: 2px solid var(--navy);
+}
+.tree-progress-dots .dot.done {
+  background: var(--leaf-green);
+  border-color: var(--leaf-green-dark);
+}
+
+/* 메시지 영역 */
+.tree-message {
+  text-align: center;
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.95rem;
+  color: var(--color-text-dim);
+  min-height: 1.2em;
+  padding: 0 12px;
+}

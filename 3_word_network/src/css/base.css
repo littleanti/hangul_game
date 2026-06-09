@@ -1,0 +1,79 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar { display: none; }
+
+html, body {
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: 'Gowun Dodum', 'Jua', sans-serif;
+  color: var(--navy);
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--cream);
+  display: flex;
+  align-items: safe center;
+  justify-content: center;
+  padding: max(0px, env(safe-area-inset-top)) max(0px, env(safe-area-inset-right)) max(0px, env(safe-area-inset-bottom)) max(0px, env(safe-area-inset-left));
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--cream);
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(255, 181, 181, 0.25) 0%, transparent 45%),
+    radial-gradient(circle at 80% 75%, rgba(107, 202, 184, 0.20) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(255, 209, 102, 0.12) 0%, transparent 55%);
+}
+
+#app {
+  width: 100%;
+  max-width: 480px;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.screen {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  animation: fadeIn 0.35s ease;
+}
+
+.screen.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  touch-action: manipulation;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}

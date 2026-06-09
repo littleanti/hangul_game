@@ -1,0 +1,19 @@
+{
+  "name": "4-morpheme-detective",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve -p 4324",
+    "serve": "npx serve -p 4324",
+    "validate": "node scripts/validate-data.js",
+    "gen-icons": "node scripts/gen-icons.mjs",
+    "gen-hanja-json": "node scripts/gen-hanja-json.mjs",
+    "gen-vocab": "node scripts/gen-vocab.mjs",
+    "gen-stage-svg": "node scripts/gen-stage-svg.mjs",
+    "gen-sw": "node scripts/gen-sw.mjs",
+    "gen-all": "node scripts/gen-hanja-json.mjs && node scripts/gen-vocab.mjs && node scripts/gen-stage-svg.mjs && node scripts/gen-sw.mjs"
+  },
+  "devDependencies": {
+    "hanzi-writer-data": "^2.0.1",
+    "sharp": "^0.34.5"
+  }
+}

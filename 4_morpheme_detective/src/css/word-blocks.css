@@ -1,0 +1,50 @@
+/* ================================================================
+   단어 → 음절 분리 컴포넌트 — M3에서 구현
+   ================================================================ */
+
+.word-block-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px;
+}
+
+.syllable {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Jua', sans-serif;
+  font-size: 2rem;
+  width: 56px;
+  height: 64px;
+  background: white;
+  border: 3px solid var(--navy);
+  border-radius: 14px;
+  box-shadow: 0 4px 0 var(--navy);
+  transition: transform 0.3s ease, margin 0.3s ease, background 0.2s;
+  user-select: none;
+}
+
+/* 핵심 한자 음절 하이라이트 */
+.syllable.hl {
+  color: var(--coral);
+  border-color: var(--coral);
+  box-shadow: 0 4px 0 var(--coral-dark);
+  transform: scale(1.08);
+  background: var(--yellow);
+}
+
+/* 분리 시 음절 간격 벌어짐 */
+.syllable.spread {
+  margin: 0 8px;
+}
+
+/* 세로 모드: 글자 크기 소폭 축소 */
+@media (orientation: portrait) {
+  .syllable {
+    font-size: 1.6rem;
+    width: 48px;
+    height: 56px;
+  }
+}

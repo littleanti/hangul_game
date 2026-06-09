@@ -1,0 +1,77 @@
+name: Deploy hangul_game to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Minimal permissions required for Pages deployment via GitHub Actions.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Prevent concurrent deployments (do not cancel an in-progress run; queue instead).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Game 4 (morpheme_detective) has a build step that generates icons / SW.
+      # Wrapped so it never hard-fails the deploy: missing scripts are skipped
+      # (--if-present) and the whole step is best-effort (|| true).
+      - name: Build game 4 (morpheme_detective)
+        run: |
+          (
+            cd 4_morpheme_detective \
+              && npm ci \
+              && npm run gen-all --if-present
+          ) || true
+
+      # Stage a clean publish dir, excluding dev/build artifacts so node_modules
+      # is never published. Trailing slash on ./ copies repo contents into _site.
+      - name: Stage _site (exclude node_modules and tooling dirs)
+        run: |
+          mkdir -p _site
+          rsync -a \
+            --exclude='node_modules' \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.omc' \
+            --exclude='.codex' \
+            --exclude='.vscode' \
+            ./ _site/
+
+      # Disable Jekyll processing in the published artifact.
+      - name: Disable Jekyll (.nojekyll)
+        run: touch _site/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

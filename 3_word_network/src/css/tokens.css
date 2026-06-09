@@ -1,0 +1,43 @@
+:root {
+  /* Stage 1 colors (preserve for sibling game consistency) */
+  --cream: #FFF6E4;
+  --coral: #FF7757;
+  --coral-dark: #d45a40;
+  --mint: #6BCAB8;
+  --mint-dark: #4fa192;
+  --navy: #2D3047;
+  --navy-dark: #1a1c2b;
+  --yellow: #FFD166;
+  --yellow-dark: #d4ad4e;
+  --pink: #FFB5B5;
+  --red: #E84545;
+  --red-dark: #b63333;
+  --gray: #E5E1D6;
+  --shadow: rgba(45, 48, 71, 0.15);
+
+  /* Cross-game semantic tokens (1_chosung_quiz와 동일) */
+  --color-bg: var(--cream);
+  --color-text: var(--navy);
+  --color-text-dim: #6b6e82;
+  --color-surface: #FFFFFF;
+  --color-surface2: #F5EDD8;
+  --color-border: var(--gray);
+
+  /* Stage 3 additions */
+  --sky-blue: #87CEEB;
+  --grass-green: #7CB87A;
+  --earth: #C4956A;
+  --correct: #4CAF50;
+  --correct-dark: #388E3C;
+  --wrong: #FF5252;
+  --shadow-soft: 0 4px 16px var(--shadow);
+  --shadow-block: 0 3px 0 var(--shadow);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* Syllable block sizing */
+  --block-size: clamp(52px, 14vw, 68px);
+  --slot-size: clamp(56px, 15vw, 72px);
+}

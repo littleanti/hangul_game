@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FF7757">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="형태소탐정">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>형태소 탐정</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="src/assets/icons/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="src/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="src/assets/icons/icon.svg">
+
+  <!-- §10 폰트 — Jua(제목) + Gowun Dodum(본문) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+  <!-- CSS 로드 순서 유지 -->
+  <link rel="stylesheet" href="src/css/tokens.css">
+  <link rel="stylesheet" href="src/css/base.css">
+  <link rel="stylesheet" href="src/css/components.css">
+  <link rel="stylesheet" href="src/css/screens.css">
+  <link rel="stylesheet" href="src/css/stage.css">
+  <link rel="stylesheet" href="src/css/magnifier.css">
+  <link rel="stylesheet" href="src/css/word-blocks.css">
+  <link rel="stylesheet" href="src/css/morph.css">
+  <link rel="stylesheet" href="src/css/card-deck.css">
+</head>
+<body>
+
+  <!-- ── 시작 화면 F1·F2 (§10 규격 — 1_chosung_quiz 패턴 통일) ── -->
+  <section id="start-screen" class="screen active start-screen" aria-label="시작 화면">
+    <div class="start-content">
+      <div class="start-emoji" aria-hidden="true">🔍</div>
+      <h1 class="start-title">형태소 탐정</h1>
+      <p class="start-subtitle">익숙한 단어 속 숨은 한자를 찾아라 🧩</p>
+      <p class="start-tagline" id="home-progress" aria-live="polite">
+        찾은 한자 <span id="home-progress-found">0</span> / <span id="home-progress-total">0</span>
+      </p>
+      <div class="start-cta">
+        <!-- F1: ≥64dp 큰 버튼 -->
+        <button id="btn-start" class="btn big" aria-label="탐정 시작">
+          🔍 탐정 시작
+        </button>
+      </div>
+      <!-- 콘텐츠 하단 보조 액션 — 도감 + 설정 -->
+      <div class="start-secondary">
+        <button id="btn-home-collection" class="btn-settings" aria-label="한자 도감 열기">📚 도감</button>
+        <button id="btn-settings"        class="btn-settings" aria-label="설정 열기">⚙️ 설정</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 사건 선택 화면 F3 — main.js가 stages.js 기반으로 동적 렌더 ── -->
+  <section id="stage-select-screen" class="screen" aria-label="사건 선택">
+    <div class="stage-select-wrap">
+      <h2 class="stage-select-title">🕵️ 오늘의 사건을 선택하세요</h2>
+      <div id="stage-card-list" class="stage-card-list" role="list"
+           aria-label="사건 목록"></div>
+      <button id="btn-stage-select-back" class="btn small ghost">← 돌아가기</button>
+    </div>
+  </section>
+
+  <!-- ── 플레이 화면 (M2 일러스트+Hit Zone, M3~M5에서 확장) ─── -->
+  <section id="play-screen" class="screen" aria-label="게임 플레이">
+    <div class="stage-canvas" id="stage-canvas">
+      <!-- M2: stage.js 가 주차장 SVG + hit zone overlay 삽입 -->
+    </div>
+    <div class="stage-dock" id="stage-dock">
+      <!-- M6: 상단 바 — 홈 버튼 · 진행률 · 미션 보기 -->
+      <div class="dock-top-bar">
+        <button id="btn-play-back" class="btn small ghost" aria-label="홈으로">← 홈</button>
+        <div class="progress-bar" aria-live="polite">
+          <span id="progress-trophy" class="progress-trophy" aria-label="트로피 0개">🏆 <span id="progress-count">0</span></span>
+        </div>
+        <button id="btn-show-mission" class="btn small" hidden aria-label="미션 보기">미션 보기</button>
+      </div>
+      <p class="dock-hint" id="dock-hint">반짝이는 곳을 탭하거나 클릭하세요!</p>
+      <!-- M3: word-block — DOM 순서 고정 (word-block.js가 ensureContainer로 재사용) -->
+      <div id="word-block-container" class="word-block-container" aria-live="polite"></div>
+      <!-- M4: morph -->
+      <div id="morph-container" class="morph-container" aria-hidden="true">
+        <div class="morph-backdrop"></div>
+      </div>
+      <!-- M5: card-deck — card-deck.js가 동적으로 카드 삽입 -->
+      <div id="card-deck-container" aria-label="어휘 카드" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ── 설정 화면 — 1_chosung_quiz 와 동일 디자인 패턴 ─────────── -->
+  <section id="settings-screen" class="screen" aria-label="설정">
+    <div class="settings-wrap">
+      <div class="settings-header">
+        <h2>⚙️ 설정</h2>
+        <button id="btn-settings-close" class="close-btn" aria-label="닫기">✕</button>
+      </div>
+
+      <div class="settings-section">
+        <div class="toggle-row">
+          <span class="toggle-label">🔊 발음 듣기 (TTS)</span>
+          <div id="toggle-tts" class="toggle" role="switch" tabindex="0"
+               aria-label="발음 듣기 켜기·끄기"></div>
+        </div>
+        <div id="tts-hint" class="section-hint">한자 발견 시 음과 뜻을 읽어줘요</div>
+      </div>
+
+      <div class="settings-section">
+        <div class="toggle-row">
+          <span class="toggle-label">🎵 효과음</span>
+          <div id="toggle-audio" class="toggle" role="switch" tabindex="0"
+               aria-label="효과음 켜기·끄기"></div>
+        </div>
+        <div class="section-hint">발견·변형·보상 사운드를 재생해요</div>
+      </div>
+
+      <div class="settings-section">
+        <div class="toggle-row">
+          <span class="toggle-label">✨ 객체 발광 힌트</span>
+          <div id="toggle-pulse" class="toggle" role="switch" tabindex="0"
+               aria-label="발광 힌트 켜기·끄기"></div>
+        </div>
+        <div class="section-hint">처음 5초간 클릭 가능한 곳이 부드럽게 빛나요</div>
+      </div>
+
+      <div class="settings-section">
+        <div class="section-label">🔠 글자 크기</div>
+        <div id="font-chips" class="chip-row"></div>
+      </div>
+
+      <div class="settings-section">
+        <div class="toggle-row">
+          <span class="toggle-label">🌙 다크 모드</span>
+          <div id="toggle-dark" class="toggle" role="switch" tabindex="0"
+               aria-label="다크 모드 켜기·끄기"></div>
+        </div>
+        <div class="section-hint">어두운 배경으로 눈의 피로를 줄여요</div>
+      </div>
+
+      <div class="settings-section">
+        <div class="section-label">🗂 진행 데이터</div>
+        <button id="btn-reset-progress" class="btn small ghost"
+                style="width:100%">🗑 도감·별 초기화</button>
+        <div class="section-hint">다른 아이와 공유할 때 도감과 별을 비울 수 있어요</div>
+      </div>
+
+      <div class="settings-footer">
+        <button id="btn-reset-settings" class="btn ghost small">기본값</button>
+        <button id="btn-settings-back" class="btn big">🏠 홈으로</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 미션 완료 화면 — mission.js가 card-screen 내부를 동적 렌더 ── -->
+  <section id="mission-screen" class="screen" aria-label="미션 완료">
+    <div class="card-screen" style="overflow-y:auto"></div>
+  </section>
+
+  <!-- ── 종료 화면 — game.js가 card-screen 내부를 동적 렌더 ──────── -->
+  <section id="end-screen" class="screen" aria-label="종료">
+    <div class="card-screen" style="overflow-y:auto"></div>
+  </section>
+
+  <!-- ── 도감(컬렉션) 화면 — F14 (M7) ───────────────────────────── -->
+  <section id="collection-screen" class="screen" aria-label="한자 도감">
+    <div class="card-screen" style="overflow-y:auto"></div>
+  </section>
+
+  <script type="module" src="src/js/main.js"></script>
+
+  <!-- PWA 서비스 워커 등록 — 상대경로 등록으로 스코프가 문서 위치(서브패스)를 자동으로 따름 -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js');
+      });
+    }
+  </script>
+</body>
+</html>

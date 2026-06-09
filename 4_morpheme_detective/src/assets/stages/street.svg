@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-label="거리 사건 일러스트">
+  <defs>
+    <linearGradient id="st-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#8FCBEE"/>
+      <stop offset="0.5" stop-color="#BFE0F2"/>
+      <stop offset="1"   stop-color="#E8F4FB"/>
+    </linearGradient>
+    <linearGradient id="st-wall-l" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D4C9B8"/>
+      <stop offset="1" stop-color="#C0B49F"/>
+    </linearGradient>
+    <linearGradient id="st-wall-r" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C9BDB0"/>
+      <stop offset="1" stop-color="#B5A898"/>
+    </linearGradient>
+    <linearGradient id="st-road" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#555A63"/>
+      <stop offset="1" stop-color="#3A3E46"/>
+    </linearGradient>
+    <linearGradient id="st-sidewalk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#B8B0A4"/>
+      <stop offset="1" stop-color="#9E9688"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ═══ 배경 레이어 ══════════════════════════════════════════════ -->
+  <!-- 하늘 -->
+  <rect x="0" y="0" width="1600" height="460" fill="url(#st-sky)"/>
+
+  <!-- 구름 -->
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="200"  cy="76"  rx="70" ry="22"/>
+    <ellipse cx="262"  cy="62"  rx="46" ry="18"/>
+    <ellipse cx="900"  cy="58"  rx="80" ry="24"/>
+    <ellipse cx="968"  cy="46"  rx="52" ry="18"/>
+    <ellipse cx="1390" cy="86"  rx="60" ry="18"/>
+    <ellipse cx="1448" cy="74"  rx="38" ry="14"/>
+  </g>
+
+  <!-- 왼쪽 건물 외벽 -->
+  <rect x="0"   y="60"  width="640"  height="420" fill="url(#st-wall-l)"/>
+  <rect x="0"   y="60"  width="640"  height="18"  fill="#A89880"/>
+  <!-- 왼쪽 창문 -->
+  <g fill="#7E93AB" opacity="0.65">
+    <rect x="30"  y="92"  width="56" height="42" rx="4"/>
+    <rect x="106" y="92"  width="56" height="42" rx="4"/>
+    <rect x="182" y="92"  width="56" height="42" rx="4"/>
+    <rect x="30"  y="160" width="56" height="42" rx="4"/>
+    <rect x="106" y="160" width="56" height="42" rx="4"/>
+    <rect x="182" y="160" width="56" height="42" rx="4"/>
+  </g>
+
+  <!-- 오른쪽 건물 외벽 -->
+  <rect x="960"  y="60"  width="640"  height="420" fill="url(#st-wall-r)"/>
+  <rect x="960"  y="60"  width="640"  height="18"  fill="#A08870"/>
+  <!-- 오른쪽 창문 -->
+  <g fill="#7E93AB" opacity="0.65">
+    <rect x="990"  y="92"  width="56" height="42" rx="4"/>
+    <rect x="1066" y="92"  width="56" height="42" rx="4"/>
+    <rect x="1142" y="92"  width="56" height="42" rx="4"/>
+    <rect x="1350" y="92"  width="56" height="42" rx="4"/>
+    <rect x="1460" y="92"  width="56" height="42" rx="4"/>
+    <rect x="990"  y="160" width="56" height="42" rx="4"/>
+    <rect x="1066" y="160" width="56" height="42" rx="4"/>
+    <rect x="1142" y="160" width="56" height="42" rx="4"/>
+  </g>
+
+  <!-- 중앙 건물 (후면) -->
+  <rect x="620"  y="100" width="360" height="380" fill="#D8D0C4"/>
+  <rect x="620"  y="100" width="360" height="18"  fill="#B4A892"/>
+  <g fill="#7E93AB" opacity="0.5">
+    <rect x="660" y="130" width="50" height="38" rx="3"/>
+    <rect x="730" y="130" width="50" height="38" rx="3"/>
+    <rect x="800" y="130" width="50" height="38" rx="3"/>
+    <rect x="660" y="188" width="50" height="38" rx="3"/>
+    <rect x="730" y="188" width="50" height="38" rx="3"/>
+    <rect x="800" y="188" width="50" height="38" rx="3"/>
+  </g>
+
+  <!-- 인도 상단 띠 (건물 발치) -->
+  <rect x="0" y="452" width="1600" height="28" fill="#C8C0B4"/>
+  <rect x="0" y="478" width="1600" height="4"  fill="#A89880"/>
+
+  <!-- 보도 (하단 아이템이 서 있는 인도) -->
+  <rect x="0" y="482" width="1600" height="80" fill="url(#st-sidewalk)"/>
+  <!-- 연석 -->
+  <rect x="0" y="558" width="1600" height="10" fill="#8A8278"/>
+
+  <!-- 도로 -->
+  <rect x="0" y="568" width="1600" height="332" fill="url(#st-road)"/>
+
+  <!-- 도로 차선 -->
+  <g stroke="#FFD166" stroke-width="5" stroke-dasharray="60,30" opacity="0.65">
+    <line x1="0" y1="690" x2="1600" y2="690"/>
+  </g>
+  <g stroke="#ffffff" stroke-width="4" stroke-dasharray="50,28" opacity="0.45">
+    <line x1="0" y1="790" x2="1600" y2="790"/>
+  </g>
+
+  <!-- ═══ 클릭 아이템 (hit 0~9) ═══════════════════════════════════
+       상단(U) y=120: hit 1,3,4,5,9
+       하단(L) y=480: hit 0,2,6,7,8
+  ══════════════════════════════════════════════════════════════════ -->
+
+  <!-- ── 상단 밴드 ────────────────────────────────────────────────── -->
+
+  <!-- [1] 외출 표지 — U0 translate(50,120) pad 260×260 -->
+  <g data-hit="1" transform="translate(50,120)">
+    <rect class="hit-pad" x="0" y="0" width="260" height="260" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="121" y="184" width="18" height="76" fill="#8A8A8A"/>
+    <!-- 표지판 배경 -->
+    <rect x="20" y="10" width="220" height="176" rx="12" fill="#1B5FA3" stroke="#0E3C6B" stroke-width="5"/>
+    <!-- 화살표 아이콘 (외출 방향) -->
+    <polygon points="130,46 100,78 116,78 116,110 144,110 144,78 160,78" fill="#ffffff" opacity="0.9"/>
+    <!-- "외출" 한글 텍스트 -->
+    <text x="130" y="164" text-anchor="middle" font-family="'Jua', sans-serif" font-size="52" fill="#FFD166">외출</text>
+  </g>
+
+  <!-- [3] 말풍선(대화) — U1 translate(360,120) pad 240×260 -->
+  <g data-hit="3" transform="translate(360,120)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="260" fill="transparent"/>
+    <!-- 말풍선 몸체 -->
+    <rect x="10" y="10" width="220" height="160" rx="22" fill="#ffffff" stroke="#2D3047" stroke-width="6"/>
+    <!-- 말풍선 꼬리 -->
+    <polygon points="60,165 42,230 116,165" fill="#ffffff"/>
+    <polygon points="60,163 44,222 114,163" fill="#ffffff" stroke="#2D3047" stroke-width="5" stroke-linejoin="round"/>
+    <polygon points="62,166 50,214 112,166" fill="#ffffff"/>
+  </g>
+
+  <!-- [4] 기록 게시판 — U2 translate(660,120) pad 240×260 -->
+  <g data-hit="4" transform="translate(660,120)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="260" fill="transparent"/>
+    <!-- 게시판 프레임 -->
+    <rect x="10" y="10" width="220" height="200" rx="8" fill="#7A5B3A" stroke="#5A3E1E" stroke-width="5"/>
+    <!-- 게시판 면 -->
+    <rect x="22" y="22" width="196" height="176" rx="4" fill="#F5E6C8"/>
+    <!-- "기록" 한글 텍스트 -->
+    <text x="120" y="130" text-anchor="middle" font-family="'Jua', sans-serif" font-size="62" fill="#2D3047">기록</text>
+    <!-- 압정 4모서리 -->
+    <circle cx="32"  cy="32"  r="6" fill="#E63946"/>
+    <circle cx="208" cy="32"  r="6" fill="#E63946"/>
+    <circle cx="32"  cy="190" r="6" fill="#E63946"/>
+    <circle cx="208" cy="190" r="6" fill="#E63946"/>
+    <!-- 하단 메모선 -->
+    <line x1="38" y1="156" x2="202" y2="156" stroke="#B8A888" stroke-width="2"/>
+    <line x1="38" y1="172" x2="202" y2="172" stroke="#B8A888" stroke-width="2"/>
+  </g>
+
+  <!-- [5] 생활 포스터 — U3 translate(960,120) pad 230×260 -->
+  <g data-hit="5" transform="translate(960,120)">
+    <rect class="hit-pad" x="0" y="0" width="230" height="260" fill="transparent"/>
+    <!-- 포스터 배경 -->
+    <rect x="10" y="10" width="210" height="240" rx="6" fill="#39B7A0" stroke="#1F6E60" stroke-width="4"/>
+    <!-- "생활" 한글 텍스트 -->
+    <text x="115" y="148" text-anchor="middle" font-family="'Jua', sans-serif" font-size="72" fill="#ffffff">생활</text>
+    <!-- 장식선 -->
+    <line x1="28" y1="122" x2="202" y2="122" stroke="#ffffff" stroke-width="3" opacity="0.6"/>
+  </g>
+
+  <!-- [9] 족발 간판 — U4 translate(1250,120) pad 290×260 -->
+  <g data-hit="9" transform="translate(1250,120)">
+    <rect class="hit-pad" x="0" y="0" width="290" height="260" fill="transparent"/>
+    <!-- 줄 (매달린 느낌) -->
+    <line x1="72"  y1="0" x2="72"  y2="24" stroke="#5A3E1E" stroke-width="4"/>
+    <line x1="218" y1="0" x2="218" y2="24" stroke="#5A3E1E" stroke-width="4"/>
+    <!-- 간판 몸체 -->
+    <rect x="20" y="22" width="250" height="172" rx="14" fill="#E63946" stroke="#8B0000" stroke-width="5"/>
+    <!-- 족발 음식 그림 (돼지 발) -->
+    <ellipse cx="145" cy="90" rx="40" ry="28" fill="#C8855A"/>
+    <ellipse cx="120" cy="108" rx="18" ry="22" fill="#B87050"/>
+    <ellipse cx="170" cy="108" rx="18" ry="22" fill="#B87050"/>
+    <!-- "족발" 한글 텍스트 -->
+    <text x="145" y="168" text-anchor="middle" font-family="'Jua', sans-serif" font-size="52" fill="#FFD166">족발</text>
+  </g>
+
+  <!-- ── 하단 밴드 ────────────────────────────────────────────────── -->
+
+  <!-- [0] 대문 — L0 translate(50,480) pad 260×350 -->
+  <g data-hit="0" transform="translate(50,480)">
+    <rect class="hit-pad" x="0" y="0" width="260" height="350" fill="transparent"/>
+    <!-- 기둥 좌 -->
+    <rect x="10"  y="10" width="28" height="300" rx="4" fill="#5A3E1E"/>
+    <!-- 기둥 우 -->
+    <rect x="222" y="10" width="28" height="300" rx="4" fill="#5A3E1E"/>
+    <!-- 상인방 -->
+    <rect x="10" y="10" width="240" height="26" rx="4" fill="#5A3E1E"/>
+    <!-- 문짝 좌 -->
+    <rect x="42"  y="38" width="94"  height="264" rx="4" fill="#8B5E2E" stroke="#5A3E1E" stroke-width="4"/>
+    <!-- 문짝 우 -->
+    <rect x="140" y="38" width="78"  height="264" rx="4" fill="#8B5E2E" stroke="#5A3E1E" stroke-width="4"/>
+    <!-- 장식 패널 좌 위 -->
+    <rect x="52"  y="50"  width="74" height="102" rx="4" fill="#7A5228" stroke="#5A3E1E" stroke-width="2"/>
+    <!-- 장식 패널 좌 아래 -->
+    <rect x="52"  y="168" width="74" height="120" rx="4" fill="#7A5228" stroke="#5A3E1E" stroke-width="2"/>
+    <!-- 장식 패널 우 위 -->
+    <rect x="150" y="50"  width="58" height="102" rx="4" fill="#7A5228" stroke="#5A3E1E" stroke-width="2"/>
+    <!-- 장식 패널 우 아래 -->
+    <rect x="150" y="168" width="58" height="120" rx="4" fill="#7A5228" stroke="#5A3E1E" stroke-width="2"/>
+    <!-- 손잡이 -->
+    <circle cx="137" cy="176" r="8" fill="#C8A020"/>
+    <circle cx="147" cy="176" r="8" fill="#C8A020"/>
+    <!-- 초석 -->
+    <rect x="6"   y="308" width="36" height="16" rx="3" fill="#9E9688"/>
+    <rect x="218" y="308" width="36" height="16" rx="3" fill="#9E9688"/>
+  </g>
+
+  <!-- [2] 공중전화 — L1 translate(360,480) pad 240×350 -->
+  <g data-hit="2" transform="translate(360,480)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="350" fill="transparent"/>
+    <!-- 지붕 -->
+    <rect x="18" y="10" width="204" height="24" rx="6" fill="#1B5FA3"/>
+    <!-- 부스 몸체 -->
+    <rect x="18" y="32" width="204" height="300" fill="#2D6EC0" stroke="#0E3C6B" stroke-width="4"/>
+    <!-- 유리 좌 -->
+    <rect x="26" y="40" width="70"  height="256" rx="2" fill="#BFE7EA" opacity="0.45"/>
+    <!-- 유리 우 -->
+    <rect x="106" y="40" width="70"  height="256" rx="2" fill="#BFE7EA" opacity="0.45"/>
+    <!-- 안내 표시판 -->
+    <rect x="46" y="60" width="148" height="44" rx="4" fill="#ffffff" opacity="0.9"/>
+    <text x="120" y="92" text-anchor="middle" font-family="'Jua', sans-serif" font-size="26" fill="#1B5FA3">공중전화</text>
+    <!-- 전화기 본체 -->
+    <rect x="48" y="122" width="144" height="124" rx="8" fill="#1a1a2e"/>
+    <!-- 수화기 -->
+    <path d="M 68,146 Q 58,184 68,220" stroke="#39B7A0" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <!-- 다이얼 버튼 -->
+    <g fill="#555A63">
+      <rect x="108" y="132" width="22" height="14" rx="3"/>
+      <rect x="140" y="132" width="22" height="14" rx="3"/>
+      <rect x="108" y="154" width="22" height="14" rx="3"/>
+      <rect x="140" y="154" width="22" height="14" rx="3"/>
+      <rect x="108" y="176" width="22" height="14" rx="3"/>
+      <rect x="140" y="176" width="22" height="14" rx="3"/>
+      <rect x="124" y="198" width="22" height="14" rx="3"/>
+    </g>
+    <!-- 문 틈 -->
+    <line x1="120" y1="32" x2="120" y2="332" stroke="#0E3C6B" stroke-width="3"/>
+    <!-- 바닥 -->
+    <rect x="8"  y="330" width="224" height="14" rx="3" fill="#0E3C6B"/>
+  </g>
+
+  <!-- [6] 왕자 동상 — L2 translate(660,480) pad 240×350 -->
+  <g data-hit="6" transform="translate(660,480)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="350" fill="transparent"/>
+    <!-- 받침대 -->
+    <rect x="20"  y="254" width="200" height="84" rx="6" fill="#9E9688" stroke="#7A7060" stroke-width="4"/>
+    <rect x="10"  y="244" width="220" height="18"  rx="4" fill="#B8B0A4"/>
+    <!-- 받침대 명판 -->
+    <rect x="72" y="274" width="96" height="40" rx="4" fill="#C8A020"/>
+    <text x="120" y="302" text-anchor="middle" font-family="'Jua', sans-serif" font-size="22" fill="#5A3E1E">왕자</text>
+    <!-- 동상 몸통 -->
+    <rect x="82" y="150" width="76" height="98" rx="18" fill="#B8A060"/>
+    <!-- 동상 팔 좌 -->
+    <path d="M 82,172 L 46,202 L 42,236" stroke="#B8A060" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 동상 팔 우 -->
+    <path d="M 158,172 L 194,192 L 212,226" stroke="#B8A060" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 동상 머리 -->
+    <circle cx="120" cy="118" r="34" fill="#C8B070"/>
+    <!-- 왕관 -->
+    <polygon points="86,96 98,68 110,84 120,60 130,84 142,68 154,96" fill="#FFD166" stroke="#C8A020" stroke-width="3"/>
+    <rect x="86" y="92" width="68" height="14" rx="2" fill="#FFD166" stroke="#C8A020" stroke-width="2"/>
+    <!-- 왕관 보석 -->
+    <circle cx="110" cy="81" r="5" fill="#E63946"/>
+    <circle cx="120" cy="70" r="5" fill="#39B7A0"/>
+    <circle cx="130" cy="81" r="5" fill="#E63946"/>
+    <!-- 동상 얼굴 -->
+    <circle cx="112" cy="120" r="3.5" fill="#7A5E28"/>
+    <circle cx="128" cy="120" r="3.5" fill="#7A5E28"/>
+    <path d="M 110,134 Q 120,141 130,134" stroke="#7A5E28" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- 동상 다리 -->
+    <rect x="90"  y="242" width="22" height="14" rx="4" fill="#A89060"/>
+    <rect x="128" y="242" width="22" height="14" rx="4" fill="#A89060"/>
+  </g>
+
+  <!-- [7] 북쪽 표지 — L3 translate(960,480) pad 230×350 -->
+  <g data-hit="7" transform="translate(960,480)">
+    <rect class="hit-pad" x="0" y="0" width="230" height="350" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="106" y="134" width="18" height="206" fill="#8A8A8A"/>
+    <!-- 표지판 배경 -->
+    <rect x="20" y="10" width="190" height="126" rx="12" fill="#FFD166" stroke="#B98B12" stroke-width="5"/>
+    <!-- 화살표 위 방향 -->
+    <polygon points="115,28 82,72 102,72 102,118 128,118 128,72 148,72" fill="#2D3047"/>
+    <!-- "북쪽" 한글 텍스트 -->
+    <text x="115" y="114" text-anchor="middle" font-family="'Jua', sans-serif" font-size="34" fill="#2D3047">북쪽</text>
+    <!-- 기둥 받침 -->
+    <rect x="88"  y="332" width="54" height="14" rx="4" fill="#5A5F68"/>
+  </g>
+
+  <!-- [8] 남쪽 표지 — L4 translate(1250,480) pad 290×350 -->
+  <g data-hit="8" transform="translate(1250,480)">
+    <rect class="hit-pad" x="0" y="0" width="290" height="350" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="136" y="134" width="18" height="206" fill="#8A8A8A"/>
+    <!-- 표지판 배경 -->
+    <rect x="20" y="10" width="250" height="126" rx="12" fill="#3F7D54" stroke="#235A38" stroke-width="5"/>
+    <!-- 화살표 아래 방향 -->
+    <polygon points="145,116 112,72 132,72 132,26 158,26 158,72 178,72" fill="#ffffff"/>
+    <!-- "남쪽" 한글 텍스트 -->
+    <text x="145" y="114" text-anchor="middle" font-family="'Jua', sans-serif" font-size="34" fill="#ffffff">남쪽</text>
+    <!-- 기둥 받침 -->
+    <rect x="118" y="332" width="54" height="14" rx="4" fill="#5A5F68"/>
+  </g>
+
+</svg>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#FF7757" />
+  <title>어휘력 세계수</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=Noto+Serif+KR:wght@700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./src/css/tokens.css" />
+  <link rel="stylesheet" href="./src/css/base.css" />
+  <link rel="stylesheet" href="./src/css/components.css" />
+  <link rel="stylesheet" href="./src/css/screens.css" />
+  <link rel="stylesheet" href="./src/css/tree.css" />
+  <link rel="stylesheet" href="./src/css/blocks.css" />
+  <link rel="stylesheet" href="./src/css/modal.css" />
+  <link rel="stylesheet" href="./src/css/overview.css" />
+  <link rel="stylesheet" href="./src/css/boss.css" />
+  <link rel="stylesheet" href="./src/css/dashboard.css" />
+  <link rel="stylesheet" href="./src/css/collection.css" />
+</head>
+<body>
+<div class="container">
+  <div id="screen-splash"    class="screen splash-screen"></div>
+  <div id="screen-today"     class="screen today-screen"></div>
+  <div id="screen-play"      class="screen play-screen"></div>
+  <div id="screen-tree"      class="screen tree-screen"></div>
+  <div id="screen-lock"      class="screen lock-screen"></div>
+  <div id="screen-boss"      class="screen boss-screen"></div>
+  <div id="screen-dashboard" class="screen dashboard-screen"></div>
+  <div id="screen-settings"  class="screen settings-screen"></div>
+  <div id="screen-collection" class="screen collection-screen"></div>
+</div>
+
+<!-- 모달 컨테이너 (modal.js가 동적 주입) -->
+
+<script type="module" src="./src/js/main.js"></script>
+</body>
+</html>

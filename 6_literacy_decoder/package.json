@@ -1,0 +1,20 @@
+{
+  "name": "literacy-decoder",
+  "version": "0.1.0",
+  "description": "문해력 해독기 — 지문 속 한자어를 형태소와 문맥으로 추론하는 게임",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx -y serve . -l 4326",
+    "start": "npx -y serve . -l 4326",
+    "live": "npx -y live-server --port=4326 --no-browser"
+  },
+  "keywords": [
+    "korean",
+    "literacy",
+    "hanja",
+    "morpheme",
+    "education"
+  ],
+  "license": "MIT"
+}

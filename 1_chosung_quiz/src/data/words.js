@@ -1,0 +1,167 @@
+/**
+ * 단어 데이터베이스
+ *
+ * 단어 추가/수정은 이 파일에서만 하면 됩니다.
+ *
+ * 필드:
+ *   - emoji     : 이모지 표현 (필수)
+ *   - word      : 한글 단어 (필수)
+ *   - category  : 카테고리 (CATEGORIES 중 하나)
+ *   - imageUrl? : (선택) 실제 이미지 URL. 사진 모드 ON 시 사용.
+ *                 로드 실패 시 emoji로 자동 폴백됩니다.
+ */
+
+export const CATEGORIES = ['과일', '동물', '탈것', '음식', '자연', '채소', '스포츠', '악기'];
+
+export const WORDS = [
+  // ===== 과일 =====
+  { emoji: '🍎', word: '사과', category: '과일', imageUrl: './src/images/사과.jpg' },
+  { emoji: '🍌', word: '바나나', category: '과일', imageUrl: './src/images/바나나.jpg' },
+  { emoji: '🍓', word: '딸기', category: '과일', imageUrl: './src/images/딸기.jpg' },
+  { emoji: '🍉', word: '수박', category: '과일', imageUrl: './src/images/수박.jpg' },
+  { emoji: '🍇', word: '포도', category: '과일', imageUrl: './src/images/포도.jpg' },
+  { emoji: '🍑', word: '복숭아', category: '과일', imageUrl: './src/images/복숭아.jpg' },
+  { emoji: '🍊', word: '귤', category: '과일', imageUrl: './src/images/귤.jpg' },
+  { emoji: '🥝', word: '키위', category: '과일', imageUrl: './src/images/키위.jpg' },
+  { emoji: '🍍', word: '파인애플', category: '과일' },
+  { emoji: '🫐', word: '블루베리', category: '과일' },
+  { emoji: '🥑', word: '아보카도', category: '과일' },
+  { emoji: '🍋', word: '레몬', category: '과일' },
+  { emoji: '🍐', word: '배', category: '과일' },
+  { emoji: '🍒', word: '체리', category: '과일' },
+  { emoji: '🥭', word: '망고', category: '과일' },
+  { emoji: '🍈', word: '멜론', category: '과일' },
+  { emoji: '🍅', word: '토마토', category: '과일' },
+
+  // ===== 동물 =====
+  { emoji: '🐶', word: '강아지', category: '동물' },
+  { emoji: '🐱', word: '고양이', category: '동물' },
+  { emoji: '🐯', word: '호랑이', category: '동물' },
+  { emoji: '🦁', word: '사자', category: '동물' },
+  { emoji: '🐘', word: '코끼리', category: '동물' },
+  { emoji: '🐰', word: '토끼', category: '동물' },
+  { emoji: '🐼', word: '판다', category: '동물' },
+  { emoji: '🐵', word: '원숭이', category: '동물' },
+  { emoji: '🐸', word: '개구리', category: '동물' },
+  { emoji: '🦒', word: '기린', category: '동물' },
+  { emoji: '🐙', word: '문어', category: '동물' },
+  { emoji: '🦎', word: '도마뱀', category: '동물' },
+  { emoji: '🦩', word: '플라밍고', category: '동물' },
+  { emoji: '🦧', word: '오랑우탄', category: '동물' },
+  { emoji: '🦔', word: '고슴도치', category: '동물' },
+  { emoji: '🐻', word: '곰', category: '동물' },
+  { emoji: '🦊', word: '여우', category: '동물' },
+  { emoji: '🐧', word: '펭귄', category: '동물' },
+  { emoji: '🦋', word: '나비', category: '동물' },
+  { emoji: '🐬', word: '돌고래', category: '동물' },
+  { emoji: '🦈', word: '상어', category: '동물' },
+  { emoji: '🐢', word: '거북이', category: '동물' },
+  { emoji: '🐓', word: '닭', category: '동물' },
+  { emoji: '🐄', word: '소', category: '동물' },
+  { emoji: '🐷', word: '돼지', category: '동물' },
+  { emoji: '🐑', word: '양', category: '동물' },
+  { emoji: '🐊', word: '악어', category: '동물' },
+  { emoji: '🦅', word: '독수리', category: '동물' },
+  { emoji: '🦦', word: '수달', category: '동물' },
+
+  // ===== 탈것 =====
+  { emoji: '🚗', word: '자동차', category: '탈것' },
+  { emoji: '✈️', word: '비행기', category: '탈것' },
+  { emoji: '🚂', word: '기차', category: '탈것' },
+  { emoji: '🚲', word: '자전거', category: '탈것' },
+  { emoji: '🚢', word: '배', category: '탈것' },
+  { emoji: '🚌', word: '버스', category: '탈것' },
+  { emoji: '🚁', word: '헬리콥터', category: '탈것' },
+  { emoji: '🏍️', word: '오토바이', category: '탈것' },
+  { emoji: '🚠', word: '케이블카', category: '탈것' },
+  { emoji: '🛗', word: '엘리베이터', category: '탈것' },
+  { emoji: '⛸️', word: '스케이트', category: '탈것' },
+  { emoji: '🚀', word: '로켓', category: '탈것' },
+  { emoji: '🚒', word: '소방차', category: '탈것' },
+  { emoji: '🚓', word: '경찰차', category: '탈것' },
+  { emoji: '🚑', word: '구급차', category: '탈것' },
+  { emoji: '🚕', word: '택시', category: '탈것' },
+  { emoji: '🚛', word: '트럭', category: '탈것' },
+  { emoji: '⛵', word: '요트', category: '탈것' },
+  { emoji: '🛵', word: '스쿠터', category: '탈것' },
+
+  // ===== 음식 =====
+  { emoji: '🍕', word: '피자', category: '음식' },
+  { emoji: '🍔', word: '햄버거', category: '음식' },
+  { emoji: '🍦', word: '아이스크림', category: '음식' },
+  { emoji: '🍜', word: '라면', category: '음식' },
+  { emoji: '🍗', word: '치킨', category: '음식' },
+  { emoji: '🍞', word: '빵', category: '음식' },
+  { emoji: '🍩', word: '도넛', category: '음식' },
+  { emoji: '🍙', word: '주먹밥', category: '음식' },
+  { emoji: '🍝', word: '스파게티', category: '음식' },
+  { emoji: '🍛', word: '오므라이스', category: '음식' },
+  { emoji: '🥮', word: '전병', category: '음식' },
+  { emoji: '🍰', word: '케이크', category: '음식' },
+  { emoji: '🍣', word: '초밥', category: '음식' },
+  { emoji: '🍿', word: '팝콘', category: '음식' },
+  { emoji: '🧁', word: '컵케이크', category: '음식' },
+  { emoji: '🍭', word: '사탕', category: '음식' },
+  { emoji: '🍫', word: '초콜릿', category: '음식' },
+  { emoji: '🧇', word: '와플', category: '음식' },
+  { emoji: '🥞', word: '팬케이크', category: '음식' },
+  { emoji: '🍱', word: '도시락', category: '음식' },
+
+  // ===== 자연 =====
+  { emoji: '🌈', word: '무지개', category: '자연' },
+  { emoji: '🌙', word: '달', category: '자연' },
+  { emoji: '⭐', word: '별', category: '자연' },
+  { emoji: '💐', word: '꽃', category: '자연' },
+  { emoji: '🌳', word: '나무', category: '자연' },
+  { emoji: '☀️', word: '해', category: '자연' },
+  { emoji: '☁️', word: '구름', category: '자연' },
+  { emoji: '🌻', word: '해바라기', category: '자연' },
+  { emoji: '🌊', word: '바다', category: '자연' },
+  { emoji: '🌪️', word: '토네이도', category: '자연' },
+  { emoji: '🌸', word: '코스모스', category: '자연' },
+  { emoji: '🍁', word: '단풍나무', category: '자연' },
+  { emoji: '🌵', word: '선인장', category: '자연' },
+  { emoji: '🍄', word: '버섯', category: '자연' },
+  { emoji: '⛄', word: '눈사람', category: '자연' },
+  { emoji: '❄️', word: '눈꽃', category: '자연' },
+  { emoji: '🌠', word: '별똥별', category: '자연' },
+  { emoji: '🍃', word: '나뭇잎', category: '자연' },
+  { emoji: '🏔️', word: '산', category: '자연' },
+
+  // ===== 채소 =====
+  { emoji: '🥕', word: '당근',     category: '채소' },
+  { emoji: '🧅', word: '양파',     category: '채소' },
+  { emoji: '🥦', word: '브로콜리', category: '채소' },
+  { emoji: '🌽', word: '옥수수',   category: '채소' },
+  { emoji: '🥒', word: '오이',     category: '채소' },
+  { emoji: '🫑', word: '피망',     category: '채소' },
+  { emoji: '🌶️', word: '고추',     category: '채소' },
+  { emoji: '🥬', word: '배추',     category: '채소' },
+  { emoji: '🍆', word: '가지',     category: '채소' },
+  { emoji: '🥔', word: '감자',     category: '채소' },
+  { emoji: '🧄', word: '마늘',     category: '채소' },
+
+  // ===== 스포츠 =====
+  { emoji: '⚽', word: '축구',     category: '스포츠' },
+  { emoji: '🏀', word: '농구',     category: '스포츠' },
+  { emoji: '⚾', word: '야구',     category: '스포츠' },
+  { emoji: '🎾', word: '테니스',   category: '스포츠' },
+  { emoji: '🏸', word: '배드민턴', category: '스포츠' },
+  { emoji: '🏊', word: '수영',     category: '스포츠' },
+  { emoji: '🎿', word: '스키',     category: '스포츠' },
+  { emoji: '🛷', word: '썰매',     category: '스포츠' },
+  { emoji: '🥊', word: '권투',     category: '스포츠' },
+  { emoji: '🏐', word: '배구',     category: '스포츠' },
+  { emoji: '🎯', word: '다트',     category: '스포츠' },
+
+  // ===== 악기 =====
+  { emoji: '🎹', word: '피아노',   category: '악기' },
+  { emoji: '🎸', word: '기타',     category: '악기' },
+  { emoji: '🥁', word: '드럼',     category: '악기' },
+  { emoji: '🎺', word: '트럼펫',   category: '악기' },
+  { emoji: '🎻', word: '바이올린', category: '악기' },
+  { emoji: '🎷', word: '색소폰',   category: '악기' },
+  { emoji: '🪗', word: '아코디언', category: '악기' },
+  { emoji: '🪘', word: '북',       category: '악기' },
+  { emoji: '🎵', word: '음표',     category: '악기' },
+];

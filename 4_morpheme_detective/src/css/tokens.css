@@ -1,0 +1,30 @@
+:root {
+  /* 색상 — 1_chosung_quiz/src/css/tokens.css 와 동일 팔레트 */
+  --cream:       #FFF6E4;
+  --coral:       #FF7757;
+  --coral-dark:  #d45a40;
+  --mint:        #6BCAB8;
+  --mint-dark:   #4fa192;
+  --navy:        #2D3047;
+  --navy-dark:   #1a1c2b;
+  --yellow:      #FFD166;
+  --yellow-dark: #d4ad4e;
+  --pink:        #FFB5B5;
+  --red:         #E84545;
+  --red-dark:    #b63333;
+  --gray:        #E5E1D6;
+  --shadow:      rgba(45, 48, 71, 0.15);
+
+  /* 시맨틱 토큰 */
+  --color-bg:       var(--cream);
+  --color-text:     var(--navy);
+  --color-text-dim: #6b6e82;
+  --color-surface:  #FFFFFF;
+  --color-surface2: #F5EDD8;
+  --color-border:   var(--gray);
+
+  /* 게임 전용 */
+  --hanja-highlight:   var(--yellow);
+  --hit-zone-glow:     rgba(255, 209, 102, 0.6);
+  --morph-bg:          rgba(255, 246, 228, 0.92);
+}

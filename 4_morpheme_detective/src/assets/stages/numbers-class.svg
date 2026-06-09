@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-label="숫자 사건 일러스트">
+  <defs>
+    <linearGradient id="nu-wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EDE8DC"/>
+      <stop offset="1" stop-color="#D8CEBE"/>
+    </linearGradient>
+    <linearGradient id="nu-board" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1B5C2C"/>
+      <stop offset="1" stop-color="#144820"/>
+    </linearGradient>
+    <linearGradient id="nu-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C8B99A"/>
+      <stop offset="1" stop-color="#A89070"/>
+    </linearGradient>
+    <linearGradient id="nu-gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFD700"/>
+      <stop offset="1" stop-color="#C8A000"/>
+    </linearGradient>
+    <linearGradient id="nu-silver" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E8E8E8"/>
+      <stop offset="1" stop-color="#A8A8A8"/>
+    </linearGradient>
+    <linearGradient id="nu-cal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F2F2F2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ═══ 배경 레이어 ═══════════════════════════════════════════ -->
+  <!-- 교실 벽 -->
+  <rect x="0" y="0" width="1600" height="900" fill="url(#nu-wall)"/>
+
+  <!-- 액자 레일 띠 -->
+  <rect x="0" y="96" width="1600" height="10" fill="#BFB0A0"/>
+
+  <!-- 칠판(상단 중앙) — 비클릭 배경 -->
+  <rect x="420" y="28" width="760" height="230" rx="8" fill="url(#nu-board)" stroke="#0A3015" stroke-width="6"/>
+  <rect x="428" y="36" width="744" height="214" rx="6" fill="none" stroke="#2A7A40" stroke-width="2" opacity="0.5"/>
+  <text x="800" y="178" text-anchor="middle" font-family="'Jua', sans-serif" font-size="64" fill="#A8D8A0" opacity="0.65">1 2 3 4 5 6 7 8 9 10</text>
+  <!-- 칠판 트레이 -->
+  <rect x="420" y="256" width="760" height="14" rx="4" fill="#8A7055"/>
+
+  <!-- 우측 창문 — 비클릭 배경 -->
+  <rect x="1370" y="130" width="190" height="290" rx="6" fill="#BFE0F2" stroke="#8A7055" stroke-width="5"/>
+  <line x1="1465" y1="130" x2="1465" y2="420" stroke="#8A7055" stroke-width="4"/>
+  <line x1="1370" y1="275" x2="1560" y2="275" stroke="#8A7055" stroke-width="4"/>
+  <rect x="1370" y="130" width="190" height="290" rx="6" fill="#FFE08A" opacity="0.10"/>
+
+  <!-- 교실 바닥 -->
+  <rect x="0" y="458" width="1600" height="382" fill="url(#nu-floor)"/>
+  <!-- 바닥-벽 경계선 -->
+  <rect x="0" y="450" width="1600" height="16" fill="#A89070"/>
+  <!-- 바닥 목재 줄무늬 -->
+  <g stroke="#B0A080" stroke-width="2" opacity="0.45">
+    <line x1="0" y1="500" x2="1600" y2="500"/>
+    <line x1="0" y1="550" x2="1600" y2="550"/>
+    <line x1="0" y1="600" x2="1600" y2="600"/>
+    <line x1="0" y1="650" x2="1600" y2="650"/>
+    <line x1="0" y1="700" x2="1600" y2="700"/>
+    <line x1="0" y1="750" x2="1600" y2="750"/>
+    <line x1="0" y1="800" x2="1600" y2="800"/>
+  </g>
+  <!-- 걸레받이 -->
+  <rect x="0" y="840" width="1600" height="60" fill="#8A7055"/>
+
+  <!-- 교탁 — 비클릭 배경 -->
+  <rect x="540" y="464" width="520" height="56" rx="6" fill="#A08060" stroke="#7A6040" stroke-width="4"/>
+  <rect x="558" y="476" width="484" height="32" rx="4" fill="#B89060"/>
+
+
+  <!-- ═══ 클릭 아이템 (data-hit 0~9) ═══════════════════════════════
+       상단(U): 0→U0, 1→U1, 3→U2, 5→U3, 9→U4
+       하단(L): 2→L0, 4→L1, 6→L2, 7→L3, 8→L4
+  -->
+
+  <!-- ── U0: hit0 / 1등 깃발 / translate(50,120) ── -->
+  <g data-hit="0" transform="translate(50,120)">
+    <rect class="hit-pad" x="0" y="0" width="270" height="270" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="86" y="18" width="12" height="232" rx="4" fill="#8A7055"/>
+    <!-- 깃발 천 -->
+    <polygon points="98,18 248,58 98,98" fill="url(#nu-gold)" stroke="#9A7800" stroke-width="3"/>
+    <!-- 금메달 원 -->
+    <circle cx="173" cy="58" r="26" fill="url(#nu-gold)" stroke="#9A7800" stroke-width="3"/>
+    <text x="173" y="48" text-anchor="middle" font-family="'Jua', sans-serif" font-size="18" fill="#4A3000">1</text>
+    <text x="173" y="74" text-anchor="middle" font-family="'Jua', sans-serif" font-size="20" fill="#4A3000">1</text>
+    <!-- 라벨 배경 -->
+    <rect x="52" y="108" width="180" height="48" rx="10" fill="#FFD700" stroke="#9A7800" stroke-width="3"/>
+    <text x="142" y="128" text-anchor="middle" font-family="'Jua', sans-serif" font-size="22" fill="#3A2000">1등</text>
+    <text x="142" y="148" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#3A2000">일 일등</text>
+  </g>
+
+  <!-- ── U1: hit1 / 2등 깃발 / translate(360,120) ── -->
+  <g data-hit="1" transform="translate(360,120)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="270" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="76" y="18" width="12" height="232" rx="4" fill="#8A7055"/>
+    <!-- 깃발 천 -->
+    <polygon points="88,18 228,58 88,98" fill="url(#nu-silver)" stroke="#707070" stroke-width="3"/>
+    <!-- 은메달 원 -->
+    <circle cx="158" cy="58" r="26" fill="url(#nu-silver)" stroke="#808080" stroke-width="3"/>
+    <text x="158" y="48" text-anchor="middle" font-family="'Jua', sans-serif" font-size="18" fill="#303030">2</text>
+    <text x="158" y="74" text-anchor="middle" font-family="'Jua', sans-serif" font-size="20" fill="#303030">2</text>
+    <!-- 라벨 배경 -->
+    <rect x="42" y="108" width="172" height="48" rx="10" fill="#C8C8C8" stroke="#808080" stroke-width="3"/>
+    <text x="128" y="128" text-anchor="middle" font-family="'Jua', sans-serif" font-size="22" fill="#303030">2등</text>
+    <text x="128" y="148" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#303030">이 이등</text>
+  </g>
+
+  <!-- ── U2: hit3 / 달력 4월 / translate(660,120) ── -->
+  <g data-hit="3" transform="translate(660,120)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="270" fill="transparent"/>
+    <!-- 달력 본체 -->
+    <rect x="10" y="18" width="230" height="242" rx="10" fill="url(#nu-cal)" stroke="#2D3047" stroke-width="4"/>
+    <!-- 헤더 -->
+    <rect x="10" y="18" width="230" height="50" rx="10" fill="#E63946"/>
+    <rect x="10" y="50" width="230" height="18" fill="#E63946"/>
+    <text x="125" y="54" text-anchor="middle" font-family="'Jua', sans-serif" font-size="32" fill="#ffffff">4월</text>
+    <!-- 고리 -->
+    <rect x="68" y="8" width="12" height="24" rx="6" fill="#8A8A8A"/>
+    <rect x="170" y="8" width="12" height="24" rx="6" fill="#8A8A8A"/>
+    <!-- 요일 -->
+    <text x="30"  y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">일</text>
+    <text x="68"  y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">월</text>
+    <text x="102" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">화</text>
+    <text x="136" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">수</text>
+    <text x="170" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">목</text>
+    <text x="204" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">금</text>
+    <!-- 날짜 1행 -->
+    <text x="30"  y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">1</text>
+    <text x="68"  y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">2</text>
+    <text x="102" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">3</text>
+    <text x="136" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">4</text>
+    <text x="170" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">5</text>
+    <text x="204" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">6</text>
+    <!-- 날짜 2행 -->
+    <text x="30"  y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">7</text>
+    <text x="68"  y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">8</text>
+    <text x="102" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">9</text>
+    <text x="136" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">10</text>
+    <text x="170" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">11</text>
+    <text x="204" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">12</text>
+    <!-- 날짜 3행 -->
+    <text x="30"  y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">14</text>
+    <text x="68"  y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">15</text>
+    <text x="102" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">16</text>
+    <text x="136" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">17</text>
+    <text x="170" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">18</text>
+    <text x="204" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">19</text>
+    <!-- 날짜 4행 -->
+    <text x="30"  y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">21</text>
+    <text x="68"  y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">22</text>
+    <text x="102" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">23</text>
+    <text x="136" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">24</text>
+    <text x="170" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">25</text>
+    <text x="204" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">26</text>
+    <!-- 날짜 5행 -->
+    <text x="30"  y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">28</text>
+    <text x="68"  y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">29</text>
+    <text x="102" y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">30</text>
+    <!-- 숫자 강조 -->
+    <text x="188" y="264" font-family="'Jua', sans-serif" font-size="26" fill="#E63946">4</text>
+  </g>
+
+  <!-- ── U3: hit5 / 달력 6월 / translate(960,120) ── -->
+  <g data-hit="5" transform="translate(960,120)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="270" fill="transparent"/>
+    <!-- 달력 본체 -->
+    <rect x="10" y="18" width="220" height="242" rx="10" fill="url(#nu-cal)" stroke="#2D3047" stroke-width="4"/>
+    <!-- 헤더 -->
+    <rect x="10" y="18" width="220" height="50" rx="10" fill="#1B5FA3"/>
+    <rect x="10" y="50" width="220" height="18" fill="#1B5FA3"/>
+    <text x="120" y="54" text-anchor="middle" font-family="'Jua', sans-serif" font-size="32" fill="#ffffff">6월</text>
+    <!-- 고리 -->
+    <rect x="64" y="8" width="12" height="24" rx="6" fill="#8A8A8A"/>
+    <rect x="164" y="8" width="12" height="24" rx="6" fill="#8A8A8A"/>
+    <!-- 요일 -->
+    <text x="26"  y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">일</text>
+    <text x="62"  y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">월</text>
+    <text x="96"  y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">화</text>
+    <text x="130" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">수</text>
+    <text x="164" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">목</text>
+    <text x="198" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">금</text>
+    <!-- 날짜 1행 -->
+    <text x="130" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">1</text>
+    <text x="164" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">2</text>
+    <text x="198" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">3</text>
+    <!-- 날짜 2행 -->
+    <text x="26"  y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">4</text>
+    <text x="62"  y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">5</text>
+    <text x="96"  y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">6</text>
+    <text x="130" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">7</text>
+    <text x="164" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">8</text>
+    <text x="198" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">9</text>
+    <!-- 날짜 3행 -->
+    <text x="26"  y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">11</text>
+    <text x="62"  y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">12</text>
+    <text x="96"  y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">13</text>
+    <text x="130" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">14</text>
+    <text x="164" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">15</text>
+    <text x="198" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">16</text>
+    <!-- 날짜 4행 -->
+    <text x="26"  y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">18</text>
+    <text x="62"  y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">19</text>
+    <text x="96"  y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">20</text>
+    <text x="130" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">21</text>
+    <text x="164" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">22</text>
+    <text x="198" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">23</text>
+    <!-- 날짜 5행 -->
+    <text x="26"  y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">25</text>
+    <text x="62"  y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">26</text>
+    <text x="96"  y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">27</text>
+    <text x="130" y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">28</text>
+    <text x="164" y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">29</text>
+    <text x="198" y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">30</text>
+    <!-- 숫자 강조 -->
+    <text x="182" y="264" font-family="'Jua', sans-serif" font-size="26" fill="#1B5FA3">6</text>
+  </g>
+
+  <!-- ── U4: hit9 / 달력 10월 / translate(1250,120) ── -->
+  <g data-hit="9" transform="translate(1250,120)">
+    <rect class="hit-pad" x="0" y="0" width="300" height="270" fill="transparent"/>
+    <!-- 달력 본체 -->
+    <rect x="8" y="18" width="268" height="242" rx="10" fill="url(#nu-cal)" stroke="#2D3047" stroke-width="4"/>
+    <!-- 헤더 -->
+    <rect x="8" y="18" width="268" height="50" rx="10" fill="#E07020"/>
+    <rect x="8" y="50" width="268" height="18" fill="#E07020"/>
+    <text x="142" y="54" text-anchor="middle" font-family="'Jua', sans-serif" font-size="32" fill="#ffffff">10월</text>
+    <!-- 고리 -->
+    <rect x="76"  y="8" width="12" height="24" rx="6" fill="#8A8A8A"/>
+    <rect x="196" y="8" width="12" height="24" rx="6" fill="#8A8A8A"/>
+    <!-- 요일 -->
+    <text x="26"  y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">일</text>
+    <text x="64"  y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">월</text>
+    <text x="102" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">화</text>
+    <text x="140" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">수</text>
+    <text x="178" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">목</text>
+    <text x="214" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">금</text>
+    <text x="252" y="96" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#808080">토</text>
+    <!-- 날짜 1행 -->
+    <text x="26"  y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">1</text>
+    <text x="64"  y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">2</text>
+    <text x="102" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">3</text>
+    <text x="140" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">4</text>
+    <text x="178" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">5</text>
+    <text x="214" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">6</text>
+    <text x="252" y="124" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#808080">7</text>
+    <!-- 날짜 2행 -->
+    <text x="26"  y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">8</text>
+    <text x="64"  y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">9</text>
+    <text x="102" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">10</text>
+    <text x="140" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">11</text>
+    <text x="178" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">12</text>
+    <text x="214" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">13</text>
+    <text x="252" y="152" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#808080">14</text>
+    <!-- 날짜 3행 -->
+    <text x="26"  y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">15</text>
+    <text x="64"  y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">16</text>
+    <text x="102" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">17</text>
+    <text x="140" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">18</text>
+    <text x="178" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">19</text>
+    <text x="214" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">20</text>
+    <text x="252" y="180" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#808080">21</text>
+    <!-- 날짜 4행 -->
+    <text x="26"  y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">22</text>
+    <text x="64"  y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">23</text>
+    <text x="102" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">24</text>
+    <text x="140" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">25</text>
+    <text x="178" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">26</text>
+    <text x="214" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1B5FA3">27</text>
+    <text x="252" y="208" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#808080">28</text>
+    <!-- 날짜 5행 -->
+    <text x="26"  y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#E63946">29</text>
+    <text x="64"  y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">30</text>
+    <text x="102" y="236" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">31</text>
+    <!-- 숫자 강조 -->
+    <text x="232" y="264" font-family="'Jua', sans-serif" font-size="26" fill="#E07020">10</text>
+  </g>
+
+  <!-- ── L0: hit2 / 삼각형 / translate(50,480) ── -->
+  <g data-hit="2" transform="translate(50,480)">
+    <rect class="hit-pad" x="0" y="0" width="270" height="340" fill="transparent"/>
+    <!-- 받침대 -->
+    <rect x="48" y="296" width="174" height="18" rx="6" fill="#8A7055"/>
+    <!-- 삼각형 도형 -->
+    <polygon points="135,24 258,272 12,272" fill="#E63946" stroke="#9A2030" stroke-width="5"/>
+    <!-- 숫자 -->
+    <text x="135" y="220" text-anchor="middle" font-family="'Jua', sans-serif" font-size="88" fill="#ffffff">3</text>
+  </g>
+
+  <!-- ── L1: hit4 / 오각형 / translate(360,480) ── -->
+  <g data-hit="4" transform="translate(360,480)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="340" fill="transparent"/>
+    <!-- 오각형 도형 -->
+    <polygon points="125,18 236,95 192,226 58,226 14,95" fill="#3F7D54" stroke="#235A38" stroke-width="5"/>
+    <!-- 숫자 -->
+    <text x="125" y="168" text-anchor="middle" font-family="'Jua', sans-serif" font-size="88" fill="#ffffff">5</text>
+    <!-- 받침대 -->
+    <rect x="38" y="230" width="174" height="16" rx="6" fill="#8A7055"/>
+  </g>
+
+  <!-- ── L2: hit6 / 칠석 안내 / translate(660,480) ── -->
+  <g data-hit="6" transform="translate(660,480)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="340" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="118" y="196" width="14" height="128" rx="4" fill="#8A7055"/>
+    <!-- 팻말 -->
+    <rect x="8" y="18" width="234" height="178" rx="14" fill="#FFD166" stroke="#B98B12" stroke-width="5"/>
+    <!-- 팻말 텍스트 -->
+    <text x="125" y="80" text-anchor="middle" font-family="'Jua', sans-serif" font-size="56" fill="#2D3047">7</text>
+    <text x="125" y="116" text-anchor="middle" font-family="'Jua', sans-serif" font-size="24" fill="#2D3047">칠석</text>
+    <text x="125" y="144" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="19" fill="#2D3047">7월 7일</text>
+    <text x="125" y="170" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="17" fill="#5A4000">견우와 직녀</text>
+    <!-- 바닥 원형 받침 -->
+    <ellipse cx="125" cy="326" rx="54" ry="12" fill="#A89070"/>
+  </g>
+
+  <!-- ── L3: hit7 / 팔도 지도 / translate(960,480) ── -->
+  <g data-hit="7" transform="translate(960,480)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="340" fill="transparent"/>
+    <!-- 지도 외곽 틀 -->
+    <rect x="8" y="8" width="224" height="316" rx="10" fill="#EDE0C4" stroke="#2D3047" stroke-width="4"/>
+    <!-- 제목 헤더 -->
+    <rect x="8" y="8" width="224" height="42" rx="10" fill="#1B5FA3"/>
+    <rect x="8" y="36" width="224" height="14" fill="#1B5FA3"/>
+    <text x="120" y="38" text-anchor="middle" font-family="'Jua', sans-serif" font-size="24" fill="#ffffff">팔도 지도</text>
+    <!-- 한반도 단순 실루엣 -->
+    <path d="M 96,60 L 80,82 L 70,124 L 64,166 L 68,206 L 76,248 L 88,272 L 108,286 L 126,290 L 144,286 L 162,272 L 170,248 L 174,206 L 170,166 L 162,124 L 150,82 L 134,60 Z"
+          fill="#A8D888" stroke="#3F7D54" stroke-width="3"/>
+    <!-- 도 경계선 -->
+    <line x1="68" y1="130" x2="168" y2="130" stroke="#3F7D54" stroke-width="2" stroke-dasharray="5,4"/>
+    <line x1="66" y1="176" x2="170" y2="176" stroke="#3F7D54" stroke-width="2" stroke-dasharray="5,4"/>
+    <line x1="68" y1="218" x2="172" y2="218" stroke="#3F7D54" stroke-width="2" stroke-dasharray="5,4"/>
+    <!-- 숫자 강조 -->
+    <text x="120" y="248" text-anchor="middle" font-family="'Jua', sans-serif" font-size="34" fill="#1B5FA3">8</text>
+    <!-- 나침반 -->
+    <circle cx="194" cy="294" r="16" fill="#ffffff" stroke="#2D3047" stroke-width="2"/>
+    <text x="194" y="299" text-anchor="middle" font-family="'Jua', sans-serif" font-size="14" fill="#E63946">N</text>
+  </g>
+
+  <!-- ── L4: hit8 / 구구단 표 / translate(1250,480) ── -->
+  <g data-hit="8" transform="translate(1250,480)">
+    <rect class="hit-pad" x="0" y="0" width="300" height="340" fill="transparent"/>
+    <!-- 표 외곽 -->
+    <rect x="6" y="6" width="288" height="328" rx="10" fill="#FFFFFF" stroke="#2D3047" stroke-width="4"/>
+    <!-- 제목 헤더 -->
+    <rect x="6" y="6" width="288" height="44" rx="10" fill="#E63946"/>
+    <rect x="6" y="36" width="288" height="14" fill="#E63946"/>
+    <text x="150" y="38" text-anchor="middle" font-family="'Jua', sans-serif" font-size="26" fill="#ffffff">구구단 표</text>
+    <!-- 헤더 행 -->
+    <rect x="6" y="50" width="288" height="28" fill="#FFD166"/>
+    <text x="38"  y="69" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">×</text>
+    <text x="76"  y="69" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">1</text>
+    <text x="112" y="69" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">2</text>
+    <text x="148" y="69" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">3</text>
+    <text x="184" y="69" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">4</text>
+    <text x="220" y="69" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">5</text>
+    <text x="256" y="69" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">…</text>
+    <!-- 2단 -->
+    <rect x="6" y="78" width="288" height="30" fill="#F8F8F8"/>
+    <text x="38"  y="98" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#E63946">2</text>
+    <text x="76"  y="98" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">2</text>
+    <text x="112" y="98" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">4</text>
+    <text x="148" y="98" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">6</text>
+    <text x="184" y="98" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">8</text>
+    <text x="220" y="98" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">10</text>
+    <!-- 3단 -->
+    <rect x="6" y="108" width="288" height="30" fill="#FFFFFF"/>
+    <text x="38"  y="128" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#E63946">3</text>
+    <text x="76"  y="128" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">3</text>
+    <text x="112" y="128" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">6</text>
+    <text x="148" y="128" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">9</text>
+    <text x="184" y="128" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">12</text>
+    <text x="220" y="128" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">15</text>
+    <!-- 4단 -->
+    <rect x="6" y="138" width="288" height="30" fill="#F8F8F8"/>
+    <text x="38"  y="158" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#E63946">4</text>
+    <text x="76"  y="158" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">4</text>
+    <text x="112" y="158" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">8</text>
+    <text x="148" y="158" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">12</text>
+    <text x="184" y="158" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">16</text>
+    <text x="220" y="158" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">20</text>
+    <!-- 5단 -->
+    <rect x="6" y="168" width="288" height="30" fill="#FFFFFF"/>
+    <text x="38"  y="188" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#E63946">5</text>
+    <text x="76"  y="188" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">5</text>
+    <text x="112" y="188" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">10</text>
+    <text x="148" y="188" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">15</text>
+    <text x="184" y="188" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">20</text>
+    <text x="220" y="188" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">25</text>
+    <!-- 6단 -->
+    <rect x="6" y="198" width="288" height="30" fill="#F8F8F8"/>
+    <text x="38"  y="218" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#E63946">6</text>
+    <text x="76"  y="218" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">6</text>
+    <text x="112" y="218" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">12</text>
+    <text x="148" y="218" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">18</text>
+    <text x="184" y="218" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">24</text>
+    <text x="220" y="218" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">30</text>
+    <!-- 7단 -->
+    <rect x="6" y="228" width="288" height="30" fill="#FFFFFF"/>
+    <text x="38"  y="248" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#E63946">7</text>
+    <text x="76"  y="248" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">7</text>
+    <text x="112" y="248" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">14</text>
+    <text x="148" y="248" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">21</text>
+    <text x="184" y="248" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">28</text>
+    <text x="220" y="248" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">35</text>
+    <!-- 8단 -->
+    <rect x="6" y="258" width="288" height="30" fill="#F8F8F8"/>
+    <text x="38"  y="278" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#E63946">8</text>
+    <text x="76"  y="278" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">8</text>
+    <text x="112" y="278" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">16</text>
+    <text x="148" y="278" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">24</text>
+    <text x="184" y="278" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">32</text>
+    <text x="220" y="278" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">40</text>
+    <!-- 9단 강조 -->
+    <rect x="6" y="288" width="288" height="30" fill="#FFD166"/>
+    <text x="38"  y="308" text-anchor="middle" font-family="'Jua', sans-serif" font-size="16" fill="#E63946">9</text>
+    <text x="76"  y="308" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">9</text>
+    <text x="112" y="308" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">18</text>
+    <text x="148" y="308" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">27</text>
+    <text x="184" y="308" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">36</text>
+    <text x="220" y="308" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#2D3047">45</text>
+    <!-- 하단 캡션 -->
+    <rect x="6" y="318" width="288" height="16" rx="0" fill="#2D3047"/>
+    <text x="150" y="330" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="13" fill="#FFD166">구구단 = 9×9단</text>
+  </g>
+
+</svg>

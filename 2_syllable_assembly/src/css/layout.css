@@ -1,0 +1,127 @@
+/* ── Assembly dock ─────────────────────────────────────── */
+#dock {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  background: var(--color-surface2);
+  border: 2px solid var(--color-border);
+  border-radius: 24px;
+  transition: box-shadow 0.2s;
+  position: relative;
+}
+
+#dock.reward {
+  animation: reward-pulse 1s ease-out forwards;
+  will-change: box-shadow;
+}
+
+/* Vertical vowel: cho left, jung right, jong full-width bottom */
+#dock.shape-vertical {
+  grid-template-areas:
+    "cho jung"
+    "jong jong";
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Horizontal vowel: cho top, jung middle, jong bottom */
+#dock.shape-horizontal {
+  grid-template-areas:
+    "cho"
+    "jung"
+    "jong";
+  grid-template-columns: 1fr;
+  width: calc(var(--slot-size) + 44px);
+  justify-items: center;
+}
+
+/* Hide jong row when not used */
+#dock:not(.has-jong) {
+  grid-template-areas: "cho jung" !important;
+  grid-template-rows: auto;
+}
+#dock.shape-horizontal:not(.has-jong) {
+  grid-template-areas: "cho" "jung" !important;
+}
+
+/* ── Slots ─────────────────────────────────────────────── */
+.slot {
+  width:  var(--slot-size);
+  height: var(--slot-size);
+  margin-bottom: var(--slot-bottom-margin);
+  border: var(--slot-border);
+  border-radius: var(--slot-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.6rem;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+
+.slot[data-slot="cho"]  { grid-area: cho; }
+.slot[data-slot="jung"] { grid-area: jung; }
+.slot[data-slot="jong"] { grid-area: jong; justify-self: center; }
+
+.slot.filled {
+  background: var(--slot-filled-bg);
+  border-style: solid;
+  border-color: var(--color-accent);
+}
+
+.slot.magnet-active {
+  border-color: gold;
+  border-style: solid;
+  transform: scale(1.08);
+  background: rgba(255,215,0,0.12);
+}
+
+/* Assembled syllable preview — standalone element between target-card and dock */
+.assembled-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 72px;
+  font-size: 4.5rem;
+  font-weight: 900;
+  color: var(--navy);
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+  flex-shrink: 0;
+}
+
+.assembled-display.pop-in {
+  animation: pop-in 0.35s ease forwards;
+}
+
+/* ── Palette ───────────────────────────────────────────── */
+#palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-content: center;
+  padding: 16px 12px;
+  min-height: var(--footer-h);
+  touch-action: none;
+}
+
+/* Drag placeholder ghost */
+.drag-placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ── Small landscape phones ────────────────────────────── */
+@media (max-height: 480px) {
+  .assembled-display { height: 44px; font-size: 3rem; }
+}
+
+/* ── Portrait tablet palette adjustments ──────────────── */
+@media (orientation: portrait) and (min-width: 600px) {
+  #palette {
+    gap: 16px;
+    padding: 20px 24px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+}

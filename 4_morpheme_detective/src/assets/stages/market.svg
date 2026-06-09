@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-label="시장 사건 일러스트">
+  <defs>
+    <linearGradient id="mk-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#8FCBEE"/>
+      <stop offset="0.6" stop-color="#BFE0F2"/>
+      <stop offset="1"   stop-color="#E8F4FB"/>
+    </linearGradient>
+    <linearGradient id="mk-wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D4C9B0"/>
+      <stop offset="1" stop-color="#BFB298"/>
+    </linearGradient>
+    <linearGradient id="mk-counter" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A0774A"/>
+      <stop offset="1" stop-color="#7A5530"/>
+    </linearGradient>
+    <linearGradient id="mk-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C9B99A"/>
+      <stop offset="1" stop-color="#A89070"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ═══ 배경 레이어 ═══════════════════════════════════════════ -->
+  <!-- 하늘 -->
+  <rect x="0" y="0" width="1600" height="430" fill="url(#mk-sky)"/>
+  <!-- 구름 -->
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="200"  cy="80"  rx="70" ry="22"/>
+    <ellipse cx="260"  cy="68"  rx="48" ry="18"/>
+    <ellipse cx="900"  cy="65"  rx="80" ry="25"/>
+    <ellipse cx="965"  cy="54"  rx="50" ry="19"/>
+    <ellipse cx="1450" cy="90"  rx="65" ry="20"/>
+  </g>
+
+  <!-- 시장 벽면 -->
+  <rect x="0" y="80" width="1600" height="390" fill="url(#mk-wall)"/>
+
+  <!-- 차양(천막) 줄무늬 띠 -->
+  <rect x="0" y="370" width="1600" height="56" fill="#E63946"/>
+  <!-- 줄무늬 (노랑) -->
+  <g fill="#FFD166" opacity="0.7">
+    <rect x="0"    y="370" width="60"  height="56"/>
+    <rect x="120"  y="370" width="60"  height="56"/>
+    <rect x="240"  y="370" width="60"  height="56"/>
+    <rect x="360"  y="370" width="60"  height="56"/>
+    <rect x="480"  y="370" width="60"  height="56"/>
+    <rect x="600"  y="370" width="60"  height="56"/>
+    <rect x="720"  y="370" width="60"  height="56"/>
+    <rect x="840"  y="370" width="60"  height="56"/>
+    <rect x="960"  y="370" width="60"  height="56"/>
+    <rect x="1080" y="370" width="60"  height="56"/>
+    <rect x="1200" y="370" width="60"  height="56"/>
+    <rect x="1320" y="370" width="60"  height="56"/>
+    <rect x="1440" y="370" width="60"  height="56"/>
+    <rect x="1560" y="370" width="40"  height="56"/>
+  </g>
+  <!-- 차양 지그재그 하단 -->
+  <polyline points="0,426 40,406 80,426 120,406 160,426 200,406 240,426 280,406 320,426 360,406 400,426 440,406 480,426 520,406 560,426 600,406 640,426 680,406 720,426 760,406 800,426 840,406 880,426 920,406 960,426 1000,406 1040,426 1080,406 1120,426 1160,406 1200,426 1240,406 1280,426 1320,406 1360,426 1400,406 1440,426 1480,406 1520,426 1560,406 1600,426"
+    fill="none" stroke="#C0392B" stroke-width="3" opacity="0.5"/>
+
+  <!-- 차양 기둥들 -->
+  <g fill="#8A7060">
+    <rect x="158"  y="380" width="14" height="100"/>
+    <rect x="478"  y="380" width="14" height="100"/>
+    <rect x="798"  y="380" width="14" height="100"/>
+    <rect x="1118" y="380" width="14" height="100"/>
+    <rect x="1438" y="380" width="14" height="100"/>
+  </g>
+
+  <!-- 매대 카운터(나무) -->
+  <rect x="0" y="478" width="1600" height="58" fill="url(#mk-counter)"/>
+  <!-- 카운터 상단 강조선 -->
+  <rect x="0" y="476" width="1600" height="4" fill="#C9933A"/>
+  <!-- 카운터 하단 패널 -->
+  <rect x="0" y="536" width="1600" height="14" fill="#5A3A1A"/>
+
+  <!-- 바닥 -->
+  <rect x="0" y="550" width="1600" height="350" fill="url(#mk-floor)"/>
+  <!-- 바닥 타일 가로줄 -->
+  <g stroke="#B09878" stroke-width="1.5" opacity="0.45">
+    <line x1="0" y1="620" x2="1600" y2="620"/>
+    <line x1="0" y1="700" x2="1600" y2="700"/>
+    <line x1="0" y1="780" x2="1600" y2="780"/>
+    <line x1="0" y1="860" x2="1600" y2="860"/>
+  </g>
+  <!-- 바닥 타일 세로줄 -->
+  <g stroke="#B09878" stroke-width="1.2" opacity="0.28">
+    <line x1="200"  y1="550" x2="200"  y2="900"/>
+    <line x1="400"  y1="550" x2="400"  y2="900"/>
+    <line x1="600"  y1="550" x2="600"  y2="900"/>
+    <line x1="800"  y1="550" x2="800"  y2="900"/>
+    <line x1="1000" y1="550" x2="1000" y2="900"/>
+    <line x1="1200" y1="550" x2="1200" y2="900"/>
+    <line x1="1400" y1="550" x2="1400" y2="900"/>
+  </g>
+
+  <!-- ═══ 클릭 아이템 (data-hit 0~9) ════════════════════════════════
+       상단(U0~U4) = data-hit 0,3,4,5,6
+       하단(L0~L4) = data-hit 1,2,7,8,9
+       각 그룹: 첫 자식 = 투명 .hit-pad, 모든 아트는 pad(0,0,W,H) 안에. -->
+
+  <!-- ── 상단 밴드 ─────────────────────────────────────────────────── -->
+
+  <!-- hit-0 시장 간판 — U0 slot: translate(50,120) pad 270×270
+       박스: x 50–320, y 120–390 -->
+  <g data-hit="0" transform="translate(50,120)">
+    <rect class="hit-pad" x="0" y="0" width="270" height="270" fill="transparent"/>
+    <!-- 기둥 두 개 -->
+    <rect x="65"  y="192" width="14" height="78" fill="#8A7060"/>
+    <rect x="191" y="192" width="14" height="78" fill="#8A7060"/>
+    <!-- 간판 판 -->
+    <rect x="18" y="16" width="234" height="182" rx="14" fill="#E63946" stroke="#A0172A" stroke-width="6"/>
+    <!-- 장식 줄 -->
+    <rect x="30" y="26" width="210" height="8" rx="4" fill="#FFD166" opacity="0.65"/>
+    <rect x="30" y="180" width="210" height="8" rx="4" fill="#FFD166" opacity="0.65"/>
+    <!-- 서브 텍스트 -->
+    <text x="135" y="65"  text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#FFD166">전통</text>
+    <!-- 메인 텍스트(한글) -->
+    <text x="135" y="158" text-anchor="middle" font-family="'Jua', sans-serif" font-size="62" fill="#ffffff">시장</text>
+    <!-- 캡션 -->
+    <text x="135" y="192" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="20" fill="#FFD166">전통 시장</text>
+  </g>
+
+  <!-- hit-3 영업 안내 — U1 slot: translate(360,120) pad 250×270
+       박스: x 360–610, y 120–390 -->
+  <g data-hit="3" transform="translate(360,120)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="270" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="116" y="196" width="16" height="74" fill="#8A7060"/>
+    <!-- 안내판 -->
+    <rect x="14" y="18" width="222" height="184" rx="12" fill="#3F7D54" stroke="#235A38" stroke-width="5"/>
+    <!-- 제목 띠 -->
+    <rect x="14" y="18" width="222" height="46" rx="12" fill="#235A38"/>
+    <rect x="14" y="46" width="222" height="18" fill="#235A38"/>
+    <text x="125" y="50" text-anchor="middle" font-family="'Jua', sans-serif" font-size="26" fill="#FFD166">영업 안내</text>
+    <!-- 설명 -->
+    <text x="125" y="120" text-anchor="middle" font-family="'Jua', sans-serif" font-size="36" fill="#ffffff">매일</text>
+    <text x="125" y="158" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="24" fill="#FFD166">매일 영업</text>
+    <text x="125" y="190" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="18" fill="#A8DADC">09:00 – 21:00</text>
+  </g>
+
+  <!-- hit-4 광고판 — U2 slot: translate(660,120) pad 250×270
+       박스: x 660–910, y 120–390 -->
+  <g data-hit="4" transform="translate(660,120)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="270" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="108" y="202" width="20" height="68" fill="#8A7060"/>
+    <!-- 광고판 외곽 프레임 -->
+    <rect x="8" y="16" width="234" height="192" rx="8" fill="#2D3047" stroke="#1A1D2E" stroke-width="5"/>
+    <!-- 광고 배경 -->
+    <rect x="18" y="24" width="214" height="176" rx="4" fill="#1B5FA3"/>
+    <!-- 모서리 별 장식 -->
+    <circle cx="50"  cy="58"  r="8"  fill="#FFD166" opacity="0.8"/>
+    <circle cx="200" cy="58"  r="8"  fill="#FFD166" opacity="0.8"/>
+    <circle cx="50"  cy="180" r="8"  fill="#FFD166" opacity="0.8"/>
+    <circle cx="200" cy="180" r="8"  fill="#FFD166" opacity="0.8"/>
+    <!-- 지구 그림 (한글 대체) -->
+    <circle cx="125" cy="128" r="42" fill="#1B5FA3" stroke="#A8DADC" stroke-width="3"/>
+    <ellipse cx="125" cy="128" rx="20" ry="42" fill="none" stroke="#A8DADC" stroke-width="1.5" opacity="0.6"/>
+    <line x1="83" y1="128" x2="167" y2="128" stroke="#A8DADC" stroke-width="1.5" opacity="0.6"/>
+    <ellipse cx="125" cy="104" rx="32" ry="12" fill="none" stroke="#A8DADC" stroke-width="1.5" opacity="0.5"/>
+    <ellipse cx="125" cy="152" rx="32" ry="12" fill="none" stroke="#A8DADC" stroke-width="1.5" opacity="0.5"/>
+    <!-- 광고 카피 -->
+    <text x="125" y="190" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="18" fill="#ffffff">세계 최고 시장</text>
+  </g>
+
+  <!-- hit-5 안내 간판 — U3 slot: translate(960,120) pad 240×270
+       박스: x 960–1200, y 120–390 -->
+  <g data-hit="5" transform="translate(960,120)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="270" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="109" y="196" width="18" height="74" fill="#8A7060"/>
+    <!-- 화살표형 안내판 -->
+    <polygon points="8,52 168,52 210,118 168,184 8,184" fill="#FFD166" stroke="#B98B12" stroke-width="5"/>
+    <!-- 텍스트 (▶ 화살표 + 한글) -->
+    <text x="94" y="96"  text-anchor="middle" font-family="'Jua', sans-serif" font-size="30" fill="#2D3047">통로</text>
+    <text x="94" y="162" text-anchor="middle" font-family="'Jua', sans-serif" font-size="48" fill="#2D3047">▶</text>
+  </g>
+
+  <!-- hit-6 시계 — U4 slot: translate(1250,120) pad 300×270
+       박스: x 1250–1550, y 120–390 -->
+  <g data-hit="6" transform="translate(1250,120)">
+    <rect class="hit-pad" x="0" y="0" width="300" height="270" fill="transparent"/>
+    <!-- 걸이 -->
+    <rect x="140" y="6" width="20" height="22" rx="6" fill="#8A7060"/>
+    <!-- 금속 테두리 -->
+    <circle cx="150" cy="158" r="106" fill="#C9933A"/>
+    <!-- 시계 페이스 -->
+    <circle cx="150" cy="158" r="96" fill="#FFF8EE"/>
+    <!-- 눈금 12개 -->
+    <g stroke="#2D3047" stroke-width="4">
+      <line x1="150" y1="72"  x2="150" y2="84"/>
+      <line x1="198" y1="83"  x2="192" y2="94"/>
+      <line x1="231" y1="116" x2="220" y2="122"/>
+      <line x1="244" y1="166" x2="232" y2="166"/>
+      <line x1="231" y1="216" x2="220" y2="210"/>
+      <line x1="198" y1="249" x2="192" y2="238"/>
+      <line x1="150" y1="262" x2="150" y2="250"/>
+      <line x1="102" y1="249" x2="108" y2="238"/>
+      <line x1="69"  y1="216" x2="80"  y2="210"/>
+      <line x1="56"  y1="166" x2="68"  y2="166"/>
+      <line x1="69"  y1="116" x2="80"  y2="122"/>
+      <line x1="102" y1="83"  x2="108" y2="94"/>
+    </g>
+    <!-- 시침 (10시 방향) -->
+    <line x1="150" y1="158" x2="106" y2="108" stroke="#2D3047" stroke-width="8" stroke-linecap="round"/>
+    <!-- 분침 (2시 방향) -->
+    <line x1="150" y1="158" x2="196" y2="96" stroke="#2D3047" stroke-width="5" stroke-linecap="round"/>
+    <!-- 초침 -->
+    <line x1="150" y1="158" x2="170" y2="238" stroke="#E63946" stroke-width="3" stroke-linecap="round"/>
+    <!-- 중심점 -->
+    <circle cx="150" cy="158" r="7" fill="#2D3047"/>
+  </g>
+
+  <!-- ── 하단 밴드 ─────────────────────────────────────────────────── -->
+
+  <!-- hit-1 물건들 — L0 slot: translate(50,480) pad 270×320
+       박스: x 50–320, y 480–800 -->
+  <g data-hit="1" transform="translate(50,480)">
+    <rect class="hit-pad" x="0" y="0" width="270" height="320" fill="transparent"/>
+    <!-- 매대 위 진열 구역 배경 -->
+    <rect x="4" y="4" width="262" height="76" rx="4" fill="#5A3A1A" opacity="0.18"/>
+    <!-- 과일 더미: 사과(빨강) -->
+    <circle cx="40"  cy="52"  r="26" fill="#E63946"/>
+    <circle cx="88"  cy="48"  r="26" fill="#E63946"/>
+    <circle cx="64"  cy="26"  r="22" fill="#C0172A"/>
+    <!-- 귤(주황) -->
+    <circle cx="142" cy="54"  r="24" fill="#FF8C00"/>
+    <circle cx="184" cy="50"  r="24" fill="#FF8C00"/>
+    <circle cx="163" cy="30"  r="20" fill="#E07000"/>
+    <!-- 배추(초록) -->
+    <ellipse cx="232" cy="50" rx="26" ry="30" fill="#3F7D54"/>
+    <ellipse cx="232" cy="38" rx="18" ry="13" fill="#5AA870"/>
+    <!-- 줄기/꼭지 -->
+    <line x1="40"  y1="26" x2="40"  y2="16" stroke="#3F7D54" stroke-width="4" stroke-linecap="round"/>
+    <line x1="88"  y1="22" x2="88"  y2="12" stroke="#3F7D54" stroke-width="4" stroke-linecap="round"/>
+    <line x1="142" y1="30" x2="142" y2="20" stroke="#3F7D54" stroke-width="4" stroke-linecap="round"/>
+    <line x1="184" y1="26" x2="184" y2="16" stroke="#3F7D54" stroke-width="4" stroke-linecap="round"/>
+    <!-- 가격표 -->
+    <rect x="8"  y="92" width="112" height="36" rx="8" fill="#FFD166" stroke="#B98B12" stroke-width="3"/>
+    <text x="64" y="116" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="19" fill="#2D3047">사과 3개</text>
+  </g>
+
+  <!-- hit-2 돈/현금 — L1 slot: translate(360,480) pad 250×320
+       박스: x 360–610, y 480–800 -->
+  <g data-hit="2" transform="translate(360,480)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="320" fill="transparent"/>
+    <!-- 지폐 3장 겹침 -->
+    <rect x="18" y="54" width="162" height="80" rx="6" fill="#85B552" stroke="#5A8230" stroke-width="3" transform="rotate(-6,99,94)"/>
+    <rect x="26" y="46" width="162" height="80" rx="6" fill="#9DC86A" stroke="#5A8230" stroke-width="3" transform="rotate(-2,107,86)"/>
+    <rect x="34" y="38" width="162" height="80" rx="6" fill="#A8D47C" stroke="#5A8230" stroke-width="3"/>
+    <!-- 지폐 원형 도안 -->
+    <circle cx="80" cy="78" r="20" fill="#5A8230" opacity="0.5"/>
+    <text x="80"  y="86" text-anchor="middle" font-family="'Jua', sans-serif" font-size="18" fill="#ffffff">만</text>
+    <text x="162" y="82" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="14" fill="#2D3047">₩10,000</text>
+    <!-- 동전 더미 왼쪽 -->
+    <ellipse cx="68"  cy="166" rx="30" ry="11" fill="#C9933A"/>
+    <rect x="38" y="140" width="60" height="26" fill="#C9933A"/>
+    <ellipse cx="68"  cy="140" rx="30" ry="11" fill="#FFD166"/>
+    <!-- 동전 더미 오른쪽 -->
+    <ellipse cx="144" cy="163" rx="26" ry="10" fill="#C9933A"/>
+    <rect x="118" y="138" width="52" height="26" fill="#C9933A"/>
+    <ellipse cx="144" cy="138" rx="26" ry="10" fill="#FFD166"/>
+  </g>
+
+  <!-- hit-7 시간 안내 — L2 slot: translate(660,480) pad 250×320
+       박스: x 660–910, y 480–800 -->
+  <g data-hit="7" transform="translate(660,480)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="320" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="114" y="244" width="16" height="76" fill="#8A7060"/>
+    <!-- 팻말 판(나무) -->
+    <rect x="14" y="16" width="222" height="234" rx="12" fill="#C9933A" stroke="#8A5A20" stroke-width="5"/>
+    <!-- 내부 장식선 -->
+    <rect x="24" y="26" width="202" height="214" rx="8" fill="none" stroke="#8A5A20" stroke-width="2" opacity="0.5"/>
+    <!-- 오전 구역 -->
+    <rect x="34" y="38" width="182" height="82" rx="8" fill="#FFE8A0"/>
+    <text x="125" y="72"  text-anchor="middle" font-family="'Jua', sans-serif" font-size="26" fill="#2D3047">오전 영업</text>
+    <text x="125" y="104" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="18" fill="#E63946">09:00 – 12:00</text>
+    <!-- 구분선 -->
+    <line x1="34" y1="132" x2="216" y2="132" stroke="#8A5A20" stroke-width="2" opacity="0.6"/>
+    <!-- 오후 구역 -->
+    <rect x="34" y="142" width="182" height="82" rx="8" fill="#C8E6F7"/>
+    <text x="125" y="176" text-anchor="middle" font-family="'Jua', sans-serif" font-size="26" fill="#2D3047">오후 영업</text>
+    <text x="125" y="208" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="18" fill="#1B5FA3">13:00 – 21:00</text>
+    <!-- 오전/오후 구분 장식선 -->
+    <line x1="34" y1="232" x2="216" y2="232" stroke="#8A5A20" stroke-width="2" opacity="0.4"/>
+  </g>
+
+  <!-- hit-8 사전 책 — L3 slot: translate(960,480) pad 240×320
+       박스: x 960–1200, y 480–800 -->
+  <g data-hit="8" transform="translate(960,480)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="320" fill="transparent"/>
+    <!-- 책 뒤 그림자 페이지 -->
+    <rect x="32" y="26" width="182" height="234" rx="4" fill="#9DC86A"/>
+    <rect x="28" y="22" width="182" height="234" rx="4" fill="#85B552"/>
+    <!-- 책 본체 -->
+    <rect x="20" y="18" width="182" height="234" rx="8" fill="#3F7D54" stroke="#235A38" stroke-width="4"/>
+    <!-- 제목 띠 -->
+    <rect x="30" y="34" width="162" height="72" rx="4" fill="#235A38"/>
+    <text x="111" y="68"  text-anchor="middle" font-family="'Jua', sans-serif" font-size="26" fill="#FFD166">국어</text>
+    <text x="111" y="94"  text-anchor="middle" font-family="'Jua', sans-serif" font-size="22" fill="#FFD166">사전</text>
+    <!-- 구분선 -->
+    <rect x="30" y="116" width="162" height="3" fill="#235A38"/>
+    <!-- 책 본문 줄 (한글 대체) -->
+    <g stroke="#FFD166" stroke-width="2" opacity="0.5">
+      <line x1="46" y1="148" x2="176" y2="148"/>
+      <line x1="46" y1="166" x2="176" y2="166"/>
+      <line x1="46" y1="184" x2="176" y2="184"/>
+      <line x1="46" y1="202" x2="176" y2="202"/>
+      <line x1="46" y1="220" x2="176" y2="220"/>
+    </g>
+    <!-- 캡션 -->
+    <text x="111" y="196" text-anchor="middle" font-family="'Jua', sans-serif" font-size="36" fill="#FFD166">국어</text>
+    <text x="111" y="232" text-anchor="middle" font-family="'Jua', sans-serif" font-size="28" fill="#FFD166">사전</text>
+    <!-- 페이지 두께 -->
+    <rect x="200" y="18" width="14" height="234" rx="4" fill="#DDD8C4"/>
+    <g stroke="#BDB8A4" stroke-width="1" opacity="0.5">
+      <line x1="200" y1="38"  x2="214" y2="38"/>
+      <line x1="200" y1="58"  x2="214" y2="58"/>
+      <line x1="200" y1="78"  x2="214" y2="78"/>
+      <line x1="200" y1="98"  x2="214" y2="98"/>
+      <line x1="200" y1="118" x2="214" y2="118"/>
+      <line x1="200" y1="138" x2="214" y2="138"/>
+      <line x1="200" y1="158" x2="214" y2="158"/>
+      <line x1="200" y1="178" x2="214" y2="178"/>
+      <line x1="200" y1="198" x2="214" y2="198"/>
+      <line x1="200" y1="218" x2="214" y2="218"/>
+    </g>
+    <!-- 가격 태그 -->
+    <rect x="28" y="266" width="158" height="36" rx="8" fill="#FFD166" stroke="#B98B12" stroke-width="2"/>
+    <text x="107" y="290" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="18" fill="#2D3047">₩ 15,000</text>
+  </g>
+
+  <!-- hit-9 실내 표지 — L4 slot: translate(1250,480) pad 300×320
+       박스: x 1250–1550, y 480–800 -->
+  <g data-hit="9" transform="translate(1250,480)">
+    <rect class="hit-pad" x="0" y="0" width="300" height="320" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="138" y="252" width="20" height="68" fill="#8A7060"/>
+    <!-- 픽토그램 표지판 -->
+    <rect x="14" y="16" width="272" height="242" rx="16" fill="#1B5FA3" stroke="#0E3C6B" stroke-width="6"/>
+    <!-- 건물 지붕 -->
+    <polygon points="150,44 228,94 72,94" fill="#ffffff"/>
+    <!-- 건물 본체 -->
+    <rect x="90" y="92" width="120" height="96" fill="#ffffff"/>
+    <!-- 문 -->
+    <rect x="121" y="130" width="36" height="58" rx="4" fill="#1B5FA3"/>
+    <!-- 창문 좌 -->
+    <rect x="97"  y="104" width="26" height="24" rx="3" fill="#A8DADC"/>
+    <!-- 창문 우 -->
+    <rect x="159" y="104" width="26" height="24" rx="3" fill="#A8DADC"/>
+    <!-- 실내 텍스트 -->
+    <text x="150" y="218" text-anchor="middle" font-family="'Jua', sans-serif" font-size="30" fill="#FFD166">실내</text>
+    <!-- 캡션 (한글) -->
+    <text x="150" y="250" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="20" fill="#A8DADC">실내 공간</text>
+  </g>
+</svg>

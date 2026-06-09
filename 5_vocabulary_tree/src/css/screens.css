@@ -1,0 +1,233 @@
+/* 화면별 스타일 — splash, today, lock 등 (1단계 디자인 시스템 계승) */
+
+/* ===== Splash ===== */
+.splash-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.splash-screen h1 {
+  font-family: 'Jua', sans-serif;
+  font-size: 3rem;
+  color: var(--coral);
+  transform: rotate(-2deg);
+  text-shadow: 4px 4px 0 var(--yellow);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.splash-screen .subtitle {
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  color: var(--color-text-dim);
+}
+
+/* 진행 요약 (소제목) — 6_literacy_decoder .start-progress-summary 스타일 계승 */
+.splash-progress-summary {
+  font-family: 'Gowun Dodum', sans-serif;
+  color: var(--color-text-dim);
+  font-size: 0.95rem;
+}
+
+.splash-emoji {
+  font-size: 5rem;
+  display: inline-block;
+  animation: float 3.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+.splash-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.splash-foot {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* 도감 · 학습 기록 · 설정 — 6_literacy_decoder .start-sub-row / .btn-settings 계승 */
+.splash-sub-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-settings {
+  font-family: 'Jua', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-dim);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 24px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+.btn-settings:active { background: var(--color-surface2); color: var(--color-text); }
+
+/* ===== Today (묘목 진입 전) ===== */
+.today-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 14px;
+  text-align: center;
+}
+
+.today-screen h2 {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.6rem;
+  color: var(--coral);
+}
+
+.today-hanja-card {
+  width: min(78vw, 320px);
+  aspect-ratio: 1;
+  background: white;
+  border: 3px solid var(--navy);
+  border-radius: 32px;
+  box-shadow: 0 8px 0 var(--navy), 0 14px 28px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  position: relative;
+  transform: rotate(-1.2deg);
+}
+
+.today-hanja-card .hanja-glyph {
+  font-size: clamp(7rem, 28vw, 11rem);
+  line-height: 1;
+  color: var(--navy);
+}
+
+.today-hanja-card .hanja-hunum {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.2rem;
+  color: var(--coral);
+}
+
+.today-hanja-card .hanja-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-dim);
+}
+
+.today-progress {
+  font-family: 'Jua', sans-serif;
+  font-size: 1rem;
+  color: var(--color-text-dim);
+}
+.today-progress .num { color: var(--coral); font-size: 1.2rem; }
+
+/* ===== Lock (일일 완료) ===== */
+.lock-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 28px 16px;
+  text-align: center;
+}
+
+.lock-screen h2 {
+  font-family: 'Jua', sans-serif;
+  font-size: 2.1rem;
+  color: var(--coral);
+}
+
+.lock-emoji {
+  font-size: 4.2rem;
+  animation: wiggle 1.6s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: rotate(4deg); }
+}
+
+.lock-message {
+  font-size: clamp(0.95rem, 3vw, 1.15rem);
+  color: var(--color-text);
+  max-width: 320px;
+  line-height: 1.5;
+}
+
+.lock-stats {
+  background: white;
+  border: 2px solid var(--navy);
+  border-radius: 20px;
+  box-shadow: 0 4px 0 var(--navy);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  min-width: 240px;
+}
+
+.lock-stats .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.95rem;
+}
+.lock-stats .row strong { font-family: 'Jua', sans-serif; color: var(--coral); }
+
+.lock-next {
+  font-family: 'Jua', sans-serif;
+  font-size: 0.95rem;
+  color: var(--mint-dark);
+}
+
+/* ===== Settings ===== */
+.settings-screen { padding: 6px 0 20px; }
+
+.settings-section {
+  background: white;
+  border: 2px solid var(--navy);
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 0 var(--navy);
+}
+
+.section-label {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-hint {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin-top: 6px;
+}
+
+.settings-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 12px;
+}

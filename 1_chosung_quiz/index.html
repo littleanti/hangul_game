@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>초성 퀴즈</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./src/css/tokens.css">
+  <link rel="stylesheet" href="./src/css/base.css">
+  <link rel="stylesheet" href="./src/css/components.css">
+  <link rel="stylesheet" href="./src/css/screens.css">
+</head>
+<body>
+<div class="container">
+
+  <!-- =========== 시작 화면 =========== -->
+  <div id="start-screen" class="screen active start-screen">
+    <!-- DISABLED: 프로필 기능 — 나중에 재활성화 시 style 제거 -->
+    <button class="profile-chip" id="profile-chip" onclick="openProfileModal()" style="display:none;">
+      <span class="profile-chip-emoji" id="profile-chip-emoji">🧒</span>
+      <span class="profile-chip-name"  id="profile-chip-name">게스트</span>
+      <span class="profile-chip-caret">▼</span>
+    </button>
+    <div class="start-emoji">🎨</div>
+    <h1>초성 퀴즈</h1>
+    <p class="subtitle">그림을 보고 단어를 맞혀봐요 🧩</p>
+    <p class="level-label">레벨을 선택하세요</p>
+    <div class="level-buttons">
+      <button class="level-btn level-btn-1" onclick="startWithLevel(1)">
+        🌱<span class="level-name">레벨 1</span><small>1-2글자</small>
+      </button>
+      <button class="level-btn level-btn-2" onclick="startWithLevel(2)">
+        🌿<span class="level-name">레벨 2</span><small>3글자</small>
+      </button>
+      <button class="level-btn level-btn-3" onclick="startWithLevel(3)">
+        🌳<span class="level-name">레벨 3</span><small>4글자+</small>
+      </button>
+      <button class="level-btn level-btn-4" onclick="startWithLevel(4)">
+        🔥<span class="level-name">레벨 4</span><small>자유 게임</small>
+      </button>
+    </div>
+    <button class="btn-settings" onclick="openSettings()">⚙️ 설정</button>
+  </div>
+
+  <!-- =========== 설정 화면 =========== -->
+  <div id="settings-screen" class="screen settings-screen">
+    <div class="settings-header">
+      <h2>⚙️ 설정</h2>
+      <button class="close-btn" onclick="goTo('start-screen')">✕</button>
+    </div>
+
+    <div class="flash" id="flash"></div>
+
+    <div class="settings-section">
+      <div class="section-label">🎯 카테고리 (여러 개 선택)</div>
+      <div class="chip-row" id="category-chips"></div>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-label">📏 난이도</div>
+      <div class="chip-row" id="difficulty-chips"></div>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-label">🎲 문제 수</div>
+      <div class="chip-row" id="count-chips"></div>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-label">⏱ 타이머</div>
+      <div class="chip-row" id="timer-chips"></div>
+      <div class="section-hint">시간이 지나면 자동으로 정답이 공개돼요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🔊 발음 듣기 (TTS)</span>
+        <div class="toggle" id="toggle-tts" onclick="toggleSetting('ttsEnabled', this)"></div>
+      </div>
+      <div class="section-hint" id="tts-hint">정답 공개 시 단어를 읽어줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🖼 사진 모드</span>
+        <div class="toggle" id="toggle-image" onclick="toggleSetting('imageMode', this)"></div>
+      </div>
+      <div class="section-hint">데이터에 imageUrl이 있으면 실제 이미지 표시 (기본: 이모지)</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">✏️ 글자 선택 모드</span>
+        <div class="toggle" id="toggle-input" onclick="toggleSetting('inputMode', this)"></div>
+      </div>
+      <div class="section-hint">섞인 글자 중에 정답 글자를 골라요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">💡 힌트 버튼</span>
+        <div class="toggle" id="toggle-hint" onclick="toggleSetting('hintEnabled', this)"></div>
+      </div>
+      <div class="section-hint">게임 중 💡를 눌러 글자를 하나씩 확인할 수 있어요</div>
+    </div>
+
+    <div class="settings-footer">
+      <button class="btn ghost small" onclick="resetSettings()">기본값</button>
+      <button class="btn big" onclick="goTo('start-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+  <!-- =========== 플레이 화면 =========== -->
+  <div id="play-screen" class="screen">
+    <div class="play-header">
+      <button class="quit-btn" onclick="quitGame()">🏠 홈으로</button>
+      <span class="progress-text">문제 <span id="current-num">1</span> / <span id="total-num">10</span></span>
+      <div class="header-badges">
+        <span class="timer-badge" id="timer-badge" style="display:none;">⏱ 10</span>
+        <span class="score-badge">🏆 <span id="score">0</span></span>
+      </div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+
+    <div class="question-card">
+      <button class="tts-button" id="tts-btn" onclick="speakCurrent()" style="display:none;">🔊</button>
+      <button class="hint-button" id="hint-btn-card" onclick="useHint()" style="display:none;">💡</button>
+      <span class="category-tag" id="category">과일</span>
+      <div class="visual-area" id="visual-area">
+        <span class="emoji-display" id="emoji">🍎</span>
+      </div>
+      <div class="word-display" id="word">ㅅㄱ</div>
+    </div>
+
+    <div class="syllable-input-area" id="syllable-input-area" style="display:none;">
+      <div class="syllable-slots" id="syllable-slots"></div>
+      <div class="syllable-pool" id="syllable-pool"></div>
+      <button class="syllable-erase" id="syllable-erase" type="button">⌫ 지우기</button>
+    </div>
+
+    <div class="button-row" id="check-row">
+      <button class="btn big" onclick="revealAnswer(false)">정답 확인 ✨</button>
+    </div>
+    <div class="button-row" id="result-row" style="display:none;">
+      <button class="btn mint" onclick="markAnswer(true)">맞혔어요! ⭕</button>
+      <button class="btn red"  onclick="markAnswer(false)">틀렸어요 ❌</button>
+    </div>
+  </div>
+
+  <!-- =========== 종료 화면 =========== -->
+  <div id="end-screen" class="screen end-screen">
+    <div class="celebration-emojis" id="celebrate">🎉✨🎊</div>
+    <h2 id="end-title">끝났어요!</h2>
+    <p class="end-message">총 <span id="final-total">10</span>문제 중</p>
+    <div class="final-score">
+      <span class="num" id="final-score">0</span>
+      <span style="opacity:0.4;">/</span>
+      <span id="final-total2">10</span>
+    </div>
+    <p class="end-message" id="accuracy">정답률 0%</p>
+
+    <button class="review-toggle" id="review-toggle" onclick="toggleReview()" style="display:none;">
+      📝 틀린 문제 다시 보기 ▼
+    </button>
+    <div class="review-list" id="review-list"></div>
+
+    <div class="end-buttons">
+      <button class="btn big" onclick="startGame()">다시 하기 🔄</button>
+      <button class="btn mint small" onclick="openSettings()">⚙️ 설정 바꾸기</button>
+    </div>
+    <div class="end-buttons" style="margin-top: 14px;">
+      <button class="btn ghost small" onclick="goTo('start-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- =========== 프로필 모달 (DISABLED) =========== -->
+<div class="modal-overlay" id="profile-modal" style="display:none !important;" onclick="closeProfileModalBg(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>👤 프로필</h2>
+      <button class="close-btn" onclick="closeProfileModal()">✕</button>
+    </div>
+    <div class="profile-list" id="profile-list"></div>
+    <button class="btn mint" id="add-profile-btn" onclick="showCreateProfileForm()">+ 새 프로필</button>
+
+    <div class="create-profile-form" id="create-profile-form" style="display:none;">
+      <div class="form-label">이름 (1~8자)</div>
+      <input type="text" id="new-profile-name" maxlength="8" placeholder="예: 민이" autocomplete="off" />
+      <div class="form-label">캐릭터 선택</div>
+      <div class="emoji-picker" id="emoji-picker"></div>
+      <div class="form-buttons">
+        <button class="btn ghost small" onclick="cancelCreateProfile()">취소</button>
+        <button class="btn big"         onclick="confirmCreateProfile()">만들기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ES Module 진입점 -->
+<script type="module" src="./src/js/main.js"></script>
+</body>
+</html>

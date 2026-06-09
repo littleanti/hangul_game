@@ -1,0 +1,161 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  /* 더블탭 줌 비활성 (PRD 비기능) */
+  touch-action: manipulation;
+}
+
+body {
+  font-family: 'Gowun Dodum', sans-serif;
+  color: var(--color-text);
+  position: relative;
+}
+
+/* 배경 — 1_chosung_quiz/src/css/base.css 와 동일 패턴 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--cream);
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255, 181, 181, 0.3)  0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(107, 202, 184, 0.25) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 209, 102, 0.15) 0%, transparent 55%);
+}
+
+/* 화면 전환 */
+.screen {
+  display: none;
+  width: 100%;
+  height: 100dvh;
+  animation: fadeIn 0.3s ease;
+}
+.screen.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 공통 카드형 컨테이너 (시작·설정·완료 화면) */
+.card-screen {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  padding: 24px 20px;
+  padding-top:    max(24px, env(safe-area-inset-top));
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding-left:   max(20px, env(safe-area-inset-left));
+  padding-right:  max(20px, env(safe-area-inset-right));
+  overflow-x: hidden;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* ── 글자 크기 (설정 → body[data-font]) ────────────────────────── */
+body[data-font='small']  { font-size: 14px; }
+body[data-font='normal'] { font-size: 16px; }
+body[data-font='large']  { font-size: 18.5px; }
+
+/* ── 다크 모드 (설정 → body[data-theme]) ──────────────────────── */
+body[data-theme='dark'] {
+  --cream:          #1F2231;
+  --color-bg:       #1F2231;
+  --color-text:     #F2E9D6;
+  --color-text-dim: #A6A8B9;
+  --color-surface:  #2B2E40;
+  --color-surface2: #353855;
+  --color-border:   #3E4258;
+  --shadow:         rgba(0, 0, 0, 0.45);
+  color: var(--color-text);
+}
+body[data-theme='dark']::before {
+  background: var(--color-bg);
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255, 119, 87, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 86% 78%, rgba(107, 202, 184, 0.14) 0%, transparent 45%);
+}
+
+/* ── 다크 모드 가독성 보강 ─────────────────────────────────────
+   원본은 var(--navy)를 텍스트로 사용 — 어두운 배경에 묻히므로
+   var(--color-text) 로 강제 오버라이드. yellow/coral 등 배경 위에
+   놓인 위젯(어휘 pill, mission-vocab-item 등)은 별도 override 없이
+   navy 텍스트를 유지한다. */
+body[data-theme='dark'] .mission-hanja,
+body[data-theme='dark'] .mission-challenge-text,
+body[data-theme='dark'] .end-stat,
+body[data-theme='dark'] .collection-card-hanja,
+body[data-theme='dark'] .dock-hint,
+body[data-theme='dark'] .progress-trophy,
+body[data-theme='dark'] .start-tagline {
+  color: var(--color-text);
+}
+
+/* ghost / 닫기 버튼 — navy stroke·text 가 묻히지 않게 보강 */
+body[data-theme='dark'] .btn.ghost {
+  color: var(--color-text);
+  border-color: var(--color-text);
+  box-shadow: 0 3px 0 var(--color-text);
+}
+body[data-theme='dark'] .close-btn {
+  background: var(--color-surface);
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
+/* 도감 미발견 카드의 ? 및 자물쇠 — opacity 0.35 위에서 더 또렷이 */
+body[data-theme='dark'] .collection-card.locked .collection-card-hanja,
+body[data-theme='dark'] .collection-card-lock {
+  color: var(--color-text);
+}
+
+/* ── 스크롤바 가시성 (PC 환경) ──────────────────────────────────
+   macOS Safari/Chrome 등은 기본 overlay 스크롤바라 평소엔 투명 →
+   PC(fine pointer) 환경에서만 항상 보이는 코랄 thumb 으로 표시.
+   모바일(coarse pointer)은 OS 기본 거동 유지. */
+@media (pointer: fine) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--coral) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--coral);
+    border-radius: 10px;
+    border: 3px solid var(--cream);
+    min-height: 40px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #E5613D; /* coral 진한 톤 */
+  }
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  /* 다크 모드 — thumb 테두리를 본문 배경 색에 맞춰 자연스럽게 */
+  body[data-theme='dark'] *::-webkit-scrollbar-thumb {
+    border-color: var(--color-bg);
+  }
+}

@@ -1,0 +1,136 @@
+/* 음절 블록 (떠다니는 + 드래그) */
+
+.syllable-block {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: white;
+  border: 2.5px solid var(--navy);
+  box-shadow: 0 4px 0 var(--navy), 0 8px 16px var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.4rem;
+  color: var(--navy);
+  z-index: var(--z-blocks);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform;
+  transition: box-shadow 0.18s, background 0.18s;
+}
+
+.syllable-block.floating {
+  animation: blockFloat var(--float-dur, 6s) ease-in-out infinite;
+}
+
+@keyframes blockFloat {
+  0%, 100% { transform: var(--float-base) translateY(0); }
+  50%      { transform: var(--float-base) translateY(-8px); }
+}
+
+.syllable-block.dragging {
+  z-index: calc(var(--z-blocks) + 5);
+  cursor: grabbing;
+  box-shadow: 0 6px 0 var(--navy), 0 12px 28px var(--shadow);
+  background: var(--yellow);
+  animation: none;
+}
+
+.syllable-block.matched {
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.35s, transform 0.35s;
+  pointer-events: none;
+}
+
+.syllable-block.wrong {
+  animation: blockShake 0.4s ease;
+}
+
+@keyframes blockShake {
+  0%, 100% { transform: var(--float-base) translateX(0); }
+  20%      { transform: var(--float-base) translateX(-8px); }
+  60%      { transform: var(--float-base) translateX(8px); }
+}
+
+.syllable-block.snap-near {
+  background: var(--mint);
+  color: white;
+  transform: scale(1.06);
+}
+
+/* 음절 슬롯 (현재 어휘 진행 상태) */
+.word-target {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: calc(var(--z-blocks) + 2);
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.target-slot {
+  min-width: 38px;
+  height: 44px;
+  padding: 0 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px dashed var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.2rem;
+  color: var(--navy);
+  box-shadow: 0 3px 0 rgba(45,48,71,0.2);
+}
+
+.target-slot.filled {
+  background: var(--mint);
+  color: white;
+  border-style: solid;
+  border-color: var(--mint-dark);
+  animation: slotPop 0.25s ease;
+}
+
+.target-slot.complete {
+  background: var(--coral);
+  border-color: var(--coral-dark);
+  color: white;
+}
+
+@keyframes slotPop {
+  0%   { transform: scale(0.6); }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* hanja 힌트 (현재 어휘에 포함된 한자 강조) */
+.hanja-hint-bar {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: calc(var(--z-blocks) + 1);
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 6px 12px;
+  border-radius: 100px;
+  border: 2px solid var(--navy);
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.85rem;
+}
+.hanja-hint-bar .hanja {
+  font-size: 1.1rem;
+  color: var(--coral);
+}

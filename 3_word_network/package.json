@@ -1,0 +1,9 @@
+{
+  "name": "3-word-network",
+  "version": "0.1.0",
+  "description": "순우리말 어휘망 연결 게임 — 한글 게임 3단계",
+  "scripts": {
+    "start": "npx serve . -p 4323",
+    "dev": "npx serve . -p 4323"
+  }
+}

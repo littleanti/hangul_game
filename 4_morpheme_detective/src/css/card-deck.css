@@ -1,0 +1,129 @@
+/* ================================================================
+   카드 덱 — TRD §5.4 / PRD F10
+   가로(landscape): flex-wrap 격자 — 5장 모두 한눈에 표시 (3+2 또는 wrap)
+   세로(portrait) : 수평 슬라이드 (stage-dock 스크롤에 위임)
+   ================================================================ */
+
+:root {
+  --dock-height: 30dvh; /* M6 재조정 여지 */
+}
+
+/* ── 컨테이너 — 공통(가로 기본: flex-wrap 격자) ─────────────────── */
+#card-deck-container {
+  position: relative;
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  /* gap 6 + 카드 64 × 5 = 344, 도크 inner 360 안에 한 줄로 들어감 */
+  gap: 6px;
+  padding: 6px 4px 10px;
+  overflow: visible;
+  pointer-events: none;
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+#card-deck-container.revealed {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── 개별 카드 — 공통(가로 기본: 격자 셀) ────────────────────── */
+/* 도크 inner 360 안에서 5장(64 × 5 + gap 6 × 4 = 344) 한 줄에 들어감.
+   세로 모드는 아래 portrait 미디어 쿼리에서 flex 폭을 다시 키운다. */
+.vocab-card {
+  flex: 0 0 64px;
+  width: 64px;
+  min-height: 64px;
+
+  background: var(--yellow);
+  border: 3px solid var(--navy);
+  border-bottom: 6px solid var(--navy); /* 색맹 대응: 형태 패턴 강조 */
+  border-radius: 14px;
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  box-shadow: 0 4px 0 var(--yellow-dark), 0 6px 14px var(--shadow);
+
+  position: relative;
+  transform: translateY(-10px);
+  opacity: 0;
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity   0.28s ease;
+}
+
+.vocab-card.revealed {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* 탭 들썩 */
+.vocab-card.tapped {
+  transform: translateY(-8px) scale(1.06) !important;
+  box-shadow: 0 10px 0 var(--yellow-dark), 0 14px 24px var(--shadow);
+}
+
+/* TTS 미설치 아이콘 */
+.vocab-card.tts-unavail::after {
+  content: '🔇';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 0.7rem;
+  opacity: 0.5;
+}
+
+/* ── 세로(portrait): 좁은 뷰포트에서도 5장 한눈에 — wrap 격자 ──── */
+@media (orientation: portrait) {
+  #card-deck-container {
+    /* 가로 스크롤은 좁은 폰에서 끝까지 가도 가장자리 카드가 살짝 잘리는
+       문제(dock overflow-x:hidden 와 합쳐) 가 있어 wrap 격자로 전환.
+       카드 폭을 줄여 5장 모두 한 줄에 들어가도록 함. */
+    flex-wrap: wrap;
+    overflow-x: visible;
+    overflow-y: visible;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 4px 10px;
+    /* 세로: 아래에서 슬라이드업 */
+    transform: translateY(60px);
+    transition: transform 0.4s ease, opacity 0.3s ease;
+  }
+
+  #card-deck-container.revealed {
+    transform: translateY(0);
+  }
+
+  /* portrait: 좁은 화면에서도 5장이 한 줄에 들어가도록 폭 축소 */
+  .vocab-card {
+    flex: 0 0 60px;
+    width: 60px;
+    min-height: 64px;
+    font-size: 0.95rem;
+    transform: translateY(12px);
+  }
+
+  .vocab-card.tapped {
+    transform: translateY(-4px) scale(1.05) !important;
+  }
+}
+
+/* ── 접근성: 키보드 포커스 ─────────────────────────────────────── */
+.vocab-card:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}

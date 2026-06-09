@@ -1,0 +1,542 @@
+/* ===== CSS Variables ===== */
+:root {
+  --primary: #FF6B6B;
+  --primary-light: #FFB3B3;
+  --secondary: #4ECDC4;
+  --secondary-light: #A8E8E4;
+  --accent: #FFE66D;
+  --accent-dark: #F9C22E;
+  --bg: #F7F9FC;
+  --white: #FFFFFF;
+  --dark: #2C3E50;
+  --gray: #95A5A6;
+  --gray-light: #ECF0F1;
+  --correct: #A8E6CF;
+  --correct-dark: #27AE60;
+  --wrong: #FF8B94;
+  --wrong-dark: #E74C3C;
+  --cell-size: 52px;
+  --cell-size-sm: 44px;
+  --font: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+  --radius: 12px;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+}
+
+/* ===== Reset ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--dark);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Header ===== */
+#app-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--white);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+#app-header h1 {
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+#score-display {
+  font-size: 1rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+/* ===== Main Game Container ===== */
+#game-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+  overflow: auto;
+}
+
+/* ===== Crossword Area ===== */
+#crossword-area {
+  display: flex;
+  align-items: flex-start;
+  overflow: auto;
+  padding-bottom: 8px; /* prevents box-shadow clipping at bottom edge */
+}
+
+#crossword-grid {
+  display: inline-grid;
+  margin: 0 auto;
+  gap: 3px;
+  background: var(--gray-light);
+  padding: 8px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  touch-action: manipulation;
+}
+
+/* ===== Crossword Cells ===== */
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  position: relative;
+  border-radius: 6px;
+  overflow: visible;
+  background: var(--white);
+  border: 2px solid #DDE2E8;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.cell.black {
+  background: var(--dark);
+  border-color: var(--dark);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.cell-char {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding-top: 10px; /* leave room for cell-number badge */
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-family: var(--font);
+  color: var(--dark);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.cell-number {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gray);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ===== Cell States ===== */
+.cell.highlighted {
+  background: #FFF0F0;
+}
+
+.cell.active {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+  z-index: 2;
+  background: #FFE5E5;
+}
+
+.cell.correct {
+  background: var(--correct) !important;
+  border-color: var(--correct-dark) !important;
+  animation: bounce 0.4s ease;
+}
+
+.cell.correct .cell-char {
+  color: var(--correct-dark);
+}
+
+/* active + correct: 빨강 outline으로 선택 상태 식별 */
+.cell.correct.active {
+  box-shadow: 0 0 0 3px var(--primary), 0 0 0 5px var(--primary-light);
+}
+.cell.wrong.active,
+.cell.revealed.active {
+  box-shadow: 0 0 0 3px var(--primary), 0 0 0 5px var(--primary-light);
+}
+
+.cell.wrong {
+  background: var(--wrong) !important;
+  border-color: var(--wrong-dark) !important;
+  animation: shake 0.4s ease;
+}
+
+.cell.wrong .cell-char {
+  color: var(--wrong-dark);
+}
+
+.cell.revealed .cell-char {
+  color: var(--secondary);
+}
+
+/* faint consonant preview in the next cell while IME is composing */
+.cell-char-preview {
+  color: var(--gray) !important;
+  opacity: 0.5;
+}
+
+/* ===== Clues Panel ===== */
+#clues-panel {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-height: 220px;
+  overflow: hidden;
+}
+
+#across-section,
+#down-section {
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+#clues-panel h2 {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--primary-light);
+  position: sticky;
+  top: 0;
+  background: var(--white);
+}
+
+#down-section h2 {
+  color: var(--secondary);
+  border-bottom-color: var(--secondary-light);
+}
+
+#across-clues,
+#down-clues {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.clue-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+  transition: background 0.12s;
+}
+
+.clue-item:hover {
+  background: var(--gray-light);
+}
+
+.clue-item.active {
+  background: #FFF0F0;
+}
+
+#down-clues .clue-item.active {
+  background: #F0FAFA;
+}
+
+.clue-num-badge {
+  background: var(--primary);
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 800;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+#down-clues .clue-num-badge {
+  background: var(--secondary);
+}
+
+.clue-text {
+  color: var(--dark);
+  flex: 1;
+}
+
+/* ===== Controls ===== */
+#controls {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--white);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.07);
+  flex-shrink: 0;
+}
+
+.btn {
+  flex: 1;
+  height: 48px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.15s, filter 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn:active {
+  transform: scale(0.94);
+  filter: brightness(0.92);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.btn-secondary {
+  background: var(--gray-light);
+  color: var(--dark);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--dark);
+}
+
+/* ===== Modal ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(44, 62, 80, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  position: relative;
+  background: var(--white);
+  border-radius: 24px;
+  padding: 36px 40px;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  max-width: 340px;
+  width: 90%;
+  z-index: 1;
+}
+
+#result-emoji {
+  font-size: 4rem;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+#result-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+#result-message {
+  font-size: 1rem;
+  color: var(--gray);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+#modal-new-game-btn {
+  width: 100%;
+  padding-left: 32px;
+  padding-right: 32px;
+  font-size: 1rem;
+}
+
+/* ===== Word Popup ===== */
+.popup {
+  position: fixed;
+  bottom: 76px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dark);
+  color: var(--white);
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 50;
+  box-shadow: var(--shadow);
+  max-width: 92vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+.popup.hidden {
+  display: none;
+}
+
+#popup-number {
+  background: var(--primary);
+  color: var(--white);
+  font-weight: 800;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+#popup-hint {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===== Animations ===== */
+@keyframes bounce {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.2); }
+  65%  { transform: scale(0.9); }
+  85%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  18%  { transform: translateX(-6px); }
+  36%  { transform: translateX(6px); }
+  54%  { transform: translateX(-4px); }
+  72%  { transform: translateX(4px); }
+  90%  { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes popIn {
+  0%   { transform: scale(0.7); opacity: 0; }
+  80%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-content {
+  animation: popIn 0.3s ease forwards;
+}
+
+/* ===== Scrollbar styling ===== */
+#across-section::-webkit-scrollbar,
+#down-section::-webkit-scrollbar {
+  width: 4px;
+}
+
+#across-section::-webkit-scrollbar-thumb,
+#down-section::-webkit-scrollbar-thumb {
+  background: var(--gray-light);
+  border-radius: 4px;
+}
+
+/* ===== Tablet Layout (768px+) ===== */
+@media (min-width: 768px) {
+  #game-container {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  #crossword-area {
+    flex-shrink: 0;
+  }
+
+  #clues-panel {
+    flex: 1;
+    max-height: none;
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+    max-height: calc(100vh - 190px);
+    max-height: calc(100dvh - 190px); /* shrinks when virtual keyboard opens */
+  }
+
+  #controls {
+    padding: 16px 20px;
+  }
+
+  .btn {
+    font-size: 0.95rem;
+  }
+
+  .clue-item {
+    font-size: 0.88rem;
+  }
+
+  #app-header h1 {
+    font-size: 1.6rem;
+  }
+}
+
+/* ===== Small phone (< 400px) ===== */
+@media (max-width: 399px) {
+  :root {
+    --cell-size: var(--cell-size-sm);
+  }
+
+  .cell-char {
+    font-size: 1.05rem;
+  }
+
+  #app-header h1 {
+    font-size: 1.1rem;
+  }
+
+  #clues-panel {
+    max-height: 180px;
+  }
+
+  .btn {
+    font-size: 0.75rem;
+  }
+}

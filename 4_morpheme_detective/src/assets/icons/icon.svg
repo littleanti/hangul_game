@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 배경 원 -->
+  <circle cx="256" cy="256" r="256" fill="#FF7757"/>
+  <!-- 돋보기 원 (렌즈) -->
+  <circle cx="220" cy="210" r="120" fill="#FFF6E4" stroke="#1E3A5F" stroke-width="22"/>
+  <!-- 돋보기 손잡이 -->
+  <line x1="310" y1="300" x2="400" y2="400" stroke="#1E3A5F" stroke-width="38" stroke-linecap="round"/>
+  <!-- 한자 車 텍스트 -->
+  <text x="220" y="245" text-anchor="middle" dominant-baseline="middle"
+        font-size="110" font-weight="bold" fill="#1E3A5F"
+        font-family="serif">車</text>
+</svg>

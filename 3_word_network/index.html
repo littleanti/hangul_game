@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#FFF6E4" />
+  <title>낱말 이어라</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/css/tokens.css" />
+  <link rel="stylesheet" href="src/css/base.css" />
+  <link rel="stylesheet" href="src/css/components.css" />
+  <link rel="stylesheet" href="src/css/screens.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ===== START SCREEN ===== -->
+    <section id="screen-start" class="screen" role="main">
+      <div class="start-logo">🌈</div>
+      <h1 class="start-title">낱말 이어라</h1>
+      <p class="start-subtitle">순우리말 어휘 놀이</p>
+      <p class="level-label">레벨을 선택하세요</p>
+      <div class="level-buttons start-level-buttons">
+        <button id="btn-level-1" class="level-btn level-btn-1">🌱<span class="level-name">레벨 1</span><small>디코이 2개</small></button>
+        <button id="btn-level-2" class="level-btn level-btn-2">🌿<span class="level-name">레벨 2</span><small>디코이 3개</small></button>
+        <button id="btn-level-3" class="level-btn level-btn-3">🌳<span class="level-name">레벨 3</span><small>디코이 4개</small></button>
+        <button id="btn-level-4" class="level-btn level-btn-4">🔥<span class="level-name">레벨 4</span><small>커스텀</small></button>
+      </div>
+      <button id="btn-settings" class="btn-settings">⚙️ 설정</button>
+    </section>
+
+    <!-- ===== SETTINGS SCREEN ===== -->
+    <section id="screen-settings" class="screen">
+      <div class="settings-header">
+        <h2 class="settings-title">⚙️ 설정</h2>
+        <button class="close-btn" id="btn-settings-close">✕</button>
+      </div>
+
+      <div class="settings-body">
+        <div class="settings-section">
+          <div class="section-label">🎯 카테고리 (여러 개 선택)</div>
+          <div class="chip-row" id="settings-category-chips"></div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-label">🎛 레벨 4 디코이 개수</div>
+          <div class="chip-row" id="settings-custom-decoy-chips"></div>
+          <div class="section-hint">레벨 4(커스텀) 선택 시 추가되는 헷갈리는 음절 수</div>
+        </div>
+
+        <div class="settings-section">
+          <div class="section-label">🗺 장면 수</div>
+          <div class="chip-row" id="settings-scene-chips"></div>
+        </div>
+      </div>
+
+      <div class="settings-footer">
+        <button class="btn-secondary" id="btn-settings-home">🏠 홈으로</button>
+        <button class="btn-primary" id="btn-settings-start">시작하기 🎮</button>
+      </div>
+    </section>
+
+    <!-- ===== PLAY SCREEN ===== -->
+    <section id="screen-play" class="screen">
+
+      <!-- Header: home + progress + score -->
+      <header class="play-header">
+        <button id="btn-home" class="btn-home" aria-label="홈으로">🏠 홈으로</button>
+        <span id="progress-text" class="progress-text">문제 1 / 5</span>
+        <div id="score-badge" class="score-badge">🏆 0</div>
+      </header>
+      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        <div id="progress-fill" class="progress-fill" style="width:0%"></div>
+      </div>
+
+      <!-- Scene illustration (emoji collage) -->
+      <div class="scene-area" id="scene-area">
+        <!-- Populated by scene.js -->
+      </div>
+
+      <!-- Word assembly area -->
+      <div class="word-assembly-area" id="slot-area">
+        <!-- Populated by slot.js -->
+      </div>
+
+      <!-- Syllable dock -->
+      <div class="dock-area">
+        <div class="dock-label">음절을 탭하거나 끌어다 놓아요</div>
+        <div id="syllable-dock"></div>
+      </div>
+
+    </section>
+
+    <!-- ===== END SCREEN ===== -->
+    <section id="screen-end" class="screen">
+      <div class="end-trophy">🏆</div>
+      <h2 id="end-title" class="end-title">잘했어요!</h2>
+      <p id="end-score-text" class="end-score">0점</p>
+      <div id="end-stickers" class="sticker-collection"></div>
+      <p id="end-encouragement" class="end-encouragement">정말 대단해요!</p>
+
+      <div id="end-wrong-section" class="end-wrong-section" style="display:none;">
+        <button class="review-toggle" id="btn-review-toggle">📝 틀린 단어 보기 ▼</button>
+        <div class="review-list" id="end-wrong-list"></div>
+      </div>
+
+      <div class="end-buttons">
+        <button id="btn-play-again" class="btn-primary">다시 하기 🔄</button>
+        <button id="btn-back-start" class="btn-secondary">처음으로 🏠</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script type="module" src="src/js/main.js"></script>
+</body>
+</html>

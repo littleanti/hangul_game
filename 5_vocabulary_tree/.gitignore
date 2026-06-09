@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+.env
+.env.local
+*.Zone.Identifier
+.omc/
+.claude/
+package-lock.json
+*.deb

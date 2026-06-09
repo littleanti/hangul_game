@@ -1,0 +1,64 @@
+/* 학부모 대시보드 — M5에서 본격 구현 */
+
+.dashboard-screen { padding: 8px 0 20px; }
+
+.dashboard-section {
+  background: white;
+  border: 2px solid var(--navy);
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 0 var(--navy);
+}
+.dashboard-section h3 {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.1rem;
+  color: var(--coral);
+  margin-bottom: 10px;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.kpi {
+  background: var(--cream);
+  border: 2px solid var(--navy);
+  border-radius: 14px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.kpi .label {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+}
+.kpi .value {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.6rem;
+  color: var(--coral);
+}
+
+/* 분포 막대 */
+.bar-row {
+  display: grid;
+  grid-template-columns: 32px 1fr 30px;
+  gap: 8px;
+  align-items: center;
+  margin: 4px 0;
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.85rem;
+}
+.bar-track {
+  height: 12px;
+  background: var(--gray);
+  border-radius: 100px;
+  overflow: hidden;
+  border: 1px solid var(--navy);
+}
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--coral), var(--yellow));
+  border-radius: 100px;
+}

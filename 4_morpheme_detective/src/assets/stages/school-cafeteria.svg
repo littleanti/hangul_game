@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-label="학교 급식실 일러스트">
+  <defs>
+    <linearGradient id="ca-wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#F5EDD8"/>
+      <stop offset="1"   stop-color="#E0D0B0"/>
+    </linearGradient>
+    <linearGradient id="ca-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#C8B99A"/>
+      <stop offset="1"   stop-color="#A89070"/>
+    </linearGradient>
+    <linearGradient id="ca-counter" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#D8DEE4"/>
+      <stop offset="1"   stop-color="#A8B4BE"/>
+    </linearGradient>
+    <linearGradient id="ca-tray" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#C8D0D8"/>
+      <stop offset="1"   stop-color="#8A96A0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ═══ 배경 레이어 ═══════════════════════════════════════════ -->
+  <!-- 벽 -->
+  <rect x="0" y="0" width="1600" height="900" fill="url(#ca-wall)"/>
+
+  <!-- 벽 상단 몰딩 -->
+  <rect x="0" y="0"   width="1600" height="12"  fill="#2D3047" opacity="0.15"/>
+  <rect x="0" y="108" width="1600" height="8"   fill="#2D3047" opacity="0.10"/>
+
+  <!-- 벽-바닥 경계 몰딩 -->
+  <rect x="0" y="396" width="1600" height="10"  fill="#2D3047" opacity="0.18"/>
+
+  <!-- 배식 카운터 (스테인리스) -->
+  <rect x="0" y="406" width="1600" height="78"  fill="url(#ca-counter)"/>
+  <rect x="0" y="406" width="1600" height="6"   fill="#8A9AA8"/>
+  <rect x="0" y="478" width="1600" height="6"   fill="#8A9AA8"/>
+  <!-- 카운터 패널 구분선 -->
+  <g stroke="#8A9AA8" stroke-width="2" opacity="0.5">
+    <line x1="200"  y1="406" x2="200"  y2="484"/>
+    <line x1="500"  y1="406" x2="500"  y2="484"/>
+    <line x1="800"  y1="406" x2="800"  y2="484"/>
+    <line x1="1100" y1="406" x2="1100" y2="484"/>
+    <line x1="1400" y1="406" x2="1400" y2="484"/>
+  </g>
+  <!-- 카운터 위 음식 팬 장식 -->
+  <rect x="50"   y="420" width="120" height="44" rx="4" fill="#D4A94A" opacity="0.75"/>
+  <rect x="210"  y="420" width="120" height="44" rx="4" fill="#7DBB6A" opacity="0.75"/>
+  <rect x="530"  y="420" width="120" height="44" rx="4" fill="#E07050" opacity="0.75"/>
+  <rect x="840"  y="420" width="120" height="44" rx="4" fill="#D4A94A" opacity="0.75"/>
+  <rect x="1140" y="420" width="120" height="44" rx="4" fill="#7DBB6A" opacity="0.75"/>
+  <rect x="1440" y="420" width="120" height="44" rx="4" fill="#E07050" opacity="0.75"/>
+
+  <!-- 바닥 -->
+  <rect x="0" y="484" width="1600" height="416" fill="url(#ca-floor)"/>
+  <!-- 바닥 타일 줄눈 -->
+  <g stroke="#A89878" stroke-width="1.5" opacity="0.45">
+    <line x1="0"    y1="564" x2="1600" y2="564"/>
+    <line x1="0"    y1="644" x2="1600" y2="644"/>
+    <line x1="0"    y1="724" x2="1600" y2="724"/>
+    <line x1="0"    y1="804" x2="1600" y2="804"/>
+    <line x1="0"    y1="884" x2="1600" y2="884"/>
+    <line x1="200"  y1="484" x2="200"  y2="900"/>
+    <line x1="400"  y1="484" x2="400"  y2="900"/>
+    <line x1="600"  y1="484" x2="600"  y2="900"/>
+    <line x1="800"  y1="484" x2="800"  y2="900"/>
+    <line x1="1000" y1="484" x2="1000" y2="900"/>
+    <line x1="1200" y1="484" x2="1200" y2="900"/>
+    <line x1="1400" y1="484" x2="1400" y2="900"/>
+  </g>
+
+  <!-- 배경 식탁들 (비클릭 장식) -->
+  <rect x="50"   y="538" width="250" height="46" rx="6" fill="#7A5010" opacity="0.55"/>
+  <rect x="680"  y="538" width="240" height="46" rx="6" fill="#7A5010" opacity="0.55"/>
+  <rect x="1080" y="538" width="240" height="46" rx="6" fill="#7A5010" opacity="0.55"/>
+  <rect x="50"   y="740" width="250" height="46" rx="6" fill="#7A5010" opacity="0.55"/>
+  <rect x="680"  y="740" width="240" height="46" rx="6" fill="#7A5010" opacity="0.55"/>
+  <rect x="1080" y="740" width="240" height="46" rx="6" fill="#7A5010" opacity="0.55"/>
+
+  <!-- ═══ 클릭 아이템 (data-hit 0~9) ═══════════════════════════════
+       상단 배치: data-hit 5(U0) 6(U1) 7(U2) 8(U3) 9(U4)
+       하단 배치: data-hit 0(L0) 1(L1) 2(L2) 3(L3) 4(L4)         -->
+
+  <!-- ══ 상단 밴드 (U0~U4) : 벽에 걸린 표지/칠판/안내문 ═══════════ -->
+
+  <!-- U0 translate(50,120) pad 260×260 — 안전 표지판(안전 픽토그램) -->
+  <g data-hit="5" transform="translate(50,120)">
+    <rect class="hit-pad" x="0" y="0" width="260" height="260" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="122" y="184" width="16" height="76" fill="#8A8A8A"/>
+    <!-- 표지판 본체 -->
+    <rect x="15" y="8" width="230" height="176" rx="14" fill="#1B5FA3" stroke="#0E3C6B" stroke-width="5"/>
+    <!-- 방패 픽토그램 -->
+    <path d="M 130,30 L 190,58 L 190,110 Q 190,148 130,168 Q 70,148 70,110 L 70,58 Z" fill="#FFD166" stroke="#B98B12" stroke-width="4"/>
+    <!-- 체크마크 -->
+    <polyline points="96,102 118,126 166,76" fill="none" stroke="#1B5FA3" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 아래 라벨 -->
+    <text x="130" y="168" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#ffffff">안전</text>
+  </g>
+
+  <!-- U1 translate(360,120) pad 240×260 — 대답 칠판 -->
+  <g data-hit="6" transform="translate(360,120)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="260" fill="transparent"/>
+    <!-- 칠판 프레임 -->
+    <rect x="8" y="8" width="224" height="186" rx="8" fill="#2D4A2D" stroke="#1A2E1A" stroke-width="5"/>
+    <!-- 칠판 면 -->
+    <rect x="18" y="16" width="204" height="170" rx="5" fill="#3A5F3A"/>
+    <!-- 가로 줄 -->
+    <line x1="28" y1="78"  x2="212" y2="78"  stroke="#4A7A4A" stroke-width="1.5" opacity="0.5"/>
+    <line x1="28" y1="128" x2="212" y2="128" stroke="#4A7A4A" stroke-width="1.5" opacity="0.5"/>
+    <!-- 손 든 모습 픽토그램 (대답) -->
+    <!-- 팔+손 -->
+    <line x1="120" y1="170" x2="120" y2="60" stroke="#FFFDE0" stroke-width="14" stroke-linecap="round"/>
+    <!-- 손바닥 -->
+    <ellipse cx="120" cy="52" rx="20" ry="14" fill="#FFFDE0"/>
+    <!-- 말풍선 "네!" -->
+    <rect x="136" y="36" width="54" height="30" rx="8" fill="#FFD166"/>
+    <polygon points="136,52 124,60 140,60" fill="#FFD166"/>
+    <text x="163" y="57" text-anchor="middle" font-family="'Jua', sans-serif" font-size="20" fill="#2D3047">네!</text>
+    <!-- 분필받이 선반 -->
+    <rect x="8" y="196" width="224" height="14" rx="4" fill="#7A5810"/>
+    <!-- 분필 -->
+    <rect x="72"  y="199" width="40" height="8" rx="3" fill="#FFFDE0"/>
+    <rect x="128" y="199" width="32" height="8" rx="3" fill="#FFB0A0"/>
+    <!-- 스탠드 다리 -->
+    <line x1="38"  y1="210" x2="16"  y2="258" stroke="#5A3A10" stroke-width="10" stroke-linecap="round"/>
+    <line x1="202" y1="210" x2="224" y2="258" stroke="#5A3A10" stroke-width="10" stroke-linecap="round"/>
+    <!-- 가로 지지대 -->
+    <line x1="46"  y1="244" x2="194" y2="244" stroke="#5A3A10" stroke-width="7" stroke-linecap="round"/>
+  </g>
+
+  <!-- U2 translate(660,120) pad 240×260 — 급식 안내문 -->
+  <g data-hit="7" transform="translate(660,120)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="260" fill="transparent"/>
+    <!-- 게시판 프레임 -->
+    <rect x="8"  y="8"  width="224" height="200" rx="8" fill="#7A5B2A" stroke="#5A3A10" stroke-width="4"/>
+    <!-- 게시판 면 -->
+    <rect x="18" y="16" width="204" height="184" rx="5" fill="#FFF8E8"/>
+    <!-- 제목 바 -->
+    <rect x="18" y="16" width="204" height="40" rx="5" fill="#1B5FA3"/>
+    <text x="120" y="44" text-anchor="middle" font-family="'Jua', sans-serif" font-size="24" fill="#ffffff">급식 안내</text>
+    <!-- 급식 안내 내용 (한자 제거) -->
+    <text x="120" y="136" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="18" fill="#2D3047">급식 시간 안내</text>
+    <!-- 소문자 텍스트 -->
+    <text x="38" y="166" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#555555">• 오늘의 메뉴</text>
+    <text x="38" y="186" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#555555">• 알레르기 정보</text>
+    <!-- 핀 4개 -->
+    <circle cx="24"  cy="24" r="6" fill="#E63946"/>
+    <circle cx="216" cy="24" r="6" fill="#E63946"/>
+    <circle cx="24"  cy="192" r="6" fill="#E63946"/>
+    <circle cx="216" cy="192" r="6" fill="#E63946"/>
+  </g>
+
+  <!-- U3 translate(960,120) pad 230×220 — 우측 방향 표지 -->
+  <g data-hit="8" transform="translate(960,120)">
+    <rect class="hit-pad" x="0" y="0" width="230" height="220" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="106" y="152" width="18" height="68" fill="#8A8A8A"/>
+    <!-- 표지판 (오른쪽 화살표형) -->
+    <polygon points="10,42 158,42 212,96 158,150 10,150" fill="#FFD166" stroke="#B98B12" stroke-width="5"/>
+    <!-- 오른쪽 한글 캡션 (한자 제거) -->
+    <text x="96" y="114" text-anchor="middle" font-family="'Jua', sans-serif" font-size="44" fill="#2D3047">오른쪽</text>
+    <!-- 화살표 팁 -->
+    <polygon points="172,82 204,96 172,110" fill="#2D3047"/>
+  </g>
+
+  <!-- U4 translate(1250,120) pad 280×220 — 좌측 방향 표지 -->
+  <g data-hit="9" transform="translate(1250,120)">
+    <rect class="hit-pad" x="0" y="0" width="280" height="220" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="131" y="152" width="18" height="68" fill="#8A8A8A"/>
+    <!-- 표지판 (왼쪽 화살표형) -->
+    <polygon points="270,42 122,42 68,96 122,150 270,150" fill="#FFD166" stroke="#B98B12" stroke-width="5"/>
+    <!-- 왼쪽 한글 캡션 (한자 제거) -->
+    <text x="184" y="114" text-anchor="middle" font-family="'Jua', sans-serif" font-size="44" fill="#2D3047">왼쪽</text>
+    <!-- 화살표 팁 -->
+    <polygon points="108,82 76,96 108,110" fill="#2D3047"/>
+  </g>
+
+  <!-- ══ 하단 밴드 (L0~L4) : 카운터·식탁 위 물건·사람 ══════════════ -->
+
+  <!-- L0 translate(50,480) pad 260×340 — 급식 식판 -->
+  <g data-hit="0" transform="translate(50,480)">
+    <rect class="hit-pad" x="0" y="0" width="260" height="340" fill="transparent"/>
+    <!-- 식탁 면 -->
+    <rect x="8" y="136" width="244" height="30" rx="5" fill="#7A5010" opacity="0.9"/>
+    <!-- 식판 외곽 -->
+    <rect x="18" y="72" width="224" height="124" rx="12" fill="url(#ca-tray)" stroke="#6A7A84" stroke-width="4"/>
+    <!-- 칸 구분선 -->
+    <line x1="128" y1="74"  x2="128" y2="194" stroke="#6A7A84" stroke-width="3"/>
+    <line x1="20"  y1="138" x2="240" y2="138" stroke="#6A7A84" stroke-width="3"/>
+    <!-- 음식: 밥(흰) -->
+    <ellipse cx="72"  cy="104" rx="44" ry="22" fill="#FFFDE8"/>
+    <!-- 음식: 국(노랑) -->
+    <ellipse cx="186" cy="104" rx="44" ry="22" fill="#E8B84A" opacity="0.9"/>
+    <!-- 음식: 김치(빨강) -->
+    <ellipse cx="72"  cy="165" rx="42" ry="18" fill="#E63946" opacity="0.85"/>
+    <!-- 음식: 반찬(초록) -->
+    <ellipse cx="186" cy="165" rx="42" ry="18" fill="#6DAA60" opacity="0.85"/>
+    <!-- 숟가락·젓가락 -->
+    <rect x="246" y="80"  width="8"  height="108" rx="4" fill="#9AA4AC"/>
+    <rect x="240" y="80"  width="4"  height="108" rx="2" fill="#B0BAC2"/>
+  </g>
+
+  <!-- L1 translate(360,480) pad 240×340 — 나무 탁자 -->
+  <g data-hit="1" transform="translate(360,480)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="340" fill="transparent"/>
+    <!-- 탁자 상판 -->
+    <rect x="10" y="78" width="220" height="52" rx="8" fill="#8B5E1A" stroke="#5A3A0A" stroke-width="4"/>
+    <!-- 나무 결 -->
+    <line x1="28"  y1="88"  x2="222" y2="88"  stroke="#7A5010" stroke-width="2"   opacity="0.55"/>
+    <line x1="18"  y1="100" x2="226" y2="100" stroke="#7A5010" stroke-width="1.5" opacity="0.45"/>
+    <line x1="22"  y1="112" x2="224" y2="112" stroke="#7A5010" stroke-width="1.5" opacity="0.4"/>
+    <line x1="28"  y1="122" x2="220" y2="122" stroke="#7A5010" stroke-width="2"   opacity="0.5"/>
+    <!-- 탁자 다리 -->
+    <rect x="28"  y="130" width="18" height="148" rx="4" fill="#6A4010"/>
+    <rect x="194" y="130" width="18" height="148" rx="4" fill="#6A4010"/>
+    <!-- 가로 지지대 -->
+    <rect x="28" y="226" width="184" height="12" rx="4" fill="#7A5010"/>
+  </g>
+
+  <!-- L2 translate(660,480) pad 240×340 — 학생 -->
+  <g data-hit="2" transform="translate(660,480)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="340" fill="transparent"/>
+    <!-- 식판(학생이 들고 있음) -->
+    <rect x="68" y="178" width="108" height="58" rx="7" fill="#A8B4BC" stroke="#6A7A84" stroke-width="3"/>
+    <line x1="122" y1="181" x2="122" y2="234" stroke="#6A7A84" stroke-width="2"/>
+    <line x1="70"  y1="210" x2="174" y2="210" stroke="#6A7A84" stroke-width="2"/>
+    <ellipse cx="95"  cy="196" rx="16" ry="8" fill="#FFFDE8"/>
+    <ellipse cx="149" cy="196" rx="16" ry="8" fill="#E8B84A" opacity="0.9"/>
+    <ellipse cx="95"  cy="222" rx="16" ry="8" fill="#E63946" opacity="0.8"/>
+    <ellipse cx="149" cy="222" rx="16" ry="8" fill="#6DAA60" opacity="0.8"/>
+    <!-- 팔(왼쪽) -->
+    <path d="M 78,180 L 66,202 L 58,232" fill="none" stroke="#F0C49B" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 팔(오른쪽) -->
+    <path d="M 166,180 L 178,202 L 182,232" fill="none" stroke="#F0C49B" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 몸통(교복) -->
+    <rect x="76" y="120" width="90" height="72" rx="20" fill="#1B5FA3"/>
+    <!-- 칼라 -->
+    <path d="M 98,120 L 121,140 L 144,120" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- 머리카락 -->
+    <path d="M 81,64 A 40 40 0 0 1 161,64 L 161,58 A 40 40 0 0 0 81,58 Z" fill="#3A2A1A"/>
+    <!-- 머리 -->
+    <circle cx="121" cy="78" r="38" fill="#F0C49B"/>
+    <!-- 앞머리 -->
+    <path d="M 83,62 Q 90,52 102,56 Q 112,46 121,50 Q 132,46 142,56 Q 153,52 160,62" fill="#3A2A1A"/>
+    <!-- 눈 -->
+    <circle cx="109" cy="76" r="5" fill="#2D3047"/>
+    <circle cx="133" cy="76" r="5" fill="#2D3047"/>
+    <!-- 입 -->
+    <path d="M 113,92 Q 121,100 129,92" stroke="#2D3047" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- 하반신(바지) -->
+    <rect x="84"  y="190" width="34" height="100" rx="10" fill="#2D3047"/>
+    <rect x="122" y="190" width="34" height="100" rx="10" fill="#2D3047"/>
+    <!-- 신발 -->
+    <ellipse cx="101" cy="294" rx="20" ry="10" fill="#1A1A2A"/>
+    <ellipse cx="139" cy="294" rx="20" ry="10" fill="#1A1A2A"/>
+  </g>
+
+  <!-- L3 translate(960,480) pad 230×340 — 생수병·물컵 -->
+  <g data-hit="3" transform="translate(960,480)">
+    <rect class="hit-pad" x="0" y="0" width="230" height="340" fill="transparent"/>
+    <!-- 식탁 면 -->
+    <rect x="10" y="198" width="210" height="26" rx="5" fill="#7A5010" opacity="0.85"/>
+    <!-- 물컵 왼쪽 -->
+    <rect x="28" y="98" width="56" height="104" rx="8" fill="#A8DADC" opacity="0.75" stroke="#5A8A8C" stroke-width="3"/>
+    <rect x="31" y="148" width="50" height="54" rx="6" fill="#5BA4C8" opacity="0.5"/>
+    <rect x="38" y="106" width="10" height="60" rx="4" fill="#ffffff" opacity="0.4"/>
+    <!-- 생수병(중앙) -->
+    <rect x="100" y="58" width="46" height="142" rx="16" fill="#C8E8F8" opacity="0.85" stroke="#5A8AAA" stroke-width="3"/>
+    <rect x="112" y="44" width="22" height="22" rx="6" fill="#1B5FA3"/>
+    <rect x="102" y="100" width="42" height="50" rx="4" fill="#ffffff" opacity="0.7"/>
+    <!-- 물컵 오른쪽 -->
+    <rect x="160" y="108" width="52" height="94" rx="8" fill="#A8DADC" opacity="0.75" stroke="#5A8A8C" stroke-width="3"/>
+    <rect x="163" y="158" width="46" height="44" rx="6" fill="#5BA4C8" opacity="0.5"/>
+    <rect x="170" y="116" width="8"  height="50" rx="3" fill="#ffffff" opacity="0.4"/>
+  </g>
+
+  <!-- L4 translate(1250,480) pad 290×340 — 손 씻기 포스터 -->
+  <g data-hit="4" transform="translate(1250,480)">
+    <rect class="hit-pad" x="0" y="0" width="290" height="340" fill="transparent"/>
+    <!-- 포스터 프레임 -->
+    <rect x="10" y="10" width="268" height="284" rx="10" fill="#39B7A0" stroke="#1F6E60" stroke-width="5"/>
+    <!-- 포스터 내부 -->
+    <rect x="20" y="18" width="248" height="268" rx="7" fill="#E8FBF8"/>
+    <!-- 제목 바 -->
+    <rect x="20" y="18" width="248" height="44" rx="7" fill="#39B7A0"/>
+    <!-- 손바닥 본체 -->
+    <ellipse cx="144" cy="168" rx="62" ry="56" fill="#F0C49B" stroke="#C89A70" stroke-width="3"/>
+    <!-- 엄지 -->
+    <ellipse cx="70" cy="156" rx="18" ry="28" fill="#F0C49B" stroke="#C89A70" stroke-width="3" transform="rotate(-25 70 156)"/>
+    <!-- 검지 -->
+    <rect x="86"  y="82" width="22" height="62" rx="11" fill="#F0C49B" stroke="#C89A70" stroke-width="3"/>
+    <!-- 중지 -->
+    <rect x="112" y="70" width="22" height="70" rx="11" fill="#F0C49B" stroke="#C89A70" stroke-width="3"/>
+    <!-- 약지 -->
+    <rect x="138" y="76" width="22" height="64" rx="11" fill="#F0C49B" stroke="#C89A70" stroke-width="3"/>
+    <!-- 소지 -->
+    <rect x="164" y="90" width="22" height="52" rx="11" fill="#F0C49B" stroke="#C89A70" stroke-width="3"/>
+    <!-- 물방울 3개 -->
+    <ellipse cx="104" cy="60" rx="7" ry="12" fill="#5BA4C8" opacity="0.8"/>
+    <ellipse cx="132" cy="48" rx="7" ry="12" fill="#5BA4C8" opacity="0.8"/>
+    <ellipse cx="158" cy="54" rx="7" ry="12" fill="#5BA4C8" opacity="0.8"/>
+  </g>
+
+</svg>

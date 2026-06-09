@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-label="소방서 사건 일러스트">
+  <defs>
+    <linearGradient id="fs-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#8FCBEE"/>
+      <stop offset="0.6" stop-color="#BFE0F2"/>
+      <stop offset="1"   stop-color="#E8F4FB"/>
+    </linearGradient>
+    <linearGradient id="fs-wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D9D0C8"/>
+      <stop offset="1" stop-color="#C2B8AE"/>
+    </linearGradient>
+    <linearGradient id="fs-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8A8F98"/>
+      <stop offset="1" stop-color="#6A6E76"/>
+    </linearGradient>
+    <linearGradient id="fs-truck" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E63946"/>
+      <stop offset="1" stop-color="#B52030"/>
+    </linearGradient>
+    <linearGradient id="fs-flame1" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0"   stop-color="#E63946"/>
+      <stop offset="0.5" stop-color="#FFD166"/>
+      <stop offset="1"   stop-color="#FFF3B0"/>
+    </linearGradient>
+    <linearGradient id="fs-flame2" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0"   stop-color="#E63946"/>
+      <stop offset="0.6" stop-color="#FF8C00"/>
+      <stop offset="1"   stop-color="#FFD166"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ═══ 배경 레이어 ═══════════════════════════════════════════ -->
+  <!-- 하늘 -->
+  <rect x="0" y="0" width="1600" height="460" fill="url(#fs-sky)"/>
+
+  <!-- 소방서 건물 벽 -->
+  <rect x="0" y="60" width="1600" height="408" fill="url(#fs-wall)"/>
+
+  <!-- 벽 상단 빨간 띠 -->
+  <rect x="0" y="60" width="1600" height="40" fill="#E63946"/>
+
+  <!-- 소방서 이름판 -->
+  <rect x="620" y="65" width="360" height="34" rx="4" fill="#B52030"/>
+  <text x="800" y="91" text-anchor="middle" font-family="'Jua', sans-serif" font-size="26" fill="#ffffff">소방서 119</text>
+
+  <!-- 차고 아치 3개 (배경) -->
+  <g fill="#2A2A30">
+    <rect x="370" y="290" width="270" height="178" rx="0"/>
+    <ellipse cx="505" cy="290" rx="135" ry="38"/>
+    <rect x="665" y="290" width="270" height="178" rx="0"/>
+    <ellipse cx="800" cy="290" rx="135" ry="38"/>
+    <rect x="960" y="290" width="270" height="178" rx="0"/>
+    <ellipse cx="1095" cy="290" rx="135" ry="38"/>
+  </g>
+
+  <!-- 배경 소방차 (중앙 차고) -->
+  <g opacity="0.8">
+    <rect x="690" y="348" width="220" height="116" rx="10" fill="url(#fs-truck)"/>
+    <rect x="718" y="316" width="92" height="50" rx="8" fill="#E63946"/>
+    <rect x="726" y="323" width="36" height="30" rx="4" fill="#BFE7EA" opacity="0.9"/>
+    <rect x="768" y="323" width="32" height="30" rx="4" fill="#BFE7EA" opacity="0.9"/>
+    <rect x="860" y="358" width="50" height="26" rx="6" fill="#B52030"/>
+    <circle cx="726" cy="466" r="24" fill="#1D3557"/>
+    <circle cx="726" cy="466" r="9"  fill="#A8DADC"/>
+    <circle cx="862" cy="466" r="24" fill="#1D3557"/>
+    <circle cx="862" cy="466" r="9"  fill="#A8DADC"/>
+  </g>
+
+  <!-- 인도/연석 -->
+  <rect x="0" y="458" width="1600" height="22" fill="#B7BCC4"/>
+
+  <!-- 하단 바닥 -->
+  <rect x="0" y="480" width="1600" height="420" fill="url(#fs-floor)"/>
+
+  <!-- 바닥 안전 노란선 -->
+  <rect x="0" y="480" width="1600" height="8" fill="#FFD166" opacity="0.65"/>
+
+  <!-- 바닥 구획선 -->
+  <g stroke="#ffffff" stroke-width="4" opacity="0.2">
+    <line x1="320"  y1="540" x2="320"  y2="870"/>
+    <line x1="610"  y1="540" x2="610"  y2="870"/>
+    <line x1="960"  y1="540" x2="960"  y2="870"/>
+    <line x1="1200" y1="540" x2="1200" y2="870"/>
+  </g>
+
+  <!-- ═══ 클릭 아이템 (data-hit 0~9) ═════════════════════════════════
+       상단 밴드(U0~U4): data-hit 2,3,4,5,6
+       하단 밴드(L0~L4): data-hit 0,1,7,8,9
+  ══════════════════════════════════════════════════════════════════ -->
+
+  <!-- ── 상단 밴드 ──────────────────────────────────────────────── -->
+
+  <!-- 시민 안내(시민) — U0: translate(50,120) pad 250×260 -->
+  <g data-hit="2" transform="translate(50,120)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="260" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="115" y="185" width="20" height="75" fill="#8A8A8A"/>
+    <!-- 표지판 -->
+    <rect x="20" y="10" width="210" height="178" rx="12" fill="#1B5FA3" stroke="#0E3C6B" stroke-width="5"/>
+    <!-- 글자 -->
+    <text x="125" y="105" text-anchor="middle" font-family="'Jua', sans-serif" font-size="74" fill="#ffffff">시민</text>
+    <text x="125" y="162" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="30" fill="#A8DADC">안내</text>
+  </g>
+
+  <!-- 정직 표어(정직) — U1: translate(360,120) pad 240×260 -->
+  <g data-hit="3" transform="translate(360,120)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="260" fill="transparent"/>
+    <!-- 걸이 -->
+    <rect x="88"  y="0" width="16" height="18" rx="3" fill="#B8956A"/>
+    <rect x="136" y="0" width="16" height="18" rx="3" fill="#B8956A"/>
+    <!-- 액자 테두리 -->
+    <rect x="10" y="10" width="220" height="210" rx="10" fill="#7A5B3A"/>
+    <!-- 내부 -->
+    <rect x="22" y="22" width="196" height="186" rx="6" fill="#FFF9EE"/>
+    <!-- 부제 -->
+    <text x="120" y="160" text-anchor="middle" font-family="'Jua', sans-serif" font-size="48" fill="#E63946">정직이</text>
+    <text x="120" y="210" text-anchor="middle" font-family="'Jua', sans-serif" font-size="36" fill="#2D3047">최선이다</text>
+  </g>
+
+  <!-- 정의 표어(정의) — U2: translate(660,120) pad 240×260 -->
+  <g data-hit="4" transform="translate(660,120)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="260" fill="transparent"/>
+    <!-- 걸이 -->
+    <rect x="88"  y="0" width="16" height="18" rx="3" fill="#1040A0"/>
+    <rect x="136" y="0" width="16" height="18" rx="3" fill="#1040A0"/>
+    <!-- 액자 테두리 -->
+    <rect x="10" y="10" width="220" height="210" rx="10" fill="#1B5FA3"/>
+    <!-- 내부 -->
+    <rect x="22" y="22" width="196" height="186" rx="6" fill="#EEF5FF"/>
+    <!-- 부제 -->
+    <text x="120" y="160" text-anchor="middle" font-family="'Jua', sans-serif" font-size="48" fill="#1B5FA3">정의를</text>
+    <text x="120" y="210" text-anchor="middle" font-family="'Jua', sans-serif" font-size="36" fill="#2D3047">지킨다</text>
+  </g>
+
+  <!-- 경보등(경보) — U3: translate(960,120) pad 230×260 -->
+  <g data-hit="5" transform="translate(960,120)">
+    <rect class="hit-pad" x="0" y="0" width="230" height="260" fill="transparent"/>
+    <!-- 벽 브래킷 -->
+    <rect x="97" y="0" width="36" height="28" rx="4" fill="#6A6A6A"/>
+    <rect x="109" y="26" width="12" height="20" fill="#5A5A5A"/>
+    <!-- 경보등 몸체 -->
+    <ellipse cx="115" cy="138" rx="82" ry="82" fill="#1E1E22" stroke="#111" stroke-width="5"/>
+    <!-- 회전 빛 -->
+    <path d="M115,138 L197,95 A82,82 0 0,1 197,181 Z" fill="#E63946" opacity="0.9"/>
+    <path d="M115,138 L33,95  A82,82 0 0,0 33,181  Z" fill="#E63946" opacity="0.3"/>
+    <!-- 렌즈 -->
+    <ellipse cx="115" cy="138" rx="54" ry="54" fill="#E63946" opacity="0.65"/>
+    <ellipse cx="115" cy="138" rx="32" ry="32" fill="#FFD166" opacity="0.85"/>
+    <ellipse cx="100" cy="122" rx="13" ry="9"  fill="#ffffff" opacity="0.45"/>
+    <!-- 라벨 -->
+    <text x="115" y="248" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="24" fill="#E63946">경보등</text>
+  </g>
+
+  <!-- 평안 포스터(평안) — U4: translate(1250,120) pad 290×260 -->
+  <g data-hit="6" transform="translate(1250,120)">
+    <rect class="hit-pad" x="0" y="0" width="290" height="260" fill="transparent"/>
+    <!-- 압정 -->
+    <circle cx="28"  cy="28"  r="7" fill="#FFD166"/>
+    <circle cx="262" cy="28"  r="7" fill="#FFD166"/>
+    <circle cx="28"  cy="222" r="7" fill="#FFD166"/>
+    <circle cx="262" cy="222" r="7" fill="#FFD166"/>
+    <!-- 포스터 배경 -->
+    <rect x="10" y="10" width="270" height="220" rx="10" fill="#3F7D54" stroke="#235A38" stroke-width="4"/>
+    <!-- 상단 띠 -->
+    <rect x="10" y="10" width="270" height="46" rx="10" fill="#235A38"/>
+    <rect x="10" y="38" width="270" height="18" fill="#235A38"/>
+    <text x="145" y="44" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#FFD166">소방서 안전 캠페인</text>
+    <!-- 제목 -->
+    <text x="145" y="148" text-anchor="middle" font-family="'Jua', sans-serif" font-size="56" fill="#FFD166">평안</text>
+    <!-- 하단 문구 -->
+    <text x="145" y="210" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="24" fill="#ffffff">우리 모두 평안하게</text>
+  </g>
+
+  <!-- ── 하단 밴드 ──────────────────────────────────────────────── -->
+
+  <!-- 불꽃(불) — L0: translate(50,480) pad 250×330 -->
+  <g data-hit="0" transform="translate(50,480)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="330" fill="transparent"/>
+    <!-- 뒤 큰 불꽃 -->
+    <path d="M125,310 C55,270 18,208 50,148 C62,118 52,78 84,50 C84,102 104,126 115,114 C92,72 104,24 146,6 C134,58 156,88 168,78 C168,38 190,18 220,40 C196,82 206,134 204,162 C224,132 234,102 222,60 C244,104 232,186 178,228 C200,248 210,276 188,310 Z" fill="url(#fs-flame1)"/>
+    <!-- 앞 중간 불꽃 -->
+    <path d="M125,310 C78,280 68,242 90,192 C102,165 90,135 112,110 C112,148 128,164 134,152 C120,120 132,90 158,76 C150,112 164,140 170,128 C170,96 182,80 202,96 C184,130 190,174 172,210 C190,232 188,272 166,310 Z" fill="url(#fs-flame2)"/>
+    <!-- 심 흰-노랑 -->
+    <path d="M125,305 C98,278 104,252 120,232 C114,254 126,270 132,260 C128,244 136,228 150,218 C144,240 150,260 146,268 C158,252 162,272 154,305 Z" fill="#FFF3B0"/>
+    <!-- 그을음 -->
+    <ellipse cx="125" cy="318" rx="82" ry="12" fill="#2D3047" opacity="0.22"/>
+  </g>
+
+  <!-- 소방관(소방관) — L1: translate(360,480) pad 230×340 -->
+  <g data-hit="1" transform="translate(360,480)">
+    <rect class="hit-pad" x="0" y="0" width="230" height="340" fill="transparent"/>
+    <!-- 다리 -->
+    <rect x="76"  y="238" width="30" height="88" rx="10" fill="#2D3047"/>
+    <rect x="120" y="238" width="30" height="88" rx="10" fill="#2D3047"/>
+    <!-- 부츠 -->
+    <rect x="66"  y="308" width="46" height="24" rx="6" fill="#1D1D1D"/>
+    <rect x="110" y="308" width="46" height="24" rx="6" fill="#1D1D1D"/>
+    <!-- 몸통 -->
+    <rect x="66" y="152" width="96" height="100" rx="18" fill="#E63946"/>
+    <!-- 반사띠 -->
+    <rect x="66" y="208" width="96" height="12" rx="4" fill="#FFD166"/>
+    <!-- 왼팔 -->
+    <path d="M66,168 L28,198 L24,238" fill="none" stroke="#E63946" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 오른팔 (호스) -->
+    <path d="M162,168 L200,190 L222,232" fill="none" stroke="#E63946" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 소방 호스 -->
+    <path d="M222,232 C234,252 228,274 212,278" fill="none" stroke="#3F7D54" stroke-width="14" stroke-linecap="round"/>
+    <!-- 물줄기 -->
+    <path d="M212,278 C196,283 176,272 158,282 C142,292 130,312 112,316" fill="none" stroke="#A8DADC" stroke-width="8" stroke-linecap="round" stroke-dasharray="7,5"/>
+    <!-- 목 -->
+    <rect x="99" y="128" width="28" height="30" rx="8" fill="#F0C49B"/>
+    <!-- 머리 -->
+    <circle cx="113" cy="106" r="34" fill="#F0C49B"/>
+    <!-- 머리카락 -->
+    <path d="M80,106 A34 34 0 0 1 146,106 L146,96 A34 34 0 0 0 80,96 Z" fill="#3A2A1A"/>
+    <!-- 눈 -->
+    <circle cx="102" cy="106" r="4" fill="#2D3047"/>
+    <circle cx="124" cy="106" r="4" fill="#2D3047"/>
+    <!-- 입 -->
+    <path d="M104,120 Q113,128 122,120" stroke="#2D3047" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- 헬멧 -->
+    <path d="M76,96 A40 40 0 0 1 150,96 L156,86 A46 46 0 0 0 70,86 Z" fill="#E63946"/>
+    <rect x="68" y="82" width="90" height="16" rx="4" fill="#C01020"/>
+    <!-- 헬멧 챙 -->
+    <rect x="60" y="94" width="108" height="10" rx="4" fill="#B52030"/>
+    <!-- 헬멧 반사선 -->
+    <rect x="88" y="68" width="50" height="8" rx="3" fill="#FFD166" opacity="0.7"/>
+  </g>
+
+  <!-- 옥상 표지(옥상) — L2: translate(660,480) pad 240×340 -->
+  <g data-hit="7" transform="translate(660,480)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="340" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="112" y="188" width="16" height="148" fill="#8A8A8A"/>
+    <!-- 표지판 -->
+    <rect x="20" y="10" width="200" height="180" rx="12" fill="#FFD166" stroke="#B98B12" stroke-width="5"/>
+    <!-- 위 화살표 -->
+    <polygon points="120,24 170,82 146,82 146,148 94,148 94,82 70,82" fill="#2D3047"/>
+    <!-- 글자 -->
+    <text x="120" y="178" text-anchor="middle" font-family="'Jua', sans-serif" font-size="28" fill="#2D3047">옥상</text>
+  </g>
+
+  <!-- 지하 표지(지하) — L3: translate(960,480) pad 230×340 -->
+  <g data-hit="8" transform="translate(960,480)">
+    <rect class="hit-pad" x="0" y="0" width="230" height="340" fill="transparent"/>
+    <!-- 기둥 -->
+    <rect x="107" y="188" width="16" height="148" fill="#8A8A8A"/>
+    <!-- 표지판 -->
+    <rect x="15" y="10" width="200" height="180" rx="12" fill="#1B5FA3" stroke="#0E3C6B" stroke-width="5"/>
+    <!-- 아래 화살표 -->
+    <polygon points="115,156 165,98 141,98 141,32 89,32 89,98 65,98" fill="#ffffff"/>
+    <!-- 글자 -->
+    <text x="115" y="178" text-anchor="middle" font-family="'Jua', sans-serif" font-size="28" fill="#ffffff">지하</text>
+  </g>
+
+  <!-- 시간표(오후) — L4: translate(1250,480) pad 285×340 -->
+  <g data-hit="9" transform="translate(1250,480)">
+    <rect class="hit-pad" x="0" y="0" width="285" height="340" fill="transparent"/>
+    <!-- 보드 프레임 -->
+    <rect x="10" y="10" width="265" height="295" rx="10" fill="#3A3E46" stroke="#2D3047" stroke-width="5"/>
+    <!-- 보드 내부 -->
+    <rect x="22" y="22" width="241" height="271" rx="6" fill="#1D2128"/>
+    <!-- 제목 줄 -->
+    <rect x="22" y="22" width="241" height="44" rx="6" fill="#E63946"/>
+    <rect x="22" y="50" width="241" height="16" fill="#E63946"/>
+    <text x="143" y="54" text-anchor="middle" font-family="'Jua', sans-serif" font-size="26" fill="#ffffff">오후 근무 시간표</text>
+    <!-- 행 1 -->
+    <text x="40"  y="108" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#FFD166">오후 1시</text>
+    <text x="155" y="108" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#ffffff">교대 시작</text>
+    <line x1="30" y1="118" x2="255" y2="118" stroke="#444A56" stroke-width="2"/>
+    <!-- 행 2 -->
+    <text x="40"  y="152" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#FFD166">오후 3시</text>
+    <text x="155" y="152" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#ffffff">순찰 점검</text>
+    <line x1="30" y1="162" x2="255" y2="162" stroke="#444A56" stroke-width="2"/>
+    <!-- 행 3 -->
+    <text x="40"  y="196" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#FFD166">오후 6시</text>
+    <text x="155" y="196" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#ffffff">장비 점검</text>
+    <line x1="30" y1="206" x2="255" y2="206" stroke="#444A56" stroke-width="2"/>
+    <!-- 행 4 -->
+    <text x="40"  y="240" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#FFD166">오후 9시</text>
+    <text x="155" y="240" font-family="'Gowun Dodum', sans-serif" font-size="22" fill="#ffffff">야간 대기</text>
+    <!-- 하단 라벨 -->
+    <text x="143" y="286" text-anchor="middle" font-family="'Jua', sans-serif" font-size="20" fill="#A8DADC">오후 근무</text>
+  </g>
+
+</svg>

@@ -1,0 +1,7 @@
+{
+  "name": "four-character-idiom-crossword",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npx http-server . -p 4327 --cors -o"
+  }
+}

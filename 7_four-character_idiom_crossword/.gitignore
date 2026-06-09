@@ -1,0 +1,5 @@
+# IDE
+.vscode/
+
+# OMC internal
+.omc/

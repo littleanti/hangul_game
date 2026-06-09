@@ -1,0 +1,30 @@
+{
+  "name": "어휘력 세계수",
+  "short_name": "어휘 세계수",
+  "description": "한자 한 글자가 키워내는 어휘 나무",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFF6E4",
+  "theme_color": "#FF7757",
+  "orientation": "portrait",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "./icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

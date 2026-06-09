@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>사자성어 크로스워드</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="app-header">
+    <h1>🎯 사자성어 크로스워드</h1>
+    <div id="score-display">점수: <span id="score">0</span></div>
+  </header>
+
+  <main id="game-container">
+    <div id="crossword-area">
+      <div id="crossword-grid"></div>
+    </div>
+    <div id="clues-panel">
+      <div id="across-section">
+        <h2>→ 가로</h2>
+        <ul id="across-clues"></ul>
+      </div>
+      <div id="down-section">
+        <h2>↓ 세로</h2>
+        <ul id="down-clues"></ul>
+      </div>
+    </div>
+  </main>
+
+  <div id="controls">
+    <button id="check-btn" class="btn btn-primary">✓ 확인</button>
+    <button id="hint-btn" class="btn btn-secondary">💡 힌트</button>
+    <button id="reveal-btn" class="btn btn-secondary">👁 정답</button>
+    <button id="new-game-btn" class="btn btn-accent">🔄 새 게임</button>
+  </div>
+
+  <div id="result-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div id="result-emoji">🎉</div>
+      <h2 id="result-title">완성!</h2>
+      <p id="result-message"></p>
+      <button id="modal-new-game-btn" class="btn btn-accent">새 게임 시작</button>
+    </div>
+  </div>
+
+  <div id="word-popup" class="popup hidden">
+    <span id="popup-number"></span>
+    <span id="popup-hint"></span>
+  </div>
+
+  <!-- Single hidden input captures all keyboard / IME events.
+       - aria-hidden removed: some Android browsers skip focus() on aria-hidden elements
+       - pointer-events:none kept: input is overlaid on the active cell by focusHidden(),
+         so none prevents it blocking cell taps while still accepting programmatic focus
+       - left:0 top:0 default: focusHidden() repositions it over the active cell each time,
+         giving Android IME a valid viewport anchor so it assembles syllables correctly -->
+  <input id="hidden-input" type="text" inputmode="text"
+    autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+    tabindex="-1"
+    style="position:fixed;opacity:0;pointer-events:none;width:1px;height:1px;top:0;left:0;font-size:16px;border:none;outline:none;padding:0;background:transparent;color:transparent;">
+
+  <script src="data.js"></script>
+  <script src="crossword.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

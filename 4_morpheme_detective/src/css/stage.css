@@ -1,0 +1,167 @@
+/* ================================================================
+   플레이 화면 레이아웃 — M2에서 구현
+   가로: 일러스트(flex:1) + 컨트롤 도크(우측 고정)
+   세로: 일러스트(70dvh) + 컨트롤 도크(30dvh)
+   ================================================================ */
+
+/* ── 가로(Landscape) 레이아웃 ──────────────────────────────────── */
+#play-screen.active {
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.stage-canvas {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface2);
+}
+
+.stage-dock {
+  /* 도크 width 400, padding 16 양쪽 → 카드 컨테이너 inner ~360.
+     카드 64 × 5 + gap 6 × 4 = 344 < 360 한 줄에 들어감. */
+  width: 400px;
+  min-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+  background: var(--cream);
+  border-left: 2px solid var(--color-border);
+}
+
+/* ── 일러스트 컨테이너 ─────────────────────────────────────── */
+.stage-illustration {
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* preserveAspectRatio="xMidYMid meet" 가 letterbox 처리 */
+}
+
+/* ── 컨트롤 도크 보조 ──────────────────────────────────────── */
+.dock-hint {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.95rem;
+  color: var(--color-text-dim);
+  text-align: center;
+  padding: 8px 4px;
+}
+
+/* ── SVG hit zone (polygon, viewBox 좌표계) ────────────────── */
+.hit-zone {
+  cursor: pointer;
+  pointer-events: all;
+  fill:   transparent;
+  stroke: transparent;
+  stroke-width: 6;
+  transition: fill 0.2s, stroke 0.2s;
+  outline: none;
+}
+
+.hit-zone:hover {
+  fill:   rgba(255, 209, 102, 0.18);
+  stroke: rgba(255, 119, 87,  0.6);
+}
+
+.hit-zone:focus-visible {
+  fill:   rgba(255, 209, 102, 0.25);
+  stroke: var(--coral);
+}
+
+/* PRD F5: 첫 5초 발광 펄스 */
+.hit-zone.pulse {
+  animation: hitPulse 1.2s ease-in-out infinite;
+}
+
+/* PRD F18: 일정 시간 미발견 시 강화 펄스 (코랄 톤, 더 빠르고 진하게)
+   stage.js 가 .hit-zone:not(.discovered) 에만 부착. */
+.hit-zone.pulse-strong {
+  animation: hitPulseStrong 0.9s ease-in-out infinite;
+}
+
+/* M3 #6: hit zone 외 클릭 시 부드러운 거절(spring-back) */
+.spring-back {
+  fill: rgba(255, 119, 87, 0.5);
+  stroke: rgba(255, 119, 87, 0.95);
+  stroke-width: 2;
+  pointer-events: none;
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: springBack 360ms ease-out forwards;
+}
+
+@keyframes springBack {
+  0%   { transform: scale(0.3); opacity: 0.0; }
+  35%  { transform: scale(1.6); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0.0; }
+}
+
+@keyframes hitPulse {
+  0%, 100% {
+    fill:   rgba(255, 209, 102, 0);
+    stroke: rgba(255, 209, 102, 0);
+  }
+  50% {
+    fill:   rgba(255, 209, 102, 0.30);
+    stroke: rgba(255, 209, 102, 0.95);
+  }
+}
+
+@keyframes hitPulseStrong {
+  0%, 100% {
+    fill:   rgba(255, 119, 87, 0.10);
+    stroke: rgba(255, 119, 87, 0.45);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    fill:   rgba(255, 119, 87, 0.45);
+    stroke: rgba(255, 119, 87, 1);
+    filter: drop-shadow(0 0 12px rgba(255, 119, 87, 0.75));
+  }
+}
+
+/* ── 세로(Portrait) 레이아웃 ───────────────────────────────────── */
+@media (orientation: portrait) {
+  #play-screen.active {
+    flex-direction: column;
+  }
+
+  .stage-canvas {
+    /* 세로 모드: 일러스트(16:9) 자연 높이만 차지 — 빈 letterbox 영역 제거.
+       dock 이 남은 세로 공간을 모두 차지하도록 flex: none + aspect-ratio. */
+    flex: none;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    /* 작은 폰 화면에서 일러스트가 50dvh 를 넘지 않도록 안전 상한 */
+    max-height: 50dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 일러스트 letterbox — aspect-ratio 유지 */
+  .stage-canvas > svg,
+  .stage-canvas > img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .stage-dock {
+    width: 100%;
+    flex: 1;                  /* 남은 세로 공간 전부 — morph + card-deck 확보 */
+    min-height: 0;
+    min-width: 0;             /* 가로 width 360 가 portrait 에서 발동되지 않도록 */
+    flex-direction: column;   /* 세로 스택 — 상단 바 고정, 나머지 스크롤 */
+    align-items: stretch;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 6px 12px;
+    gap: 6px;
+    border-left: none;
+    border-top: 2px solid var(--color-border);
+  }
+}

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-label="학교 교실 일러스트">
+  <defs>
+    <linearGradient id="cl-wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#F5EED8"/>
+      <stop offset="0.6" stop-color="#EDE4C8"/>
+      <stop offset="1"   stop-color="#D9CEAE"/>
+    </linearGradient>
+    <linearGradient id="cl-board" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#2A5A3A"/>
+      <stop offset="1"   stop-color="#1C3E28"/>
+    </linearGradient>
+    <linearGradient id="cl-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#C8A86E"/>
+      <stop offset="1"   stop-color="#A88848"/>
+    </linearGradient>
+    <linearGradient id="cl-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#8FCBEE"/>
+      <stop offset="1"   stop-color="#BFE0F2"/>
+    </linearGradient>
+    <linearGradient id="cl-desk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#D4A96A"/>
+      <stop offset="1"   stop-color="#B8893A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ═══ 배경 레이어 ═══════════════════════════════════════════ -->
+
+  <!-- 크림색 벽 -->
+  <rect x="0" y="0" width="1600" height="900" fill="url(#cl-wall)"/>
+
+  <!-- 창문 (좌측) -->
+  <g>
+    <rect x="20" y="50" width="160" height="340" rx="4" fill="url(#cl-sky)" opacity="0.8"/>
+    <line x1="100" y1="50" x2="100" y2="390" stroke="#9AABB8" stroke-width="3"/>
+    <line x1="20"  y1="220" x2="180" y2="220" stroke="#9AABB8" stroke-width="3"/>
+    <rect x="16" y="46" width="168" height="348" rx="6" fill="none" stroke="#8A7A5A" stroke-width="6"/>
+  </g>
+
+  <!-- 창문 (우측) -->
+  <g>
+    <rect x="1420" y="50" width="160" height="340" rx="4" fill="url(#cl-sky)" opacity="0.8"/>
+    <line x1="1500" y1="50"  x2="1500" y2="390" stroke="#9AABB8" stroke-width="3"/>
+    <line x1="1420" y1="220" x2="1580" y2="220" stroke="#9AABB8" stroke-width="3"/>
+    <rect x="1416" y="46" width="168" height="348" rx="6" fill="none" stroke="#8A7A5A" stroke-width="6"/>
+  </g>
+
+  <!-- 칠판 (벽 중앙~상단) -->
+  <rect x="220" y="28" width="1160" height="370" rx="8" fill="url(#cl-board)" stroke="#3A2A1A" stroke-width="6"/>
+  <!-- 칠판 분필 받침대 -->
+  <rect x="220" y="374" width="1160" height="22" rx="0" fill="#5A4A3A"/>
+  <!-- 칠판 내부 줄 (수업 분위기) -->
+  <line x1="260" y1="100" x2="820" y2="100" stroke="#4FA06A" stroke-width="2" opacity="0.45"/>
+  <line x1="260" y1="170" x2="920" y2="170" stroke="#4FA06A" stroke-width="2" opacity="0.45"/>
+  <line x1="260" y1="240" x2="780" y2="240" stroke="#4FA06A" stroke-width="2" opacity="0.45"/>
+  <line x1="260" y1="310" x2="870" y2="310" stroke="#4FA06A" stroke-width="2" opacity="0.45"/>
+  <text x="720" y="210" text-anchor="middle" font-family="'Jua', sans-serif" font-size="72" fill="#7EC89A" opacity="0.30">오늘의 한자</text>
+
+  <!-- 바닥 나무 띠 -->
+  <rect x="0" y="450" width="1600" height="450" fill="url(#cl-floor)"/>
+  <!-- 바닥 나무 줄무늬 -->
+  <g stroke="#A07838" stroke-width="1.5" opacity="0.35">
+    <line x1="0" y1="480" x2="1600" y2="480"/>
+    <line x1="0" y1="520" x2="1600" y2="520"/>
+    <line x1="0" y1="560" x2="1600" y2="560"/>
+    <line x1="0" y1="600" x2="1600" y2="600"/>
+    <line x1="0" y1="640" x2="1600" y2="640"/>
+    <line x1="0" y1="680" x2="1600" y2="680"/>
+    <line x1="0" y1="720" x2="1600" y2="720"/>
+    <line x1="0" y1="760" x2="1600" y2="760"/>
+    <line x1="0" y1="800" x2="1600" y2="800"/>
+    <line x1="0" y1="840" x2="1600" y2="840"/>
+  </g>
+
+  <!-- 교실 앞 교탁 -->
+  <rect x="580" y="400" width="440" height="52" rx="6" fill="url(#cl-desk)" stroke="#8A6030" stroke-width="4"/>
+  <rect x="592" y="452" width="16" height="32" fill="#9A7040"/>
+  <rect x="992" y="452" width="16" height="32" fill="#9A7040"/>
+
+  <!-- 배경 책상 (양측 — 분위기용) -->
+  <rect x="0"    y="820" width="80"  height="40" rx="4" fill="url(#cl-desk)" stroke="#8A6030" stroke-width="3"/>
+  <rect x="190"  y="820" width="110" height="40" rx="4" fill="url(#cl-desk)" stroke="#8A6030" stroke-width="3"/>
+  <rect x="380"  y="850" width="110" height="40" rx="4" fill="url(#cl-desk)" stroke="#8A6030" stroke-width="3"/>
+  <rect x="1110" y="850" width="110" height="40" rx="4" fill="url(#cl-desk)" stroke="#8A6030" stroke-width="3"/>
+  <rect x="1310" y="820" width="110" height="40" rx="4" fill="url(#cl-desk)" stroke="#8A6030" stroke-width="3"/>
+  <rect x="1520" y="820" width="80"  height="40" rx="4" fill="url(#cl-desk)" stroke="#8A6030" stroke-width="3"/>
+
+  <!-- ═══ 클릭 아이템 (data-hit 0~9) ═══════════════════════════════
+       상단 밴드 U0~U4 (translate y=120): data-hit 3,4,6,8,9
+       하단 밴드 L0~L4 (translate y=480): data-hit 0,1,2,5,7
+       슬롯 translate 는 가이드 §2 표 값 그대로 사용. -->
+
+  <!-- ── 상단 밴드 ─────────────────────────────────────────────── -->
+
+  <!-- U0 — hit=3 인생 액자(生) — 벽 걸린 액자  slot(50,120) pad 250×250 -->
+  <g data-hit="3" transform="translate(50,120)">
+    <rect class="hit-pad" x="0" y="0" width="250" height="250" fill="transparent"/>
+    <!-- 걸이 줄 -->
+    <line x1="125" y1="0" x2="125" y2="12" stroke="#5A4A2A" stroke-width="4"/>
+    <!-- 액자 외부 프레임 -->
+    <rect x="8" y="12" width="234" height="186" rx="7" fill="#7A5020" stroke="#3A2A0A" stroke-width="5"/>
+    <!-- 내부 사진 -->
+    <rect x="22" y="26" width="206" height="158" rx="3" fill="#EAD8B8"/>
+    <!-- 하늘 배경 -->
+    <rect x="22" y="26" width="206" height="80" rx="3" fill="#A8DADC"/>
+    <!-- 인물 (온 가족) -->
+    <!-- 가운데 사람 -->
+    <circle cx="105" cy="88" r="20" fill="#F0C49B"/>
+    <path d="M 85,84 A 20 20 0 0 1 125,84 L 125,80 A 20 20 0 0 0 85,80 Z" fill="#3A2A1A"/>
+    <rect x="90" y="108" width="30" height="44" rx="12" fill="#E63946"/>
+    <line x1="90" y1="115" x2="74"  y2="138" stroke="#F0C49B" stroke-width="10" stroke-linecap="round"/>
+    <line x1="120" y1="115" x2="136" y2="138" stroke="#F0C49B" stroke-width="10" stroke-linecap="round"/>
+    <line x1="97"  y1="152" x2="93"  y2="170" stroke="#2F4A6E" stroke-width="10" stroke-linecap="round"/>
+    <line x1="113" y1="152" x2="117" y2="170" stroke="#2F4A6E" stroke-width="10" stroke-linecap="round"/>
+    <!-- 오른쪽 작은 사람(아이) -->
+    <circle cx="162" cy="100" r="16" fill="#F0C49B"/>
+    <path d="M 146,96 A 16 16 0 0 1 178,96 L 178,92 A 16 16 0 0 0 146,92 Z" fill="#3A2A1A"/>
+    <rect x="150" y="116" width="24" height="38" rx="10" fill="#FFD166"/>
+    <!-- 풀 배경 -->
+    <rect x="22" y="154" width="206" height="30" rx="0" fill="#5A9A50"/>
+    <!-- 액자 라벨 (하단) -->
+    <rect x="8" y="200" width="234" height="38" rx="7" fill="#5A3A0A"/>
+    <text x="125" y="224" text-anchor="middle" font-family="'Jua', sans-serif" font-size="17" fill="#FFD166">나의 인생</text>
+  </g>
+
+  <!-- U1 — hit=4 화장실 표지(室) — 벽 픽토그램 표지판  slot(360,120) pad 220×240 -->
+  <g data-hit="4" transform="translate(360,120)">
+    <rect class="hit-pad" x="0" y="0" width="220" height="240" fill="transparent"/>
+    <!-- 표지판 배경 -->
+    <rect x="8" y="8" width="204" height="204" rx="14" fill="#1B5FA3" stroke="#0E3C6B" stroke-width="5"/>
+    <!-- 남자 픽토그램 -->
+    <circle cx="72" cy="54" r="20" fill="#ffffff"/>
+    <rect x="58" y="78" width="28" height="52" rx="10" fill="#ffffff"/>
+    <line x1="52" y1="90" x2="38"  y2="114" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+    <line x1="86" y1="90" x2="100" y2="114" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+    <line x1="65" y1="130" x2="59" y2="160" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+    <line x1="79" y1="130" x2="85" y2="160" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+    <!-- 여자 픽토그램 -->
+    <circle cx="150" cy="54" r="20" fill="#ffffff"/>
+    <polygon points="134,80 166,80 178,172 122,172" fill="#ffffff"/>
+    <line x1="122" y1="100" x2="106" y2="118" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+    <line x1="178" y1="100" x2="194" y2="118" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+    <!-- 구분선 -->
+    <line x1="110" y1="40" x2="110" y2="186" stroke="#5A9BD4" stroke-width="3"/>
+  </g>
+
+  <!-- U2 — hit=6 형 사진(兄) — 벽 사진 액자  slot(660,120) pad 220×240 -->
+  <g data-hit="6" transform="translate(660,120)">
+    <rect class="hit-pad" x="0" y="0" width="220" height="240" fill="transparent"/>
+    <!-- 걸이 줄 -->
+    <line x1="110" y1="0" x2="110" y2="12" stroke="#5A4020" stroke-width="4"/>
+    <!-- 액자 프레임 -->
+    <rect x="8" y="12" width="204" height="172" rx="7" fill="#8A5A20" stroke="#5A3A0A" stroke-width="5"/>
+    <!-- 사진 내부 -->
+    <rect x="22" y="26" width="176" height="144" rx="3" fill="#D4E8F0"/>
+    <!-- 형 (남자 청소년) -->
+    <circle cx="110" cy="76" r="30" fill="#F0C49B"/>
+    <!-- 머리카락 -->
+    <path d="M 80,70 A 30 30 0 0 1 140,70 L 140,60 A 30 30 0 0 0 80,60 Z" fill="#3A2A1A"/>
+    <!-- 눈 -->
+    <circle cx="100" cy="78" r="3.5" fill="#2D3047"/>
+    <circle cx="120" cy="78" r="3.5" fill="#2D3047"/>
+    <!-- 입 -->
+    <path d="M 100,90 Q 110,97 120,90" stroke="#2D3047" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- 교복 몸통 -->
+    <rect x="86" y="106" width="48" height="58" rx="14" fill="#2D3047"/>
+    <!-- 셔츠 칼라 -->
+    <polygon points="110,106 100,122 110,118 120,122" fill="#ffffff"/>
+    <!-- 라벨 바탕 -->
+    <rect x="8" y="190" width="204" height="38" rx="7" fill="#6A4010"/>
+    <text x="110" y="214" text-anchor="middle" font-family="'Jua', sans-serif" font-size="17" fill="#FFD166">우리 형</text>
+  </g>
+
+  <!-- U3 — hit=8 국기(國) — 태극기(깃대 포함)  slot(960,120) pad 220×240 -->
+  <g data-hit="8" transform="translate(960,120)">
+    <rect class="hit-pad" x="0" y="0" width="220" height="240" fill="transparent"/>
+    <!-- 깃대 -->
+    <rect x="16" y="0" width="8" height="236" rx="3" fill="#8A7040"/>
+    <!-- 깃발 바탕 (흰색) -->
+    <rect x="24" y="16" width="186" height="124" rx="3" fill="#ffffff" stroke="#CCCCCC" stroke-width="2"/>
+    <!-- 태극문양 — 반지름 30, 중심 (130,78) -->
+    <!-- 빨강 위 반원 -->
+    <path d="M 100,78 A 30,30 0 0 1 160,78 A 15,15 0 0 0 130,78 A 15,15 0 0 1 100,78 Z" fill="#E63946"/>
+    <!-- 파랑 아래 반원 -->
+    <path d="M 160,78 A 30,30 0 0 1 100,78 A 15,15 0 0 0 130,78 A 15,15 0 0 1 160,78 Z" fill="#1B5FA3"/>
+    <!-- 4괘 — 건 (우상, 3실선) -->
+    <line x1="174" y1="26" x2="200" y2="26" stroke="#2D3047" stroke-width="4"/>
+    <line x1="174" y1="33" x2="200" y2="33" stroke="#2D3047" stroke-width="4"/>
+    <line x1="174" y1="40" x2="200" y2="40" stroke="#2D3047" stroke-width="4"/>
+    <!-- 4괘 — 이 (우하, 가운데 끊김) -->
+    <line x1="174" y1="116" x2="200" y2="116" stroke="#2D3047" stroke-width="4"/>
+    <line x1="174" y1="123" x2="185" y2="123" stroke="#2D3047" stroke-width="4"/>
+    <line x1="189" y1="123" x2="200" y2="123" stroke="#2D3047" stroke-width="4"/>
+    <line x1="174" y1="130" x2="200" y2="130" stroke="#2D3047" stroke-width="4"/>
+    <!-- 4괘 — 감 (좌하, 위아래 끊김) -->
+    <line x1="30" y1="116" x2="41"  y2="116" stroke="#2D3047" stroke-width="4"/>
+    <line x1="45" y1="116" x2="56"  y2="116" stroke="#2D3047" stroke-width="4"/>
+    <line x1="30" y1="123" x2="56"  y2="123" stroke="#2D3047" stroke-width="4"/>
+    <line x1="30" y1="130" x2="41"  y2="130" stroke="#2D3047" stroke-width="4"/>
+    <line x1="45" y1="130" x2="56"  y2="130" stroke="#2D3047" stroke-width="4"/>
+    <!-- 4괘 — 곤 (좌상, 3쌍 끊김) -->
+    <line x1="30" y1="26" x2="41"  y2="26" stroke="#2D3047" stroke-width="4"/>
+    <line x1="45" y1="26" x2="56"  y2="26" stroke="#2D3047" stroke-width="4"/>
+    <line x1="30" y1="33" x2="41"  y2="33" stroke="#2D3047" stroke-width="4"/>
+    <line x1="45" y1="33" x2="56"  y2="33" stroke="#2D3047" stroke-width="4"/>
+    <line x1="30" y1="40" x2="41"  y2="40" stroke="#2D3047" stroke-width="4"/>
+    <line x1="45" y1="40" x2="56"  y2="40" stroke="#2D3047" stroke-width="4"/>
+  </g>
+
+  <!-- U4 — hit=9 한글 포스터(韓) — 벽 ㄱㄴㄷ 포스터  slot(1250,120) pad 280×250 -->
+  <g data-hit="9" transform="translate(1250,120)">
+    <rect class="hit-pad" x="0" y="0" width="280" height="250" fill="transparent"/>
+    <!-- 포스터 배경 -->
+    <rect x="8" y="8" width="264" height="234" rx="9" fill="#FFF8E8" stroke="#D4A840" stroke-width="5"/>
+    <!-- 제목 띠 -->
+    <rect x="8" y="8" width="264" height="44" rx="9" fill="#E63946"/>
+    <rect x="8" y="38" width="264" height="14" fill="#E63946"/>
+    <text x="140" y="38" text-anchor="middle" font-family="'Jua', sans-serif" font-size="22" fill="#ffffff">한글 자음표</text>
+    <!-- 자음 격자 -->
+    <text x="54"  y="96"  text-anchor="middle" font-family="'Jua', sans-serif" font-size="38" fill="#E63946">ㄱ</text>
+    <text x="140" y="96"  text-anchor="middle" font-family="'Jua', sans-serif" font-size="38" fill="#1B5FA3">ㄴ</text>
+    <text x="226" y="96"  text-anchor="middle" font-family="'Jua', sans-serif" font-size="38" fill="#3F7D54">ㄷ</text>
+    <text x="54"  y="152" text-anchor="middle" font-family="'Jua', sans-serif" font-size="38" fill="#3F7D54">ㄹ</text>
+    <text x="140" y="152" text-anchor="middle" font-family="'Jua', sans-serif" font-size="38" fill="#E63946">ㅁ</text>
+    <text x="226" y="152" text-anchor="middle" font-family="'Jua', sans-serif" font-size="38" fill="#1B5FA3">ㅂ</text>
+    <text x="54"  y="208" text-anchor="middle" font-family="'Jua', sans-serif" font-size="38" fill="#1B5FA3">ㅅ</text>
+    <text x="140" y="208" text-anchor="middle" font-family="'Jua', sans-serif" font-size="38" fill="#3F7D54">ㅇ</text>
+    <text x="226" y="208" text-anchor="middle" font-family="'Jua', sans-serif" font-size="38" fill="#E63946">ㅈ</text>
+    <!-- 격자 구분선 -->
+    <line x1="96"  y1="56" x2="96"  y2="228" stroke="#D4C090" stroke-width="1.5"/>
+    <line x1="184" y1="56" x2="184" y2="228" stroke="#D4C090" stroke-width="1.5"/>
+    <line x1="20"  y1="112" x2="260" y2="112" stroke="#D4C090" stroke-width="1.5"/>
+    <line x1="20"  y1="168" x2="260" y2="168" stroke="#D4C090" stroke-width="1.5"/>
+  </g>
+
+  <!-- ── 하단 밴드 ─────────────────────────────────────────────── -->
+
+  <!-- L0 — hit=0 교과서(教) — 펼쳐진 국어 교과서  slot(50,480) pad 240×330 -->
+  <g data-hit="0" transform="translate(50,480)">
+    <rect class="hit-pad" x="0" y="0" width="240" height="330" fill="transparent"/>
+    <!-- 책 그림자 -->
+    <ellipse cx="120" cy="316" rx="96" ry="12" fill="#9A7838" opacity="0.28"/>
+    <!-- 오른쪽 페이지 -->
+    <rect x="122" y="50" width="106" height="258" rx="4" fill="#FFF8EE" stroke="#C4A050" stroke-width="3"/>
+    <!-- 왼쪽 페이지 -->
+    <rect x="12" y="50" width="110" height="258" rx="4" fill="#FFF8EE" stroke="#C4A050" stroke-width="3"/>
+    <!-- 표지 색 띠 -->
+    <rect x="12" y="50" width="216" height="42" rx="4" fill="#E63946"/>
+    <text x="120" y="79" text-anchor="middle" font-family="'Jua', sans-serif" font-size="24" fill="#ffffff">국어</text>
+    <!-- 왼쪽 줄 -->
+    <line x1="24" y1="108" x2="110" y2="108" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="24" y1="124" x2="110" y2="124" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="24" y1="140" x2="110" y2="140" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="24" y1="156" x2="110" y2="156" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="24" y1="172" x2="110" y2="172" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="24" y1="188" x2="110" y2="188" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="24" y1="204" x2="110" y2="204" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="24" y1="220" x2="110" y2="220" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="24" y1="236" x2="110" y2="236" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="24" y1="252" x2="110" y2="252" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="24" y1="268" x2="110" y2="268" stroke="#CCBBAA" stroke-width="1.5"/>
+    <!-- 오른쪽 줄 -->
+    <line x1="132" y1="108" x2="218" y2="108" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="132" y1="124" x2="218" y2="124" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="132" y1="140" x2="218" y2="140" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="132" y1="156" x2="218" y2="156" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="132" y1="172" x2="218" y2="172" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="132" y1="188" x2="218" y2="188" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="132" y1="204" x2="218" y2="204" stroke="#CCBBAA" stroke-width="1.5"/>
+    <line x1="132" y1="220" x2="218" y2="220" stroke="#CCBBAA" stroke-width="1.5"/>
+    <!-- 오른쪽 삽화 -->
+    <rect x="136" y="166" width="76" height="58" rx="4" fill="#D4E8A0" stroke="#A0B870" stroke-width="2"/>
+    <text x="174" y="200" text-anchor="middle" font-family="'Jua', sans-serif" font-size="16" fill="#4A6A20">그림</text>
+    <!-- 가운데 접힌 선 -->
+    <line x1="120" y1="50" x2="120" y2="308" stroke="#B8903A" stroke-width="5"/>
+  </g>
+
+  <!-- L1 — hit=1 등교 가방(校) — 책가방  slot(360,480) pad 220×310 -->
+  <g data-hit="1" transform="translate(360,480)">
+    <rect class="hit-pad" x="0" y="0" width="220" height="310" fill="transparent"/>
+    <!-- 가방 그림자 -->
+    <ellipse cx="110" cy="298" rx="82" ry="11" fill="#9A7838" opacity="0.28"/>
+    <!-- 어깨 끈 -->
+    <path d="M 72,54 C 44,34 22,14 52,4 C 82,-6 100,18 88,54" fill="none" stroke="#1B5FA3" stroke-width="14" stroke-linecap="round"/>
+    <path d="M 148,54 C 176,34 198,14 168,4 C 138,-6 120,18 132,54" fill="none" stroke="#1B5FA3" stroke-width="14" stroke-linecap="round"/>
+    <!-- 가방 본체 -->
+    <rect x="28" y="54" width="164" height="198" rx="20" fill="#1B5FA3" stroke="#0E3C6B" stroke-width="5"/>
+    <!-- 상단 손잡이 -->
+    <path d="M 86,54 C 86,40 134,40 134,54" fill="none" stroke="#0E3C6B" stroke-width="8" stroke-linecap="round"/>
+    <!-- 앞 주머니 -->
+    <rect x="44" y="104" width="132" height="110" rx="14" fill="#2472BC" stroke="#1B5FA3" stroke-width="3"/>
+    <!-- 지퍼 -->
+    <line x1="44" y1="110" x2="176" y2="110" stroke="#A8DADC" stroke-width="3"/>
+    <rect x="101" y="106" width="8" height="12" rx="2" fill="#FFD166"/>
+    <!-- 이름표 -->
+    <rect x="58" y="126" width="104" height="62" rx="8" fill="#FFF8E8" stroke="#D4A840" stroke-width="2"/>
+    <text x="110" y="152" text-anchor="middle" font-family="'Jua', sans-serif" font-size="15" fill="#3A2A0A">초등학교</text>
+  </g>
+
+  <!-- L2 — hit=2 학생(學) — 학생 아이  slot(660,480) pad 220×330 -->
+  <g data-hit="2" transform="translate(660,480)">
+    <rect class="hit-pad" x="0" y="0" width="220" height="330" fill="transparent"/>
+    <!-- 발 그림자 -->
+    <ellipse cx="110" cy="318" rx="52" ry="10" fill="#9A7838" opacity="0.28"/>
+    <!-- 다리 -->
+    <line x1="92"  y1="222" x2="86"  y2="304" stroke="#2F4A6E" stroke-width="24" stroke-linecap="round"/>
+    <line x1="128" y1="222" x2="134" y2="304" stroke="#2F4A6E" stroke-width="24" stroke-linecap="round"/>
+    <!-- 신발 -->
+    <ellipse cx="86"  cy="308" rx="20" ry="9" fill="#2D3047"/>
+    <ellipse cx="134" cy="308" rx="20" ry="9" fill="#2D3047"/>
+    <!-- 팔 (왼쪽 — 노트 들기) -->
+    <path d="M 86,158 L 58,190 L 42,224" fill="none" stroke="#F0C49B" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 노트 -->
+    <rect x="22" y="216" width="38" height="52" rx="3" fill="#FFD166" stroke="#C4A030" stroke-width="2"/>
+    <line x1="26" y1="230" x2="56" y2="230" stroke="#E0B820" stroke-width="1.5"/>
+    <line x1="26" y1="242" x2="56" y2="242" stroke="#E0B820" stroke-width="1.5"/>
+    <line x1="26" y1="254" x2="56" y2="254" stroke="#E0B820" stroke-width="1.5"/>
+    <!-- 팔 오른쪽 -->
+    <path d="M 134,158 L 160,186 L 168,210" fill="none" stroke="#F0C49B" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 몸통 (교복) -->
+    <rect x="78" y="144" width="64" height="86" rx="20" fill="#E63946"/>
+    <!-- 칼라 -->
+    <polygon points="110,144 100,160 110,155 120,160" fill="#ffffff"/>
+    <!-- 머리 -->
+    <circle cx="110" cy="104" r="38" fill="#F0C49B"/>
+    <!-- 머리카락 -->
+    <path d="M 72,98 A 38 38 0 0 1 148,98 L 148,86 A 38 38 0 0 0 72,86 Z" fill="#3A2A1A"/>
+    <ellipse cx="110" cy="86" rx="38" ry="11" fill="#3A2A1A"/>
+    <!-- 눈 -->
+    <circle cx="100" cy="108" r="4" fill="#2D3047"/>
+    <circle cx="120" cy="108" r="4" fill="#2D3047"/>
+    <circle cx="101.5" cy="106.5" r="1.5" fill="#ffffff"/>
+    <circle cx="121.5" cy="106.5" r="1.5" fill="#ffffff"/>
+    <!-- 입 -->
+    <path d="M 100,120 Q 110,128 120,120" stroke="#2D3047" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- L3 — hit=5 선생님(先) — 선생님(서 있는 어른)  slot(960,480) pad 220×330 -->
+  <g data-hit="5" transform="translate(960,480)">
+    <rect class="hit-pad" x="0" y="0" width="220" height="330" fill="transparent"/>
+    <!-- 발 그림자 -->
+    <ellipse cx="110" cy="318" rx="54" ry="10" fill="#9A7838" opacity="0.28"/>
+    <!-- 다리 -->
+    <line x1="94"  y1="230" x2="88"  y2="308" stroke="#3A3050" stroke-width="26" stroke-linecap="round"/>
+    <line x1="126" y1="230" x2="132" y2="308" stroke="#3A3050" stroke-width="26" stroke-linecap="round"/>
+    <!-- 신발 -->
+    <ellipse cx="88"  cy="312" rx="22" ry="10" fill="#1A1530"/>
+    <ellipse cx="132" cy="312" rx="22" ry="10" fill="#1A1530"/>
+    <!-- 팔 왼쪽 (지시봉) -->
+    <path d="M 86,160 L 60,190 L 32,206" fill="none" stroke="#F0C49B" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 지시봉 -->
+    <line x1="32" y1="206" x2="4" y2="162" stroke="#8A5A20" stroke-width="7" stroke-linecap="round"/>
+    <!-- 팔 오른쪽 (클립보드) -->
+    <path d="M 134,160 L 160,186 L 186,196" fill="none" stroke="#F0C49B" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 클립보드 -->
+    <rect x="176" y="188" width="36" height="50" rx="4" fill="#EAD8B8" stroke="#C4A050" stroke-width="2"/>
+    <rect x="178" y="194" width="32" height="5" rx="2" fill="#8A6030"/>
+    <line x1="180" y1="206" x2="208" y2="206" stroke="#AAAAAA" stroke-width="1.5"/>
+    <line x1="180" y1="216" x2="208" y2="216" stroke="#AAAAAA" stroke-width="1.5"/>
+    <line x1="180" y1="226" x2="208" y2="226" stroke="#AAAAAA" stroke-width="1.5"/>
+    <!-- 몸통 정장 -->
+    <rect x="78" y="144" width="64" height="94" rx="18" fill="#39B7A0"/>
+    <!-- 넥타이 -->
+    <polygon points="110,144 102,160 110,215 118,160" fill="#E63946"/>
+    <polygon points="106,144 114,144 112,155 108,155" fill="#B82030"/>
+    <!-- 라펠 -->
+    <line x1="102" y1="144" x2="92"  y2="168" stroke="#2A8070" stroke-width="3"/>
+    <line x1="118" y1="144" x2="128" y2="168" stroke="#2A8070" stroke-width="3"/>
+    <!-- 머리 (어른) -->
+    <circle cx="110" cy="102" r="40" fill="#F0C49B"/>
+    <!-- 머리카락 -->
+    <path d="M 70,96 A 40 40 0 0 1 150,96 L 150,84 A 40 40 0 0 0 70,84 Z" fill="#3A2A1A"/>
+    <!-- 눈 -->
+    <circle cx="99"  cy="106" r="4" fill="#2D3047"/>
+    <circle cx="121" cy="106" r="4" fill="#2D3047"/>
+    <circle cx="100.5" cy="104.5" r="1.5" fill="#ffffff"/>
+    <circle cx="122.5" cy="104.5" r="1.5" fill="#ffffff"/>
+    <!-- 안경 -->
+    <rect x="88"  y="100" width="22" height="13" rx="5" fill="none" stroke="#6A5030" stroke-width="2.5"/>
+    <rect x="110" y="100" width="22" height="13" rx="5" fill="none" stroke="#6A5030" stroke-width="2.5"/>
+    <line x1="110" y1="106.5" x2="110" y2="106.5" stroke="#6A5030" stroke-width="2.5"/>
+    <!-- 입 -->
+    <path d="M 100,118 Q 110,126 120,118" stroke="#2D3047" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- 라벨 -->
+    <text x="110" y="326" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#1A3A30">선생님</text>
+  </g>
+
+  <!-- L4 — hit=7 제자 명찰(弟) — 책상 위 이름표  slot(1250,480) pad 270×310 -->
+  <g data-hit="7" transform="translate(1250,480)">
+    <rect class="hit-pad" x="0" y="0" width="270" height="310" fill="transparent"/>
+    <!-- 책상 -->
+    <rect x="10" y="196" width="250" height="48" rx="6" fill="url(#cl-desk)" stroke="#8A6030" stroke-width="4"/>
+    <rect x="26"  y="244" width="14" height="46" fill="#9A7040"/>
+    <rect x="230" y="244" width="14" height="46" fill="#9A7040"/>
+    <!-- 명찰 목걸이 줄 -->
+    <path d="M 88,72 C 88,50 135,42 135,30" fill="none" stroke="#A8DADC" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 182,72 C 182,50 135,42 135,30" fill="none" stroke="#A8DADC" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="135" cy="26" rx="16" ry="8" fill="#A8DADC" stroke="#7AA8B8" stroke-width="2"/>
+    <!-- 명찰 본체 -->
+    <rect x="46" y="72" width="178" height="118" rx="10" fill="#ffffff" stroke="#2D3047" stroke-width="5"/>
+    <!-- 명찰 색 띠 (상단) -->
+    <rect x="46" y="72" width="178" height="34" rx="10" fill="#1B5FA3"/>
+    <rect x="46" y="92" width="178" height="14" fill="#1B5FA3"/>
+    <text x="135" y="94" text-anchor="middle" font-family="'Jua', sans-serif" font-size="16" fill="#ffffff">이름표</text>
+    <!-- 명찰 내용 -->
+    <text x="135" y="136" text-anchor="middle" font-family="'Jua', sans-serif" font-size="26" fill="#2D3047">홍 길 동</text>
+    <line x1="60" y1="146" x2="210" y2="146" stroke="#CCCCCC" stroke-width="1.5"/>
+    <text x="135" y="170" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="15" fill="#1B5FA3">3학년 2반</text>
+    <!-- 라벨 -->
+    <text x="135" y="306" text-anchor="middle" font-family="'Gowun Dodum', sans-serif" font-size="16" fill="#2D3047">명찰</text>
+  </g>
+
+</svg>

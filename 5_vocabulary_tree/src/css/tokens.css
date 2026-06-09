@@ -1,0 +1,47 @@
+/* ==========================================
+   디자인 토큰 — 1_chosung_quiz 팔레트 계승
+   ========================================== */
+
+:root {
+  /* 색상 */
+  --cream: #FFF6E4;
+  --coral: #FF7757;
+  --coral-dark: #d45a40;
+  --mint: #6BCAB8;
+  --mint-dark: #4fa192;
+  --navy: #2D3047;
+  --navy-dark: #1a1c2b;
+  --yellow: #FFD166;
+  --yellow-dark: #d4ad4e;
+  --pink: #FFB5B5;
+  --red: #E84545;
+  --red-dark: #b63333;
+  --gray: #E5E1D6;
+
+  /* 그림자 */
+  --shadow: rgba(45, 48, 71, 0.15);
+
+  /* 시맨틱 */
+  --color-text: var(--navy);
+  --color-text-dim: #6b6e82;
+  --color-surface: #FFFFFF;
+  --color-surface2: #F5EDD8;
+  --color-border: var(--gray);
+  --color-bg: var(--cream);
+
+  /* 게임 고유 — 나무 */
+  --leaf-green: #7fc05e;
+  --leaf-green-dark: #4f8a3a;
+  --branch-brown: #8b6e4e;
+  --branch-brown-dark: #5e4a35;
+  --root-soil: #c2a574;
+  --golden-leaf: #f6c244;
+  --golden-leaf-dark: #c89826;
+
+  /* z-index */
+  --z-tree: 1;
+  --z-blocks: 5;
+  --z-overlay: 50;
+  --z-modal: 100;
+  --z-toast: 150;
+}

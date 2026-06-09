@@ -1,0 +1,102 @@
+/* 누적 나무 오버뷰 + 미니맵 + 카메라 */
+
+.overview-meta {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.meta-chip {
+  background: white;
+  border: 2px solid var(--navy);
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.85rem;
+  box-shadow: 0 3px 0 var(--navy);
+}
+.meta-chip strong {
+  font-family: 'Jua', sans-serif;
+  color: var(--coral);
+  margin: 0 4px;
+}
+
+.overview-stage {
+  position: relative;
+  height: clamp(440px, 65vh, 640px);
+  border-radius: 24px;
+  border: 3px solid var(--navy);
+  background:
+    linear-gradient(180deg, #cfe9f6 0%, #e9d8a6 70%, #c2a574 100%);
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+}
+
+.overview-stage .tree-svg {
+  pointer-events: none;
+}
+
+.ov-leaves {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* 제스처 안내 — 스테이지 하단 고정 오버레이 (아래로 밀려 가려지지 않도록 stage 안에 둠) */
+.ov-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  z-index: 25;
+  max-width: calc(100% - 24px);
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--navy);
+  box-shadow: 0 2px 0 var(--navy);
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.85rem;
+  color: var(--navy);
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+@media (max-width: 400px) {
+  .ov-hint { font-size: 0.74rem; white-space: normal; }
+}
+
+.ov-leaves .leaf {
+  pointer-events: auto;
+}
+
+/* Minimap */
+.minimap {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid var(--navy);
+  border-radius: 12px;
+  box-shadow: 0 3px 0 var(--navy);
+  overflow: hidden;
+  z-index: 20;
+  cursor: pointer;
+}
+.minimap-content {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.minimap-viewport {
+  position: absolute;
+  border: 2px solid var(--coral);
+  background: rgba(255, 119, 87, 0.15);
+  pointer-events: none;
+  box-sizing: border-box;
+  min-width: 6px;
+  min-height: 6px;
+}
