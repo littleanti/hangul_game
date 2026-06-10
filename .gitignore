@@ -5,3 +5,8 @@ node_modules/
 dist/
 .DS_Store
 *.log
+.playwright-mcp/
+
+# 내부 기획/분석 문서 (배포 사이트에 포함하지 않음)
+IMPLEMENTATION.md
+LEARNING_PROGRESSION_ANALYSIS.md
