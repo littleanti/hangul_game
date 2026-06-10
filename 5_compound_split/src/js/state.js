@@ -4,6 +4,13 @@
  */
 
 import { DEFAULT_SETTINGS } from './config.js';
+import { WORDS } from '../data/words.js';
+
+/**
+ * 콘텐츠 데이터 재노출 (TRD §2.2 — state.js → config.js, words.js)
+ * M2의 buildQueue(words, questionCount)가 출제 풀로 사용한다.
+ */
+export { WORDS };
 
 export const state = {
   settings: { ...DEFAULT_SETTINGS },

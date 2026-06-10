@@ -439,8 +439,10 @@ buildQueue(words, questionCount, fadingLevel):
 
 ### 7.2 Service Worker (`sw.js`)
 
+전략: **Network First, 캐시 폴백**. 당초 Cache First였으나, 콘텐츠 갱신 시 `sw.js`가 무변경이면 프리캐시가 영구 고착되는 문제(BUG.md M1-1)로 전환했다. 온라인이면 항상 네트워크 최신 응답을 서빙하며 성공 응답을 캐시에 덮어쓰고, 오프라인이면 캐시(마지막 성공 응답)로 폴백한다 — `sw.js` 바이트 변경 없이도 콘텐츠 갱신이 즉시 반영되고 PWA 오프라인 동작은 유지된다.
+
 ```js
-const CACHE_VERSION = '5_compound_split-v1';
+const CACHE_VERSION = '5_compound_split-v2'; // 구캐시 일괄 폐기가 필요할 때만 올림
 const CACHE_NAME    = CACHE_VERSION;
 
 // 캐시 대상
@@ -467,7 +469,7 @@ const PRECACHE_URLS = [
   './src/js/game.js',
 ];
 
-// install: 사전 캐시
+// install: 사전 캐시 (최초 방문 직후부터 오프라인 동작 보장)
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_NAME).then(c => c.addAll(PRECACHE_URLS))
@@ -485,10 +487,26 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
-// fetch: Cache First
+// fetch: Network First → 캐시 폴백. 성공 응답은 캐시에 갱신 저장.
 self.addEventListener('fetch', e => {
+  const { request } = e;
+  // 같은 오리진의 GET만 처리 — 외부 리소스(Google Fonts 등)·비GET은 브라우저 기본 동작
+  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
+
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request))
+    fetch(request)
+      .then(res => {
+        if (res && res.ok) {
+          const copy = res.clone();
+          e.waitUntil(caches.open(CACHE_NAME).then(c => c.put(request, copy)));
+        }
+        return res;
+      })
+      .catch(() =>
+        caches.match(request).then(cached =>
+          cached || (request.mode === 'navigate' ? caches.match('./index.html') : undefined)
+        )
+      )
   );
 });
 ```
