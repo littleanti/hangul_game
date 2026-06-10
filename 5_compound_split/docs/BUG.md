@@ -21,3 +21,23 @@
   - [수정 내용] `sw.js` fetch 전략을 **Network First, 캐시 폴백**으로 전환(콘텐츠 갱신 반영이 sw.js 변경과 분리됨 — 구조적 해결): ① 온라인 시 항상 네트워크 최신 응답을 서빙하고 성공 응답(`res.ok`)을 `cache.put()`으로 덮어써 캐시를 상시 최신화 ② 오프라인 시 `caches.match()` 폴백(navigate 요청은 `./index.html` 추가 폴백)으로 PWA 오프라인 동작 유지 ③ 같은 오리진 GET만 처리(외부 리소스·비GET은 브라우저 기본 동작) ④ `CACHE_VERSION`을 `'5_compound_split-v2'`로 올려 기존 클라이언트의 고착된 v1 캐시를 activate 단계에서 폐기(이번 수정으로 sw.js 바이트가 변경되므로 기존 설치 클라이언트도 자동 재설치됨). install 프리캐시는 유지(최초 방문 직후 오프라인 보장). `docs/TRD.md` §7.2도 동일 전략으로 갱신. 검증: Playwright로 http://localhost:4329/ 접속 → 신규 SW activated, `caches.keys() === ['5_compound_split-v2']`(v1 폐기 확인), `import('./src/data/words.js')` 결과 `WORDS.length === 6`, `SHARED_MORPHEME_PAIRS` 키 3개. 추가로 v2 캐시에 M0식 플레이스홀더(65바이트)를 주입해 고착 상황을 재현한 뒤 SW 경유 `fetch('./src/data/words.js')` → 최신 디스크 내용(4,839바이트) 반환 및 캐시가 최신 내용으로 자동 덮어써짐을 확인. 콘솔 에러 0건.
   - [재검증] M1 검증 라운드 2(2026-06-10, Playwright): http://localhost:4329/ 접속 → SW activated, `caches.keys() === ['5_compound_split-v2']`(v1 폐기 확인), SW 경유 `fetch('./src/data/words.js')` 4,839바이트(6개 항목) 반환, `import('./src/data/words.js')` 결과 `WORDS.length === 6`·`SHARED_MORPHEME_PAIRS` 3키 정상. 콘솔 에러 0건. 수정 확인 완료.
   - 상태: 해결
+
+## M5
+
+- **M5-1** (minor, 문서 불일치)
+  - 증상: `docs/PLAN.md` "PWA·스토리지 격리 검증" 체크리스트의 `CACHE_VERSION` 기준값이 `'5_compound_split-v1'`로 잔존. 실제 코드(`sw.js`·`src/js/config.js`)와 `docs/TRD.md` §7.2는 M1-1 수정(프리캐시 고착 해소를 위한 v1 캐시 일괄 폐기) 시점에 `'5_compound_split-v2'`로 상향됨 — 문서 간 기준값 불일치.
+  - 원인: M1-1 수정 시 sw.js·config.js·TRD §7.2는 v2로 갱신했으나 PLAN.md 체크리스트의 기준값 갱신이 누락됨.
+  - [수정 내용] `docs/PLAN.md` 해당 항목을 `'5_compound_split-v2'`로 갱신하고 M1-1 상향 이력을 병기. 코드 변경 없음(코드는 이미 정합 — `sw.js`와 `config.js`의 `CACHE_VERSION` 동일값 확인).
+  - 상태: 해결
+
+- **M5 QA 정적 검토 결과 요약** (2026-06-10 — PLAN "M5 — QA"·"디자인 일관성 체크리스트"·"시리즈 연속성 체크" 전 항목 점검, 코드 수정 0건)
+  - `tokens.css`·`components.css`: 1_chosung_quiz 정본과 diff 결과 **완전 동일**(0 byte 차이) — 색상 토큰·버튼 규격(.btn/.big/.small/.mint/.ghost, :active 눌림) 전 항목 충족.
+  - `screens.css`: 공용 섹션 발췌 복제 확인. 정본 대비 차이는 ① `.start-screen h1`의 `word-break: keep-all`(M0-1 수정, 해결 이력 있음) ② `.start-screen .subtitle`을 `'Gowun Dodum'`으로 적용(정본 파일은 Jua이나 루트 AGENTS.md "Series UI Design Standard"·PRD §6.1·TRD §4.3·PLAN 체크리스트가 모두 "부제목 = Gowun Dodum, clamp(0.9rem,3vw,1.2rem)"로 명시 — 표준 문서 우선) ③ play-screen·가로 모드(landscape) 섹션 제외(발췌 원칙 + D3 동결: 가로 UI 미포함) ④ `.start-links`·`.lb-*`(리더보드) 신설 — 신규 CSS 변수 없이 기존 토큰만 사용. 모두 의도된 차이로 판정.
+  - 하드코딩 색상: `base.css`/`screens.css`/`game.css`에 hex 색상값 0건 — 배경은 `var(--cream)` 단독.
+  - PWA·스토리지 격리: `CACHE_VERSION = '5_compound_split-v2'`(sw.js·config.js 일치, 타 게임 접두사와 충돌 없음), localStorage 접두사 `compound_split_`(settings/progress/leaderboard 3키), manifest `start_url`·`scope` `'./'` 상대경로 + `orientation: 'portrait'`, SW 등록 `register('./sw.js')` 상대경로 — 전부 충족.
+  - 시리즈 연속성(4_word_network): `category` 6종(`rain_raindrop`·`mountain_pinecone`·`night_star`·`night_moon`·`meadow_flower`·`winter_snowflake`)이 4_word_network/src/data/words.js 표제어 id와 1:1 일치(6개 합성어 전부 실재 확인), `sceneEmoji` 5종(🌧️⛰️🌙🌸⛄)이 scenes.js 씬 대표 이모지와 일치.
+  - 시리즈 연속성(6_morpheme_detective): `part1`/`part2`/`sharedMorpheme` 필드명 고정 유지, `SHARED_MORPHEME_PAIRS` export 확인(방울/빛/송이 × 각 2개 id), `SHOW_SHARED_MORPHEME_HIGHLIGHT` 플래그 존재(기본 OFF — R3), `AUTO_ADVANCE_STREAK` 플래그 존재(기본 0=수동 — R2).
+  - 단일 차원 완충(PRD §2.2): 전체 소스에서 한자 기호·돋보기·핀치/제스처·가로 모드 미디어쿼리 0건(grep 검증), 조작은 분해-인식 탭/드래그 단일(재구성·역분해 없음), 어휘는 Stage 3 동일 6개 고정.
+  - 게임 플레이 경로(정적): 3단 페이딩(boundary-solid/dashed/hidden + L1 양쪽 단서/L2 첫 조각만/L3 무단서), 오답 "그 조각은 뜻이 없네" + shake(키프레임 0%/100% translateX(0) → 원위치 복귀) + 1500ms 자동 숨김, buildQueue 반복 채움(12·18), end-screen 정답·오류·소요시간 표시, `.split-popup` `role="dialog"`+`aria-label`, 리더보드 20건 상한, localStorage 전 호출 try/catch(Incognito 안전), TTS 미지원 시 토글 비활성화 — 모두 코드 확인.
+  - 판단 기록: 페이딩 레벨 선택 UI는 PLAN M3 초안의 ".btn/.btn.small" 대신 정본 공용 컴포넌트 `.chip`(components.css, 선택 상태 `.active` 내장)을 채택 — 1_chosung_quiz·2_vowel_finder 설정 화면 선택 UI와 동일 패턴(시리즈 정합 우선). iOS Safari 실기·저사양 Android 검증(R5·R6)은 정적 검토로 갈음, 실기 확인은 후속 과제로 유지.
+  - 상태: 해결 (수정 1건 — M5-1 문서 정합화; 코드 불일치 0건)

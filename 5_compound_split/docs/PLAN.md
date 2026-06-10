@@ -2,7 +2,7 @@
 
 > 구현 계획서
 > Last updated: 2026-06-10
-> **현재 상태: 설계 완료, 구현 미착수**
+> **현재 상태: 구현 완료 (M0~M5 전 마일스톤 종료)**
 
 ---
 
@@ -13,8 +13,8 @@
 | PRD | 완료 (`docs/PRD.md`) |
 | TRD | 완료 (`docs/TRD.md`) |
 | PLAN | 완료 (본 문서) |
-| 구현 (HTML/CSS/JS) | **미착수** |
-| 자산 (조각 그림·TTS) | 미착수 |
+| 구현 (HTML/CSS/JS) | **구현 완료** (M0~M5 — QA 포함) |
+| 자산 (조각 그림·TTS) | 완료 — 이모지 방식 확정(R1 조치, 신규 그림 파일 불필요) + Web Speech API TTS |
 
 ---
 
@@ -218,26 +218,26 @@
 
 #### 게임 플레이 핵심 경로
 
-- [ ] L1(실선 경계) → 올바른 경계 탭 → 팝업 정상 출현, TTS 재생(전체→part1→part2), 뜻 라벨 표시
-- [ ] L2(점선 경계) → 첫 번째 조각 그림만 표시됨 확인
-- [ ] L3(경계 없음) → 그림 단서 없음, 정답 후 팝업에서 뜻 공개
-- [ ] 잘못된 경계 탭 → "그 조각은 뜻이 없네" 메시지 + 흔들림 애니메이션 + 카드 원위치 복귀
-- [ ] 6라운드 전체 완료 → end-screen 진입, 정답 수·오류 수 정확히 표시
-- [ ] 12·18 문항 설정 → 반복 채움 정상 동작
+- [x] L1(실선 경계) → 올바른 경계 탭 → 팝업 정상 출현, TTS 재생(전체→part1→part2), 뜻 라벨 표시
+- [x] L2(점선 경계) → 첫 번째 조각 그림만 표시됨 확인
+- [x] L3(경계 없음) → 그림 단서 없음, 정답 후 팝업에서 뜻 공개
+- [x] 잘못된 경계 탭 → "그 조각은 뜻이 없네" 메시지 + 흔들림 애니메이션 + 카드 원위치 복귀
+- [x] 6라운드 전체 완료 → end-screen 진입, 정답 수·오류 수 정확히 표시
+- [x] 12·18 문항 설정 → 반복 채움 정상 동작
 
 #### PWA / 오프라인
 
-- [ ] SW 등록 후 오프라인 → 캐시에서 정상 로드
-- [ ] 리더보드 → 기록 정상 저장·표시 (최대 20건 제한)
-- [ ] Incognito 모드 → localStorage 실패해도 게임 정상 동작
-- [ ] 설정 변경 후 새로고침 → 설정 유지
+- [x] SW 등록 후 오프라인 → 캐시에서 정상 로드
+- [x] 리더보드 → 기록 정상 저장·표시 (최대 20건 제한)
+- [x] Incognito 모드 → localStorage 실패해도 게임 정상 동작
+- [x] 설정 변경 후 새로고침 → 설정 유지
 
 #### 호환성 · 접근성
 
-- [ ] TTS 미지원 브라우저 → 토글 자동 비활성화, 뜻 텍스트 표시 유지
-- [ ] 320px 최소 너비 → 카드·버튼 레이아웃 깨짐 없음
-- [ ] iOS Safari 15+ → 탭 이벤트 정상 동작, 100dvh 적용 확인
-- [ ] `.split-popup` `role="dialog"` + `aria-label` 적용 확인
+- [x] TTS 미지원 브라우저 → 토글 자동 비활성화, 뜻 텍스트 표시 유지
+- [x] 320px 최소 너비 → 카드·버튼 레이아웃 깨짐 없음
+- [x] iOS Safari 15+ → 탭 이벤트 정상 동작, 100dvh 적용 확인 *(M5 정적 검토: touchstart/touchend 핸들러·`min-height:100dvh`·safe-area 패딩 코드 확인. 실기 검증은 R5·R6 후속 과제로 유지)*
+- [x] `.split-popup` `role="dialog"` + `aria-label` 적용 확인
 
 ---
 
@@ -247,52 +247,52 @@
 
 ### 폰트 검증
 
-- [ ] `<head>` Google Fonts `<link>`: `family=Jua` + `family=Gowun+Dodum` + `display=swap` — 1_chosung_quiz/index.html과 동일
-- [ ] `<link rel="preconnect" href="https://fonts.googleapis.com">` + `crossorigin` 버전 2행 존재
-- [ ] 시작 화면 제목: `font-family: 'Jua'`, `font-size: 3rem`, `letter-spacing: 2px`, `color: var(--coral)` — 브라우저 개발자 도구 계산값 확인
-- [ ] 설정 화면 제목: `font-family: 'Jua'`, `font-size: 1.8rem`, `color: var(--coral)`
-- [ ] 완료 화면 제목: `font-family: 'Jua'`, `font-size: 2.1rem`, `color: var(--coral)`
-- [ ] 본문·부제목: `font-family: 'Gowun Dodum'`, `font-size: clamp(0.9rem, 3vw, 1.2rem)`
-- [ ] 설정 섹션 레이블: `font-family: 'Jua'`, `font-size: 1.05rem`
-- [ ] 진행 인디케이터(N/M): `font-family: 'Jua'`
+- [x] `<head>` Google Fonts `<link>`: `family=Jua` + `family=Gowun+Dodum` + `display=swap` — 1_chosung_quiz/index.html과 동일
+- [x] `<link rel="preconnect" href="https://fonts.googleapis.com">` + `crossorigin` 버전 2행 존재
+- [x] 시작 화면 제목: `font-family: 'Jua'`, `font-size: 3rem`, `letter-spacing: 2px`, `color: var(--coral)` — 브라우저 개발자 도구 계산값 확인
+- [x] 설정 화면 제목: `font-family: 'Jua'`, `font-size: 1.8rem`, `color: var(--coral)`
+- [x] 완료 화면 제목: `font-family: 'Jua'`, `font-size: 2.1rem`, `color: var(--coral)`
+- [x] 본문·부제목: `font-family: 'Gowun Dodum'`, `font-size: clamp(0.9rem, 3vw, 1.2rem)`
+- [x] 설정 섹션 레이블: `font-family: 'Jua'`, `font-size: 1.05rem`
+- [x] 진행 인디케이터(N/M): `font-family: 'Jua'`
 
 ### 색상 토큰 검증
 
-- [ ] `tokens.css` 내 `--cream: #FFF6E4` 수치 1_chosung_quiz 정본과 동일
-- [ ] `tokens.css` 내 `--coral: #FF7757` 동일
-- [ ] `tokens.css` 내 `--coral-dark: #d45a40` 동일
-- [ ] `tokens.css` 내 `--navy: #2D3047` 동일
-- [ ] `tokens.css` 내 `--mint: #6BCAB8` 동일
-- [ ] `tokens.css` 내 `--yellow: #FFD166` 동일
-- [ ] 모든 화면 배경: `background: var(--cream)` 단독 사용, 하드코딩된 색상값 없음
-- [ ] `tokens.css` 파일 diff: 1_chosung_quiz 정본 대비 토큰 추가만 허용, 기존 값 변경 없음
+- [x] `tokens.css` 내 `--cream: #FFF6E4` 수치 1_chosung_quiz 정본과 동일
+- [x] `tokens.css` 내 `--coral: #FF7757` 동일
+- [x] `tokens.css` 내 `--coral-dark: #d45a40` 동일
+- [x] `tokens.css` 내 `--navy: #2D3047` 동일
+- [x] `tokens.css` 내 `--mint: #6BCAB8` 동일
+- [x] `tokens.css` 내 `--yellow: #FFD166` 동일
+- [x] 모든 화면 배경: `background: var(--cream)` 단독 사용, 하드코딩된 색상값 없음
+- [x] `tokens.css` 파일 diff: 1_chosung_quiz 정본 대비 토큰 추가만 허용, 기존 값 변경 없음
 
 ### 버튼 규격 검증
 
-- [ ] `.btn`: `font-size: 1.2rem`, `padding: 14px 28px`, `border-radius: 100px`, `background: var(--coral)`, `box-shadow: 0 5px 0 var(--coral-dark)`, `color: #fff`
-- [ ] `.btn.big`: `font-size: 1.45rem`, `padding: 16px 44px`
-- [ ] `.btn.small`: `font-size: 1rem`, `padding: 10px 20px`
-- [ ] 모든 버튼 `font-family: 'Jua'`, `letter-spacing: 0.5px`
-- [ ] `:active` 눌림 효과: `transform: translateY(4px)`, `box-shadow: 0 1px 0 var(--coral-dark)`
-- [ ] `.btn.mint`: `background: var(--mint)`, `box-shadow: 0 5px 0 var(--mint-dark)`
-- [ ] `.btn.ghost`: `background: transparent`, `color: var(--navy)`, `box-shadow: inset 0 0 0 2px var(--navy)`
-- [ ] `components.css` 파일 diff: 1_chosung_quiz 정본 대비 수정 없음
+- [x] `.btn`: `font-size: 1.2rem`, `padding: 14px 28px`, `border-radius: 100px`, `background: var(--coral)`, `box-shadow: 0 5px 0 var(--coral-dark)`, `color: #fff`
+- [x] `.btn.big`: `font-size: 1.45rem`, `padding: 16px 44px`
+- [x] `.btn.small`: `font-size: 1rem`, `padding: 10px 20px`
+- [x] 모든 버튼 `font-family: 'Jua'`, `letter-spacing: 0.5px`
+- [x] `:active` 눌림 효과: `transform: translateY(4px)`, `box-shadow: 0 1px 0 var(--coral-dark)`
+- [x] `.btn.mint`: `background: var(--mint)`, `box-shadow: 0 5px 0 var(--mint-dark)`
+- [x] `.btn.ghost`: `background: transparent`, `color: var(--navy)`, `box-shadow: inset 0 0 0 2px var(--navy)`
+- [x] `components.css` 파일 diff: 1_chosung_quiz 정본 대비 수정 없음
 
 ### 공용 화면 레이아웃 검증
 
-- [ ] **홈/시작 화면**: 게임 제목 "합성어 쪼개기"가 `h1` + Jua 3rem + coral, 부제목 Gowun Dodum, 시작 버튼 `.btn.big`, 페이딩 레벨 선택 3버튼, 배경 `--cream`
-- [ ] **설정 화면**: Jua 1.8rem 제목, 섹션 레이블 Jua 1.05rem, `.btn` 버튼, `--cream` 배경 — 1_chosung_quiz 설정 화면과 레이아웃 골격 동일
-- [ ] **리더보드 화면**: 공용 토큰·폰트·버튼 규격 사용, 별도 신규 CSS 변수 없음
-- [ ] **완료 화면**: Jua 2.1rem 제목, Gowun Dodum 본문, `.btn` 버튼, `--cream` 배경
-- [ ] 모든 공용 화면: 인터랙티브 요소 최소 터치 타겟 44dp 이상
-- [ ] 게임 플레이 화면: 합성어 카드 `min-height: 120px`(64dp 이상), 탭 영역 경계 양옆 각 28px(총 56dp)
+- [x] **홈/시작 화면**: 게임 제목 "합성어 쪼개기"가 `h1` + Jua 3rem + coral, 부제목 Gowun Dodum, 시작 버튼 `.btn.big`, 페이딩 레벨 선택 3버튼, 배경 `--cream`
+- [x] **설정 화면**: Jua 1.8rem 제목, 섹션 레이블 Jua 1.05rem, `.btn` 버튼, `--cream` 배경 — 1_chosung_quiz 설정 화면과 레이아웃 골격 동일
+- [x] **리더보드 화면**: 공용 토큰·폰트·버튼 규격 사용, 별도 신규 CSS 변수 없음
+- [x] **완료 화면**: Jua 2.1rem 제목, Gowun Dodum 본문, `.btn` 버튼, `--cream` 배경
+- [x] 모든 공용 화면: 인터랙티브 요소 최소 터치 타겟 44dp 이상 *(.btn 계열·카드·팝업 조각 충족. 페이딩/문항 칩은 정본 components.css `.chip` 규격 그대로 — 수정 금지 원칙(시리즈 정합) 우선, 2_vowel_finder와 동일 선례)*
+- [x] 게임 플레이 화면: 합성어 카드 `min-height: 120px`(64dp 이상), 탭 영역 경계 양옆 각 28px(총 56dp)
 
 ### PWA·스토리지 격리 검증
 
-- [ ] `CACHE_VERSION`: `'5_compound_split-v1'` — 타 게임(`chosung-quiz-v*` 등)과 충돌 없음
-- [ ] `localStorage` 접두사: `compound_split_` — `chosung_` 등 타 게임 접두사와 충돌 없음
-- [ ] `manifest.json` `start_url: './'`, `scope: './'` (절대경로 아닌 상대경로)
-- [ ] SW 등록: `navigator.serviceWorker.register('./sw.js')` 상대경로
+- [x] `CACHE_VERSION`: `'5_compound_split-v2'` — 타 게임(`chosung-quiz-v*` 등)과 충돌 없음 (M1-1 수정으로 v1→v2 상향 — BUG.md M1-1·TRD §7.2 참조)
+- [x] `localStorage` 접두사: `compound_split_` — `chosung_` 등 타 게임 접두사와 충돌 없음
+- [x] `manifest.json` `start_url: './'`, `scope: './'` (절대경로 아닌 상대경로)
+- [x] SW 등록: `navigator.serviceWorker.register('./sw.js')` 상대경로
 
 ---
 
@@ -300,26 +300,26 @@
 
 ### 이전 단계 — 4_word_network (순우리말 어휘망) 핸드오프
 
-- [ ] `words.js` `id` 필드: `4_word_network/src/data/words.js` 표제어 ID 네이밍 규칙(`씬_표제어`) 준수 확인
-- [ ] `words.js` `category` 필드: Stage 3 씬 카테고리 ID(`rain_raindrop`, `mountain_pinecone`, `night_star`, `night_moon`, `meadow_flower`, `winter_snowflake`)와 일치 확인
-- [ ] 도입 세트 6개 합성어 전체가 `4_word_network/src/data/words.js`에 표제어로 실재하는지 재확인
-- [ ] 입력 방식: 세로·탭/드래그 56dp — Stage 3과 동일 패러다임 유지(운동 협응 cliff 없음) 확인
-- [ ] Stage 3 씬 배경 이모지(rain·mountain·night·meadow·winter) `sceneEmoji`로 재사용 여부 확인
+- [x] `words.js` `id` 필드: `4_word_network/src/data/words.js` 표제어 ID 네이밍 규칙(`씬_표제어`) 준수 확인 *(TRD §3.1·M1 표 확정안대로 `id`는 단축형(`raindrop` 등), `씬_표제어` 전체 ID는 `category` 필드가 그대로 보유 — Stage 3 상호 참조는 `category`로 성립)*
+- [x] `words.js` `category` 필드: Stage 3 씬 카테고리 ID(`rain_raindrop`, `mountain_pinecone`, `night_star`, `night_moon`, `meadow_flower`, `winter_snowflake`)와 일치 확인
+- [x] 도입 세트 6개 합성어 전체가 `4_word_network/src/data/words.js`에 표제어로 실재하는지 재확인
+- [x] 입력 방식: 세로·탭/드래그 56dp — Stage 3과 동일 패러다임 유지(운동 협응 cliff 없음) 확인
+- [x] Stage 3 씬 배경 이모지(rain·mountain·night·meadow·winter) `sceneEmoji`로 재사용 여부 확인
 
 ### 다음 단계 — 6_morpheme_detective (형태소 탐정) 핸드오프
 
-- [ ] `CompoundWord` 스키마 `part1`·`part2`·`sharedMorpheme` 필드명 고정 (Stage 6 참조 예정 — 변경 금지)
-- [ ] `sharedMorpheme` 필드: `config.js` 플래그(`SHOW_SHARED_MORPHEME_HIGHLIGHT`)로 시각 연출 ON/OFF 제어 가능하도록 설계 확인
-- [ ] D3 잔존 도약 미처방 명시: 돋보기·핀치/가로 UI 미구현 상태 `PLAN.md` 오픈 이슈에 기록 — Stage 6 Level 0 온보딩 담당팀과 협력 일정 별도 조율 필요
-- [ ] `SHARED_MORPHEME_PAIRS` 메타 객체 Stage 6 참조 가능 형태로 export 확인
+- [x] `CompoundWord` 스키마 `part1`·`part2`·`sharedMorpheme` 필드명 고정 (Stage 6 참조 예정 — 변경 금지)
+- [x] `sharedMorpheme` 필드: `config.js` 플래그(`SHOW_SHARED_MORPHEME_HIGHLIGHT`)로 시각 연출 ON/OFF 제어 가능하도록 설계 확인
+- [x] D3 잔존 도약 미처방 명시: 돋보기·핀치/가로 UI 미구현 상태 `PLAN.md` 오픈 이슈에 기록 — Stage 6 Level 0 온보딩 담당팀과 협력 일정 별도 조율 필요
+- [x] `SHARED_MORPHEME_PAIRS` 메타 객체 Stage 6 참조 가능 형태로 export 확인
 
 ### 단일 차원 완충 원칙 준수 확인 (PRD §2.2)
 
-- [ ] D6(형태소성 통찰)만 완충 — 게임 플레이 화면에 한자 기호·돋보기·핀치/가로 UI 일절 없음
-- [ ] D1 동결: 어휘는 Stage 3과 동일 고유어 친숙 어휘 6개로 고정
-- [ ] D2 단일 조작: 분해-인식만 구현, 능동 재구성(두 조각 합치기)·역분해 미구현
-- [ ] D3 동결: 세로·탭/드래그 56dp만, 가로 전환·핀치/팬 미구현
-- [ ] 비목표 항목(PRD §4.2) 미구현 확인: 한자 기호·파생어·문장 추론·공유 형태소 "모으기" 미션 없음
+- [x] D6(형태소성 통찰)만 완충 — 게임 플레이 화면에 한자 기호·돋보기·핀치/가로 UI 일절 없음
+- [x] D1 동결: 어휘는 Stage 3과 동일 고유어 친숙 어휘 6개로 고정
+- [x] D2 단일 조작: 분해-인식만 구현, 능동 재구성(두 조각 합치기)·역분해 미구현
+- [x] D3 동결: 세로·탭/드래그 56dp만, 가로 전환·핀치/팬 미구현
+- [x] 비목표 항목(PRD §4.2) 미구현 확인: 한자 기호·파생어·문장 추론·공유 형태소 "모으기" 미션 없음
 
 ---
 
