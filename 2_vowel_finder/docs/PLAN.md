@@ -51,14 +51,14 @@
 
 ## M1 — 데이터 레이어
 
-- [ ] `src/data/vowels.js` 작성 — `VOWELS` 배열 10항목 (`id`, `char`, `sound`, `shape`, `order`)
-- [ ] `src/data/vowels.js` — `LEVEL0_ROUNDS` 10항목 (정답 + 오답 3개, 발음·형태 유사 기준 수동 큐레이션)
-- [ ] `src/js/config.js` 작성 — `SNAP_RADIUS=20`, `L0_COUNT_DEFAULT=5`, `SCAFFOLD_THRESHOLDS`, `FEEDBACK_DELAY_CORRECT=800`, `FEEDBACK_DELAY_WRONG=1200`, `SNAP_FEEDBACK_DELAY=600`, `SCORE_MAX=20`
-- [ ] `src/js/state.js` 작성 — `settings` / `game` / `session` 3-레이어 싱글톤 (TRD §3.2 스키마)
-- [ ] `src/js/storage.js` 작성 — `vowel_finder_` 접두사, `loadSettings()` / `saveSettings()` / `saveScore()` / `loadScores()`, `try/catch` Incognito 대응
-- [ ] 별점 산출 함수 `calcStars(l0Acc, l1Acc, dragDone)` — 3점/2점/1점 규칙 (TRD §8.1)
-- [ ] `buildLevel0Questions(vowelCount)` 알고리즘 검증 — 셔플 후 `vowelCount`개 추출, 중복 없음
-- [ ] `buildLevel1Queue()` 알고리즘 검증 — 10개 전체 셔플
+- [x] `src/data/vowels.js` 작성 — `VOWELS` 배열 10항목 (`id`, `char`, `sound`, `shape`, `order`)
+- [x] `src/data/vowels.js` — `LEVEL0_ROUNDS` 10항목 (정답 + 오답 3개, 발음·형태 유사 기준 수동 큐레이션)
+- [x] `src/js/config.js` 작성 — `SNAP_RADIUS=20`, `L0_COUNT_DEFAULT=5`, `SCAFFOLD_THRESHOLDS`, `FEEDBACK_DELAY_CORRECT=800`, `FEEDBACK_DELAY_WRONG=1200`, `SNAP_FEEDBACK_DELAY=600`, `SCORE_MAX=20`
+- [x] `src/js/state.js` 작성 — `settings` / `game` / `session` 3-레이어 싱글톤 (TRD §3.2 스키마)
+- [x] `src/js/storage.js` 작성 — `vowel_finder_` 접두사, `loadSettings()` / `saveSettings()` / `saveScore()` / `loadScores()`, `try/catch` Incognito 대응
+- [x] 별점 산출 함수 `calcStars(l0Acc, l1Acc, dragDone)` — 3점/2점/1점 규칙 (TRD §8.1)
+- [x] `buildLevel0Questions(vowelCount)` 알고리즘 검증 — 셔플 후 `vowelCount`개 추출, 중복 없음
+- [x] `buildLevel1Queue()` 알고리즘 검증 — 10개 전체 셔플
 
 ---
 
