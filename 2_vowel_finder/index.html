@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>모음 찾기</title>
+  <meta name="theme-color" content="#FF7757">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+  <!-- CSS — 토큰 → 베이스 → 컴포넌트 → 공용 화면 → 게임 고유 (TRD §2.2) -->
+  <link rel="stylesheet" href="./src/css/tokens.css">
+  <link rel="stylesheet" href="./src/css/base.css">
+  <link rel="stylesheet" href="./src/css/components.css">
+  <link rel="stylesheet" href="./src/css/screens.css">
+  <link rel="stylesheet" href="./src/css/game.css">
+</head>
+<body>
+<div class="container">
+
+  <!-- =========== 시작 화면 =========== -->
+  <div id="start-screen" class="screen active start-screen">
+    <div class="start-emoji">🔍</div>
+    <h1>모음 찾기</h1>
+    <p class="subtitle">소리를 듣고 같은 모음을 찾아봐요!</p>
+    <!-- M2에서 startGame() 게임 로직으로 대체 — 현재는 no-op -->
+    <button class="btn big" onclick="startGame()">시작하기 🎵</button>
+    <div class="start-links">
+      <button class="btn-settings" onclick="goTo('settings-screen')">⚙️ 설정</button>
+      <button class="btn-settings" onclick="goTo('leaderboard-screen')">🏆 기록</button>
+    </div>
+  </div>
+
+  <!-- =========== 설정 화면 =========== -->
+  <div id="settings-screen" class="screen settings-screen">
+    <div class="settings-header">
+      <h2>⚙️ 설정</h2>
+      <button class="close-btn" onclick="goTo('start-screen')">✕</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🔊 소리 듣기 (TTS)</span>
+        <div class="toggle on" id="toggle-tts" onclick="toggleSetting('ttsEnabled', this)"></div>
+      </div>
+      <div class="section-hint" id="tts-hint">모음이 나오면 소리를 읽어줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🎵 효과음</span>
+        <div class="toggle on" id="toggle-sfx" onclick="toggleSetting('sfxEnabled', this)"></div>
+      </div>
+      <div class="section-hint">정답·오답·스냅 소리를 들려줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-label">📏 난이도 (모음 수)</div>
+      <div class="chip-row" id="count-chips">
+        <button class="chip active" data-count="5" onclick="selectCount(5, this)">5개</button>
+        <button class="chip" data-count="10" onclick="selectCount(10, this)">10개</button>
+      </div>
+      <div class="section-hint">한 판에 나오는 모음 문제 수예요</div>
+    </div>
+
+    <div class="settings-footer">
+      <button class="btn big" onclick="goTo('start-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+  <!-- =========== 리더보드 화면 =========== -->
+  <div id="leaderboard-screen" class="screen leaderboard-screen">
+    <div class="settings-header">
+      <h2>🏆 기록</h2>
+      <button class="close-btn" onclick="goTo('start-screen')">✕</button>
+    </div>
+
+    <!-- M4에서 leaderboard.js renderLeaderboard()가 채움 — 아래 항목은 디자인 확인용 placeholder -->
+    <div class="lb-list" id="leaderboard-list">
+      <div class="lb-item best">
+        <div class="lb-item-head">
+          <span class="lb-date">6월 10일</span>
+          <span class="lb-best-tag">최고 기록</span>
+          <span class="lb-stars">★★★</span>
+          <span class="lb-duration">3분 7초</span>
+        </div>
+        <div class="lb-bar-row">
+          <span class="lb-bar-label">소리 찾기</span>
+          <div class="lb-bar-track"><div class="lb-bar-fill l0" style="width: 80%"></div></div>
+          <span class="lb-bar-value">80%</span>
+        </div>
+        <div class="lb-bar-row">
+          <span class="lb-bar-label">모양 나누기</span>
+          <div class="lb-bar-track"><div class="lb-bar-fill l1" style="width: 90%"></div></div>
+          <span class="lb-bar-value">90%</span>
+        </div>
+      </div>
+    </div>
+    <p class="lb-empty" id="leaderboard-empty" style="display:none;">아직 기록이 없어요. 게임을 해봐요!</p>
+
+    <div class="leaderboard-footer">
+      <button class="btn big" onclick="goTo('start-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+  <!-- =========== 완료 화면 =========== -->
+  <div id="end-screen" class="screen end-screen">
+    <div class="celebration-emojis">🎉✨🎊</div>
+    <h2>참 잘했어요!</h2>
+    <div class="end-stars" id="end-stars" aria-label="별 3개 중 3개">★★★</div>
+    <p class="end-message">정답률 <span id="end-accuracy">0%</span></p>
+    <p class="end-message" id="end-feedback"></p>
+    <div class="end-buttons">
+      <button class="btn big" onclick="goTo('start-screen')">다시 하기 🔄</button>
+      <button class="btn mint big" onclick="goToNextStage()">음절 조립소로 가기 ➡️</button>
+    </div>
+    <div class="end-buttons">
+      <button class="btn ghost small" onclick="goTo('start-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- 임시 화면 전환 스크립트 — M2에서 src/js/ui.js goTo + main.js 전역 노출로 대체 -->
+<script>
+  function goTo(screenId) {
+    document.querySelectorAll('.screen').forEach(function (el) {
+      el.classList.remove('active');
+    });
+    var target = document.getElementById(screenId);
+    if (target) target.classList.add('active');
+  }
+
+  // M2에서 게임 로직으로 대체 — 게임 화면이 아직 없으므로 no-op
+  function startGame() {}
+
+  // M2~M3에서 settings.js + storage.js로 대체 — 현재는 시각 토글만
+  function toggleSetting(key, el) {
+    el.classList.toggle('on');
+  }
+
+  function selectCount(count, el) {
+    document.querySelectorAll('#count-chips .chip').forEach(function (chip) {
+      chip.classList.remove('active');
+    });
+    el.classList.add('active');
+  }
+
+  // Stage 2(음절 조립소) 연결 — 배포 경로 확정 후 실제 URL 연결 (현재 no-op)
+  function goToNextStage() {}
+</script>
+
+<!-- SW 등록 — sw.js 자체는 M4에서 작성. 존재할 때만 등록 (404 안전) -->
+<script>
+  if ('serviceWorker' in navigator) {
+    fetch('./sw.js', { method: 'HEAD' })
+      .then(function (res) {
+        if (res.ok) return navigator.serviceWorker.register('./sw.js');
+      })
+      .catch(function () { /* sw.js 미존재(M4 이전) — 무시 */ });
+  }
+</script>
+</body>
+</html>

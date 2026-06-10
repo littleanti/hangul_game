@@ -1,0 +1,9 @@
+{
+  "name": "2_vowel_finder",
+  "version": "0.1.0",
+  "description": "모음 찾기 — 소리로 모음 재인하기 (유아용 한글 학습 게임)",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve -l 4328"
+  }
+}

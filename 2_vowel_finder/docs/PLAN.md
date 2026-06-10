@@ -33,19 +33,19 @@
 
 > `1_chosung_quiz/src/css/{tokens,screens,components}.css`를 복제·이식하여 공용 화면(홈·설정·리더보드·완료)을 먼저 구성한다. 게임 고유 화면 구현 전 디자인 토큰이 정합한지 확인한다.
 
-- [ ] 디렉터리 골격 생성: `2_vowel_finder/` 루트 + `src/css/`, `src/js/`, `src/data/`, `docs/`, `icons/`
-- [ ] `package.json` 작성 (`"dev": "npx serve -l 4328"`)
-- [ ] `index.html` 뼈대 작성 — Google Fonts `<link>`, CSS 5파일 순서 로드, SW 등록 스크립트
-- [ ] `src/css/tokens.css` — `1_chosung_quiz` 정본 복제 (색상 토큰 17개, 시맨틱 토큰 5개)
-- [ ] `src/css/base.css` — 리셋 + `min-height:100dvh` + `overflow-x:hidden` + 세로 고정
-- [ ] `src/css/components.css` — `.btn` / `.btn.big` / `.btn.small` / `.btn.mint` / `.btn.ghost` / `.toggle` 복제
-- [ ] `src/css/screens.css` — `#start-screen`, `#settings-screen`, `#leaderboard-screen`, `#end-screen` 복제
-- [ ] `src/css/game.css` — 빈 파일 생성 (M2에서 채움)
-- [ ] 홈/시작 화면 HTML 마크업 — 제목 "모음 찾기", 부제, `.btn.big` "시작하기" 버튼
-- [ ] 설정 화면 HTML 마크업 — TTS 토글, 효과음 토글, 난이도 칩(5개/10개)
-- [ ] 완료 화면 HTML 마크업 — 정답률 표시, 별점 1~3, "음절 조립소로 가기" CTA, "다시 하기" 버튼
-- [ ] 리더보드 화면 HTML 마크업 — 최근 5세션 막대 그래프 영역, 별점 아이콘, 날짜·소요시간
-- [ ] 포트 4328에서 4개 공용 화면 브라우저 확인 (게임 화면 없이)
+- [x] 디렉터리 골격 생성: `2_vowel_finder/` 루트 + `src/css/`, `src/js/`, `src/data/`, `docs/`, `icons/`
+- [x] `package.json` 작성 (`"dev": "npx serve -l 4328"`)
+- [x] `index.html` 뼈대 작성 — Google Fonts `<link>`, CSS 5파일 순서 로드, SW 등록 스크립트
+- [x] `src/css/tokens.css` — `1_chosung_quiz` 정본 복제 (색상 토큰 17개, 시맨틱 토큰 5개)
+- [x] `src/css/base.css` — 리셋 + `min-height:100dvh` + `overflow-x:hidden` + 세로 고정
+- [x] `src/css/components.css` — `.btn` / `.btn.big` / `.btn.small` / `.btn.mint` / `.btn.ghost` / `.toggle` 복제
+- [x] `src/css/screens.css` — `#start-screen`, `#settings-screen`, `#leaderboard-screen`, `#end-screen` 복제
+- [x] `src/css/game.css` — 빈 파일 생성 (M2에서 채움)
+- [x] 홈/시작 화면 HTML 마크업 — 제목 "모음 찾기", 부제, `.btn.big` "시작하기" 버튼
+- [x] 설정 화면 HTML 마크업 — TTS 토글, 효과음 토글, 난이도 칩(5개/10개)
+- [x] 완료 화면 HTML 마크업 — 정답률 표시, 별점 1~3, "음절 조립소로 가기" CTA, "다시 하기" 버튼
+- [x] 리더보드 화면 HTML 마크업 — 최근 5세션 막대 그래프 영역, 별점 아이콘, 날짜·소요시간
+- [x] 포트 4328에서 4개 공용 화면 브라우저 확인 (게임 화면 없이)
 
 ---
 

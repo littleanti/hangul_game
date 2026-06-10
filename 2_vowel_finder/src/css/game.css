@@ -1,0 +1,8 @@
+/* ==========================================
+   게임 플레이 고유 화면 스타일 (M2에서 채움)
+   — #game-level0 / #game-level1 / #drag-onboarding / #progress-hud
+   — tokens.css 변수만 참조하여 확장. 공용 클래스(.btn, .toggle 등) 재정의 금지.
+   예정 클래스: .vowel-card, .choices-grid, .choice-btn,
+               .bucket, .bucket.hover-active, .bucket-label, .bucket-example,
+               .progress-hud, .onboarding-arrow
+   ========================================== */
