@@ -30,6 +30,9 @@ export const LEADERBOARD_MAX = 20;
 // 탭 히트 검출 허용 오차 — 56dp 터치 타겟의 절반 (TRD §5.1, M2에서 사용)
 export const TAP_TOLERANCE_PX = 28;
 
+// 탭/드래그 구분 임계값 — 이동 거리 < 10px이면 탭으로 간주 (TRD §6.2)
+export const TAP_MOVE_THRESHOLD_PX = 10;
+
 // 오류 메시지 자동 숨김 시간 (TRD §5.2)
 export const ERROR_MESSAGE_MS = 1500;
 

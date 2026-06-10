@@ -9,7 +9,7 @@ import { goTo } from './ui.js';
 import { loadSettings } from './storage.js';
 import { unlock } from './tts.js';
 import { resumeAudio } from './sound.js';
-import { startGame } from './game.js';
+import { startGame, closeSplitPopup, speakPiece } from './game.js';
 import {
   openSettings,
   renderSettings,
@@ -22,6 +22,8 @@ import { openLeaderboard } from './leaderboard.js';
 // HTML onclick 속성에서 호출할 수 있게 전역으로 노출 (TRD §2.2)
 window.goTo = goTo;
 window.startGame = startGame;
+window.closeSplitPopup = closeSplitPopup;
+window.speakPiece = speakPiece;
 window.openSettings = openSettings;
 window.openLeaderboard = openLeaderboard;
 window.toggleSetting = toggleSetting;

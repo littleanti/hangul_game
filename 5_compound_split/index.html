@@ -108,12 +108,13 @@
     </div>
   </div>
 
-  <!-- =========== 게임 플레이 화면 (M2에서 내용 채움) =========== -->
+  <!-- =========== 게임 플레이 화면 =========== -->
   <div id="game-screen" class="screen">
     <div class="progress-indicator" id="progress-indicator" aria-live="polite"></div>
     <div id="card-area">
-      <!-- M2: .compound-card 렌더링 영역 -->
+      <!-- game.js renderCard()가 .compound-card + 단서 행을 렌더링 -->
     </div>
+    <div class="error-message" id="error-message" role="alert"></div>
     <p class="feedback-live" id="game-feedback" aria-live="polite"></p>
     <div class="end-buttons">
       <button class="btn ghost small" onclick="goTo('start-screen')">🏠 그만하기</button>
@@ -129,7 +130,7 @@
       <span style="opacity:0.4;">/</span>
       <span id="end-total">6</span>
     </div>
-    <p class="end-message">정답률 <span id="end-accuracy">0%</span></p>
+    <p class="end-message">틀린 횟수 <span id="end-errors">0</span>번 · 걸린 시간 <span id="end-duration">0초</span></p>
     <p class="end-message" id="end-feedback"></p>
     <div class="end-buttons">
       <button class="btn big" onclick="startGame()">다시 하기 🔄</button>
