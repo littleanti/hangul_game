@@ -288,51 +288,96 @@
       },
       {
         stage: 2,
-        slug: "2_syllable_assembly",
-        title: "음절 조립",
-        desc: "자음과 모음을 모아 글자를 만들어요. 받침까지 척척!",
+        slug: "2_vowel_finder",
+        title: "모음 찾기",
+        desc: "모음을 찾고 같은 모음끼리 모아요. 음절 조립 준비 워밍업!",
         age: "만 4~6세",
-        color: "#6BCAB8"
+        color: "#6BCAB8",
+        ready: false
       },
       {
         stage: 3,
-        slug: "3_word_network",
-        title: "어휘망",
-        desc: "관련된 낱말을 이어 어휘 그물을 넓혀가요.",
-        age: "만 5~7세",
+        slug: "3_syllable_assembly",
+        title: "음절 조립",
+        desc: "자음과 모음을 모아 글자를 만들어요. 받침까지 척척!",
+        age: "만 4~6세",
         color: "#FFD166"
       },
       {
         stage: 4,
-        slug: "4_morpheme_detective",
-        title: "형태소 탐정",
-        desc: "낱말을 쪼개 숨은 뜻조각을 찾는 탐정 놀이!",
-        age: "초 1~2",
+        slug: "4_word_network",
+        title: "어휘망",
+        desc: "관련된 낱말을 이어 어휘 그물을 넓혀가요.",
+        age: "만 5~7세",
         color: "#FF7757"
       },
       {
         stage: 5,
-        slug: "5_vocabulary_tree",
+        slug: "5_compound_split",
+        title: "합성어 쪼개기",
+        desc: "친숙한 낱말을 쪼개 뜻조각을 발견해요. 형태소의 첫 발견!",
+        age: "만 6~7세",
+        color: "#6BCAB8",
+        ready: false
+      },
+      {
+        stage: 6,
+        slug: "6_morpheme_detective",
+        title: "형태소 탐정",
+        desc: "낱말을 쪼개 숨은 뜻조각을 찾는 탐정 놀이!",
+        age: "초 1~2",
+        color: "#FFD166"
+      },
+      {
+        stage: 7,
+        slug: "7_reverse_root",
+        title: "한자 뿌리 역분해",
+        desc: "한자어를 거꾸로 쪼개 뿌리 글자를 찾아요.",
+        age: "만 8세",
+        color: "#FF7757",
+        ready: false
+      },
+      {
+        stage: 8,
+        slug: "8_vocabulary_tree",
         title: "어휘 세계수",
         desc: "낱말 나무를 키우며 풍부한 어휘를 쌓아요.",
         age: "초 3~4",
         color: "#6BCAB8"
       },
       {
-        stage: 6,
-        slug: "6_literacy_decoder",
+        stage: 9,
+        slug: "9_sentence_clue_garden",
+        title: "문장 단서 정원",
+        desc: "문장 속 단서로 알맞은 낱말을 채워요. 문맥 추론 첫걸음!",
+        age: "초 4~5",
+        color: "#FFD166",
+        ready: false
+      },
+      {
+        stage: 10,
+        slug: "10_literacy_decoder",
         title: "문해력 해독기",
         desc: "긴 글 속 핵심을 읽어내는 문해력 훈련소.",
         age: "초 5~6",
-        color: "#FFD166"
+        color: "#FF7757"
       },
       {
-        stage: 7,
-        slug: "7_four-character_idiom_crossword",
+        stage: 11,
+        slug: "11_idiom_syllable_typer",
+        title: "사자성어 받아쓰기",
+        desc: "사자성어를 한 음절씩 적어요. 자유 타자 준비 단계!",
+        age: "초 6~중1",
+        color: "#6BCAB8",
+        ready: false
+      },
+      {
+        stage: 12,
+        slug: "12_four-character_idiom_crossword",
         title: "사자성어 크로스워드",
         desc: "사자성어로 채우는 십자말풀이. 어휘력의 끝판왕!",
         age: "초고~중1",
-        color: "#FF7757"
+        color: "#FFD166"
       }
     ];
 
@@ -369,11 +414,23 @@
         var p = document.createElement("p");
         p.textContent = g.desc;
 
-        var btn = document.createElement("a");
-        btn.className = "play-btn";
-        btn.href = href;
-        btn.setAttribute("aria-label", g.title + " 실행하기");
-        btn.innerHTML = '<span>실행</span><span class="arrow" aria-hidden="true">&rarr;</span>';
+        var btn;
+        if (g.ready === false) {
+          btn = document.createElement("span");
+          btn.className = "play-btn soon";
+          btn.setAttribute("aria-disabled", "true");
+          btn.style.background = "#d7dbe3";
+          btn.style.color = "#7b8190";
+          btn.style.cursor = "default";
+          btn.style.boxShadow = "none";
+          btn.innerHTML = '<span>준비 중</span>';
+        } else {
+          btn = document.createElement("a");
+          btn.className = "play-btn";
+          btn.href = href;
+          btn.setAttribute("aria-label", g.title + " 실행하기");
+          btn.innerHTML = '<span>실행</span><span class="arrow" aria-hidden="true">&rarr;</span>';
+        }
 
         card.appendChild(top);
         card.appendChild(h2);

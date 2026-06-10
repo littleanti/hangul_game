@@ -3,50 +3,69 @@
 # hangul_games
 
 ## Purpose
-유아기 한글 파닉스부터 사자성어 형태 의미론까지, 인지 발달 단계에 따라 촘촘하게 설계된 한글 학습 게임 생태계. 음운론적 해독(Phonological Decoding) → 형태 의미론적 통합(Morpho-semantic Synthesis)으로 이어지는 7단계 로드맵을 구성한다. **모든 게임은 스마트폰·태블릿 우선(Mobile-First)으로 설계된다.**
+유아기 한글 파닉스부터 사자성어 형태 의미론까지, 인지 발달 단계에 따라 촘촘하게 설계된 한글 학습 게임 생태계. 음운론적 해독(Phonological Decoding) → 형태 의미론적 통합(Morpho-semantic Synthesis)으로 이어지는 **12단계 로드맵**(앵커 7단계 + 학습 갭을 메우는 브릿지 5단계, `LEARNING_PROGRESSION_ANALYSIS.md` 근거)을 구성한다. **모든 게임은 스마트폰·태블릿 우선(Mobile-First)으로 설계된다.**
 
 ## Learning Roadmap (Cognitive Progression)
 
 ```
 [유아 후기]                                                                        [초등 고학년]
-1_chosung_quiz ─→ 2_ ─→ 3_ ─→ 4_ ─→ 5_ ─→ 6_ ─→ 7_four-character_idiom_crossword
-   (앵커: 시작)                                                            (앵커: 도착)
-   초성 단서 인출                                                       비유적 4자성어 해독
+1 ─→ [2] ─→ 3 ─→ 4 ─→ [5] ─→ 6 ─→ [7] ─→ 8 ─→ [9] ─→ 10 ─→ [11] ─→ 12
+(앵커: 시작)                  ([ ] = 학습 갭 브릿지)                  (앵커: 도착)
+초성 단서 인출                                                  비유적 4자성어 해독
 ```
+
+> `[N]` 표기는 `LEARNING_PROGRESSION_ANALYSIS.md`에서 단계 간 학습 갭이 과대하다고 판정되어 삽입한 **브릿지 단계**(2·5·7·9·11)다. 9·11은 必(무조건 벼랑 완충), 2·5·7은 권장(In-stage 온보딩으로도 가능).
 
 | # | Directory | 단계 / 인지 목표 | 대상 연령 |
 |---|-----------|----------------|----------|
 | 1 | `1_chosung_quiz/` | **앵커 1** — 초성 단서 어휘 인출 (음운 인출 자동화) | 유아 ~ 초저학년 |
-| 2 | `2_syllable_assembly/` | 자모 결합·파닉스 (공감각적 음절 조립) | 만 4 ~ 6세 |
-| 3 | `3_word_network/` | 고유어 어휘 확장 (수평적 읽기) | 만 5 ~ 7세 |
-| 4 | `4_morpheme_detective/` | 한자 형태소 인식 (단어 속 뜻글자 발견) | 초1 ~ 초2 |
-| 5 | `5_vocabulary_tree/` | 1자 → N어휘 파생 (학술 어휘 분해) | 초3 ~ 초4 |
-| 6 | `6_literacy_decoder/` | 문맥 추론 + 형태소 통합 (직독직해) | 초5 ~ 초6 |
-| 7 | `7_four-character_idiom_crossword/` | **앵커 2** — 사자성어 비유적 의미 해독 | 초고학년 ~ 중1 |
+| 2 | `2_vowel_finder/` | **브릿지(1→3)** — 모음 재인 + tap→drag 운동 온보딩 | 만 4 ~ 6세 |
+| 3 | `3_syllable_assembly/` | 자모 결합·파닉스 (공감각적 음절 조립) | 만 4 ~ 6세 |
+| 4 | `4_word_network/` | 고유어 어휘 확장 (수평적 읽기) | 만 5 ~ 7세 |
+| 5 | `5_compound_split/` | **브릿지(4→6)** — 고유어 합성어로 형태소성 통찰 선점화 | 만 6 ~ 7세 |
+| 6 | `6_morpheme_detective/` | 한자 형태소 인식 (단어 속 뜻글자 발견) | 초1 ~ 초2 |
+| 7 | `7_reverse_root/` | **브릿지(6→8)** — 투명 합성어 한자 역(逆)분해 | 만 8세 전후 |
+| 8 | `8_vocabulary_tree/` | 1자 → N어휘 파생 (학술 어휘 분해) | 초3 ~ 초4 |
+| 9 | `9_sentence_clue_garden/` | **브릿지(8→10) 必** — 단문 클로즈 문맥 추론 (문장 위계) | 초4 ~ 초5 |
+| 10 | `10_literacy_decoder/` | 문맥 추론 + 형태소 통합 (직독직해) | 초5 ~ 초6 |
+| 11 | `11_idiom_syllable_typer/` | **브릿지(10→12) 必** — 사자성어 한글 음절 IME 산출 비계 | 초6 ~ 중1 |
+| 12 | `12_four-character_idiom_crossword/` | **앵커 2** — 사자성어 비유적 의미 해독 | 초고학년 ~ 중1 |
 
 ## Subdirectories
 
 | Directory | Purpose |
 |-----------|---------|
-| `1_chosung_quiz/` | 초성 퀴즈 (구현 완료, see `1_chosung_quiz/AGENTS.md`) |
-| `2_syllable_assembly/` | 음절 조립 게임 (구현 완료, see `2_syllable_assembly/AGENTS.md`) |
-| `3_word_network/` | 고유어 어휘망 게임 (구현 완료, see `3_word_network/AGENTS.md`) |
-| `4_morpheme_detective/` | 형태소 탐정 게임 (설계 단계, see `4_morpheme_detective/AGENTS.md`) |
-| `5_vocabulary_tree/` | 어휘력 세계수 게임 (설계 단계, see `5_vocabulary_tree/AGENTS.md`) |
-| `6_literacy_decoder/` | 문해력 해독기 게임 (설계 단계, see `6_literacy_decoder/AGENTS.md`) |
-| `7_four-character_idiom_crossword/` | 사자성어 크로스워드 (구현 완료, see `7_four-character_idiom_crossword/AGENTS.md`) |
+| `1_chosung_quiz/` | 초성 퀴즈 (구현 완료) |
+| `2_vowel_finder/` | 모음 찾기 브릿지 (**설계 문서만**, see `2_vowel_finder/docs/`) |
+| `3_syllable_assembly/` | 음절 조립 게임 (구현 완료) |
+| `4_word_network/` | 고유어 어휘망 게임 (구현 완료) |
+| `5_compound_split/` | 합성어 쪼개기 브릿지 (**설계 문서만**, see `5_compound_split/docs/`) |
+| `6_morpheme_detective/` | 형태소 탐정 게임 (설계 단계) |
+| `7_reverse_root/` | 한자 뿌리 역분해 브릿지 (**설계 문서만**, see `7_reverse_root/docs/`) |
+| `8_vocabulary_tree/` | 어휘력 세계수 게임 (설계 단계) |
+| `9_sentence_clue_garden/` | 문장 단서 정원 브릿지 必 (**설계 문서만**, see `9_sentence_clue_garden/docs/`) |
+| `10_literacy_decoder/` | 문해력 해독기 게임 (설계 단계) |
+| `11_idiom_syllable_typer/` | 사자성어 받아쓰기 브릿지 必 (**설계 문서만**, see `11_idiom_syllable_typer/docs/`) |
+| `12_four-character_idiom_crossword/` | 사자성어 크로스워드 (구현 완료) |
 
 ## Port Allocation (Convention)
+
+기존 구현 게임은 원 포트(4321·4322·4323·4324·4325·4326·4327)를 package.json에 그대로 유지하며, 신규 브릿지 게임은 충돌 회피를 위해 4328~4332를 사용한다.
 
 | Project | Port |
 |---------|------|
 | `1_chosung_quiz` | 4321 |
-| `2_syllable_assembly` (예약) | 4322 |
-| `3_word_network` (예약) | 4323 |
-| `4_morpheme_detective` (예약) | 4324 |
-| `5_vocabulary_tree` (예약) | 4325 |
-| `6_literacy_decoder` (예약) | 4326 |
-| `7_four-character_idiom_crossword` | 4327 |
+| `3_syllable_assembly` | 4322 |
+| `4_word_network` | 4323 |
+| `6_morpheme_detective` | 4324 |
+| `8_vocabulary_tree` | 4325 |
+| `10_literacy_decoder` | 4326 |
+| `12_four-character_idiom_crossword` | 4327 |
+| `2_vowel_finder` (신규) | 4328 |
+| `5_compound_split` (신규) | 4329 |
+| `7_reverse_root` (신규) | 4330 |
+| `9_sentence_clue_garden` (신규) | 4331 |
+| `11_idiom_syllable_typer` (신규) | 4332 |
 
 ## Mobile-First Design Principles (전 게임 공통)
 
@@ -73,12 +92,17 @@
 | 단계 | 권장 모드 | 이유 |
 |------|----------|------|
 | 1_chosung_quiz | 세로 | 단순 카드 인터랙션 |
-| 2_syllable_assembly | **가로 잠금** | 2D 자모 배치 영역 확보 |
-| 3_word_network | 세로 | 일러스트 + 블록 도크 수직 |
-| 4_morpheme_detective | 가로 | 일러스트 풍경감 |
-| 5_vocabulary_tree | 세로 | 나무 수직 성장 |
-| 6_literacy_decoder | 세로 | 지문 가독성 |
-| 7_four-character_idiom_crossword | 세로 | 4×N 격자 + 키패드 |
+| 2_vowel_finder | 세로 | 단순 탭 매칭(S1 계승) |
+| 3_syllable_assembly | **가로 잠금** | 2D 자모 배치 영역 확보 |
+| 4_word_network | 세로 | 일러스트 + 블록 도크 수직 |
+| 5_compound_split | 세로 | 합성어 카드 분해(S4 계승) |
+| 6_morpheme_detective | 가로 | 일러스트 풍경감 |
+| 7_reverse_root | 가로 | 한자 발견·자성 스냅(S6 계승) |
+| 8_vocabulary_tree | 세로 | 나무 수직 성장 |
+| 9_sentence_clue_garden | 세로 | 문장 가독성 + 도크 수직 |
+| 10_literacy_decoder | 세로 | 지문 가독성 |
+| 11_idiom_syllable_typer | 세로 | 4×1 슬롯 + 키패드 |
+| 12_four-character_idiom_crossword | 세로 | 4×N 격자 + 키패드 |
 
 ## Common Patterns Across Projects
 
@@ -89,7 +113,7 @@
 
 ## Series UI Design Standard (시리즈 공통 UI 규격)
 
-1 ~ 6단계 모든 게임의 **시작 화면·설정 화면·게임 완료 화면**은 `1_chosung_quiz`의 디자인 시스템을 기준으로 통일한다. 아래 수치는 `1_chosung_quiz/src/css/screens.css` · `components.css`의 실제 값이며, 모든 형제 게임이 **그대로** 사용해야 한다.
+**전 단계 모든 게임(앵커·브릿지 공통)** 의 게임 화면을 제외한 재사용 화면 — **홈/시작 화면·설정 화면·리더보드 화면·게임 완료 화면** — 은 `1_chosung_quiz`의 디자인 시스템을 기준으로 통일한다. 아래 수치는 `1_chosung_quiz/src/css/screens.css` · `components.css`의 실제 값이며, 모든 형제 게임이 **그대로** 사용해야 한다.
 
 ### 폰트 규격
 
@@ -141,9 +165,10 @@
 ## For AI Agents
 
 ### Working In This Repository
-- **구현 완료** 게임: `1_chosung_quiz`, `2_syllable_assembly`, `3_word_network`, `7_four-character_idiom_crossword`
-- **4_ ~ 6_** 디렉토리는 **설계 단계** — 각 AGENTS.md가 PRD 역할
-- 새 게임 구현 착수 시: 해당 단계의 AGENTS.md를 PRD/TRD로 분해 → `docs/PRD.md`, `docs/TRD.md`, `docs/PLAN.md` 생성 권장 (`1_chosung_quiz/docs/` 패턴)
+- **구현 완료** 게임: `1_chosung_quiz`, `3_syllable_assembly`, `4_word_network`, `12_four-character_idiom_crossword`
+- `6_morpheme_detective`, `8_vocabulary_tree`, `10_literacy_decoder` 디렉토리는 **설계 단계**
+- **브릿지 신규 게임**(`2_vowel_finder`, `5_compound_split`, `7_reverse_root`, `9_sentence_clue_garden`, `11_idiom_syllable_typer`)은 **설계 문서(docs/PRD·TRD·PLAN)만 작성된 상태 — 구현 미착수.** 설계 근거는 `LEARNING_PROGRESSION_ANALYSIS.md` §5
+- 새 게임 구현 착수 시: `docs/PRD.md`, `docs/TRD.md`, `docs/PLAN.md`를 기준으로 진행 (`1_chosung_quiz/docs/` 패턴). 재사용 화면(홈/설정/리더보드/완료)은 반드시 공용 디자인 시스템 준수
 - 인접 단계의 AGENTS.md를 함께 읽어 데이터/컴포넌트 호환성 확보
 - **모바일/태블릿 실기기 테스트 필수** — Chrome DevTools 에뮬레이터만으로는 부족
 

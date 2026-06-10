@@ -31,10 +31,10 @@ jobs:
       # Game 4 (morpheme_detective) has a build step that generates icons / SW.
       # Wrapped so it never hard-fails the deploy: missing scripts are skipped
       # (--if-present) and the whole step is best-effort (|| true).
-      - name: Build game 4 (morpheme_detective)
+      - name: Build morpheme_detective (단계 6)
         run: |
           (
-            cd 4_morpheme_detective \
+            cd 6_morpheme_detective \
               && npm ci \
               && npm run gen-all --if-present
           ) || true
