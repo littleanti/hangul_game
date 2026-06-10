@@ -90,8 +90,8 @@
 - [x] `src/js/level1.js` — `initLevel1()`: 큐 빌드, 비계 단계 초기화, 첫 문항 렌더링
 - [x] `level1.js` — `renderBucketQuestion(idx)`: 모음 카드 + 세로형 통 + 가로형 통 2구역
 - [x] `level1.js` — `tapBucket(shape)`: 탭으로 통 배정 → 정오답 판정 → 피드백
-- [x] 비계 단계(`scaffoldLevel`) 렌더링: `0`=통 이름+예시 모음, `1`=통 이름만, `2`=아이콘만
-- [x] `scaffoldLevel` 자동 전환: 문항 인덱스 0~2 → 0단계, 3~6 → 1단계, 7~9 → 2단계
+- [x] 비계 단계(`scaffoldLevel`) 렌더링: `0`=아이콘+통 이름+예시 모음, `1`=아이콘+통 이름 (2단 비계 — 3단→2단 축소: "아이콘만" 단계는 아이콘이 같은 범주 정보를 계속 제공해 의미 있는 페이딩이 아니어서 제거)
+- [x] `scaffoldLevel` 자동 전환: 문항 인덱스 < `Math.ceil(전체 문항 수 / 2)` → 0단계, 이후 → 1단계 (10문항 기준 0~4 = 0단계, 5~9 = 1단계)
 - [x] 드래그 분류 선택적 지원 — Level 1에서 탭과 드래그 병행 허용 (`drag.js` 호출)
 - [x] Level 1 완료 → `goTo('drag-onboarding')`
 
@@ -114,7 +114,7 @@
 - [x] `src/js/settings.js` — 설정 화면 렌더링: TTS·효과음 토글 바인딩, 난이도 칩(`vowelCount` 5/10) 선택
 - [x] 설정 변경 → `saveSettings()` 즉시 반영
 - [x] Level 0 `vowelCount` 설정값 → `buildLevel0Questions(vowelCount)` 연동 확인
-- [x] `scaffoldLevel` 단계별 UI 전환 시각 확인 — 비계 항목이 점진 제거되는지
+- [x] `scaffoldLevel` 단계별 UI 전환 시각 확인 — 후반 50% 진입 시 예시 모음이 페이딩되는지 (0단계→1단계, 2단 비계)
 - [x] 정답률 ≥ 80% 달성 시 완료 화면 Stage 2 Level 1 직행 안내 메시지 표시
 - [x] 정답률 미달 시 Level 0 반복 권장 안내 메시지 표시
 - [x] 완료 화면 — 가로 전환 예고 문구 "다음 게임은 가로 화면을 써요!" 1줄 삽입
@@ -269,7 +269,7 @@
 | R4 | Stage 2 내장(Level 0 모듈) vs 독립 실행 URL 라우팅 전략 | 아키텍처 | 미결 |
 | R5 | Web Speech API TTS 온라인 의존 — 오프라인 시 TTS 침묵, graceful degradation 범위 | 기술 | SW 캐시 제외 확정, 토글 자동 비활성화로 대응 예정 |
 | R6 | iOS Safari `screen.orientation.lock()` 미지원 — JS 세로 잠금 불가 시 CSS+manifest 조합으로만 처리 | 기술 | 알려진 제약, 우회 방안 문서화 |
-| R7 | Level 1 `scaffoldLevel` 전환 임계값(0~2→3~6→7~9) 유아 학습 효과 — 실제 사용 데이터 없음 | 학습 효과 | 출시 후 성공 지표(정답률 ≥ 75%)로 검증 |
+| R7 | Level 1 `scaffoldLevel` 전환 임계값(전반 ⌈N/2⌉ 미만=0단계 → 후반=1단계) 유아 학습 효과 — 실제 사용 데이터 없음 | 학습 효과 | 비계를 3단→2단 축소 (아이콘만 단계는 레이블이 사라져도 아이콘이 같은 범주 정보를 제공해 의미 있는 페이딩이 아니어서 제거). 출시 후 성공 지표(정답률 ≥ 75%)로 검증 |
 
 ---
 

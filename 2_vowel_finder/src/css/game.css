@@ -200,10 +200,8 @@
   letter-spacing: 4px;
 }
 
-/* 비계(scaffold) 단계 — visibility로 레이아웃 유지하며 점진 제거 (TRD §9.4) */
+/* 비계(scaffold) 2단계 — visibility로 레이아웃 유지하며 예시 모음만 숨김 (TRD §9.4) */
 .buckets.scaffold-1 .bucket-example { visibility: hidden; }
-.buckets.scaffold-2 .bucket-example,
-.buckets.scaffold-2 .bucket-label   { visibility: hidden; }
 
 /* ========== 드래그 온보딩 ========== */
 .ob-title {

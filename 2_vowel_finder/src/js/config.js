@@ -8,14 +8,12 @@ export const SNAP_RADIUS = 20;
 // Level 0 기본 출제 모음 수 (설정 vowelCount 기본값)
 export const L0_COUNT_DEFAULT = 5;
 
-// Level 1 비계(scaffold) 단계 전환 임계값 — 문항 인덱스(0-based) 기준 (TRD §9.4)
-//   idx 0~2 → 0단계 (통 이름 레이블 + 예시 모음)
-//   idx 3~6 → 1단계 (통 이름 레이블만)
-//   idx 7~9 → 2단계 (빈 통, 아이콘만)
-export const SCAFFOLD_THRESHOLDS = {
-  level1Start: 3,
-  level2Start: 7,
-};
+// Level 1 비계(scaffold) 페이딩 — 후반 구간 비율 (TRD §9.4, 2단 비계)
+//   1단계 시작 인덱스 = Math.ceil(전체 문항 수 * SCAFFOLD_FADE_RATIO)
+//   전반(idx < 시작): 0단계 (아이콘 + 통 이름 레이블 + 예시 모음)
+//   후반(idx >= 시작): 1단계 (아이콘 + 통 이름 레이블 — 예시 모음 숨김)
+//   10문항 기준: idx 0~4 = 0단계, idx 5~9 = 1단계
+export const SCAFFOLD_FADE_RATIO = 0.5;
 
 // Level 0 음성 전용 페이딩 — 후반 구간 비율 (TRD §9.5)
 //   음성 전용 시작 인덱스 = Math.ceil(전체 문항 수 * L0_AUDIO_ONLY_RATIO)

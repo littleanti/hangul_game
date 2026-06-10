@@ -204,7 +204,7 @@ state = {
     l1Correct:     number,
     // 공통
     answered:      boolean,        // 현재 문항 답변 완료 여부 (중복 탭 방지)
-    scaffoldLevel: 0 | 1 | 2,      // Level 1 비계 단계 (0=레이블+예시, 1=레이블만, 2=아이콘만)
+    scaffoldLevel: 0 | 1,          // Level 1 비계 단계 (0=아이콘+레이블+예시, 1=아이콘+레이블)
     // Level 0 음성 전용 모드는 별도 상태 필드 없음 —
     // l0Idx와 l0Questions.length에서 문항마다 파생 계산 (§9.5)
   },
@@ -705,13 +705,15 @@ function findNearestBucket(dropZones, px, py) {
 
 ### 9.4 비계 단계 (`scaffoldLevel`) 전환
 
-Level 1 진행 중 `scaffoldLevel`을 자동 강등:
+Level 1 진행 중 `scaffoldLevel`을 자동 강등 (2단계):
 
-| 조건 | scaffoldLevel |
+| 조건 (문항 인덱스 idx, 0-based) | scaffoldLevel |
 |---|---|
-| 처음 3문항 (order ≤ 3) | 0 — 통 이름 레이블 + 예시 모음 표시 |
-| 중간 4문항 (order 4~7) | 1 — 통 이름 레이블만 |
-| 마지막 3문항 (order 8~10) | 2 — 빈 통 (아이콘만) |
+| idx < ⌈전체 문항 수 / 2⌉ — 전반 50% | 0 — 통 아이콘 + 이름 레이블 + 예시 모음 표시 |
+| idx ≥ ⌈전체 문항 수 / 2⌉ — 후반 50% | 1 — 통 아이콘 + 이름 레이블 (예시 모음 숨김) |
+
+> 10문항 기준: idx 0~4 = 0단계, idx 5~9 = 1단계. 임계값은 `Math.ceil(전체 문항 수 / 2)`.
+> 변경 이력: 기존 3단(레이블+예시 → 레이블 → 아이콘만)에서 2단으로 축소 — 레이블이 사라져도 아이콘이 같은 범주 정보를 계속 제공하므로 "아이콘만" 단계는 의미 있는 페이딩이 아니어서 제거. §9.5의 Level 0 페이딩과 동일한 전반/후반 ⌈N/2⌉ 임계 패턴으로 통일.
 
 ### 9.5 Level 0 음성 전용 페이딩
 

@@ -1,7 +1,7 @@
 /**
  * Level 1 — 모음 형태 분류 (PRD §5·§7.3, TRD §9.2·§9.4)
  * 모음 카드 1장 → 세로형 통 / 가로형 통에 탭 또는 드래그로 분류.
- * 비계(scaffold) 0~2단계: 문항 0~2 → 레이블+예시, 3~6 → 레이블만, 7~9 → 아이콘만.
+ * 비계(scaffold) 0~1단계 (2단): 전반 ⌈N/2⌉ → 아이콘+레이블+예시, 후반 → 아이콘+레이블.
  */
 
 import { state, buildLevel1Queue, getScaffoldLevel } from './state.js';
@@ -40,7 +40,7 @@ export function renderBucketQuestion(idx) {
   g.l1Idx = idx;
   g.answered = false;
   firstTry = true;
-  g.scaffoldLevel = getScaffoldLevel(idx); // 자동 전환 (TRD §9.4)
+  g.scaffoldLevel = getScaffoldLevel(idx, g.l1Queue.length); // 자동 전환 (TRD §9.4)
 
   const v = g.l1Queue[idx];
 
@@ -52,7 +52,7 @@ export function renderBucketQuestion(idx) {
   card.classList.remove('correct', 'snapping', 'dragging');
   card.style.transform = '';
 
-  // 비계 단계 클래스 — game.css가 .bucket-example / .bucket-label 점진 숨김
+  // 비계 단계 클래스 — game.css가 scaffold-1에서 .bucket-example 숨김
   document.getElementById('l1-buckets').className = `buckets scaffold-${g.scaffoldLevel}`;
   document.querySelectorAll('#l1-buckets .bucket').forEach(b => {
     b.classList.remove('correct', 'wrong', 'shake', 'hover-active');

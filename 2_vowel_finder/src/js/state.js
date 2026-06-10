@@ -5,7 +5,7 @@
  * 여기서 export — DOM 의존 없음, 단독 import 가능.
  */
 
-import { DEFAULT_SETTINGS, SCAFFOLD_THRESHOLDS } from './config.js';
+import { DEFAULT_SETTINGS, SCAFFOLD_FADE_RATIO } from './config.js';
 import { VOWELS, LEVEL0_ROUNDS } from '../data/vowels.js';
 
 function initialGame() {
@@ -21,7 +21,7 @@ function initialGame() {
     l1Correct: 0,
     // 공통
     answered: false,    // 현재 문항 답변 완료 여부 (중복 탭 방지)
-    scaffoldLevel: 0,   // 0=레이블+예시, 1=레이블만, 2=아이콘만
+    scaffoldLevel: 0,   // 0 | 1 — 0=아이콘+레이블+예시, 1=아이콘+레이블
   };
 }
 
@@ -74,10 +74,10 @@ export function buildLevel1Queue() {
 }
 
 /**
- * Level 1 비계 단계 산출 (TRD §9.4) — 문항 인덱스(0-based) 기준
+ * Level 1 비계 단계 산출 (TRD §9.4, 2단 비계) — 문항 인덱스(0-based) 기준
+ * 전반(idx < ⌈total/2⌉) → 0 (아이콘+레이블+예시) / 후반 → 1 (아이콘+레이블)
+ * @returns {0|1}
  */
-export function getScaffoldLevel(idx) {
-  if (idx >= SCAFFOLD_THRESHOLDS.level2Start) return 2;
-  if (idx >= SCAFFOLD_THRESHOLDS.level1Start) return 1;
-  return 0;
+export function getScaffoldLevel(idx, total) {
+  return idx >= Math.ceil(total * SCAFFOLD_FADE_RATIO) ? 1 : 0;
 }
