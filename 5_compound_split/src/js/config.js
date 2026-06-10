@@ -3,8 +3,10 @@
  */
 
 // 스토리지·캐시 격리 (TRD §7.4)
+// CACHE_VERSION은 sw.js의 동명 상수와 항상 일치시킬 것 (sw.js는 ES Module이 아니라 import 불가).
+// v2: M1-1 버그(Cache First 프리캐시 고착) 수정 시 v1 캐시 일괄 폐기를 위해 상향 — BUG.md 참조.
 export const STORAGE_PREFIX = 'compound_split_';
-export const CACHE_VERSION = '5_compound_split-v1';
+export const CACHE_VERSION = '5_compound_split-v2';
 
 // localStorage 키 (TRD §3.3)
 export const SETTINGS_KEY = `${STORAGE_PREFIX}settings`;

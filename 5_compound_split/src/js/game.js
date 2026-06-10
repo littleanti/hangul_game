@@ -9,7 +9,7 @@ import { shuffle } from './utils.js';
 import { speak, cancelSpeech } from './tts.js';
 import { playCorrect, playError } from './sound.js';
 import { goTo, closePopups } from './ui.js';
-import { saveSettings } from './storage.js';
+import { saveSettings, saveLeaderboardRecord, updateProgress } from './storage.js';
 import {
   TAP_TOLERANCE_PX,
   TAP_MOVE_THRESHOLD_PX,
@@ -279,6 +279,7 @@ function triggerCorrectSplit(card) {
   const word = currentWord();
   state.game.correctCount++;
   state.game.streak++;
+  state.game.bestStreak = Math.max(state.game.bestStreak, state.game.streak); // 진척 기록용 (M4)
   maybeAutoAdvance(); // R2: AUTO_ADVANCE_STREAK 플래그 ON일 때만 동작 (기본 OFF=수동)
 
   card.classList.add('split'); // CSS transform 분리 애니메이션 즉시 시작
@@ -419,13 +420,25 @@ function hideErrorMessage() {
 }
 
 // ── 완료 흐름 ───────────────────────────────────────────────
-/** 전체 큐 소진 → 완료 화면: 정답 수·오류 수·소요 시간·격려 메시지 */
+/** 전체 큐 소진 → 완료 화면: 정답 수·오류 수·소요 시간·격려 메시지 + 기록 영속화 (M4) */
 function finishGame() {
   clearTimers();
   state.session.completedAt = Date.now();
 
   const { correctCount, errorCount, queue } = state.game;
   const durationMs = state.session.completedAt - state.session.startedAt;
+
+  // 리더보드 기록 저장 — 최대 20건, 초과 시 오래된 것 삭제 (TRD §3.3)
+  saveLeaderboardRecord({
+    ts: state.session.completedAt,
+    fadingLevel: state.settings.fadingLevel,
+    questionCount: queue.length,
+    correctCount,
+    errorCount,
+    durationMs,
+  });
+  // 진척 갱신 — 페이딩 레벨별 최고 연속 정답 수·완료 횟수 (TRD §3.3)
+  updateProgress(state.settings.fadingLevel, state.game.bestStreak);
 
   setText('end-correct', correctCount);
   setText('end-total', queue.length);

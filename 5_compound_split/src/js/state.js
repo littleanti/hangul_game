@@ -20,6 +20,7 @@ export const state = {
     correctCount: 0,    // 정답 수
     errorCount: 0,      // 잘못된 분절 시도 수
     streak: 0,          // 연속 정답 수 (오답 시 0으로 리셋 — M3 자동 승급 판정용)
+    bestStreak: 0,      // 세션 내 최고 연속 정답 수 (M4 진척 영속화용, TRD §3.3)
     popupOpen: false,   // 조각 팝업 표시 여부
     popupDwellMs: 0,    // 팝업 체류 시간 누산 (ms)
   },
@@ -36,6 +37,7 @@ export function resetGame() {
   state.game.correctCount = 0;
   state.game.errorCount = 0;
   state.game.streak = 0;
+  state.game.bestStreak = 0;
   state.game.popupOpen = false;
   state.game.popupDwellMs = 0;
 }
