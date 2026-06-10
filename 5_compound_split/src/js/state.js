@@ -19,6 +19,7 @@ export const state = {
     currentIdx: 0,      // 현재 카드 인덱스
     correctCount: 0,    // 정답 수
     errorCount: 0,      // 잘못된 분절 시도 수
+    streak: 0,          // 연속 정답 수 (오답 시 0으로 리셋 — M3 자동 승급 판정용)
     popupOpen: false,   // 조각 팝업 표시 여부
     popupDwellMs: 0,    // 팝업 체류 시간 누산 (ms)
   },
@@ -34,6 +35,7 @@ export function resetGame() {
   state.game.currentIdx = 0;
   state.game.correctCount = 0;
   state.game.errorCount = 0;
+  state.game.streak = 0;
   state.game.popupOpen = false;
   state.game.popupDwellMs = 0;
 }

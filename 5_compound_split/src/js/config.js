@@ -39,5 +39,8 @@ export const ERROR_MESSAGE_MS = 1500;
 // 공유 형태소 시각 연출 ON/OFF — Stage 4 payoff 보호, 기본 OFF (PLAN R3)
 export const SHOW_SHARED_MORPHEME_HIGHLIGHT = false;
 
-// L3 자동 승급 연속 정답 수 — 0이면 비활성(수동 선택), PLAN R2 확정 후 조정
+// L3 자동 승급 플래그 (PLAN R2 조치)
+// 0 = OFF(기본): 자동 승급 없음 — 아동/보호자가 페이딩 레벨을 수동 선택.
+// N(> 0) = ON: 연속 정답 N회 도달 시 페이딩 레벨 자동 +1 (최대 L3).
+// A/B 검증 시 이 값만 변경하면 됨 — 로직은 game.js maybeAutoAdvance()가 플래그를 검사.
 export const AUTO_ADVANCE_STREAK = 0;

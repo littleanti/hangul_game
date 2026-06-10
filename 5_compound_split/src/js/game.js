@@ -1,7 +1,7 @@
 /**
- * 게임 로직 — 출제·탭 검출·피드백·종료 (TRD §5, PLAN M2)
+ * 게임 로직 — 출제·탭 검출·피드백·종료 (TRD §5, PLAN M2·M3)
  * 핵심 루프: 카드 표시 → 탭/드래그 히트 검출 → 정답 팝업·오답 피드백 → 다음 카드 → 완료 화면.
- * M2는 L1(실선 경계 + 양쪽 그림 단서) 고정으로 동작 — 페이딩 레벨 분기는 M3에서 구현.
+ * M3: 3단 페이딩 — 경계 가시성·뜻 단서량만 레벨별 분기, 입력·화면·어휘는 레벨 간 불변 (TRD §5.3).
  */
 
 import { state, resetGame, startSession, WORDS } from './state.js';
@@ -9,7 +9,13 @@ import { shuffle } from './utils.js';
 import { speak, cancelSpeech } from './tts.js';
 import { playCorrect, playError } from './sound.js';
 import { goTo, closePopups } from './ui.js';
-import { TAP_TOLERANCE_PX, TAP_MOVE_THRESHOLD_PX, ERROR_MESSAGE_MS } from './config.js';
+import { saveSettings } from './storage.js';
+import {
+  TAP_TOLERANCE_PX,
+  TAP_MOVE_THRESHOLD_PX,
+  ERROR_MESSAGE_MS,
+  AUTO_ADVANCE_STREAK,
+} from './config.js';
 
 /** 오답 피드백 문구 (TRD §5.2 — G3: "뜻 있는 최소 단위" 직관) */
 const ERROR_MESSAGE_TEXT = '그 조각은 뜻이 없네';
@@ -18,6 +24,7 @@ const ERROR_MESSAGE_TEXT = '그 조각은 뜻이 없네';
 let timers = [];          // 진행 중인 setTimeout 핸들 (카드 전환·화면 이탈 시 일괄 해제)
 let errorTimer = null;    // 오류 메시지 자동 숨김 타이머
 let popupOpenedAt = 0;    // 팝업 오픈 타임스탬프 (체류 시간 측정, TRD §5.4)
+let levelUpNotice = 0;    // 자동 승급 직후 안내할 새 레벨 (0 = 없음, R2 플래그 ON일 때만 설정됨)
 
 /** 게임 화면이 활성 상태일 때만 콜백 실행하는 지연 타이머 (화면 이탈 시 부작용 차단) */
 function addTimer(fn, ms) {
@@ -66,19 +73,29 @@ export function startGame() {
   renderCard();
 }
 
-// ── 카드 렌더링 (TRD §5.3 — M2: L1 고정) ────────────────────
+// ── 카드 렌더링 (TRD §5.3 — 3단 페이딩) ─────────────────────
+/** 페이딩 레벨 → 경계 가시성 클래스 (L1 실선 / L2 점선 / L3 선 없음) */
+const BOUNDARY_CLASS = {
+  1: 'boundary-solid',
+  2: 'boundary-dashed',
+  3: 'boundary-hidden',
+};
+
 /**
- * 현재 카드 렌더링 — .compound-card 생성, 합성어 텍스트(R7: '빗방울' 전체 표기),
+ * 카드 렌더링 — .compound-card 생성, 합성어 텍스트(R7: '빗방울' 전체 표기),
  * 진행 N/M 표시, TTS 자동 재생.
  * 카드 텍스트는 표면형 기준으로 두 span으로 나눠 렌더링한다:
  *   splitIndex = word.length - part2.length  (예: 빗방울 → '빗' + '방울')
- * 두 span 사이의 .card-boundary가 형태소 경계 — L1은 실선(boundary-solid).
+ * 두 span 사이의 .card-boundary가 형태소 경계 — 레벨별 가시성 (TRD §5.3):
+ *   L1 실선 + 양쪽 그림·뜻 라벨 / L2 점선 + 첫 조각 그림만 / L3 선·단서 없음.
+ * 입력 방식·화면 구성·어휘는 레벨 간 불변.
+ * @param {import('../data/words.js').CompoundWord} [word] 기본값: 현재 큐 카드
+ * @param {1|2|3} [fadingLevel] 기본값: state.settings.fadingLevel
  */
-export function renderCard() {
+export function renderCard(word = currentWord(), fadingLevel = state.settings.fadingLevel) {
   clearTimers();
   hideErrorMessage();
 
-  const word = currentWord();
   const { currentIdx, queue } = state.game;
 
   // 진행 인디케이터 N / M
@@ -92,9 +109,9 @@ export function renderCard() {
   if (!area) return;
   area.innerHTML = '';
 
-  // 합성어 카드 — M2는 L1 실선 경계 고정 (M3에서 fadingLevel 분기)
+  // 합성어 카드 — 페이딩 레벨별 경계 가시성 클래스 (TRD §5.3)
   const card = document.createElement('div');
-  card.className = 'compound-card boundary-solid';
+  card.className = `compound-card ${BOUNDARY_CLASS[fadingLevel] || BOUNDARY_CLASS[1]}`;
   card.setAttribute('role', 'button');
   card.setAttribute('aria-label', `${word.word} — 경계를 탭해서 두 조각으로 나눠요`);
 
@@ -121,30 +138,52 @@ export function renderCard() {
   attachCardEvents(card);
   area.appendChild(card);
 
-  // L1 뜻 단서 — 조각 양쪽 그림 + 뜻 라벨 (M3에서 레벨별 분기: L2 한쪽만, L3 없음)
-  area.appendChild(buildHintRow(word));
+  // 뜻 단서량 — L1 양쪽 그림+뜻 / L2 첫 조각 그림만 / L3 단서 없음(정답 후 팝업에서만 공개)
+  const hintRow = buildHintRow(word, fadingLevel);
+  if (hintRow) area.appendChild(hintRow);
+
+  // 자동 승급 직후 첫 카드 — 새 레벨 안내 (R2 플래그 ON일 때만 발생)
+  if (levelUpNotice && feedback) {
+    feedback.textContent = `이제 ${levelUpNotice}단계! 혼자 힘으로 도전해 봐요!`;
+    levelUpNotice = 0;
+  }
 
   // TTS 자동 재생 — 합성어 전체
   cancelSpeech();
   speak(word.word);
 }
 
-/** L1 단서 행 — 조각 양쪽 그림(이모지/이미지) + 뜻 라벨 */
-function buildHintRow(word) {
-  const row = document.createElement('div');
-  row.className = 'hint-row';
-  [
+/**
+ * 뜻 단서 행 — 페이딩 레벨별 단서량 (TRD §5.3)
+ * L1: 조각 양쪽 그림 + 뜻 라벨 (showBothPartHints)
+ * L2: 첫 번째 조각 그림만 — 뜻 라벨 없음 (showPart1HintOnly)
+ * L3: 단서 없음 → null 반환 (hideAllHints — 뜻은 정답 후 팝업에서만 공개)
+ * @returns {HTMLElement|null}
+ */
+function buildHintRow(word, fadingLevel) {
+  if (fadingLevel >= 3) return null; // L3: 그림 단서 없음
+
+  const pieces = [
     { emoji: word.part1Emoji, imageUrl: word.part1ImageUrl, meaning: word.part1Meaning },
     { emoji: word.part2Emoji, imageUrl: word.part2ImageUrl, meaning: word.part2Meaning },
-  ].forEach(piece => {
+  ];
+  const showMeaning = fadingLevel === 1;          // L2는 그림만 (뜻 라벨 미표시)
+  const visible = fadingLevel === 1 ? pieces : pieces.slice(0, 1); // L2는 첫 조각만
+
+  const row = document.createElement('div');
+  row.className = 'hint-row';
+  visible.forEach(piece => {
     const el = document.createElement('div');
     el.className = 'hint-piece';
     const emoji = document.createElement('span');
     emoji.className = 'hint-emoji';
     emoji.appendChild(pieceVisual(piece.imageUrl, piece.emoji));
-    const label = document.createElement('span');
-    label.textContent = piece.meaning;
-    el.append(emoji, label);
+    el.appendChild(emoji);
+    if (showMeaning) {
+      const label = document.createElement('span');
+      label.textContent = piece.meaning;
+      el.appendChild(label);
+    }
     row.appendChild(el);
   });
   return row;
@@ -239,6 +278,8 @@ export function onCardTap(tapX, tapY, card) {
 function triggerCorrectSplit(card) {
   const word = currentWord();
   state.game.correctCount++;
+  state.game.streak++;
+  maybeAutoAdvance(); // R2: AUTO_ADVANCE_STREAK 플래그 ON일 때만 동작 (기본 OFF=수동)
 
   card.classList.add('split'); // CSS transform 분리 애니메이션 즉시 시작
   playCorrect();
@@ -254,6 +295,29 @@ function triggerCorrectSplit(card) {
 
   // 분리 애니메이션이 보인 뒤 팝업 오픈
   addTimer(() => showSplitPopup(word), 450);
+}
+
+/**
+ * L3 자동 승급 (PLAN R2 조치)
+ * config.js AUTO_ADVANCE_STREAK가 0(기본 OFF)이면 아무것도 하지 않는다 — 수동 선택만.
+ * 플래그 ON(> 0)이고 연속 정답이 기준에 도달하면 페이딩 레벨을 한 단계 올리고
+ * 설정을 영속화한 뒤, 시작/설정 화면 레벨 칩을 동기화한다.
+ * 새 레벨은 다음 카드 렌더링부터 반영된다 (입력·화면·어휘는 불변, 단서량만 감소).
+ */
+function maybeAutoAdvance() {
+  if (AUTO_ADVANCE_STREAK <= 0) return;                       // 플래그 OFF — 수동 선택 (기본)
+  if (state.game.streak < AUTO_ADVANCE_STREAK) return;
+  if (state.settings.fadingLevel >= 3) return;                // L3가 최고 단계
+
+  state.settings.fadingLevel++;
+  state.game.streak = 0;
+  saveSettings();                                             // fadingLevel 영속화
+  levelUpNotice = state.settings.fadingLevel;                 // 다음 카드에서 안내
+
+  // 시작/설정 화면 레벨 칩 동기화 (settings.js syncFadingChips와 동일 규칙)
+  document.querySelectorAll('[data-fading]').forEach(chip => {
+    chip.classList.toggle('active', Number(chip.dataset.fading) === state.settings.fadingLevel);
+  });
 }
 
 /** 팝업 내 조각1 표기 — R7: 표면형이 다르면 '비(빗)' 병기 */
@@ -331,6 +395,7 @@ export function speakPiece(which) {
  */
 function tryWrongSplit(part, card) {
   state.game.errorCount++;
+  state.game.streak = 0; // 연속 정답 끊김 (자동 승급 판정용, R2)
   playError();
 
   // 흔들림 재생 — 연타 시 리스타트를 위해 클래스 제거 후 reflow

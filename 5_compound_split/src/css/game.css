@@ -65,7 +65,7 @@
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); /* transform only */
 }
 
-/* 형태소 경계 — 페이딩 레벨별 가시성 (M2: L1 실선 고정, M3에서 분기) */
+/* 형태소 경계 — 페이딩 레벨별 가시성 (M3: renderCard가 레벨별 클래스 토글, TRD §5.3) */
 .card-boundary {
   display: inline-block;
   align-self: stretch;
@@ -95,7 +95,7 @@
   80%      { transform: translateX(6px); }
 }
 
-/* ----- L1 뜻 단서 행 — 조각 양쪽 그림 + 뜻 라벨 ----- */
+/* ----- 뜻 단서 행 — L1: 양쪽 그림+뜻 라벨 / L2: 첫 조각 그림만 / L3: 미렌더링 ----- */
 .hint-row {
   display: flex;
   justify-content: center;
