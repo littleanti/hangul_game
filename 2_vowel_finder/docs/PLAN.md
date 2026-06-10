@@ -66,45 +66,45 @@
 
 ### M2-A: 공통 인프라
 
-- [ ] `src/js/tts.js` — Web Speech API 래퍼, `ko-KR` 우선, `voiceschanged` 비동기 대기, `unlock()`, graceful fallback
-- [ ] `src/js/sound.js` — Web Audio API 오실레이터 기반 `playCorrect()` / `playWrong()` / `playSnap()` (외부 파일 없음)
-- [ ] `src/js/ui.js` — `goTo(screenId)`: 화면 전환 + `cancelSpeech()` + `stopDrag()` + `clearFeedback()` 공통 부작용
-- [ ] `src/js/main.js` — 진입점: 모듈 임포트, `window` 전역 노출 (`tapChoice`, `tapBucket`, `goTo`, `speakVowel` 등), 첫 `pointerdown`에서 AudioContext resume
-- [ ] 진행률 HUD (`#progress-hud`) HTML·CSS — 상단 고정, 현재 문항/전체, 정답 수, `.progress-hud` Jua 폰트 1rem
+- [x] `src/js/tts.js` — Web Speech API 래퍼, `ko-KR` 우선, `voiceschanged` 비동기 대기, `unlock()`, graceful fallback
+- [x] `src/js/sound.js` — Web Audio API 오실레이터 기반 `playCorrect()` / `playWrong()` / `playSnap()` (외부 파일 없음)
+- [x] `src/js/ui.js` — `goTo(screenId)`: 화면 전환 + `cancelSpeech()` + `stopDrag()` + `clearFeedback()` 공통 부작용
+- [x] `src/js/main.js` — 진입점: 모듈 임포트, `window` 전역 노출 (`tapChoice`, `tapBucket`, `goTo`, `speakVowel` 등), 첫 `pointerdown`에서 AudioContext resume
+- [x] 진행률 HUD (`#progress-hud`) HTML·CSS — 상단 고정, 현재 문항/전체, 정답 수, `.progress-hud` Jua 폰트 1rem
 
 ### M2-B: Level 0 — 소리 매칭
 
-- [ ] `src/css/game.css` — `.vowel-card`, `.choices-grid`, `.choice-btn` (64dp 최소 터치 타겟)
-- [ ] `src/js/level0.js` — `initLevel0()`: 문항 풀 빌드, 첫 문항 렌더링
-- [ ] `level0.js` — `renderQuestion(idx)`: 대형 모음 카드(Jua clamp 4rem~7rem) + TTS 자동 재생 + 보기 3~4개 격자
-- [ ] `level0.js` — `tapChoice(vowelId)`: `state.game.answered` 중복 탭 방지 → 정오답 판정 → 피드백 → 800/1200ms 후 진행
-- [ ] 정답 피드백: `.vowel-card` mint 테두리·배경 + `playCorrect()` + TTS 재발화
-- [ ] 오답 피드백: 흔들기 애니메이션(`keyframes shake`) + `playWrong()`
-- [ ] `aria-live="polite"` 피드백 텍스트 영역 — 정오답 텍스트 출력
-- [ ] Level 0 완료 → `state.game.phase = 'level1'` → `goTo('game-level1')`
+- [x] `src/css/game.css` — `.vowel-card`, `.choices-grid`, `.choice-btn` (64dp 최소 터치 타겟)
+- [x] `src/js/level0.js` — `initLevel0()`: 문항 풀 빌드, 첫 문항 렌더링
+- [x] `level0.js` — `renderQuestion(idx)`: 대형 모음 카드(Jua clamp 4rem~7rem) + TTS 자동 재생 + 보기 3~4개 격자
+- [x] `level0.js` — `tapChoice(vowelId)`: `state.game.answered` 중복 탭 방지 → 정오답 판정 → 피드백 → 800/1200ms 후 진행
+- [x] 정답 피드백: `.vowel-card` mint 테두리·배경 + `playCorrect()` + TTS 재발화
+- [x] 오답 피드백: 흔들기 애니메이션(`keyframes shake`) + `playWrong()`
+- [x] `aria-live="polite"` 피드백 텍스트 영역 — 정오답 텍스트 출력
+- [x] Level 0 완료 → `state.game.phase = 'level1'` → `goTo('game-level1')`
 
 ### M2-C: Level 1 — 형태 분류
 
-- [ ] `src/css/game.css` — `.bucket`, `.bucket.hover-active`, `.bucket-label`, `.bucket-example`
-- [ ] `src/js/level1.js` — `initLevel1()`: 큐 빌드, 비계 단계 초기화, 첫 문항 렌더링
-- [ ] `level1.js` — `renderBucketQuestion(idx)`: 모음 카드 + 세로형 통 + 가로형 통 2구역
-- [ ] `level1.js` — `tapBucket(shape)`: 탭으로 통 배정 → 정오답 판정 → 피드백
-- [ ] 비계 단계(`scaffoldLevel`) 렌더링: `0`=통 이름+예시 모음, `1`=통 이름만, `2`=아이콘만
-- [ ] `scaffoldLevel` 자동 전환: 문항 인덱스 0~2 → 0단계, 3~6 → 1단계, 7~9 → 2단계
-- [ ] 드래그 분류 선택적 지원 — Level 1에서 탭과 드래그 병행 허용 (`drag.js` 호출)
-- [ ] Level 1 완료 → `goTo('drag-onboarding')`
+- [x] `src/css/game.css` — `.bucket`, `.bucket.hover-active`, `.bucket-label`, `.bucket-example`
+- [x] `src/js/level1.js` — `initLevel1()`: 큐 빌드, 비계 단계 초기화, 첫 문항 렌더링
+- [x] `level1.js` — `renderBucketQuestion(idx)`: 모음 카드 + 세로형 통 + 가로형 통 2구역
+- [x] `level1.js` — `tapBucket(shape)`: 탭으로 통 배정 → 정오답 판정 → 피드백
+- [x] 비계 단계(`scaffoldLevel`) 렌더링: `0`=통 이름+예시 모음, `1`=통 이름만, `2`=아이콘만
+- [x] `scaffoldLevel` 자동 전환: 문항 인덱스 0~2 → 0단계, 3~6 → 1단계, 7~9 → 2단계
+- [x] 드래그 분류 선택적 지원 — Level 1에서 탭과 드래그 병행 허용 (`drag.js` 호출)
+- [x] Level 1 완료 → `goTo('drag-onboarding')`
 
 ### M2-D: 드래그 온보딩
 
-- [ ] `src/js/drag.js` — `initDrag(cardEl, dropZones)`: Pointer Events 기반, `setPointerCapture`, `requestAnimationFrame` 래핑
-- [ ] `drag.js` — `findNearestBucket(dropZones, px, py)`: `devicePixelRatio` 적용 ±20dp 스냅 계산 (TRD §9.3)
-- [ ] `drag.js` — `snapToZone(cardEl, zone)`: transform 애니메이션 + `playSnap()` + `onDrop(zoneId)` 콜백
-- [ ] `drag.js` — `resetCard(cardEl)`: 카드 원위치 복귀
-- [ ] `src/css/game.css` — `.onboarding-arrow` (점선 dashed + `arrowPulse` 키프레임)
-- [ ] `src/js/onboarding.js` — 화면: ㅏ 카드 고정 + 목표 네모 칸, 거리 화면 폭 20% 이내
-- [ ] `onboarding.js` — TTS "이쪽으로 끌어봐요!" + 점선 화살표 가이드
-- [ ] 스냅 성공 → `playSnap()` + 완료 애니메이션 → `goTo('end-screen')`
-- [ ] 스냅 실패(±20dp 초과) → 카드 원위치 + 재시도 안내 텍스트
+- [x] `src/js/drag.js` — `initDrag(cardEl, dropZones)`: Pointer Events 기반, `setPointerCapture`, `requestAnimationFrame` 래핑
+- [x] `drag.js` — `findNearestBucket(dropZones, px, py)`: `devicePixelRatio` 적용 ±20dp 스냅 계산 (TRD §9.3)
+- [x] `drag.js` — `snapToZone(cardEl, zone)`: transform 애니메이션 + `playSnap()` + `onDrop(zoneId)` 콜백
+- [x] `drag.js` — `resetCard(cardEl)`: 카드 원위치 복귀
+- [x] `src/css/game.css` — `.onboarding-arrow` (점선 dashed + `arrowPulse` 키프레임)
+- [x] `src/js/onboarding.js` — 화면: ㅏ 카드 고정 + 목표 네모 칸, 거리 화면 폭 20% 이내
+- [x] `onboarding.js` — TTS "이쪽으로 끌어봐요!" + 점선 화살표 가이드
+- [x] 스냅 성공 → `playSnap()` + 완료 애니메이션 → `goTo('end-screen')`
+- [x] 스냅 실패(±20dp 초과) → 카드 원위치 + 재시도 안내 텍스트
 
 ---
 

@@ -1,8 +1,267 @@
 /* ==========================================
-   게임 플레이 고유 화면 스타일 (M2에서 채움)
+   게임 플레이 고유 화면 스타일 (M2)
    — #game-level0 / #game-level1 / #drag-onboarding / #progress-hud
    — tokens.css 변수만 참조하여 확장. 공용 클래스(.btn, .toggle 등) 재정의 금지.
-   예정 클래스: .vowel-card, .choices-grid, .choice-btn,
-               .bucket, .bucket.hover-active, .bucket-label, .bucket-example,
-               .progress-hud, .onboarding-arrow
    ========================================== */
+
+/* ========== 진행률 HUD (공통 오버레이) ========== */
+.progress-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  font-family: 'Jua', sans-serif;
+  font-size: 1rem;
+  background: var(--color-surface);
+  border: 2px solid var(--navy);
+  border-radius: 100px;
+  padding: 8px 18px;
+  box-shadow: 0 3px 0 var(--navy);
+}
+
+.hud-level { color: var(--coral); }
+.hud-step  { color: var(--navy); }
+.hud-score { color: var(--navy); }
+
+/* ========== 모음 카드 (Level 0 / Level 1 / 온보딩 공통) ========== */
+.vowel-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 0.4rem;
+}
+
+.vowel-card {
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(4rem, 18vw, 7rem);
+  width: clamp(96px, 28vw, 144px);
+  height: clamp(96px, 28vw, 144px);
+  background: white;
+  border: 3px solid var(--navy);
+  border-radius: 24px;
+  box-shadow: 0 6px 0 var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--navy);
+  touch-action: none;   /* 드래그 전용 — 스크롤 차단 */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.vowel-card.correct {
+  background: var(--mint);
+  border-color: var(--mint-dark);
+  box-shadow: 0 6px 0 var(--mint-dark);
+  color: white;
+}
+
+/* 드래그 중 — transition 제거(rAF 직결), 최상단으로 */
+.vowel-card.dragging {
+  position: relative;
+  z-index: 10;
+  transition: none;
+  cursor: grabbing;
+  box-shadow: 0 10px 16px var(--shadow);
+}
+
+/* 자성 스냅·원위치 복귀 — transform 전용 애니메이션 */
+.vowel-card.snapping {
+  position: relative;
+  z-index: 10;
+  transition: transform 0.22s ease;
+}
+
+/* TTS 다시 듣기 버튼 (44dp+ 터치 타겟) */
+.tts-btn {
+  min-width: 48px;
+  min-height: 48px;
+  font-size: 1.5rem;
+  background: var(--yellow);
+  border: 2px solid var(--navy);
+  border-radius: 50%;
+  box-shadow: 0 3px 0 var(--navy);
+  cursor: pointer;
+}
+.tts-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--navy); }
+
+/* ========== Level 0 — 보기 격자 ========== */
+.choices-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 1.2rem;
+}
+
+.choice-btn {
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(2.2rem, 10vw, 3.2rem);
+  min-width: 64px;     /* 유아 최소 터치 타겟 64dp (TRD §7.1) */
+  min-height: 88px;
+  background: var(--color-surface);
+  border: 3px solid var(--navy);
+  border-radius: 20px;
+  box-shadow: 0 5px 0 var(--navy);
+  color: var(--navy);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.choice-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--navy);
+}
+.choice-btn.correct {
+  background: var(--mint);
+  border-color: var(--mint-dark);
+  box-shadow: 0 5px 0 var(--mint-dark);
+  color: white;
+}
+.choice-btn.wrong {
+  background: var(--pink);
+  border-color: var(--red);
+  box-shadow: 0 5px 0 var(--red-dark);
+}
+
+/* 오답 흔들기 — transform 전용 (compositor layer) */
+.shake { animation: shake 0.5s ease; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-8px); }
+  40%      { transform: translateX(8px); }
+  60%      { transform: translateX(-6px); }
+  80%      { transform: translateX(6px); }
+}
+
+/* ========== Level 1 — 분류 통 ========== */
+.buckets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 1.4rem;
+}
+
+.bucket {
+  min-height: 96px;    /* 통 탭 영역 80dp+ (TRD §7.1) */
+  border: 3px dashed var(--navy);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px 8px;
+  background: var(--color-surface2);
+  transition: background 0.2s, border-color 0.2s;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.bucket.hover-active {
+  background: var(--yellow);
+  border-color: var(--coral);
+}
+
+.bucket.correct {
+  background: var(--mint);
+  border-color: var(--mint-dark);
+  border-style: solid;
+}
+
+.bucket.wrong {
+  background: var(--pink);
+  border-color: var(--red);
+}
+
+.bucket-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.bucket-label {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.05rem;
+  color: var(--navy);
+}
+
+.bucket-example {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.2rem;
+  color: var(--color-text-dim);
+  letter-spacing: 4px;
+}
+
+/* 비계(scaffold) 단계 — visibility로 레이아웃 유지하며 점진 제거 (TRD §9.4) */
+.buckets.scaffold-1 .bucket-example { visibility: hidden; }
+.buckets.scaffold-2 .bucket-example,
+.buckets.scaffold-2 .bucket-label   { visibility: hidden; }
+
+/* ========== 드래그 온보딩 ========== */
+.ob-title {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.6rem;
+  color: var(--coral);
+  text-align: center;
+  margin-top: 0.4rem;
+}
+
+.ob-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 10vw, 60px);  /* 카드→목표 이동 거리 ≈ 화면 폭 20% (PRD §7.4) */
+  margin: 2.2rem 0 1.4rem;
+}
+
+.onboarding-arrow {
+  font-size: 1.8rem;
+  color: var(--coral);
+  padding: 4px 14px;
+  border: 3px dashed var(--coral);
+  border-radius: 100px;
+  animation: arrowPulse 1.2s ease-in-out infinite;
+  user-select: none;
+  -webkit-user-select: none;
+}
+@keyframes arrowPulse {
+  0%, 100% { opacity: 0.5; transform: scaleX(0.95); }
+  50%      { opacity: 1;   transform: scaleX(1.05); }
+}
+
+.ob-target {
+  width: clamp(110px, 32vw, 150px);
+  height: clamp(110px, 32vw, 150px);
+  border: 3px dashed var(--navy);
+  border-radius: 24px;
+  background: var(--color-surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.ob-target.hover-active {
+  background: var(--yellow);
+  border-color: var(--coral);
+}
+.ob-target.done {
+  background: var(--mint);
+  border-color: var(--mint-dark);
+  border-style: solid;
+}
+
+/* ========== 공통 — 피드백 텍스트(aria-live) / 화면 하단 ========== */
+.feedback-live {
+  min-height: 1.5em;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--navy);
+  margin-top: 0.9rem;
+}
+
+.game-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.2rem;
+}

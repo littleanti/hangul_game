@@ -24,12 +24,18 @@
 <body>
 <div class="container">
 
+  <!-- =========== 진행률 HUD (게임 화면 공통 오버레이) =========== -->
+  <div id="progress-hud" class="progress-hud" style="display:none;">
+    <span class="hud-level" id="hud-level">🔊 소리 찾기</span>
+    <span class="hud-step" id="hud-step">1 / 5</span>
+    <span class="hud-score" id="hud-score">⭐ 0</span>
+  </div>
+
   <!-- =========== 시작 화면 =========== -->
   <div id="start-screen" class="screen active start-screen">
     <div class="start-emoji">🔍</div>
     <h1>모음 찾기</h1>
     <p class="subtitle">소리를 듣고 같은 모음을 찾아봐요!</p>
-    <!-- M2에서 startGame() 게임 로직으로 대체 — 현재는 no-op -->
     <button class="btn big" onclick="startGame()">시작하기 🎵</button>
     <div class="start-links">
       <button class="btn-settings" onclick="goTo('settings-screen')">⚙️ 설정</button>
@@ -109,6 +115,56 @@
     </div>
   </div>
 
+  <!-- =========== Level 0 — 소리 매칭 =========== -->
+  <div id="game-level0" class="screen">
+    <div class="vowel-stage">
+      <div class="vowel-card" id="l0-card" aria-label="모음 카드">ㅏ</div>
+      <button class="tts-btn" onclick="speakVowel()" aria-label="소리 듣기">🔊</button>
+    </div>
+    <div class="choices-grid" id="l0-choices"></div>
+    <p class="feedback-live" id="l0-feedback" aria-live="polite"></p>
+    <div class="game-footer">
+      <button class="btn ghost small" onclick="goTo('start-screen')">🏠 그만하기</button>
+    </div>
+  </div>
+
+  <!-- =========== Level 1 — 형태 분류 =========== -->
+  <div id="game-level1" class="screen">
+    <div class="vowel-stage">
+      <div class="vowel-card" id="l1-card" aria-label="모음 카드">ㅏ</div>
+      <button class="tts-btn" onclick="speakVowel()" aria-label="소리 듣기">🔊</button>
+    </div>
+    <div class="buckets scaffold-0" id="l1-buckets">
+      <div class="bucket" id="bucket-vertical" role="region" aria-label="세로형 모음 통"
+           onpointerdown="tapBucket('vertical')">
+        <div class="bucket-icon">↕️</div>
+        <div class="bucket-label">세로 모음</div>
+        <div class="bucket-example">ㅏ ㅓ ㅗ ㅜ</div>
+      </div>
+      <div class="bucket" id="bucket-horizontal" role="region" aria-label="가로형 모음 통"
+           onpointerdown="tapBucket('horizontal')">
+        <div class="bucket-icon">↔️</div>
+        <div class="bucket-label">가로 모음</div>
+        <div class="bucket-example">ㅣ</div>
+      </div>
+    </div>
+    <p class="feedback-live" id="l1-feedback" aria-live="polite"></p>
+    <div class="game-footer">
+      <button class="btn ghost small" onclick="goTo('start-screen')">🏠 그만하기</button>
+    </div>
+  </div>
+
+  <!-- =========== 드래그 온보딩 =========== -->
+  <div id="drag-onboarding" class="screen">
+    <h2 class="ob-title">이쪽으로 끌어봐요!</h2>
+    <div class="ob-stage">
+      <div class="vowel-card" id="ob-card" aria-label="ㅏ 아 카드">ㅏ</div>
+      <div class="onboarding-arrow" id="ob-arrow" aria-hidden="true">➜</div>
+      <div class="ob-target" id="ob-target" role="region" aria-label="목표 칸"></div>
+    </div>
+    <p class="feedback-live" id="ob-feedback" aria-live="polite"></p>
+  </div>
+
   <!-- =========== 완료 화면 =========== -->
   <div id="end-screen" class="screen end-screen">
     <div class="celebration-emojis">🎉✨🎊</div>
@@ -117,7 +173,7 @@
     <p class="end-message">정답률 <span id="end-accuracy">0%</span></p>
     <p class="end-message" id="end-feedback"></p>
     <div class="end-buttons">
-      <button class="btn big" onclick="goTo('start-screen')">다시 하기 🔄</button>
+      <button class="btn big" onclick="startGame()">다시 하기 🔄</button>
       <button class="btn mint big" onclick="goToNextStage()">음절 조립소로 가기 ➡️</button>
     </div>
     <div class="end-buttons">
@@ -127,34 +183,8 @@
 
 </div>
 
-<!-- 임시 화면 전환 스크립트 — M2에서 src/js/ui.js goTo + main.js 전역 노출로 대체 -->
-<script>
-  function goTo(screenId) {
-    document.querySelectorAll('.screen').forEach(function (el) {
-      el.classList.remove('active');
-    });
-    var target = document.getElementById(screenId);
-    if (target) target.classList.add('active');
-  }
-
-  // M2에서 게임 로직으로 대체 — 게임 화면이 아직 없으므로 no-op
-  function startGame() {}
-
-  // M2~M3에서 settings.js + storage.js로 대체 — 현재는 시각 토글만
-  function toggleSetting(key, el) {
-    el.classList.toggle('on');
-  }
-
-  function selectCount(count, el) {
-    document.querySelectorAll('#count-chips .chip').forEach(function (chip) {
-      chip.classList.remove('active');
-    });
-    el.classList.add('active');
-  }
-
-  // Stage 2(음절 조립소) 연결 — 배포 경로 확정 후 실제 URL 연결 (현재 no-op)
-  function goToNextStage() {}
-</script>
+<!-- 진입점 — 모듈 임포트 + window 전역 노출 (TRD §2.5) -->
+<script type="module" src="./src/js/main.js"></script>
 
 <!-- SW 등록 스크립트는 M4에서 sw.js 작성과 함께 추가 (M4 이전 fetch 시 404 콘솔 에러 발생하므로 제거 — BUG.md M1 참고) -->
 <!--
