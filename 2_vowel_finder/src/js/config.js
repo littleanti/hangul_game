@@ -17,6 +17,12 @@ export const SCAFFOLD_THRESHOLDS = {
   level2Start: 7,
 };
 
+// Level 0 음성 전용 페이딩 — 후반 구간 비율 (TRD §9.5)
+//   음성 전용 시작 인덱스 = Math.ceil(전체 문항 수 * L0_AUDIO_ONLY_RATIO)
+//   전반(idx < 시작): 글자 카드 + TTS  /  후반(idx >= 시작): TTS만 (카드는 🔊 placeholder)
+//   TTS 불가(설정 OFF 또는 Web Speech API 미지원) 시 페이딩 비활성화 — 카드 항상 표시
+export const L0_AUDIO_ONLY_RATIO = 0.5;
+
 // 피드백 타이밍 (ms) — TRD §5.4
 export const FEEDBACK_DELAY_CORRECT = 800;   // 정답 탭 → 다음 문항
 export const FEEDBACK_DELAY_WRONG   = 1200;  // 오답 탭 → 재시도 허용

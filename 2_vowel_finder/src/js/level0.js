@@ -6,8 +6,8 @@
 
 import { state, buildLevel0Questions } from './state.js';
 import { VOWEL_BY_ID } from '../data/vowels.js';
-import { FEEDBACK_DELAY_CORRECT, FEEDBACK_DELAY_WRONG } from './config.js';
-import { speak } from './tts.js';
+import { FEEDBACK_DELAY_CORRECT, FEEDBACK_DELAY_WRONG, L0_AUDIO_ONLY_RATIO } from './config.js';
+import { speak, TTS_AVAILABLE } from './tts.js';
 import { playCorrect, playWrong } from './sound.js';
 import { goTo, updateHud } from './ui.js';
 import { initLevel1 } from './level1.js';
@@ -42,8 +42,20 @@ export function renderQuestion(idx) {
   updateHud(`${idx + 1} / ${g.l0Questions.length}`, HUD_LABEL, g.l0Correct);
 
   const card = document.getElementById('l0-card');
-  card.textContent = v.char;
-  card.setAttribute('aria-label', `${v.char} ${v.sound} 카드`);
+  // ----- 음성 전용 페이딩 (TRD §9.5): 후반 50% 문항은 글자 숨김 — 청각 단서만 -----
+  // TTS fallback: speak()의 가드(TTS_AVAILABLE && ttsEnabled)와 동일 조건을 문항마다 재평가.
+  // 소리 단서가 불가능하면 모든 문항에서 글자 표시 — 게임이 풀 수 없는 상태 방지.
+  const audioOnlyStart = Math.ceil(g.l0Questions.length * L0_AUDIO_ONLY_RATIO);
+  const audioOnly = idx >= audioOnlyStart && TTS_AVAILABLE && state.settings.ttsEnabled;
+  if (audioOnly) {
+    card.textContent = '🔊';
+    card.setAttribute('aria-label', '소리를 듣고 같은 모음을 찾아요');
+    card.classList.add('audio-only');
+  } else {
+    card.textContent = v.char;
+    card.setAttribute('aria-label', `${v.char} ${v.sound} 카드`);
+    card.classList.remove('audio-only');
+  }
   card.classList.remove('correct');
 
   const grid = document.getElementById('l0-choices');
@@ -89,7 +101,14 @@ export function tapChoice(vowelId) {
     g.answered = true;
     if (firstTry) g.l0Correct += 1;
     if (btn) btn.classList.add('correct');
-    document.getElementById('l0-card').classList.add('correct');
+    const card = document.getElementById('l0-card');
+    // 음성 전용 모드였다면 정답 시 글자 공개 — 자소-음소 연결 재강화 (TRD §9.5)
+    if (card.classList.contains('audio-only')) {
+      card.classList.remove('audio-only');
+      card.textContent = v.char;
+      card.setAttribute('aria-label', `${v.char} ${v.sound} 카드`);
+    }
+    card.classList.add('correct');
     playCorrect();
     speak(v.sound);
     fb.textContent = `딩동댕! ${v.sound} 맞았어요!`;
