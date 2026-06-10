@@ -1,0 +1,14 @@
+{
+  "name": "합성어 쪼개기",
+  "short_name": "합성어쪼개기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF6E4",
+  "theme_color": "#FF7757",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

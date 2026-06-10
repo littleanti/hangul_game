@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>합성어 쪼개기</title>
+  <meta name="theme-color" content="#FF7757">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon-192.png" type="image/png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+  <!-- CSS — 토큰 → 베이스 → 컴포넌트 → 공용 화면 → 게임 고유 (TRD §4.1) -->
+  <link rel="stylesheet" href="./src/css/tokens.css">
+  <link rel="stylesheet" href="./src/css/base.css">
+  <link rel="stylesheet" href="./src/css/components.css">
+  <link rel="stylesheet" href="./src/css/screens.css">
+  <link rel="stylesheet" href="./src/css/game.css">
+</head>
+<body>
+<div class="container">
+
+  <!-- =========== 시작 화면 =========== -->
+  <div id="start-screen" class="screen active start-screen">
+    <div class="start-emoji">🧩</div>
+    <h1>합성어 쪼개기</h1>
+    <p class="subtitle">낱말을 뜻 있는 두 조각으로 나눠봐요 ✂️</p>
+
+    <p class="level-label">어떻게 도와줄까요? (페이딩 레벨)</p>
+    <div class="chip-row" id="fading-chips-start">
+      <button class="chip active" data-fading="1" onclick="selectFadingLevel(1)">1단계 ─ 실선</button>
+      <button class="chip" data-fading="2" onclick="selectFadingLevel(2)">2단계 ┄ 점선</button>
+      <button class="chip" data-fading="3" onclick="selectFadingLevel(3)">3단계 혼자서</button>
+    </div>
+
+    <button class="btn big" onclick="startGame()">시작하기 ✂️</button>
+
+    <div class="start-links">
+      <button class="btn-settings" onclick="openSettings()">⚙️ 설정</button>
+      <button class="btn-settings" onclick="openLeaderboard()">🏆 기록</button>
+    </div>
+  </div>
+
+  <!-- =========== 설정 화면 =========== -->
+  <div id="settings-screen" class="screen settings-screen">
+    <div class="settings-header">
+      <h2>⚙️ 설정</h2>
+      <button class="close-btn" onclick="goTo('start-screen')" aria-label="닫기">✕</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-label">🎲 문항 수</div>
+      <div class="chip-row" id="count-chips">
+        <button class="chip" data-count="6" onclick="selectCount(6)">6개</button>
+        <button class="chip" data-count="12" onclick="selectCount(12)">12개</button>
+        <button class="chip" data-count="18" onclick="selectCount(18)">18개</button>
+      </div>
+      <div class="section-hint">한 판에 나오는 합성어 카드 수예요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-label">✂️ 페이딩 레벨</div>
+      <div class="chip-row" id="fading-chips">
+        <button class="chip" data-fading="1" onclick="selectFadingLevel(1)">1단계 ─ 실선</button>
+        <button class="chip" data-fading="2" onclick="selectFadingLevel(2)">2단계 ┄ 점선</button>
+        <button class="chip" data-fading="3" onclick="selectFadingLevel(3)">3단계 혼자서</button>
+      </div>
+      <div class="section-hint">경계 표시와 그림 단서가 단계마다 줄어들어요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🔊 소리 듣기 (TTS)</span>
+        <div class="toggle on" id="toggle-tts" onclick="toggleSetting('ttsEnabled', this)"></div>
+      </div>
+      <div class="section-hint" id="tts-hint">낱말과 조각의 이름을 읽어줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🎵 효과음</span>
+        <div class="toggle on" id="toggle-sound" onclick="toggleSetting('soundEnabled', this)"></div>
+      </div>
+      <div class="section-hint">정답·오답 소리를 들려줘요</div>
+    </div>
+
+    <div class="settings-footer">
+      <button class="btn big" onclick="goTo('start-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+  <!-- =========== 리더보드 화면 =========== -->
+  <div id="leaderboard-screen" class="screen leaderboard-screen">
+    <div class="settings-header">
+      <h2>🏆 기록</h2>
+      <button class="close-btn" onclick="goTo('start-screen')" aria-label="닫기">✕</button>
+    </div>
+
+    <!-- leaderboard.js renderLeaderboard()가 화면 진입 시 기록을 채움 (M4) -->
+    <div class="lb-list" id="leaderboard-list"></div>
+    <p class="lb-empty" id="leaderboard-empty" style="display:none;">아직 기록이 없어요. 게임을 해봐요!</p>
+
+    <div class="leaderboard-footer">
+      <button class="btn big" onclick="goTo('start-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+  <!-- =========== 게임 플레이 화면 (M2에서 내용 채움) =========== -->
+  <div id="game-screen" class="screen">
+    <div class="progress-indicator" id="progress-indicator" aria-live="polite"></div>
+    <div id="card-area">
+      <!-- M2: .compound-card 렌더링 영역 -->
+    </div>
+    <p class="feedback-live" id="game-feedback" aria-live="polite"></p>
+    <div class="end-buttons">
+      <button class="btn ghost small" onclick="goTo('start-screen')">🏠 그만하기</button>
+    </div>
+  </div>
+
+  <!-- =========== 완료 화면 =========== -->
+  <div id="end-screen" class="screen end-screen">
+    <div class="celebration-emojis">🎉✨🎊</div>
+    <h2>참 잘했어요!</h2>
+    <div class="final-score">
+      <span class="num" id="end-correct">0</span>
+      <span style="opacity:0.4;">/</span>
+      <span id="end-total">6</span>
+    </div>
+    <p class="end-message">정답률 <span id="end-accuracy">0%</span></p>
+    <p class="end-message" id="end-feedback"></p>
+    <div class="end-buttons">
+      <button class="btn big" onclick="startGame()">다시 하기 🔄</button>
+      <button class="btn mint small" onclick="openSettings()">⚙️ 설정 바꾸기</button>
+    </div>
+    <div class="end-buttons">
+      <button class="btn ghost small" onclick="goTo('start-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- 진입점 — 모듈 임포트 + window 전역 노출 + SW 등록 (TRD §2.2, §7.3) -->
+<script type="module" src="./src/js/main.js"></script>
+</body>
+</html>
