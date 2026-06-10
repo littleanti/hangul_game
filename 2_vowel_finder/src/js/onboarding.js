@@ -78,14 +78,14 @@ function finishGame() {
     stars,
   });
 
-  renderEndScreen(g, l0Total, l1Total, l0Acc, stars);
+  renderEndScreen(g, l0Total, l1Total, stars);
   goTo('end-screen');
 }
 
-/** 완료 화면 — 실제 정답률·별점 표시 */
-function renderEndScreen(g, l0Total, l1Total, l0Acc, stars) {
-  const overall = Math.round(((g.l0Correct + g.l1Correct) / (l0Total + l1Total)) * 100);
-  document.getElementById('end-accuracy').textContent = `${overall}%`;
+/** 완료 화면 — 종합 정답률·별점 + 난이도 분기 메시지 (M3) */
+function renderEndScreen(g, l0Total, l1Total, stars) {
+  const overallAcc = (g.l0Correct + g.l1Correct) / (l0Total + l1Total);
+  document.getElementById('end-accuracy').textContent = `${Math.round(overallAcc * 100)}%`;
 
   const starsEl = document.getElementById('end-stars');
   starsEl.innerHTML = '';
@@ -97,9 +97,12 @@ function renderEndScreen(g, l0Total, l1Total, l0Acc, stars) {
   }
   starsEl.setAttribute('aria-label', `별 3개 중 ${stars}개`);
 
-  // 정답률 ≥ 80% → Stage 2 직행 권장, 미달 → 반복 권장 (PRD §9.2)
-  document.getElementById('end-feedback').textContent =
-    l0Acc >= 0.8
-      ? '정말 멋져요! 이제 음절 조립소로 가볼까요?'
-      : '한 번 더 연습하면 더 잘할 수 있어요!';
+  // 종합 정답률 ≥ 80% → Stage 2 Level 1 직행 안내 + CTA 강조,
+  // 미달 → Level 0(소리 찾기) 반복 권장 (PRD §9.2, M3)
+  const passed = overallAcc >= 0.8;
+  document.getElementById('end-feedback').textContent = passed
+    ? '정말 멋져요! 바로 음절 조립소 1단계로 가도 좋아요!'
+    : '조금만 더! 소리 찾기를 한 번 더 연습하고 가요!';
+  const nextBtn = document.getElementById('next-stage-btn');
+  if (nextBtn) nextBtn.classList.toggle('cta-glow', passed);
 }

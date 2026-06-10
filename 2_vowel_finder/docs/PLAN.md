@@ -110,13 +110,13 @@
 
 ## M3 — 페이딩·난이도
 
-- [ ] `src/js/settings.js` — 설정 화면 렌더링: TTS·효과음 토글 바인딩, 난이도 칩(`vowelCount` 5/10) 선택
-- [ ] 설정 변경 → `saveSettings()` 즉시 반영
-- [ ] Level 0 `vowelCount` 설정값 → `buildLevel0Questions(vowelCount)` 연동 확인
-- [ ] `scaffoldLevel` 단계별 UI 전환 시각 확인 — 비계 항목이 점진 제거되는지
-- [ ] 정답률 ≥ 80% 달성 시 완료 화면 Stage 2 Level 1 직행 안내 메시지 표시
-- [ ] 정답률 미달 시 Level 0 반복 권장 안내 메시지 표시
-- [ ] 완료 화면 — 가로 전환 예고 문구 "다음 게임은 가로 화면을 써요!" 1줄 삽입
+- [x] `src/js/settings.js` — 설정 화면 렌더링: TTS·효과음 토글 바인딩, 난이도 칩(`vowelCount` 5/10) 선택
+- [x] 설정 변경 → `saveSettings()` 즉시 반영
+- [x] Level 0 `vowelCount` 설정값 → `buildLevel0Questions(vowelCount)` 연동 확인
+- [x] `scaffoldLevel` 단계별 UI 전환 시각 확인 — 비계 항목이 점진 제거되는지
+- [x] 정답률 ≥ 80% 달성 시 완료 화면 Stage 2 Level 1 직행 안내 메시지 표시
+- [x] 정답률 미달 시 Level 0 반복 권장 안내 메시지 표시
+- [x] 완료 화면 — 가로 전환 예고 문구 "다음 게임은 가로 화면을 써요!" 1줄 삽입
 
 ---
 

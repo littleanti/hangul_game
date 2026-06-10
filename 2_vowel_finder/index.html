@@ -69,8 +69,8 @@
     <div class="settings-section">
       <div class="section-label">📏 난이도 (모음 수)</div>
       <div class="chip-row" id="count-chips">
-        <button class="chip active" data-count="5" onclick="selectCount(5, this)">5개</button>
-        <button class="chip" data-count="10" onclick="selectCount(10, this)">10개</button>
+        <button class="chip active" data-count="5" onclick="selectCount(5)">5개</button>
+        <button class="chip" data-count="10" onclick="selectCount(10)">10개</button>
       </div>
       <div class="section-hint">한 판에 나오는 모음 문제 수예요</div>
     </div>
@@ -174,8 +174,9 @@
     <p class="end-message" id="end-feedback"></p>
     <div class="end-buttons">
       <button class="btn big" onclick="startGame()">다시 하기 🔄</button>
-      <button class="btn mint big" onclick="goToNextStage()">음절 조립소로 가기 ➡️</button>
+      <button class="btn mint big" id="next-stage-btn" onclick="goToNextStage()">음절 조립소로 가기 ➡️</button>
     </div>
+    <p class="rotate-notice">📱 다음 게임은 가로 화면을 써요!</p>
     <div class="end-buttons">
       <button class="btn ghost small" onclick="goTo('start-screen')">🏠 홈으로</button>
     </div>
