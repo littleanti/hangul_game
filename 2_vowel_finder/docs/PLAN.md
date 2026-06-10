@@ -247,7 +247,7 @@
 | # | 이슈 | 유형 | 현황 |
 |---|---|---|---|
 | R1 | Level 0·Level 1 세션 경계 UX — 한 세션에서 연속 진행 vs 별도 버튼 구분 | UX 결정 | 미결 |
-| R2 | ㅡ/ㅣ 형태 분류 기준 교육 출처 — 현재 `vowels.js`에서 ㅡ=vertical, ㅣ=horizontal로 잠정 설정 | 콘텐츠 | 미결 (교육 자료 확인 필요) |
+| R2 | ㅡ/ㅣ 형태 분류 기준 교육 출처 — 한때 `vowels.js`에서 ㅡ=vertical, ㅣ=horizontal로 잘못 설정했었음 | 콘텐츠 | **해결됨** — 기본 획 방향 + 자음 결합 위치 기준 확정: 세로모음 ㅏ ㅑ ㅓ ㅕ ㅣ(자음 오른쪽, 예: 가·디), 가로모음 ㅗ ㅛ ㅜ ㅠ ㅡ(자음 아래, 예: 고·므). vowels.js·index.html·PRD §7.1 정정 완료 (BUG.md 참조) |
 | R3 | 드래그 온보딩 위치 — Level 1 마지막 문항에 붙일지 Level 0~1 사이 독립 화면으로 둘지 | 구조 결정 | 미결 |
 | R4 | Stage 2 내장(Level 0 모듈) vs 독립 실행 URL 라우팅 전략 | 아키텍처 | 미결 |
 | R5 | Web Speech API TTS 온라인 의존 — 오프라인 시 TTS 침묵, graceful degradation 범위 | 기술 | SW 캐시 제외 확정, 토글 자동 비활성화로 대응 예정 |
