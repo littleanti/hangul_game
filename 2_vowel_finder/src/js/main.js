@@ -12,6 +12,7 @@ import { resumeAudio } from './sound.js';
 import { initLevel0, tapChoice, speakCurrentL0 } from './level0.js';
 import { tapBucket, speakCurrentL1 } from './level1.js';
 import { toggleSetting, selectCount, syncSettingsUI } from './settings.js';
+import { openLeaderboard } from './leaderboard.js';
 
 /** 시작하기 — 화면 상태 머신: start → level0 → level1 → drag-onboarding → end */
 function startGame() {
@@ -38,6 +39,7 @@ window.speakVowel    = speakVowel;
 window.toggleSetting = toggleSetting;
 window.selectCount   = selectCount;
 window.goToNextStage = goToNextStage;
+window.openLeaderboard = openLeaderboard;
 
 // 초기화 — 설정 로드(localStorage) 후 설정 화면 UI 동기화 (settings.js, M3)
 loadSettings();

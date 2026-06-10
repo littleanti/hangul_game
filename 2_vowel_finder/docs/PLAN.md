@@ -122,14 +122,19 @@
 
 ## M4 — PWA·리더보드
 
-- [ ] `manifest.json` 작성 — `name`, `short_name`, `start_url:"./"`, `scope:"./"`, `display:"standalone"`, `background_color:"#FFF6E4"`, `theme_color:"#FF7757"`, `orientation:"portrait"`
-- [ ] `icons/icon-192.png` + `icons/icon-512.png` 준비 (placeholder 포함)
-- [ ] `sw.js` 작성 — `CACHE_VERSION = '2_vowel_finder-v1'`, `STATIC_ASSETS` 전체 목록, install/activate/fetch 핸들러
-- [ ] SW 등록 스크립트 `index.html` 삽입 — `'./sw.js'` 상대 경로
-- [ ] 오프라인 동작 확인: DevTools Network "Offline" → 캐시된 정적 에셋으로 게임 실행
-- [ ] `src/js/leaderboard.js` — `renderLeaderboard()`: `vowel_finder_scores` 읽어 최근 5세션 DOM 생성
-- [ ] 리더보드 — L0·L1 정답률 CSS 폭 비례 막대, 별점 아이콘, 날짜·소요시간, 최고 기록 하이라이트
-- [ ] 세션 완료 시 `saveScore(sessionRecord)` → `vowel_finder_scores` 배열 최신 20건 유지
+- [x] `manifest.json` 작성 — `name`, `short_name`, `start_url:"./"`, `scope:"./"`, `display:"standalone"`, `background_color:"#FFF6E4"`, `theme_color:"#FF7757"`, `orientation:"portrait"`
+- [x] `icons/icon-192.png` + `icons/icon-512.png` 준비 (placeholder 포함)
+- [x] `sw.js` 작성 — `CACHE_VERSION = '2_vowel_finder-v1'`, `STATIC_ASSETS` 전체 목록, install/activate/fetch 핸들러
+- [x] SW 등록 스크립트 `index.html` 삽입 — `'./sw.js'` 상대 경로
+- [x] 오프라인 동작 확인: DevTools Network "Offline" → 캐시된 정적 에셋으로 게임 실행 (캐시 `2_vowel_finder-v1`에 24개 에셋 적재·`caches.match` 응답 확인)
+- [x] `src/js/leaderboard.js` — `renderLeaderboard()`: `vowel_finder_scores` 읽어 최근 5세션 DOM 생성
+- [x] 리더보드 — L0·L1 정답률 CSS 폭 비례 막대, 별점 아이콘, 날짜·소요시간, 최고 기록 하이라이트
+- [x] 세션 완료 시 `saveScore(sessionRecord)` → `vowel_finder_scores` 배열 최신 20건 유지
+
+> **개발 시 SW 캐시 해제 방법**: fetch가 cache-first(TRD §6.2)라 코드 수정 후에도 구버전이 응답될 수 있다.
+> DevTools → Application → Service Workers에서 "Update on reload" 체크 + "Unregister", 또는 Application → Storage → "Clear site data".
+> 콘솔: `navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())); caches.keys().then(ks => ks.forEach(k => caches.delete(k)));` 후 강력 새로고침(Ctrl+Shift+R).
+> 배포 시 코드 변경이 있으면 `CACHE_VERSION` 숫자를 올려 activate 단계에서 구캐시를 정리한다.
 
 ---
 

@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>모음 찾기</title>
   <meta name="theme-color" content="#FF7757">
-
-  <!-- 임시 인라인 favicon — /favicon.ico 자동 요청 404 차단. M4에서 icons/ 제작 시 실제 아이콘으로 교체 (BUG.md M1 참고) -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%8D%3C/text%3E%3C/svg%3E">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon-192.png" type="image/png">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +38,7 @@
     <button class="btn big" onclick="startGame()">시작하기 🎵</button>
     <div class="start-links">
       <button class="btn-settings" onclick="goTo('settings-screen')">⚙️ 설정</button>
-      <button class="btn-settings" onclick="goTo('leaderboard-screen')">🏆 기록</button>
+      <button class="btn-settings" onclick="openLeaderboard()">🏆 기록</button>
     </div>
   </div>
 
@@ -87,27 +86,8 @@
       <button class="close-btn" onclick="goTo('start-screen')">✕</button>
     </div>
 
-    <!-- M4에서 leaderboard.js renderLeaderboard()가 채움 — 아래 항목은 디자인 확인용 placeholder -->
-    <div class="lb-list" id="leaderboard-list">
-      <div class="lb-item best">
-        <div class="lb-item-head">
-          <span class="lb-date">6월 10일</span>
-          <span class="lb-best-tag">최고 기록</span>
-          <span class="lb-stars">★★★</span>
-          <span class="lb-duration">3분 7초</span>
-        </div>
-        <div class="lb-bar-row">
-          <span class="lb-bar-label">소리 찾기</span>
-          <div class="lb-bar-track"><div class="lb-bar-fill l0" style="width: 80%"></div></div>
-          <span class="lb-bar-value">80%</span>
-        </div>
-        <div class="lb-bar-row">
-          <span class="lb-bar-label">모양 나누기</span>
-          <div class="lb-bar-track"><div class="lb-bar-fill l1" style="width: 90%"></div></div>
-          <span class="lb-bar-value">90%</span>
-        </div>
-      </div>
-    </div>
+    <!-- leaderboard.js renderLeaderboard()가 화면 진입 시 최근 5세션을 채움 (M4) -->
+    <div class="lb-list" id="leaderboard-list"></div>
     <p class="lb-empty" id="leaderboard-empty" style="display:none;">아직 기록이 없어요. 게임을 해봐요!</p>
 
     <div class="leaderboard-footer">
@@ -187,13 +167,11 @@
 <!-- 진입점 — 모듈 임포트 + window 전역 노출 (TRD §2.5) -->
 <script type="module" src="./src/js/main.js"></script>
 
-<!-- SW 등록 스크립트는 M4에서 sw.js 작성과 함께 추가 (M4 이전 fetch 시 404 콘솔 에러 발생하므로 제거 — BUG.md M1 참고) -->
-<!--
+<!-- SW 등록 — './sw.js' 상대 경로, 1_chosung_quiz와 스코프 분리 (TRD §6.3) -->
 <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js');
   }
 </script>
--->
 </body>
 </html>
