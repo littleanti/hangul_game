@@ -48,7 +48,7 @@ export function renderQuestion(idx) {
   const audioOnlyStart = Math.ceil(g.l0Questions.length * L0_AUDIO_ONLY_RATIO);
   const audioOnly = idx >= audioOnlyStart && TTS_AVAILABLE && state.settings.ttsEnabled;
   if (audioOnly) {
-    card.textContent = '🔊';
+    card.textContent = '?';
     card.setAttribute('aria-label', '소리를 듣고 같은 모음을 찾아요');
     card.classList.add('audio-only');
   } else {

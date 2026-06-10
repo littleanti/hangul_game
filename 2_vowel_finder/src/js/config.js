@@ -19,7 +19,7 @@ export const SCAFFOLD_THRESHOLDS = {
 
 // Level 0 음성 전용 페이딩 — 후반 구간 비율 (TRD §9.5)
 //   음성 전용 시작 인덱스 = Math.ceil(전체 문항 수 * L0_AUDIO_ONLY_RATIO)
-//   전반(idx < 시작): 글자 카드 + TTS  /  후반(idx >= 시작): TTS만 (카드는 🔊 placeholder)
+//   전반(idx < 시작): 글자 카드 + TTS  /  후반(idx >= 시작): TTS만 (카드는 물음표 ? placeholder)
 //   TTS 불가(설정 OFF 또는 Web Speech API 미지원) 시 페이딩 비활성화 — 카드 항상 표시
 export const L0_AUDIO_ONLY_RATIO = 0.5;
 

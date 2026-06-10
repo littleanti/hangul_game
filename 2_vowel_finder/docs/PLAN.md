@@ -161,11 +161,11 @@
 > 후반 50% 문항에서 모음 카드 글자를 숨기고 청각 단서만 제공 — Level 1 `scaffoldLevel`과 동일한 페이딩 패턴으로 G1(자소-음소 재인 자동화) 평가 정밀화 (PRD §7.2, TRD §9.5)
 
 - [x] `src/js/config.js` — `L0_AUDIO_ONLY_RATIO = 0.5` 상수 추가 (임계값 하드코딩 금지)
-- [x] `src/js/level0.js` — `renderQuestion`: `idx >= Math.ceil(전체 문항 수 * L0_AUDIO_ONLY_RATIO)` 이고 TTS 사용 가능 시 카드 글자 숨김 + 🔊 placeholder
+- [x] `src/js/level0.js` — `renderQuestion`: `idx >= Math.ceil(전체 문항 수 * L0_AUDIO_ONLY_RATIO)` 이고 TTS 사용 가능 시 카드 글자 숨김 + 물음표(?) placeholder
 - [x] TTS fallback — `TTS_AVAILABLE`(tts.js 기존 감지 로직 재사용) `&& state.settings.ttsEnabled` 미충족 시 모든 문항에서 카드 글자 항상 표시 (게임이 풀 수 없는 상태 방지)
 - [x] 접근성 — 음성 전용 카드 `aria-label="소리를 듣고 같은 모음을 찾아요"`, 다시 듣기 버튼 `aria-label="소리 듣기"` 유지
 - [x] 정답 시 숨겨졌던 글자 공개 후 `correct` 피드백 (자소-음소 연결 재강화)
-- [x] `src/css/game.css` — `.vowel-card.audio-only` placeholder 스타일 (tokens 변수만: `--color-surface2`, `--color-text-dim`, dashed 테두리)
+- [x] `src/css/game.css` — `.vowel-card.audio-only` 물음표(?) placeholder 스타일 (tokens 변수만: `--color-surface2`, `--coral`, dashed 테두리, 글자 크기는 `.vowel-card` 기본 clamp 상속)
 - [x] 다시 듣기 버튼(`.tts-btn`, 48dp) 양쪽 모드 항상 표시 — 기존 마크업 유지 확인
 - [x] 문항 시작 시 TTS 자동 재생 기존 동작 유지 확인
 - [x] 문서 갱신 — PRD §5·§7.2 / TRD §3.2·§9.5·§12 / PLAN 본 섹션

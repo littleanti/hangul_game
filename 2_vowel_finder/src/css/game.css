@@ -57,12 +57,12 @@
   color: white;
 }
 
-/* Level 0 음성 전용 페이딩 — 후반 문항 placeholder (글자 숨김, TRD §9.5) */
+/* Level 0 음성 전용 페이딩 — 후반 문항 물음표(?) placeholder (글자 숨김, TRD §9.5)
+   글자 크기는 .vowel-card 기본 clamp 그대로 상속 — 모음 글자와 동일 체계 */
 .vowel-card.audio-only {
-  font-size: clamp(2.4rem, 10vw, 4rem);
   background: var(--color-surface2);
   border-style: dashed;
-  color: var(--color-text-dim);
+  color: var(--coral);
 }
 
 /* 드래그 중 — transition 제거(rAF 직결), 최상단으로 */

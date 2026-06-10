@@ -734,14 +734,14 @@ const audioOnly = idx >= audioOnlyStart
 | 모드 | 카드 표시 | aria-label | CSS 클래스 |
 |---|---|---|---|
 | 일반 (전반 또는 fallback) | 정답 모음 글자 | `"[글자] [발음] 카드"` | `.vowel-card` |
-| 음성 전용 (후반) | 🔊 placeholder | `"소리를 듣고 같은 모음을 찾아요"` | `.vowel-card.audio-only` |
+| 음성 전용 (후반) | 물음표(?) placeholder | `"소리를 듣고 같은 모음을 찾아요"` | `.vowel-card.audio-only` |
 
 **TTS fallback 조건**: `speak()`의 가드(`TTS_AVAILABLE && state.settings.ttsEnabled`)와 동일 조건을 `renderQuestion`에서 문항마다 재평가한다. 조건 미충족(설정 OFF, Web Speech API 미지원) 시 음성 전용 모드를 비활성화하고 모든 문항에서 글자를 표시 — 게임이 풀 수 없는 상태가 되는 것을 방지. 게임 도중 설정을 끄고 돌아와도 다음 `renderQuestion`에서 즉시 반영된다.
 
 - 다시 듣기 버튼(`.tts-btn`, 48dp)은 모드와 무관하게 항상 표시. 문항 시작 시 TTS 자동 재생도 기존 유지.
 - 정답 시 `audio-only` 카드의 글자를 공개(자소-음소 재강화)한 뒤 `correct` 피드백 적용.
 - 상태 모델 필드 추가 없음 — `l0Idx` 파생값 (§3.2 참조).
-- `.vowel-card.audio-only`는 `game.css`에서 tokens 변수만으로 변형 (dashed 테두리 + `--color-surface2` 배경 + `--color-text-dim`).
+- `.vowel-card.audio-only`는 `game.css`에서 tokens 변수만으로 변형 (dashed 테두리 + `--color-surface2` 배경 + 물음표 색 `--coral`). 물음표 글자 크기는 `.vowel-card` 기본 clamp를 그대로 상속 — 모음 글자와 동일 체계.
 
 ---
 
@@ -773,7 +773,7 @@ const audioOnly = idx >= audioOnlyStart
 
 - [ ] Level 0: 정답 탭 → 정답 애니메이션 + TTS 재발화 + 800ms 후 다음 문항 진행
 - [ ] Level 0: 오답 탭 → 흔들기 + 재시도 허용 (1200ms 후)
-- [ ] Level 0: 후반 50% 문항 → 카드 글자 숨김(🔊 placeholder) + 다시 듣기 버튼으로 재생 가능
+- [ ] Level 0: 후반 50% 문항 → 카드 글자 숨김(물음표 ? placeholder) + 다시 듣기 버튼으로 재생 가능
 - [ ] Level 0: TTS OFF 또는 미지원 → 모든 문항에서 카드 글자 항상 표시 (음성 전용 모드 비활성화)
 - [ ] Level 1: 탭으로 분류 → 올바른 통에 배정 시 정답 피드백
 - [ ] Level 1: 드래그로 분류 → ±20dp 내 스냅 성공 + 효과음
