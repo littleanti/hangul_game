@@ -132,7 +132,7 @@
 
 ### 정답 처리 — 팝업 흐름
 
-- [ ] `game.js` — `triggerCorrectSplit(word)`: 카드 분리 애니메이션(`transform` only, < 100ms 시작) + `playCorrect()` + TTS 시퀀스(전체→part1→part2)
+- [ ] `game.js` — `triggerCorrectSplit(word)`: 카드 분리 애니메이션(`transform` only, < 100ms 시작) + `playCorrect()` + TTS 시퀀스(part1→part2 — 전체 발음은 카드 표시 시 1회로 충분, 중복 제거)
 - [ ] `game.js` — `showSplitPopup(word)`: `.split-popup` 오버레이 표시, 조각 그림 2장 + 뜻 라벨, 팝업 오픈 타임스탬프 기록
 - [ ] `src/css/game.css` — `.split-popup` / `.popup-piece` 스타일: `role="dialog"`, `aria-label` 부착
 - [ ] 팝업 닫기: 팝업 탭 또는 "다음" 버튼 탭 → 체류 시간 누산 → 다음 카드 또는 end-screen
@@ -225,7 +225,7 @@
 
 #### 게임 플레이 핵심 경로
 
-- [x] L1(실선 경계) → 올바른 경계 탭 → 팝업 정상 출현, TTS 재생(전체→part1→part2), 뜻 라벨 표시
+- [x] L1(실선 경계) → 올바른 경계 탭 → 팝업 정상 출현, TTS 재생(part1→part2), 뜻 라벨 표시
 - [x] L2(점선 경계) → 첫 번째 조각 그림만 표시됨 확인
 - [x] L3(경계 없음) → 그림 단서 없음, 정답 후 팝업에서 뜻 공개
 - [x] 잘못된 경계 탭 → "그 조각은 뜻이 없네" 메시지 + 흔들림 애니메이션 + 카드 원위치 복귀
@@ -388,6 +388,7 @@ main                    # 배포 가능한 안정 버전
 
 ## 변경 이력
 
+- 2026-06-11: 정답 TTS 시퀀스에서 전체 단어 재발화 제거(카드 표시 시 1회 발음으로 충분) — 정답음 후 part1→part2만 재생, TRD §5.4 의사코드 갱신
 - 2026-06-11: 정답 팝업 제목 조사 병기('은(는)') → 받침 유무 기반 자동 선택으로 변경 — `utils.js`에 `josa()` 순수 함수 추가, TRD §5.4 규칙 명시
 
 ---

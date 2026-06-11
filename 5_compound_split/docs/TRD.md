@@ -365,7 +365,7 @@ renderCard(word, fadingLevel):
 triggerCorrectSplit():
   1. 카드 분리 애니메이션 (part1, part2 슬라이드-아웃, < 100ms 시작)
   2. 효과음 playCorrect()
-  3. TTS: word 전체 발음 → 0.5s 후 part1 → 0.5s 후 part2
+  3. TTS: part1 → 0.5s 후 part2 (word 전체 발음은 카드 표시 시 1회로 충분 — 중복 제거)
   4. .split-popup 표시 (팝업 오픈 타임스탬프 기록)
   5. 아동이 팝업 탭 → 팝업 닫기 → 다음 카드
      (또는 "다음" 버튼 탭)

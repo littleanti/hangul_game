@@ -259,7 +259,7 @@ export function onCardTap(tapX, tapY, card) {
 // ── 정답 처리 (TRD §5.4) ────────────────────────────────────
 /**
  * 카드 분리 애니메이션(transform only, < 100ms 시작) + 효과음 +
- * TTS 시퀀스(전체 → 0.5s 후 part1 → 0.5s 후 part2) + 팝업 표시.
+ * TTS 시퀀스(0.5s 후 part1 → 0.5s 후 part2 — 전체 단어는 카드 표시 시 1회 발음) + 팝업 표시.
  */
 function triggerCorrectSplit(card) {
   const word = currentWord();
@@ -274,9 +274,9 @@ function triggerCorrectSplit(card) {
   const feedback = document.getElementById('game-feedback');
   if (feedback) feedback.textContent = `정답! ${word.part1} 더하기 ${word.part2}`;
 
-  // TTS 시퀀스 — R7: 빗방울 조각1은 기저형 '비' 발음 우선
+  // TTS 시퀀스 — 전체 단어는 카드 표시 시 1회 발음으로 충분(중복 제거, TRD §5.4)
+  // R7: 빗방울 조각1은 기저형 '비' 발음 우선
   cancelSpeech();
-  speak(word.word);
   addTimer(() => speak(word.part1), 500);
   addTimer(() => speak(word.part2), 1000);
 
