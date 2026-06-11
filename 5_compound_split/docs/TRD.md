@@ -110,8 +110,11 @@ settings ───┘    leaderboard
  * @typedef {Object} CompoundWord
  * @property {string}   id          - 고유 ID (예: 'raindrop')
  * @property {string}   word        - 합성어 전체 (예: '빗방울')
- * @property {string}   part1       - 첫 번째 형태소 (예: '비')
+ * @property {string}   part1       - 첫 번째 형태소 기저형 (예: '비')
  * @property {string}   part2       - 두 번째 형태소 (예: '방울')
+ * @property {string}   [part1Surface] - 조각1 사이시옷 표면형 (예: 빗방울의 '빗').
+ *                                    기저형과 카드 표기가 다를 때만 제공. 팝업에서
+ *                                    '비(빗)' 병기 렌더링용이며 TTS는 part1 기저형 발음 우선 (R7)
  * @property {string}   part1Emoji  - 첫 번째 조각 이모지 또는 그림 식별자
  * @property {string}   part2Emoji  - 두 번째 조각 이모지 또는 그림 식별자
  * @property {string}   part1Meaning - 첫 번째 조각 뜻 라벨 (예: '내리는 비')
@@ -119,11 +122,14 @@ settings ───┘    leaderboard
  * @property {string}   [part1ImageUrl] - 조각1 그림 URL (선택, 이모지 폴백)
  * @property {string}   [part2ImageUrl] - 조각2 그림 URL (선택, 이모지 폴백)
  * @property {string}   sceneEmoji  - 합성어 전체 대표 이모지 (카드 배경용)
- * @property {string}   sharedMorpheme - 공유 형태소 ID ('방울'|'빛'|'송이')
- * @property {string[]} wrongSplits - 잘못된 분절 예시 배열 (오답 탭 검출용)
+ * @property {string|null} sharedMorpheme - 공유 형태소 ID (예: '방울'|'빛'|'송이'|'꽃' 등).
+ *                                    공유 짝이 없는 단어는 null 허용 (확장 세트 — PRD §7.3)
+ * @property {string[][]} wrongSplits - 잘못된 분절 예시 배열 (오답 탭 검출용)
  *                                    예: ['빗방', '울'], ['빗', '방울'] 중 올바른 쪽 제외
- * @property {string}   category    - 씬 카테고리 (Stage 3 씬 ID와 호환)
- *                                    예: 'rain_raindrop', 'mountain_pinecone' 등
+ * @property {string}   category    - 카테고리. 도입 세트 6개는 Stage 3 씬 ID를 유지
+ *                                    (예: 'rain_raindrop', 'mountain_pinecone' 등 — 변경 금지),
+ *                                    확장 세트는 주제 카테고리 신규 부여 가능
+ *                                    (예: 'nature_*', 'body_*', 'season_*', 'food_*' 등)
  */
 
 export const WORDS = [
@@ -131,6 +137,7 @@ export const WORDS = [
     id: 'raindrop',
     word: '빗방울',
     part1: '비',          // '빗'의 기저형
+    part1Surface: '빗',   // 사이시옷 표면형 — 팝업 '비(빗)' 병기용
     part2: '방울',
     part1Emoji: '🌧️',
     part2Emoji: '💧',
@@ -141,21 +148,29 @@ export const WORDS = [
     wrongSplits: [['빗방', '울'], ['빗', '방울']],  // '비(빗)+방울'이 정답
     category: 'rain_raindrop',
   },
-  // ... (솔방울, 별빛, 달빛, 꽃송이, 눈송이)
+  // ... (솔방울, 별빛, 달빛, 꽃송이, 눈송이 — 도입 세트 6개, 불변)
+  // ... (확장 세트 94개 — PRD §7.3, sharedMorpheme: null 허용, category는 주제 카테고리)
 ];
 
-// 공유 형태소 페어링 메타 (Stage 4 payoff 보호용 참조)
+// 공유 형태소 그룹 메타 (Stage 4 payoff 보호용 참조)
+// { 형태소: [id, ...] } 형태 — 그룹당 단어 2개 이상 허용(쌍 한정 아님).
+// 확장 세트가 기존 형태소(방울·빛·송이)를 공유하면 해당 배열에 id를 추가하고,
+// 새 공유 형태소 그룹(예: '꽃', '눈', '비' 등)도 신규 키로 추가할 수 있다.
+// 공유 짝이 없는 단어(sharedMorpheme: null)는 이 메타에 등재하지 않는다.
 export const SHARED_MORPHEME_PAIRS = {
   '방울': ['raindrop', 'pinecone'],
   '빛':   ['starlight', 'moonlight'],
   '송이': ['flower', 'snowflake'],
+  // ... (확장 세트 반영 시 그룹 추가/확장)
 };
 ```
 
 **스키마 설계 원칙**:
-- `id`는 Stage 3 (`4_word_network`) 단어 ID와 동일한 네이밍 규칙(`씬_표제어`) 준수 → 상호 참조 용이
+- 도입 세트 6개의 `id`·`category`는 Stage 3 (`4_word_network`) 단어 ID·씬 카테고리(`씬_표제어`) 규칙 준수 → 상호 참조 용이. 확장 세트 94개의 `category`는 Stage 3 씬과 무관한 주제 카테고리(`nature_*`, `body_*`, `season_*`, `food_*` 등) 신규 부여 가능
+- `part1Surface`는 사이시옷 등으로 기저형(`part1`)과 표기가 달라지는 단어에만 제공하는 공식 필드 — 카드/팝업 표기는 표면형, TTS는 기저형
 - `wrongSplits`는 배열의 배열로 복수 오답 경계를 정의; 각 내부 배열은 `[part1오답, part2오답]` 쌍
-- `sharedMorpheme`은 공유 형태소 시각 연출 여부를 제어하는 플래그로 활용 가능
+- `sharedMorpheme`은 공유 형태소 시각 연출 여부를 제어하는 플래그로 활용 가능. 공유 짝이 없는 확장 단어는 `null`
+- `SHARED_MORPHEME_PAIRS`는 `{ 형태소: [id, ...] }` 맵으로, 한 그룹에 2개 이상의 단어 ID를 허용한다(기존 "쌍(2개)" 한정에서 확장)
 - `part1ImageUrl` / `part2ImageUrl` 미제공 시 이모지로 graceful fallback
 
 ### 3.2 게임 전역 상태 (`src/js/state.js`)
@@ -697,7 +712,7 @@ function playError() {
 
 ### 15.1 이전 단계 (4_word_network) 데이터 연결
 
-- `words.js`의 `id` 및 `category` 필드는 `4_word_network/src/data/words.js` 표제어 ID·씬 카테고리와 동일 규칙을 따른다.
+- **도입 세트 6개**의 `words.js` `id` 및 `category` 필드는 `4_word_network/src/data/words.js` 표제어 ID·씬 카테고리와 동일 규칙을 따른다. 확장 세트 94개는 Stage 3 등재 비요구 어휘이므로 주제 카테고리를 사용한다(§3.1).
 - Stage 3 씬 배경 이모지(rain, mountain, night, meadow, winter)를 카드 배경으로 재사용 가능하다.
 
 ### 15.2 다음 단계 (6_morpheme_detective) 스키마 호환

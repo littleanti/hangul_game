@@ -48,7 +48,7 @@ function currentWord() {
 
 // ── 출제 큐 구성 (TRD §5.5) ─────────────────────────────────
 /**
- * 셔플 + 반복 채움 — questionCount가 풀 크기(6)보다 크면 셔플 풀을 반복 이어붙인다.
+ * 셔플 + 반복 채움 — questionCount가 풀 크기(WORDS.length)보다 크면 셔플 풀을 반복 이어붙인다.
  * @param {import('../data/words.js').CompoundWord[]} words
  * @param {number} questionCount
  */
