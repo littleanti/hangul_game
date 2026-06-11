@@ -20,6 +20,8 @@ export function goTo(screenName) {
   tts.cancel();
   audio.stopAll();
   decomp.close(); // 떠 있는 분해 팝업 정리 (화면 전환 부작용)
+  // 라운드 간 요약 인터스티셜 정리 — game.js 생성 (순환 임포트 회피 위해 직접 제거)
+  document.querySelector('.round-summary-overlay')?.remove();
 
   for (const name of SCREENS) {
     const el = document.getElementById(`${name}-screen`);

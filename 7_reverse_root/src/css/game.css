@@ -81,12 +81,46 @@
   color: var(--navy);
 }
 
-/* 힌트 오버레이 컨테이너 (hint.js가 채움 — M3) */
+/* ----- 힌트 레이어 (TRD §5.2 — hint.js가 채움, M3) ----- */
 .hint-overlay {
   position: absolute;
   inset: 0;
   display: flex;
+  gap: 8px;
+  padding: 10px;
   pointer-events: none;
+}
+
+/* 형태소 구간 하이라이트 — L1 기본, transition 0.3s (HINT_TRANSITION_MS, L2→L1 전환) */
+.hint-segment {
+  position: relative;   /* .hint-label absolute 기준 */
+  flex: 1;
+  border-radius: 12px;
+  background: var(--hint-l1-bg);
+  border: 2px solid var(--hint-l1-border);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* L2 — 하이라이트만 (더 연함, 뜻 라벨 없음) */
+.hint-segment.l2 {
+  background: var(--hint-l2-bg);
+  border-color: transparent;
+}
+
+/* L1 뜻 라벨 배지 — "불 화" / "뫼 산" */
+.hint-label {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.9rem;
+  background: var(--mint);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 100px;
+  box-shadow: 0 2px 0 var(--mint-dark);
 }
 
 /* 한자 블록 도크 컨테이너 (dock.js가 채움 — M2) */
@@ -229,6 +263,82 @@
   font-size: 0.9rem;
   color: var(--color-text-dim);
 }
+
+/* ----- 라운드 간 요약 인터스티셜 round-summary (PRD §6, M3) ----- */
+.round-summary-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(45, 48, 71, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 90;          /* decomp-overlay(100)보다 아래 */
+  padding: 16px;
+  cursor: pointer;
+}
+
+.round-summary-card {
+  background: var(--decomp-card-bg);
+  border-radius: var(--decomp-card-radius);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 12px 40px var(--shadow);
+  max-width: 92vw;
+  text-align: center;
+  animation: pieceReveal 0.4s ease-out both;
+}
+
+.round-summary-card .summary-title {
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(1.3rem, 5vw, 1.7rem);
+  color: var(--coral);
+}
+
+.round-summary-card .summary-stars {
+  font-size: 2.6rem;
+  color: var(--yellow);
+  text-shadow: 0 2px 0 var(--yellow-dark);
+  letter-spacing: 0.4rem;
+}
+
+.round-summary-card .summary-text {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  color: var(--navy);
+  opacity: 0.85;
+}
+
+.round-summary-card .summary-tap {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.85rem;
+  color: var(--color-text-dim);
+}
+
+/* ----- 완료 화면 라운드별 요약 칩 (M3 — end-screen 확장) ----- */
+.end-rounds {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: 480px;
+  margin: 0.4rem auto 0.8rem;
+}
+
+.end-round-chip {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.85rem;
+  color: var(--navy);
+  background: var(--color-surface);
+  border: 2px solid var(--mint);
+  border-radius: 100px;
+  padding: 3px 10px;
+}
+
+.end-round-chip.perfect { border-color: var(--yellow); }
+.end-round-chip.missed  { border-color: var(--gray); opacity: 0.6; }
 
 /* ----- 가로 모드 폴백 (TRD §5.1) ----- */
 @media (orientation: landscape) and (max-height: 600px) {

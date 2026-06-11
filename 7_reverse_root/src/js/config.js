@@ -15,3 +15,4 @@ export const SNAP_DIST = 8;                        // 탭 판별 이동 임계�
 export const DECOMP_ANIM_MS = 400;                 // 분해 pieceReveal
 export const WRONG_SHAKE_MS = 350;                 // 오답 shake
 export const HINT_TRANSITION_MS = 300;             // L2→L1 하이라이트 전환
+export const ROUND_SUMMARY_MS = 2600;              // round-summary 인터스티셜 자동 진행 대기 (M3)

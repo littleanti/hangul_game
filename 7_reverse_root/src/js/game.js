@@ -3,6 +3,7 @@
 //       → 정답: 분해 팝업 → 다음 라운드 / 오답: shake 후 재시도 → endSession
 
 import { state } from './state.js';
+import { ROUND_SUMMARY_MS } from './config.js';
 import { shuffle } from './utils.js';
 import * as ui from './ui.js';
 import * as tts from './tts.js';
@@ -71,6 +72,7 @@ export function calcScore(session) {
 /** 세션 시작 — play 화면 진입 시 호출 (main.js startGame) */
 export function startSession() {
   decomp.close();
+  closeRoundSummary();
   state.session.queue = pickQueue(VOCAB);
   state.session.currentIdx = 0;
   state.session.hintLevel = state.progress.lastHintLevel || 1;
@@ -78,6 +80,7 @@ export function startSession() {
   state.session.wrongCount = 0;
   state.session.stars = 0;
   state.session.wrongPerRound = [];
+  state.session.solvedPerRound = [];
   state.round.phase = 'idle';
   startRound(0);
 }
@@ -93,7 +96,7 @@ export function startRound(idx) {
   state.round.selectedComponents = [];
   state.round.attemptCount = 0;
 
-  // 합성어 카드 — M2는 합성어 텍스트만 표시 (힌트 레이어는 M3)
+  // 합성어 카드 + 힌트 레이어 (M3: L1 라벨+하이라이트 / L2 하이라이트 / L3 없음)
   const wordEl = document.getElementById('compound-word');
   if (wordEl) wordEl.textContent = item.word;
   hint.renderHint(item, state.session.hintLevel);
@@ -124,6 +127,7 @@ export function onBlocksSelected(ids) {
     state.round.phase = 'correct';
     state.session.correctCount += 1;
     state.session.wrongPerRound[idx] = state.session.wrongPerRound[idx] ?? 0;
+    state.session.solvedPerRound[idx] = true; // 완료 화면 라운드별 요약용
     audio.playCorrect();
     dock.markCorrect();
     // 분해 애니메이션 + 결과 팝업 → "다음" 버튼으로 다음 라운드
@@ -141,19 +145,84 @@ export function onBlocksSelected(ids) {
   }
 }
 
-/** 다음 라운드 — 마지막 라운드였으면 세션 종료 */
+/** 다음 라운드 — 힌트 레벨이 내려가는 경계면 round-summary 인터스티셜 경유 */
 function nextRound() {
   const next = state.session.currentIdx + 1;
   if (next >= state.session.queue.length) {
     endSession();
+    return;
+  }
+  const nextLevel = hint.levelForRound(next, state.session.queue.length);
+  if (nextLevel > state.session.hintLevel) {
+    showRoundSummary(nextLevel, () => startRound(next));
   } else {
     startRound(next);
   }
 }
 
+// ====== 라운드 간 요약 인터스티셜 round-summary (PRD §6, TRD §3.4 — M3) ======
+
+/** 떠 있는 round-summary 인터스티셜 제거 (화면 전환 등 정리용) */
+export function closeRoundSummary() {
+  document.querySelector('.round-summary-overlay')?.remove();
+}
+
+/**
+ * 힌트 레벨 전환 직전 인터스티셜 — "이제 힌트를 줄여볼게요" 안내 + 별 누적 표시.
+ * 탭 또는 ROUND_SUMMARY_MS 경과 시 자동으로 다음 라운드 진입.
+ */
+function showRoundSummary(nextLevel, onContinue) {
+  closeRoundSummary();
+
+  const done = state.session.currentIdx + 1;                  // 완료한 라운드 수
+  const stars = calcStars(state.session.correctCount, done);  // 지금까지의 누적 별
+
+  const overlay = document.createElement('div');
+  overlay.className = 'round-summary-overlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-label', '힌트 단계 안내');
+
+  const card = document.createElement('div');
+  card.className = 'round-summary-card';
+
+  const title = document.createElement('div');
+  title.className = 'summary-title';
+  title.textContent = '이제 힌트를 줄여볼게요';
+
+  const starsEl = document.createElement('div');
+  starsEl.className = 'summary-stars';
+  starsEl.setAttribute('aria-label', `지금까지 별 ${stars}개`);
+  starsEl.textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
+
+  const text = document.createElement('p');
+  text.className = 'summary-text';
+  text.textContent = nextLevel === 2
+    ? `지금까지 ${state.session.correctCount}문제 정답! 이제 뜻 라벨 없이 하이라이트만 보여요`
+    : `지금까지 ${state.session.correctCount}문제 정답! 마지막엔 힌트 없이 도전해봐요`;
+
+  const tap = document.createElement('p');
+  tap.className = 'summary-tap';
+  tap.textContent = '화면을 누르면 바로 시작해요';
+
+  card.append(title, starsEl, text, tap);
+  overlay.appendChild(card);
+
+  const proceed = () => {
+    if (!overlay.isConnected) return; // 화면 전환 등으로 이미 정리된 경우 무시
+    overlay.remove();
+    onContinue();
+  };
+  overlay.addEventListener('pointerdown', proceed);
+  document.body.appendChild(overlay);
+
+  tts.speak('이제 힌트를 줄여볼게요');
+  setTimeout(proceed, ROUND_SUMMARY_MS);
+}
+
 /** 세션 종료 — 점수·별 계산, 완료 화면 렌더링 (점수 영속 저장은 M4) */
 export function endSession() {
   decomp.close();
+  closeRoundSummary();
 
   const total = state.session.queue.length || 1;
   const correct = state.session.correctCount;
@@ -163,6 +232,9 @@ export function endSession() {
 
   // 다음 세션 pickQueue의 중복 제한용 (메모리 내, 미영속 — TRD §10.3)
   state.session.lastPlayedWords = new Set(state.session.queue.map(v => v.word));
+
+  // 다음 세션 힌트 레벨 초기값 핸드오프 (M4에서 '7rr:progress'로 영속화)
+  state.progress.lastHintLevel = state.session.hintLevel;
 
   // 진행률 바 가득 채움
   const fill = document.getElementById('progress-fill');
@@ -183,6 +255,20 @@ export function endSession() {
     stars === 3 ? '한자 뿌리 박사네요! 🏅' :
     stars === 2 ? '아주 잘했어요! 조금만 더! 💪' :
                   '괜찮아요, 다시 도전해봐요! 🌱');
+
+  // 라운드별 요약 칩 — ★ 무오답 정답 / ✓ 오답 후 정답 / – 미완료(중도 종료)
+  const roundsEl = document.getElementById('end-rounds');
+  if (roundsEl) {
+    roundsEl.textContent = '';
+    state.session.queue.forEach((v, i) => {
+      const solved = !!state.session.solvedPerRound[i];
+      const flawless = solved && (state.session.wrongPerRound[i] ?? 0) === 0;
+      const chip = document.createElement('span');
+      chip.className = `end-round-chip${flawless ? ' perfect' : solved ? '' : ' missed'}`;
+      chip.textContent = `${v.word} ${flawless ? '★' : solved ? '✓' : '–'}`;
+      roundsEl.appendChild(chip);
+    });
+  }
 
   // TODO(M4): storage.saveScore({ score, stars, ... }) + progress 영속화
   ui.goTo('end');

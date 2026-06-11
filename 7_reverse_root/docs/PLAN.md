@@ -2,7 +2,7 @@
 
 > 개발 계획 및 진행 상태
 > Last updated: 2026-06-11
-> **현재 상태: M2 게임 플레이 핵심 로직 완료, M3 힌트 페이딩 착수 예정**
+> **현재 상태: M3 힌트 페이딩·난이도 진행 완료, M4 PWA·리더보드·영속화 착수 예정**
 
 ---
 
@@ -13,7 +13,7 @@
 | PRD (제품 요구사항) | ✅ 완료 (`docs/PRD.md`) |
 | TRD (기술 요구사항) | ✅ 완료 (`docs/TRD.md`) |
 | PLAN (구현 계획) | ✅ 완료 (본 문서) |
-| 게임 코드 구현 | 🟡 M0·M1·M2 완료 (M3~M5 미착수) |
+| 게임 코드 구현 | 🟡 M0·M1·M2·M3 완료 (M4·M5 미착수) |
 | HTML/CSS/JS 파일 | ✅ 스캐폴딩 생성 (`index.html`, CSS 5종, JS 모듈 스텁 15종) + 데이터 레이어 본 구현 (`hanja.js` 51자, `vocab.js` 15어휘, `scripts/validate-data.mjs` 검증 통과) |
 
 > M0(디자인 시스템 스캐폴딩) 완료. 공용 CSS 복제 원본은 `5_compound_split/src/css/`(`1_chosung_quiz`에는 `src/css` 없음 — 인라인 CSS 단일 파일 게임). 이후 M1부터 마일스톤 순서대로 진행한다.
@@ -160,37 +160,38 @@
 
 ### 힌트 레이어 (`hint.js`)
 
-- [ ] `renderHint(vocabItem, hintLevel)` — 힌트 레벨에 따라 `.hint-overlay` DOM 렌더링
+- [x] `renderHint(vocabItem, hintLevel)` — 힌트 레벨에 따라 `.hint-overlay` DOM 렌더링
   - L1: `.hint-segment` 색 하이라이트(`--hint-l1-bg`) + `.hint-label` 뜻 라벨("불 화" / "뫼 산")
   - L2: `.hint-segment.l2` 하이라이트만 (`.hint-label` 없음)
   - L3: `.hint-overlay` 제거 (합성어 카드만 표시)
-- [ ] `.hint-overlay` position absolute inset 0, pointer-events none
-- [ ] `.hint-label` position absolute top -28px, Jua 0.9rem, `--mint` 배경, 100px border-radius
-- [ ] L2→L1 CSS transition 0.3s (background, border-color)
+  - 설정 `hintVisible=false` 시에도 오버레이 비움 (설정 토글 연동)
+- [x] `.hint-overlay` position absolute inset 0, pointer-events none
+- [x] `.hint-label` position absolute top -28px, Jua 0.9rem, `--mint` 배경, 100px border-radius
+- [x] L2→L1 CSS transition 0.3s (background, border-color)
 
 ### 힌트 레벨 전환 (`game.js` + `hint.js`)
 
-- [ ] 라운드 번호 기반 자동 전환: 1~5번 L1, 6~10번 L2, 11~15번 L3 (TRD §3.4)
-- [ ] 어휘 수가 15개 미만이면 3등분 구간 배정
-- [ ] 오답 시 힌트 레벨 유지 (강등 없음) 확인
-- [ ] `state.session.hintLevel` 업데이트, `hint.renderHint()` 재호출
+- [x] 라운드 번호 기반 자동 전환: 1~5번 L1, 6~10번 L2, 11~15번 L3 (TRD §3.4)
+- [x] 어휘 수가 15개 미만이면 3등분 구간 배정 (`levelForRound` — `floor(idx×3/total)+1`, 15개 기준 5/5/5 정확 일치)
+- [x] 오답 시 힌트 레벨 유지 (강등 없음) 확인 (레벨은 라운드 번호로만 결정 — 브라우저 검증 완료)
+- [x] `state.session.hintLevel` 업데이트, `hint.renderHint()` 재호출 (`startRound`에서 매 라운드 갱신)
 
 ### 라운드 간 요약 화면 (`round-summary`)
 
-- [ ] 힌트 레벨 전환 직전 인터스티셜 표시: "이제 힌트를 줄여볼게요" 안내 텍스트
-- [ ] 별 누적 표시
-- [ ] 자동 또는 탭으로 다음 라운드 진입
+- [x] 힌트 레벨 전환 직전 인터스티셜 표시: "이제 힌트를 줄여볼게요" 안내 텍스트 (5→6, 10→11 라운드 경계)
+- [x] 별 누적 표시 (지금까지의 정답률 기반 `calcStars` — `--yellow` 별 3개 시각화)
+- [x] 자동 또는 탭으로 다음 라운드 진입 (`ROUND_SUMMARY_MS`=2600ms 자동 + pointerdown 즉시)
 
 ### 점수·별 계산 (`game.js`)
 
-- [ ] `calcStars(correctCount, total)` — 정답률 ≥ 0.9 → ★★★, ≥ 0.7 → ★★☆, 그 외 → ★☆☆
-- [ ] `calcScore(session)` — 정답 수 × 10 + 오답 없는 라운드 수 × 5
+- [x] `calcStars(correctCount, total)` — 정답률 ≥ 0.9 → ★★★, ≥ 0.7 → ★★☆, 그 외 → ★☆☆
+- [x] `calcScore(session)` — 정답 수 × 10 + 오답 없는 라운드 수 × 5 (`wrongPerRound` 기반 — 15라운드 1오답 시 220점 검증)
 
 ### 완료 화면 연결
 
-- [ ] `#end-screen` 렌더링: 제목(Jua 2.1rem), 획득 별(--yellow), 정답률(Gowun Dodum), 라운드별 요약
-- [ ] "다시 하기" `.btn` → `game.startSession()` (직전 세션 어휘 중복 ≤ 20%)
-- [ ] "다음 단계" `.btn.mint` → `8_vocabulary_tree` 링크 (상대경로)
+- [x] `#end-screen` 렌더링: 제목(Jua 2.1rem), 획득 별(--yellow), 정답률(Gowun Dodum), 라운드별 요약 (`#end-rounds` 칩: ★ 무오답 / ✓ 오답 후 정답 / – 미완료)
+- [x] "다시 하기" `.btn` → `game.startSession()` (직전 세션 어휘 중복 ≤ 20% — `lastPlayedWords` 메모리 유지)
+- [x] "다음 단계" `.btn.mint` → `8_vocabulary_tree` 링크 (상대경로 `../8_vocabulary_tree/`)
 
 ---
 

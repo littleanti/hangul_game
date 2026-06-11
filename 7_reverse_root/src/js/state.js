@@ -16,6 +16,7 @@ export const state = {
     wrongCount: 0,         // 세션 누적 오답 수
     stars: 0,              // 세션 획득 별 (정답률 기반)
     wrongPerRound: [],     // 라운드별 오답 수 — calcScore 보너스 산정 (TRD §9.1)
+    solvedPerRound: [],    // 라운드별 정답 완료 여부 — 완료 화면 라운드 요약 (M3)
     lastPlayedWords: null, // Set<string> — 직전 세션 어휘 (메모리 내, 미영속)
   },
   round: {
