@@ -97,7 +97,7 @@ export function tapChoice(vowelId) {
   const fb = document.getElementById('l0-feedback');
 
   if (vowelId === q.answer) {
-    // ----- 정답: 애니메이션 + playCorrect + TTS 재발화 → 800ms 후 다음 문항 -----
+    // ----- 정답: 애니메이션 + playCorrect → 800ms 후 다음 문항 (TTS 재발화 없음 — 다음 문항 발화와 혼동 방지) -----
     g.answered = true;
     if (firstTry) g.l0Correct += 1;
     if (btn) btn.classList.add('correct');
@@ -110,7 +110,6 @@ export function tapChoice(vowelId) {
     }
     card.classList.add('correct');
     playCorrect();
-    speak(v.sound);
     fb.textContent = `딩동댕! ${v.sound} 맞았어요!`;
     updateHud(`${g.l0Idx + 1} / ${g.l0Questions.length}`, HUD_LABEL, g.l0Correct);
 

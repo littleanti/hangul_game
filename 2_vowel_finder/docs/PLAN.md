@@ -80,7 +80,7 @@
 - [x] `src/js/level0.js` — `initLevel0()`: 문항 풀 빌드, 첫 문항 렌더링
 - [x] `level0.js` — `renderQuestion(idx)`: 대형 모음 카드(Jua clamp 4rem~7rem) + TTS 자동 재생 + 보기 3~4개 격자
 - [x] `level0.js` — `tapChoice(vowelId)`: `state.game.answered` 중복 탭 방지 → 정오답 판정 → 피드백 → 800/1200ms 후 진행
-- [x] 정답 피드백: `.vowel-card` mint 테두리·배경 + `playCorrect()` + TTS 재발화
+- [x] 정답 피드백: `.vowel-card` mint 테두리·배경 + `playCorrect()` (TTS 재발화는 다음 문항 발화와 혼동되어 제거)
 - [x] 오답 피드백: 흔들기 애니메이션(`keyframes shake`) + `playWrong()`
 - [x] `aria-live="polite"` 피드백 텍스트 영역 — 정오답 텍스트 출력
 - [x] Level 0 완료 → `state.game.phase = 'level1'` → `goTo('game-level1')`

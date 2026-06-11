@@ -110,7 +110,6 @@ function judge(shape, viaDrag) {
     card.classList.add('correct');
     bucket.classList.add('correct');
     playCorrect();
-    speak(v.sound);
     fb.textContent = `딩동댕! ${v.char}는 ${SHAPE_NAME[shape]} 모음이에요!`;
     updateHud(`${g.l1Idx + 1} / ${g.l1Queue.length}`, HUD_LABEL, g.l1Correct);
 
