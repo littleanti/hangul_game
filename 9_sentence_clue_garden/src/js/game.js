@@ -228,6 +228,8 @@ export function showEndScreen() {
       questions: g.results.slice(),
       score: g.score,
       total,
+      // S10 핸드오프 포맷 — difficulty·accuracy 필드 포함 (PRD §9.2)
+      accuracy: Math.round(accuracy * 100) / 100,
     });
     saveLeaderboard({
       name: (state.settings.playerName || '').trim() || '익명',

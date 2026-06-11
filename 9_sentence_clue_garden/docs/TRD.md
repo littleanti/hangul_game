@@ -234,7 +234,8 @@ DB명: `9scg_db` / 오브젝트 스토어: `sessions`
     { id: 'scg_002', correct: false, hintLevelUsed: 2, chosen: '슬프게' }
   ],
   score: 9,
-  total: 10
+  total: 10,
+  accuracy: 0.90           // S10 핸드오프 참조 필드 (PRD §9.2)
 }
 ```
 
