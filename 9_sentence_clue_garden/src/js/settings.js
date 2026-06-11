@@ -1,11 +1,12 @@
 /**
  * 설정 화면 렌더링 (TRD §3.4 — 변경 즉시 저장)
- * M0: 칩·토글·이름 입력의 상태 동기화 최소 구현. 세부(TTS 미지원 처리 등)는 M2~M3.
+ * TTS 미지원 브라우저: 토글 자동 비활성화 + 안내 메시지 (TRD §7.3)
  */
 
 import { state } from './state.js';
 import { saveSettings } from './storage.js';
 import { goTo } from './ui.js';
+import { isTtsSupported } from './tts.js';
 
 /** 설정 화면 진입 */
 export function openSettings() {
@@ -26,13 +27,24 @@ export function renderSettings() {
   });
 
   syncToggle('toggle-hint', s.hintEnabled);
-  syncToggle('toggle-tts', s.ttsEnabled);
   syncToggle('toggle-sound', s.soundEnabled);
+
+  // TTS 미지원 브라우저 → 토글 자동 비활성화 + 안내 (TRD §7.3)
+  const ttsToggle = document.getElementById('toggle-tts');
+  if (!isTtsSupported()) {
+    s.ttsEnabled = false;
+    if (ttsToggle) {
+      ttsToggle.classList.remove('on');
+      ttsToggle.classList.add('disabled');
+    }
+    const ttsHint = document.getElementById('tts-hint');
+    if (ttsHint) ttsHint.textContent = '이 기기에서는 소리 듣기를 지원하지 않아요';
+  } else {
+    syncToggle('toggle-tts', s.ttsEnabled);
+  }
 
   const nameInput = document.getElementById('player-name');
   if (nameInput && nameInput.value !== s.playerName) nameInput.value = s.playerName;
-
-  // TODO(M2): TTS 미지원 브라우저 → toggle-tts 비활성화 + 안내 (TRD §7.3)
 }
 
 function syncToggle(id, on) {
@@ -56,6 +68,7 @@ export function selectCount(count) {
 
 /** ON/OFF 토글 (hintEnabled | ttsEnabled | soundEnabled) */
 export function toggleSetting(key, _el) {
+  if (key === 'ttsEnabled' && !isTtsSupported()) return; // 미지원 — 토글 잠금
   state.settings[key] = !state.settings[key];
   saveSettings();
   renderSettings();

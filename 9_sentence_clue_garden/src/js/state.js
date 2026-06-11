@@ -16,6 +16,7 @@ export const state = {
     hintLevel: 0,         // 현재 문제의 단서 단계 (0=비표시, 1, 2, 3)
     answered: false,      // 현재 문제 응답 완료 여부
     selectedChoice: null, // 탭·드래그로 선택된 선택지 텍스트
+    results: [],          // 문제별 판정 기록 { id, correct, hintLevelUsed, chosen? } — 세션 레코드(TRD §3.5)
   },
 
   lastGameIds: new Set(), // 직전 세션 문제 ID — 연속 중복 방지 (메모리만, 미저장)
@@ -30,4 +31,5 @@ export function resetGameState() {
   state.game.hintLevel = 0;
   state.game.answered = false;
   state.game.selectedChoice = null;
+  state.game.results = [];
 }

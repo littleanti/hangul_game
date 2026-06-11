@@ -2,6 +2,196 @@
    게임 플레이 화면 전용 확장 (TRD §4.6)
    - 이 게임 고유 스타일만 작성한다.
    - tokens.css의 변수만 참조 — 새 CSS 변수 추가 금지.
-   - 내용은 M2(문장 카드·빈칸·도크 칩)·M3(단서 하이라이트·
-     드래그 스냅·가로 모드 2-column)에서 채운다.
+   - M2: 문장 카드·빈칸 슬롯·도크 칩(56px)·피드백 색
+   - M3: 단서 하이라이트 상세·드래그 스냅·가로 모드 2-column
    ========================================== */
+
+/* ---------- 플레이 화면 레이아웃 ---------- */
+
+#play-screen.active {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 0 20px;
+}
+
+/* ---------- 문장 카드 (TRD §4.6) ---------- */
+
+.sentence-card {
+  position: relative;
+  background: white;
+  border: 2.5px solid var(--navy);
+  border-radius: 20px;
+  padding: 20px 18px;
+  box-shadow: 0 4px 0 var(--navy);
+}
+
+.sentence-text {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  line-height: 2;
+  color: var(--navy);
+  word-break: keep-all;
+  padding-right: 36px; /* TTS 버튼 자리 */
+}
+
+/* 문장 카드 TTS 버튼 */
+.tts-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--navy);
+  border-radius: 50%;
+  background: var(--cream);
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--navy);
+}
+.tts-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--navy);
+}
+
+/* ---------- 빈칸 슬롯 (TRD §4.6) ---------- */
+
+.blank {
+  display: inline-block;
+  min-width: 80px;
+  min-height: 1.6em;
+  vertical-align: middle;
+  text-align: center;
+  background: var(--cream);
+  border-bottom: 3px solid var(--coral);
+  border-radius: 6px;
+  padding: 0 4px;
+  transition: background 0.15s ease-out;
+}
+
+.blank.filled {
+  background: white;
+  border-bottom-color: var(--mint);
+}
+
+/* 빈칸 안에 배치된 칩 — 문장 흐름에 맞게 축소 */
+.blank .dock-chip {
+  display: inline-flex;
+  min-height: 0;
+  padding: 4px 14px;
+  font-size: inherit;
+  vertical-align: middle;
+}
+
+/* ---------- 단서 영역 (M3에서 본격 사용) ---------- */
+
+.hint-area {
+  min-height: 0;
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  color: var(--navy);
+}
+
+/* 단서 하이라이트 — yellow + 밑줄 병기 (색각 접근성, TRD §7.4) */
+mark.hl {
+  background: var(--yellow);
+  border-radius: 4px;
+  padding: 0 2px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: inherit;
+}
+
+.hint-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--navy);
+  background: var(--cream);
+  border: 1.5px solid var(--yellow-dark);
+  border-radius: 8px;
+  padding: 2px 8px;
+  margin-top: 6px;
+}
+
+/* ---------- 힌트 버튼 줄 ---------- */
+
+.play-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+}
+
+/* ---------- 하단 도크 — 선택지 칩 (TRD §4.6, §5.2) ---------- */
+
+.dock {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  gap: 12px;
+  padding: 14px 8px;
+  background: var(--color-surface2);
+  border: 2.5px solid var(--navy);
+  border-radius: 20px;
+  min-height: 88px;
+  margin-top: auto;
+}
+
+.dock-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 56px;            /* 초등생 터치 타겟 (TRD §7.2) */
+  padding: 10px 24px;
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(1rem, 3.5vw, 1.3rem);
+  color: var(--navy);
+  background: white;
+  border: 2.5px solid var(--navy);
+  border-radius: 100px;
+  box-shadow: 0 4px 0 var(--navy);
+  cursor: pointer;
+  touch-action: none;           /* 드래그(M3) 대비 — 브라우저 제스처 차단 */
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
+              background 0.15s ease-out;
+}
+
+.dock-chip.pressed {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--navy);
+}
+
+/* 정답 피드백 칩 — mint + ⭕ (TRD §4.6) */
+.dock-chip.correct {
+  background: var(--mint);
+  color: white;
+  border-color: var(--mint-dark);
+  box-shadow: 0 4px 0 var(--mint-dark);
+}
+
+/* 오답 피드백 칩 — red + ❌ (TRD §4.6) */
+.dock-chip.wrong {
+  background: var(--red);
+  color: white;
+  border-color: var(--red-dark);
+  box-shadow: 0 4px 0 var(--red-dark);
+}
+
+.dock-chip:disabled {
+  cursor: default;
+}
+
+/* 판정 레이블(⭕/❌) — 색상 단독 금지, 텍스트 병기 (TRD §7.4) */
+.judge-mark {
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+/* ---------- 판정 피드백 텍스트 ---------- */
+
+#game-feedback.ok { color: var(--mint-dark); }
+#game-feedback.no { color: var(--red); }
