@@ -1,0 +1,150 @@
+/* ==========================================
+   game.css — 플레이 화면 고유 스타일 (이 게임 신규)
+   — 공용 CSS(tokens/base/components/screens)는 수정하지 않고
+     선택자 추가·확장만으로 덮어씀 (TRD §4.1 원칙).
+   ========================================== */
+
+/* ----- 게임 고유 추가 토큰 (TRD §4.3 — 기존 변수 재정의 금지) ----- */
+:root {
+  /* 힌트 레이어 색상 */
+  --hint-l1-bg: rgba(107, 202, 184, 0.25);   /* L1 형태소 배경 하이라이트 (mint 계열) */
+  --hint-l1-border: var(--mint);
+  --hint-l2-bg: rgba(107, 202, 184, 0.15);   /* L2 하이라이트 (더 연함) */
+  /* 분해 결과 팝업 */
+  --decomp-card-bg: #FFFFFF;
+  --decomp-card-radius: 20px;
+}
+
+/* ----- play-screen 골격 (TRD §5.1 — 세로 모드 우선 단일 컬럼) ----- */
+#play-screen.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: calc(100dvh - 32px);
+  gap: 16px;
+  padding: 16px 8px 24px;
+}
+
+/* 진행률 바 + 힌트 레벨 배지 */
+.play-top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 14px;
+  background: var(--gray);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--mint);
+  border-radius: 100px;
+  transition: width 0.3s ease;
+}
+
+.hint-level-badge {
+  font-family: 'Jua', sans-serif;
+  font-size: 0.85rem;
+  background: var(--yellow);
+  color: var(--navy);
+  padding: 3px 12px;
+  border-radius: 100px;
+  box-shadow: 0 2px 0 var(--yellow-dark);
+  flex-shrink: 0;
+}
+
+/* 합성어 카드 영역 (힌트 오버레이 absolute 기준 컨테이너) */
+.compound-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+}
+
+.compound-card {
+  position: relative;
+  background: var(--color-surface);
+  border-radius: 20px;
+  box-shadow: 0 6px 0 var(--gray), 0 10px 24px var(--shadow);
+  padding: 32px 48px;
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  color: var(--navy);
+}
+
+/* 힌트 오버레이 컨테이너 (hint.js가 채움 — M3) */
+.hint-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+}
+
+/* 한자 블록 도크 컨테이너 (dock.js가 채움 — M2) */
+.hanja-dock {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 8px;
+}
+
+.hanja-block {
+  width: clamp(64px, 18vw, 88px);
+  height: clamp(64px, 18vw, 88px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface);
+  border: 3px solid var(--gray);
+  border-radius: 16px;
+  box-shadow: 0 4px 0 var(--gray);
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(1.6rem, 6vw, 2.8rem);
+  color: var(--navy);
+  cursor: pointer;
+  touch-action: none;   /* 드래그 직접 처리 (TRD §6.1) */
+  user-select: none;
+}
+
+.hanja-block.selected {
+  border-color: var(--coral);
+  box-shadow: 0 4px 0 var(--coral-dark);
+  transform: translateY(-4px) scale(1.05);
+}
+
+.hanja-block.snapped {
+  border-color: var(--mint);
+  box-shadow: 0 4px 0 var(--mint-dark);
+}
+
+/* 플레이 화면 하단 보조 버튼 행 */
+.play-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ----- 가로 모드 폴백 (TRD §5.1) ----- */
+@media (orientation: landscape) and (max-height: 600px) {
+  #play-screen.active {
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+    gap: 24px;
+  }
+  .compound-area { flex: 1; }
+  .hanja-dock { flex: 1; flex-wrap: wrap; max-width: 50vw; }
+}

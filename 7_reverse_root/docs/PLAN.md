@@ -1,8 +1,8 @@
 # 🗂️ PLAN — 한자 뿌리 역분해 게임
 
 > 개발 계획 및 진행 상태
-> Last updated: 2026-06-10
-> **현재 상태: 설계 완료, 구현 미착수**
+> Last updated: 2026-06-11
+> **현재 상태: M0 스캐폴딩 완료, M1 데이터 레이어 착수 예정**
 
 ---
 
@@ -13,10 +13,10 @@
 | PRD (제품 요구사항) | ✅ 완료 (`docs/PRD.md`) |
 | TRD (기술 요구사항) | ✅ 완료 (`docs/TRD.md`) |
 | PLAN (구현 계획) | ✅ 완료 (본 문서) |
-| 게임 코드 구현 | ⬜ 미착수 |
-| HTML/CSS/JS 파일 | ⬜ 미생성 |
+| 게임 코드 구현 | 🟡 M0 완료 (M1~M5 미착수) |
+| HTML/CSS/JS 파일 | ✅ 스캐폴딩 생성 (`index.html`, CSS 5종, JS 모듈 스텁 15종, 데이터 스텁 2종) |
 
-> 설계 3종(PRD·TRD·PLAN) 이 완료된 시점. 구현은 본 계획서의 마일스톤 순서에 따라 착수한다.
+> M0(디자인 시스템 스캐폴딩) 완료. 공용 CSS 복제 원본은 `5_compound_split/src/css/`(`1_chosung_quiz`에는 `src/css` 없음 — 인라인 CSS 단일 파일 게임). 이후 M1부터 마일스톤 순서대로 진행한다.
 
 ---
 
@@ -39,32 +39,32 @@
 
 ### 디렉터리 및 진입점
 
-- [ ] `7_reverse_root/` 폴더 생성, `index.html` 단일 페이지 진입점 작성
-- [ ] Google Fonts `<link>` 삽입 (`Jua`, `Gowun Dodum`) + `preconnect` 2개
-- [ ] `src/css/` 디렉터리 생성 및 CSS 파일 5종 생성 (`tokens.css`, `base.css`, `components.css`, `screens.css`, `game.css`)
-- [ ] `src/js/` 디렉터리 생성 및 JS 파일 스텁 생성 (14개 모듈)
-- [ ] `src/data/` 디렉터리 생성 (`hanja.js`, `vocab.js` 스텁)
-- [ ] `src/assets/icons/` 디렉터리 생성 (PWA 아이콘 플레이스홀더)
+- [x] `7_reverse_root/` 폴더 생성, `index.html` 단일 페이지 진입점 작성
+- [x] Google Fonts `<link>` 삽입 (`Jua`, `Gowun Dodum`) + `preconnect` 2개
+- [x] `src/css/` 디렉터리 생성 및 CSS 파일 5종 생성 (`tokens.css`, `base.css`, `components.css`, `screens.css`, `game.css`)
+- [x] `src/js/` 디렉터리 생성 및 JS 파일 스텁 생성 (14개 모듈)
+- [x] `src/data/` 디렉터리 생성 (`hanja.js`, `vocab.js` 스텁)
+- [x] `src/assets/icons/` 디렉터리 생성 (PWA 아이콘 플레이스홀더)
 
 ### 공용 CSS 이식 (`1_chosung_quiz/src/css/` → 복제)
 
-- [ ] `tokens.css` — `1_chosung_quiz/src/css/tokens.css` 완전 복제. 게임 고유 추가 토큰 (`--hint-l1-bg`, `--hint-l2-bg`, `--decomp-card-bg`, `--decomp-card-radius`) `game.css` `:root` 확장으로 추가
-- [ ] `base.css` — `1_chosung_quiz/src/css/base.css` 기반 복제. `touch-action: manipulation`, `100dvh`, overflow hidden 동일 적용
-- [ ] `components.css` — `1_chosung_quiz/src/css/components.css` 완전 복제. `.btn`, `.btn.big`, `.btn.small`, `.btn.mint`, `.btn.ghost`, `.toggle`, `.chip` 클래스 완전 동일 유지
-- [ ] `screens.css` — `1_chosung_quiz/src/css/screens.css` 기반 복제. `start-screen`, `settings-screen`, `end-screen` 레이아웃 동일 유지. `leaderboard-screen` 클래스 신규 추가
+- [x] `tokens.css` — 시리즈 공용 토큰 완전 복제 (실제 원본: `5_compound_split/src/css/tokens.css` — `1_chosung_quiz`에는 `src/css`가 없음). 게임 고유 추가 토큰 (`--hint-l1-bg`, `--hint-l2-bg`, `--decomp-card-bg`, `--decomp-card-radius`) `game.css` `:root` 확장으로 추가
+- [x] `base.css` — 시리즈 공용 base 기반 복제. `touch-action: manipulation`, `100dvh`, 가로 overflow 차단 동일 적용
+- [x] `components.css` — 시리즈 공용 components 복제. `.btn`, `.btn.big`, `.btn.small`, `.btn.mint`, `.btn.ghost`, `.toggle`, `.chip` 클래스 완전 동일 유지
+- [x] `screens.css` — 시리즈 공용 screens 기반 복제. `start-screen`, `settings-screen`, `end-screen` 레이아웃 동일 유지. `leaderboard-screen` 클래스 포함
 
 ### 공용 화면 HTML 마크업
 
-- [ ] `#start-screen` — 제목(Jua, 3rem, `--coral`), `.btn.big` 시작 버튼, 리더보드 진입 `.btn.ghost`, 크레딧
-- [ ] `#settings-screen` — 제목(Jua, 1.8rem), TTS 토글, 효과음 토글, 힌트 표시 설정, 진행 초기화, `.btn.small` 저장/닫기
-- [ ] `#leaderboard-screen` — 제목(Jua, 1.8rem), 점수 목록 컨테이너, `.btn.small` 닫기
-- [ ] `#end-screen` — 제목(Jua, 2.1rem), 별 표시(--yellow), 정답률(Gowun Dodum), `.btn` 다시하기, `.btn.mint` 다음 단계
-- [ ] `#play-screen` — 진행률 바, 합성어 카드 영역, 힌트 오버레이 컨테이너, 한자 블록 도크 컨테이너
+- [x] `#start-screen` — 제목(Jua, 3rem, `--coral`), `.btn.big` 시작 버튼, 리더보드 진입 `.btn.ghost`, 크레딧
+- [x] `#settings-screen` — 제목(Jua, 1.8rem), TTS 토글, 효과음 토글, 힌트 표시 설정, 진행 초기화, `.btn.small` 저장/닫기
+- [x] `#leaderboard-screen` — 제목(Jua, 1.8rem), 점수 목록 컨테이너, `.btn.small` 닫기
+- [x] `#end-screen` — 제목(Jua, 2.1rem), 별 표시(--yellow), 정답률(Gowun Dodum), `.btn` 다시하기, `.btn.mint` 다음 단계
+- [x] `#play-screen` — 진행률 바, 합성어 카드 영역, 힌트 오버레이 컨테이너, 한자 블록 도크 컨테이너
 
 ### CSS 로드 순서 확인
 
-- [ ] `index.html` `<head>` 내 CSS 링크 순서 고정: `tokens.css` → `base.css` → `components.css` → `screens.css` → `game.css`
-- [ ] `game.css`는 공용 CSS를 직접 수정하지 않고 선택자 확장만으로 덮어씀 원칙 준수 확인
+- [x] `index.html` `<head>` 내 CSS 링크 순서 고정: `tokens.css` → `base.css` → `components.css` → `screens.css` → `game.css`
+- [x] `game.css`는 공용 CSS를 직접 수정하지 않고 선택자 확장만으로 덮어씀 원칙 준수 확인
 
 ---
 

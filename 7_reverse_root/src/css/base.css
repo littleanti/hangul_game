@@ -1,0 +1,69 @@
+/* ==========================================
+   리셋 & 레이아웃
+   — 시리즈 공용 base 복제 (TRD §4.1, §8.1).
+     touch-action: manipulation(더블탭 줌 비활성·탭 딜레이 제거),
+     100dvh, 가로 overflow 차단 동일 적용.
+   ========================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Gowun Dodum', sans-serif;
+  color: var(--navy);
+  min-height: 100vh;
+  min-height: 100dvh; /* iOS Safari 주소창 대응 */
+  display: flex;
+  align-items: safe center;
+  justify-content: center;
+  padding: 16px;
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  touch-action: manipulation; /* 더블탭 줌 비활성, 탭 딜레이 제거 (TRD §8.1) */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 스크롤 시 배경이 짤리지 않도록 fixed 레이어로 분리 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--cream);
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255, 181, 181, 0.3) 0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(107, 202, 184, 0.25) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 209, 102, 0.15) 0%, transparent 55%);
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.screen {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

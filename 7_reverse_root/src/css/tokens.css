@@ -1,0 +1,31 @@
+/* ==========================================
+   디자인 토큰 (색상, 그림자 등 전역 변수)
+   — 시리즈 공통 규격 복제 (TRD §4.3). 하드코딩 금지, 변수만 사용.
+   ========================================== */
+
+:root {
+  /* 색상 */
+  --cream: #FFF6E4;
+  --coral: #FF7757;
+  --coral-dark: #d45a40;
+  --mint: #6BCAB8;
+  --mint-dark: #4fa192;
+  --navy: #2D3047;
+  --navy-dark: #1a1c2b;
+  --yellow: #FFD166;
+  --yellow-dark: #d4ad4e;
+  --pink: #FFB5B5;
+  --red: #E84545;
+  --red-dark: #b63333;
+  --gray: #E5E1D6;
+
+  /* 그림자 */
+  --shadow: rgba(45, 48, 71, 0.15);
+
+  /* 크로스-게임 공통 시맨틱 토큰 */
+  --color-text: var(--navy);
+  --color-text-dim: #6b6e82;
+  --color-surface: #FFFFFF;
+  --color-surface2: #F5EDD8;
+  --color-border: var(--gray);
+}

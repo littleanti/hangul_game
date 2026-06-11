@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>한자 뿌리 역분해</title>
+  <meta name="theme-color" content="#FF7757">
+  <!-- 임시 파비콘 (M4에서 PWA PNG 아이콘으로 교체) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B1%3C/text%3E%3C/svg%3E">
+
+  <!-- Google Fonts — Jua + Gowun Dodum (TRD §4.2) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+  <!-- CSS — 토큰 → 베이스 → 컴포넌트 → 공용 화면 → 게임 고유 (TRD §4.1 로드 순서 고정) -->
+  <link rel="stylesheet" href="src/css/tokens.css">
+  <link rel="stylesheet" href="src/css/base.css">
+  <link rel="stylesheet" href="src/css/components.css">
+  <link rel="stylesheet" href="src/css/screens.css">
+  <link rel="stylesheet" href="src/css/game.css">
+</head>
+<body>
+<div class="container">
+
+  <!-- =========== 시작 화면 =========== -->
+  <div id="start-screen" class="screen active start-screen">
+    <div class="start-emoji">🧱</div>
+    <h1>한자 뿌리 역분해</h1>
+    <p class="subtitle">낱말을 한자 뿌리 두 조각으로 쪼개봐요 🔍</p>
+
+    <button class="btn big" onclick="startGame()">시작하기 🧱</button>
+    <button class="btn ghost" onclick="openLeaderboard()">🏆 기록 보기</button>
+
+    <div class="start-links">
+      <button class="btn-settings" onclick="openSettings()">⚙️ 설정</button>
+    </div>
+
+    <p class="credit">한글 놀이터 시리즈 · 7단계 — 한자 뿌리 역분해</p>
+  </div>
+
+  <!-- =========== 설정 화면 =========== -->
+  <div id="settings-screen" class="screen settings-screen">
+    <div class="settings-header">
+      <h2>⚙️ 설정</h2>
+      <button class="close-btn" onclick="goTo('start')" aria-label="닫기">✕</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🔊 소리 듣기 (TTS)</span>
+        <div class="toggle on" id="toggle-tts" role="button" tabindex="0" aria-label="소리 듣기 켜고 끄기" onclick="toggleSetting('ttsEnabled', this)"></div>
+      </div>
+      <div class="section-hint" id="tts-hint">낱말과 한자의 음·뜻을 읽어줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🎵 효과음</span>
+        <div class="toggle on" id="toggle-sfx" role="button" tabindex="0" aria-label="효과음 켜고 끄기" onclick="toggleSetting('sfxEnabled', this)"></div>
+      </div>
+      <div class="section-hint">정답·오답 소리를 들려줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">💡 힌트 표시</span>
+        <div class="toggle on" id="toggle-hint" role="button" tabindex="0" aria-label="힌트 표시 켜고 끄기" onclick="toggleSetting('hintVisible', this)"></div>
+      </div>
+      <div class="section-hint">합성어 카드 위에 힌트를 보여줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-label">🧹 진행 초기화</div>
+      <button class="btn red small" onclick="resetProgress()">기록 지우기</button>
+      <div class="section-hint">지금까지의 진행과 기록을 모두 지워요</div>
+    </div>
+
+    <div class="settings-footer">
+      <button class="btn small" onclick="saveSettings()">💾 저장</button>
+      <button class="btn ghost small" onclick="goTo('start')">🏠 닫기</button>
+    </div>
+  </div>
+
+  <!-- =========== 리더보드 화면 =========== -->
+  <div id="leaderboard-screen" class="screen leaderboard-screen">
+    <div class="settings-header">
+      <h2>🏆 기록</h2>
+      <button class="close-btn" onclick="goTo('start')" aria-label="닫기">✕</button>
+    </div>
+
+    <!-- leaderboard.js renderLeaderboard()가 화면 진입 시 기록을 채움 (M4) -->
+    <div class="lb-list" id="leaderboard-list"></div>
+    <p class="lb-empty" id="leaderboard-empty" style="display:none;">아직 기록이 없어요. 게임을 해봐요!</p>
+
+    <div class="leaderboard-footer">
+      <button class="btn ghost small" onclick="goTo('start')">🏠 닫기</button>
+    </div>
+  </div>
+
+  <!-- =========== 완료 화면 =========== -->
+  <div id="end-screen" class="screen end-screen">
+    <div class="celebration-emojis">🎉✨🎊</div>
+    <h2>참 잘했어요!</h2>
+    <div class="end-stars" id="end-stars" aria-label="획득한 별">★★★</div>
+    <div class="final-score">
+      <span class="num" id="end-correct">0</span>
+      <span style="opacity:0.4;">/</span>
+      <span id="end-total">15</span>
+    </div>
+    <p class="end-message">정답률 <span id="end-rate">0%</span> · 점수 <span id="end-score">0</span>점</p>
+    <p class="end-message" id="end-feedback"></p>
+    <div class="end-buttons">
+      <button class="btn" onclick="startGame()">다시 하기 🔄</button>
+      <button class="btn mint" onclick="goNextStage()">다음 단계 🌳</button>
+    </div>
+    <div class="end-buttons">
+      <button class="btn ghost small" onclick="goTo('start')">🏠 홈으로</button>
+    </div>
+  </div>
+
+  <!-- =========== 게임 플레이 화면 (M0: 골격만 — M2에서 로직 연결) =========== -->
+  <div id="play-screen" class="screen">
+    <div class="play-top">
+      <div class="progress-bar" aria-label="진행률">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="hint-level-badge" id="hint-level-badge">힌트 1단계</span>
+    </div>
+
+    <div class="compound-area" id="compound-area">
+      <div class="compound-card" id="compound-card">
+        <span id="compound-word">화산</span>
+        <!-- hint.js renderHint()가 힌트 오버레이를 채움 (M3) -->
+        <div class="hint-overlay" id="hint-overlay"></div>
+      </div>
+    </div>
+
+    <!-- dock.js buildDockItems()가 한자 블록을 채움 (M2) -->
+    <div class="hanja-dock" id="hanja-dock"></div>
+
+    <div class="play-footer">
+      <button class="btn ghost small" onclick="endSession()">🏁 끝내기</button>
+      <button class="btn ghost small" onclick="goTo('start')">🏠 그만하기</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- 진입점 — 모듈 임포트 + window 전역 노출 (TRD §2.2). SW 등록은 M4. -->
+<script type="module" src="src/js/main.js"></script>
+</body>
+</html>
