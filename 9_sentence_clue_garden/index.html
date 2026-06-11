@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>문장 단서 정원</title>
+  <meta name="theme-color" content="#FF7757">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon-192.png" type="image/png">
+
+  <!-- Google Fonts (TRD §4.3) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+  <!-- CSS — 토큰 → 베이스 → 컴포넌트 → 공용 화면 → 게임 고유 (TRD §2.2) -->
+  <link rel="stylesheet" href="./src/css/tokens.css">
+  <link rel="stylesheet" href="./src/css/base.css">
+  <link rel="stylesheet" href="./src/css/components.css">
+  <link rel="stylesheet" href="./src/css/screens.css">
+  <link rel="stylesheet" href="./src/css/game.css">
+
+  <!-- SW 등록 — 상대경로 './sw.js' (타 게임과 스코프 분리, TRD §6.2) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {
+          /* SW 실패 시에도 게임은 온라인으로 정상 동작 (TRD §11) */
+        });
+      });
+    }
+  </script>
+</head>
+<body>
+<div class="container">
+
+  <!-- =========== 홈 화면 =========== -->
+  <div id="home-screen" class="screen active home-screen">
+    <div class="start-emoji">🌷</div>
+    <h1>문장 단서 정원</h1>
+    <p class="subtitle">문장 속 단서를 읽고 알맞은 낱말을 심어요 🌱</p>
+
+    <p class="level-label">난이도를 골라요</p>
+    <div class="level-buttons">
+      <button class="level-btn level-btn-1" onclick="startGameWithDifficulty('easy')">
+        🌱 <span class="level-name">쉬움</span><small>씨앗</small>
+      </button>
+      <button class="level-btn level-btn-2" onclick="startGameWithDifficulty('medium')">
+        🌿 <span class="level-name">보통</span><small>새싹</small>
+      </button>
+      <button class="level-btn level-btn-3" onclick="startGameWithDifficulty('hard')">
+        🌸 <span class="level-name">어려움</span><small>꽃</small>
+      </button>
+    </div>
+
+    <button class="btn big" onclick="startGame()">바로 시작 🌼</button>
+
+    <div class="start-links">
+      <button class="btn-settings" onclick="openSettings()">⚙️ 설정</button>
+      <button class="btn-settings" onclick="openLeaderboard()">🏆 기록</button>
+    </div>
+
+    <p class="series-breadcrumb">8 어휘력 세계수 → <strong>9 문장 단서 정원</strong> → 10 문해력 해독기</p>
+  </div>
+
+  <!-- =========== 설정 화면 =========== -->
+  <div id="settings-screen" class="screen settings-screen">
+    <div class="settings-header">
+      <h2>⚙️ 설정</h2>
+      <button class="close-btn" onclick="goTo('home-screen')" aria-label="닫기">✕</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-label">🌱 난이도</div>
+      <div class="chip-row" id="difficulty-chips">
+        <button class="chip" data-difficulty="easy" onclick="selectDifficulty('easy')">쉬움</button>
+        <button class="chip" data-difficulty="medium" onclick="selectDifficulty('medium')">보통</button>
+        <button class="chip" data-difficulty="hard" onclick="selectDifficulty('hard')">어려움</button>
+        <button class="chip" data-difficulty="all" onclick="selectDifficulty('all')">전체</button>
+      </div>
+      <div class="section-hint">문장과 낱말의 어려운 정도예요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-label">🎲 문제 수</div>
+      <div class="chip-row" id="count-chips">
+        <button class="chip" data-count="5" onclick="selectCount(5)">5개</button>
+        <button class="chip" data-count="10" onclick="selectCount(10)">10개</button>
+        <button class="chip" data-count="20" onclick="selectCount(20)">20개</button>
+      </div>
+      <div class="section-hint">한 판에 나오는 문장 수예요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">💡 힌트 (단서 보기)</span>
+        <div class="toggle on" id="toggle-hint" onclick="toggleSetting('hintEnabled', this)"></div>
+      </div>
+      <div class="section-hint">문장 속 단서를 노란 표시로 알려줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🔊 소리 듣기 (TTS)</span>
+        <div class="toggle on" id="toggle-tts" onclick="toggleSetting('ttsEnabled', this)"></div>
+      </div>
+      <div class="section-hint" id="tts-hint">문장과 낱말을 읽어줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🎵 효과음</span>
+        <div class="toggle on" id="toggle-sound" onclick="toggleSetting('soundEnabled', this)"></div>
+      </div>
+      <div class="section-hint">정답·오답 소리를 들려줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="section-label">✏️ 이름</div>
+      <input type="text" id="player-name" class="name-input" maxlength="8"
+             placeholder="이름을 입력해요 (기록에 표시)" oninput="setPlayerName(this.value)">
+      <div class="section-hint">리더보드 기록에 표시되는 이름이에요</div>
+    </div>
+
+    <div class="settings-footer">
+      <button class="btn big" onclick="startGame()">시작하기 🌼</button>
+      <button class="btn ghost small" onclick="goTo('home-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+  <!-- =========== 플레이 화면 =========== -->
+  <div id="play-screen" class="screen">
+    <div class="play-header">
+      <button class="quit-btn" onclick="goTo('home-screen')">← 그만하기</button>
+      <span class="progress-text" id="progress-text">1 / 10</span>
+      <div class="header-badges">
+        <span class="score-badge" id="score-badge">⭐ 0</span>
+      </div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+
+    <!-- 문장 카드 — game.js renderQuestion()이 [ ] 마커를 .blank 슬롯으로 치환 (M2) -->
+    <div class="sentence-card" id="sentence-card">
+      <button class="tts-button" id="tts-button" onclick="speakSentence()" aria-label="문장 듣기">🔊</button>
+      <p class="sentence-text" id="sentence-text"></p>
+      <!-- 단서 영역 — hint.js renderHint()가 하이라이트·음뜻 라벨 렌더링 (M3) -->
+      <div class="hint-area" id="hint-area" aria-live="polite"></div>
+    </div>
+
+    <div class="play-controls">
+      <button class="btn mint small" id="hint-button" onclick="onHintButton()">💡 힌트</button>
+    </div>
+
+    <!-- 하단 도크 — dock.js renderDock()이 선택지 칩 렌더링 (M2: 탭, M3: 드래그+스냅) -->
+    <div class="dock" id="dock"></div>
+
+    <p class="feedback-live" id="game-feedback" aria-live="polite"></p>
+  </div>
+
+  <!-- =========== 완료 화면 =========== -->
+  <div id="end-screen" class="screen end-screen">
+    <div class="celebration-emojis">🎉🌼🎊</div>
+    <h2>참 잘했어요!</h2>
+    <div class="final-score">
+      <span class="num" id="end-score">0</span>
+      <span style="opacity:0.4;">/</span>
+      <span id="end-total">10</span>
+    </div>
+    <p class="end-message">정답률 <span id="end-accuracy">0%</span></p>
+
+    <button class="review-toggle" onclick="toggleReview()">📝 틀린 문제 보기</button>
+    <!-- 오답 목록 — game.js showEndScreen()이 틀린 문장·선택한 답·정답 렌더링 (M2) -->
+    <div class="review-list" id="review-list"></div>
+
+    <div class="end-buttons">
+      <button class="btn big" onclick="startGame()">다시 하기 🔄</button>
+      <button class="btn mint small" onclick="openLeaderboard()">🏆 리더보드</button>
+    </div>
+    <div class="end-buttons">
+      <button class="btn ghost small" onclick="goTo('home-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+  <!-- =========== 리더보드 화면 =========== -->
+  <div id="leaderboard-screen" class="screen leaderboard-screen">
+    <div class="settings-header">
+      <h2>🏆 기록</h2>
+      <button class="close-btn" onclick="goTo('home-screen')" aria-label="닫기">✕</button>
+    </div>
+
+    <div class="lb-sort-row">
+      <div class="chip-row" id="lb-sort-chips">
+        <button class="chip active" data-sort="score" onclick="setLeaderboardSort('score')">점수순</button>
+        <button class="chip" data-sort="date" onclick="setLeaderboardSort('date')">날짜순</button>
+      </div>
+    </div>
+
+    <!-- leaderboard.js renderLeaderboard()가 상위 10개 기록을 채움 (M4) -->
+    <div class="lb-list" id="leaderboard-list"></div>
+    <p class="lb-empty" id="leaderboard-empty" style="display:none;">아직 기록이 없어요. 게임을 해봐요!</p>
+
+    <div class="leaderboard-footer">
+      <button class="btn big" onclick="goTo('home-screen')">🏠 홈으로</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- 진입점 — 모듈 임포트 + window 전역 노출 (TRD §2.2) -->
+<script type="module" src="./src/js/main.js"></script>
+</body>
+</html>
