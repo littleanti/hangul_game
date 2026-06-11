@@ -14,6 +14,14 @@
 - **원인**: index.html에 `<link rel="icon">` 선언이 없어 브라우저가 `/favicon.ico`를 자동 요청하나 파일이 없음(icons/는 PLAN.md M4 산출물).
 - **해결**: **해결됨** — index.html `<head>`에 인라인 SVG data-URI favicon(🔍 이모지) 1줄 추가로 `/favicon.ico` 자동 요청을 차단. M4 아이콘 제작 시 실제 아이콘 파일로 교체 예정(주석 표기).
 
+## TTS 음질 — ㅏ가 나/냐로 들림
+
+### [major] Windows에서 ㅏ TTS 발화가 "나/냐"처럼 들림
+
+- **증상**: Level 0에서 ㅏ 문항의 TTS가 "아"가 아닌 "나" 또는 "냐"처럼 들림. 다른 모음에서도 단음절 발화 음질이 탁함.
+- **원인**: 코드는 정상 — 검증 결과 앱은 모든 모음에서 올바른 발음 텍스트("아" 등)를 `lang='ko-KR'`로 전달하고 있었음. 원인은 음성 엔진 품질: 기존 `tts.js` `loadVoices()`가 ko-KR 음성 중 **목록의 첫 번째**를 잡는데, Windows에서는 구형 SAPI 음성 "Microsoft Heami"가 먼저 잡혀 단음절 발화에 아티팩트(자음이 섞여 들리는 왜곡)가 발생. 데스크톱 Chrome에는 품질이 훨씬 좋은 "Google 한국의" 음성이 보통 함께 존재하지만 선택되지 않았음.
+- **해결**: **해결됨** — `loadVoices()`에 품질 우선순위 스코어링 도입 (1순위: 이름에 "Google" 포함 ko* / 2순위: "Natural"·"Neural"·"Online" 포함 ko* / 3순위: 기타 `ko-KR` — Heami 등 기존 fallback / 4순위: 기타 ko* / 없으면 null = utterance `lang='ko-KR'`만으로 동작). Chrome의 Google 음성은 비동기 로드되므로 기존 `voiceschanged` 재평가 로직으로 늦게 로드된 고품질 음성으로 자동 승격됨. `rate`/`pitch` 등 다른 발화 설정과 인터페이스는 변경 없음 (TRD §2.3 명세 추가).
+
 ## 콘텐츠 — 모음 분류 오류
 
 ### [major] 세로/가로 모음 분류가 한글 교육 기준과 정반대로 잘못 정의됨

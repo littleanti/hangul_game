@@ -102,6 +102,18 @@ main.js
   tts.js / sound.js (외부 API 래퍼, 단방향)
 ```
 
+**tts.js 한국어 음성 선택 우선순위** (`loadVoices()` 스코어링):
+
+| 순위 | 조건 | 예시 |
+|---|---|---|
+| 1 | 이름에 `Google` 포함 + `lang`이 `ko`로 시작 | "Google 한국의" |
+| 2 | 이름에 `Natural`/`Neural`/`Online` 포함 + `lang`이 `ko`로 시작 | "Microsoft SunHi Online (Natural)" |
+| 3 | `lang === 'ko-KR'` 기타 음성 | "Microsoft Heami" (기존 fallback) |
+| 4 | `lang`이 `ko`로 시작하는 기타 음성 | — |
+| 없음 | `koVoice = null` — utterance `lang='ko-KR'`만으로 동작 (기존 동일) | — |
+
+> 근거: Windows에서 목록 첫 번째로 잡히는 구형 SAPI 음성(Microsoft Heami)이 단음절 발화("아" 등)에서 아티팩트를 일으켜 "나/냐"처럼 들림 (BUG.md 참조). Chrome의 Google 음성은 비동기 로드되므로 `voiceschanged` 재평가로 늦게 로드된 고품질 음성으로 자동 승격된다. `rate`/`pitch` 등 다른 발화 설정은 변경 없음.
+
 ### 2.4 화면 상태 머신
 
 ```
@@ -754,7 +766,7 @@ const audioOnly = idx >= audioOnlyStart
 | 초기 로드 | ES Module 파일 각 < 10KB, 순차 로드 허용 |
 | 애니메이션 | `transform` / `opacity` 전용 (compositor layer) |
 | 드래그 | `pointermove`에서 `requestAnimationFrame` 래핑으로 60fps 유지 |
-| TTS | `voiceschanged` 비동기 대기, 준비 전 버튼 비활성화 |
+| TTS | `voiceschanged` 비동기 대기, 준비 전 버튼 비활성화 — 재평가 시 음성 선택 우선순위(§2.3) 재적용으로 늦게 로드된 고품질 음성으로 자동 승격 |
 | 폰트 | `<link rel="preconnect">` DNS 병렬화, `font-display: swap` |
 | 이미지 | 모음 글자는 텍스트 렌더링 — 이미지 에셋 없음 (초기 로드 0바이트) |
 

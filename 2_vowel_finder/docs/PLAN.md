@@ -68,6 +68,7 @@
 ### M2-A: 공통 인프라
 
 - [x] `src/js/tts.js` — Web Speech API 래퍼, `ko-KR` 우선, `voiceschanged` 비동기 대기, `unlock()`, graceful fallback
+- [x] `src/js/tts.js` — 한국어 음성 품질 우선순위 스코어링 (Google > Natural/Neural/Online > ko-KR > ko*) — Heami 단음절 아티팩트 회피, `voiceschanged` 재평가 시 고품질 음성 자동 승격 (TRD §2.3, BUG.md "TTS 음질" 참조)
 - [x] `src/js/sound.js` — Web Audio API 오실레이터 기반 `playCorrect()` / `playWrong()` / `playSnap()` (외부 파일 없음)
 - [x] `src/js/ui.js` — `goTo(screenId)`: 화면 전환 + `cancelSpeech()` + `stopDrag()` + `clearFeedback()` 공통 부작용
 - [x] `src/js/main.js` — 진입점: 모듈 임포트, `window` 전역 노출 (`tapChoice`, `tapBucket`, `goTo`, `speakVowel` 등), 첫 `pointerdown`에서 AudioContext resume

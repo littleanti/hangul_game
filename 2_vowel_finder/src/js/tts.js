@@ -1,6 +1,6 @@
 /**
  * TTS — Web Speech API 래퍼 (TRD §2.3)
- * - ko-KR 음성 우선, voiceschanged 비동기 대기
+ * - 한국어 음성 품질 우선순위 선택 (Google > Natural/Neural/Online > ko-KR > ko*), voiceschanged 비동기 대기
  * - unlock(): 첫 사용자 인터랙션에서 호출 — iOS 등 자동재생 정책 해제
  * - 미지원 브라우저 graceful fallback: speak()는 조용히 no-op
  */
@@ -14,13 +14,38 @@ export const TTS_AVAILABLE =
 
 let koVoice = null;
 
+/**
+ * 한국어 음성 품질 스코어 (높을수록 우선) — TRD §2.3
+ * 배경: Windows 구형 SAPI 음성(Microsoft Heami)이 목록 앞에 와서
+ * 단음절 발화("아" 등)에 아티팩트가 생김 → 고품질 음성 우선 선택.
+ *   4: 이름에 "Google" 포함 ko* (예: "Google 한국의")
+ *   3: 이름에 "Natural"/"Neural"/"Online" 포함 ko* (신형 고품질)
+ *   2: lang === 'ko-KR' 기타 (예: Microsoft Heami — 기존 fallback)
+ *   1: lang이 'ko'로 시작하는 기타
+ *   0: 한국어 아님 (선택 제외)
+ */
+function scoreVoice(v) {
+  if (!v.lang || !v.lang.startsWith('ko')) return 0;
+  const name = v.name || '';
+  if (name.includes('Google')) return 4;
+  if (/Natural|Neural|Online/i.test(name)) return 3;
+  if (v.lang === 'ko-KR') return 2;
+  return 1;
+}
+
 function loadVoices() {
   if (!TTS_AVAILABLE) return;
   const voices = speechSynthesis.getVoices();
-  koVoice =
-    voices.find(v => v.lang === 'ko-KR') ||
-    voices.find(v => v.lang && v.lang.startsWith('ko')) ||
-    null;
+  let best = null;
+  let bestScore = 0;
+  for (const v of voices) {
+    const s = scoreVoice(v);
+    if (s > bestScore) {
+      best = v;
+      bestScore = s;
+    }
+  }
+  koVoice = best; // 없으면 null — utterance lang=ko-KR만으로 동작
 }
 
 // 음성 리스트는 비동기 로드 — voiceschanged 대기 (TRD §10)
