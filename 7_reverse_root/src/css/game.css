@@ -101,10 +101,14 @@
   transition: background 0.3s, border-color 0.3s;
 }
 
-/* L2 — 하이라이트만 (더 연함, 뜻 라벨 없음) */
+/* L2 — 하이라이트만 (더 연함, 뜻 라벨 없음).
+   색맹 대응(TRD §8.2): 색만으로 정보 전달 금지 — 점선 테두리(형태 패턴)를
+   병기해 L1(실선)과도 형태로 구분된다. */
 .hint-segment.l2 {
   background: var(--hint-l2-bg);
-  border-color: transparent;
+  border-style: dashed;
+  border-color: var(--hint-l1-border);
+  opacity: 0.85;
 }
 
 /* L1 뜻 라벨 배지 — "불 화" / "뫼 산" */

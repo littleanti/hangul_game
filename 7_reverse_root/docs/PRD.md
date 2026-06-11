@@ -1,8 +1,8 @@
 # 📋 PRD — 한자 뿌리 역분해 게임
 
 > Product Requirements Document
-> Last updated: 2026-06-10
-> Status: **설계 단계** — 구현 착수 전 설계 문서
+> Last updated: 2026-06-12
+> Status: **구현 완료** — M0~M4 구현 완료, M5 QA·디바이스 검증 진행 중
 
 ## 1. 제품 개요
 

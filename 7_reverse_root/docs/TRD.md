@@ -1,8 +1,8 @@
 # 🔧 TRD — 한자 뿌리 역분해 게임
 
 > Technical Requirements Document
-> Last updated: 2026-06-10
-> Status: **설계 단계** — 구현 착수 전 설계 문서
+> Last updated: 2026-06-12
+> Status: **구현 완료** — M0~M4 구현 완료, M5 QA·디바이스 검증 진행 중
 
 ---
 
@@ -509,7 +509,9 @@ L3 상태:
 }
 .hint-segment.l2 {
   background: var(--hint-l2-bg);
-  border-color: transparent;
+  border-style: dashed;            /* §8.2 색맹 대응 — 색+형태 병기 (L1 실선 ↔ L2 점선) */
+  border-color: var(--hint-l1-border);
+  opacity: 0.85;
 }
 .hint-label {
   position: absolute;

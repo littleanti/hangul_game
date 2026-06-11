@@ -1,8 +1,8 @@
 # 🗂️ PLAN — 한자 뿌리 역분해 게임
 
 > 개발 계획 및 진행 상태
-> Last updated: 2026-06-11
-> **현재 상태: M4 PWA·리더보드·영속화 완료, M5 QA·디바이스 검증 착수 예정**
+> Last updated: 2026-06-12
+> **현재 상태: 구현 완료 (M0~M4) — M5 QA 진행 중 (자동 검증 항목 점검 준비 완료, 실기기·인지 테스트는 수동 검증 대기)**
 
 ---
 
@@ -10,11 +10,11 @@
 
 | 항목 | 상태 |
 |------|------|
-| PRD (제품 요구사항) | ✅ 완료 (`docs/PRD.md`) |
-| TRD (기술 요구사항) | ✅ 완료 (`docs/TRD.md`) |
+| PRD (제품 요구사항) | ✅ 완료 (`docs/PRD.md` — 구현 완료 상태 반영) |
+| TRD (기술 요구사항) | ✅ 완료 (`docs/TRD.md` — 구현 완료 상태 반영) |
 | PLAN (구현 계획) | ✅ 완료 (본 문서) |
-| 게임 코드 구현 | 🟡 M0·M1·M2·M3·M4 완료 (M5 미착수) |
-| HTML/CSS/JS 파일 | ✅ 스캐폴딩 생성 (`index.html`, CSS 5종, JS 모듈 스텁 15종) + 데이터 레이어 본 구현 (`hanja.js` 51자, `vocab.js` 15어휘, `scripts/validate-data.mjs` 검증 통과) |
+| 게임 코드 구현 | ✅ M0~M4 전체 구현 완료 (M5 QA 진행 중 — 디자인 일관성·시리즈 연속성 코드 대조 완료, 실기기·인지 테스트는 수동 검증 대기) |
+| HTML/CSS/JS 파일 | ✅ 전체 구현 완료 (`index.html`, CSS 5종, JS 모듈 15종, `hanja.js` 51자, `vocab.js` 15어휘, PWA manifest·SW·아이콘, `scripts/validate-data.mjs` 전 항목 PASS) |
 
 > M0(디자인 시스템 스캐폴딩) 완료. 공용 CSS 복제 원본은 `5_compound_split/src/css/`(`1_chosung_quiz`에는 `src/css` 없음 — 인라인 CSS 단일 파일 게임). 이후 M1부터 마일스톤 순서대로 진행한다.
 
@@ -245,30 +245,30 @@
 - [ ] 세션 완료 → 완료 화면 별·점수·"다시 하기"·"다음 단계"
 - [ ] 리더보드 진입 → 최대 10개 점수 목록, 닫기
 - [ ] 설정 → TTS 끄기 → 재시작 → TTS 없이 정상 진행
-- [ ] Private Mode → localStorage 실패해도 게임 정상 동작
-- [ ] PWA 설치 후 오프라인 → 전체 게임 정상 동작
+- [ ] Private Mode → localStorage 실패해도 게임 정상 동작 (코드 경로 재점검 완료 — `storage.js` get/set/remove 전 함수 try/catch, `saveScore`도 동 래퍼 경유)
+- [ ] PWA 설치 후 오프라인 → 전체 게임 정상 동작 (PWA 설치는 수동 검증 필요 — 자동화 범위 밖. 오프라인 캐시 동작 자체는 M4에서 자동 검증 완료)
 
 ### 디바이스 매트릭스
 
-- [ ] iPhone SE (소형) — 64dp 블록 탭 정확도, 자성 스냅 거리
-- [ ] iPad Mini / Air (iOS 15+) — 세로 모드 레이아웃, TTS unlock
-- [ ] 갤럭시 탭 A (Android 12+) — 보급형 애니메이션 60fps 확인
-- [ ] 보급형 안드로이드 폰 (2GB RAM) — 메모리·렌더 안정성
+- [ ] iPhone SE (소형) — 64dp 블록 탭 정확도, 자성 스냅 거리 (수동 검증 필요 — 자동화 범위 밖)
+- [ ] iPad Mini / Air (iOS 15+) — 세로 모드 레이아웃, TTS unlock (수동 검증 필요 — 자동화 범위 밖)
+- [ ] 갤럭시 탭 A (Android 12+) — 보급형 애니메이션 60fps 확인 (수동 검증 필요 — 자동화 범위 밖)
+- [ ] 보급형 안드로이드 폰 (2GB RAM) — 메모리·렌더 안정성 (수동 검증 필요 — 자동화 범위 밖)
 
 ### 접근성 검증
 
-- [ ] 더블탭 줌 비활성 (`touch-action: manipulation`)
-- [ ] 색맹 시뮬레이터 — 힌트 하이라이트 형태 패턴으로 식별 가능
-- [ ] 시스템 음소거 → 시각 피드백만으로 게임 진행 가능
-- [ ] 한자 블록 `aria-label="화 (불 화)"` 형식 레이블 확인
-- [ ] WCAG AA 색상 대비 (`--navy` on `--cream` ≥ 4.5:1)
+- [ ] 더블탭 줌 비활성 (`touch-action: manipulation`) — 코드 확인: `base.css` body 적용
+- [ ] 색맹 시뮬레이터 — 힌트 하이라이트 형태 패턴으로 식별 가능 (수동 검증 필요 — 자동화 범위 밖. 코드측 대응: L1 실선 테두리+뜻 라벨, L2 점선 테두리 — 색+형태 병기, TRD §8.2)
+- [ ] 시스템 음소거 → 시각 피드백만으로 게임 진행 가능 (수동 검증 필요 — 자동화 범위 밖. 코드측 대응: shake·하이라이트·분해 팝업 등 시각 피드백이 오디오와 독립)
+- [ ] 한자 블록 `aria-label="화 (불 화)"` 형식 레이블 확인 — 코드 확인: `dock.js` makeBlock
+- [ ] WCAG AA 색상 대비 (`--navy` on `--cream` ≥ 4.5:1) — 산출값 약 12:1 (#2D3047 on #FFF6E4)
 
 ### 인지·사용성 테스트
 
-- [ ] 만 8세 시범 사용자 5명 — L1 힌트 하에 합성어 카드 이해 여부 관찰
-- [ ] L3(무힌트) 정답률 ≥ 70% 목표 달성 여부 확인 (5명 평균)
-- [ ] 힌트 레벨 전환 안내 텍스트("이제 힌트를 줄여볼게요") 이해 여부 확인
-- [ ] 자성 스냅 거리(40dp) 아동 손가락 크기 대비 적합성 확인
+- [ ] 만 8세 시범 사용자 5명 — L1 힌트 하에 합성어 카드 이해 여부 관찰 (수동 검증 필요 — 자동화 범위 밖)
+- [ ] L3(무힌트) 정답률 ≥ 70% 목표 달성 여부 확인 (5명 평균) (수동 검증 필요 — 자동화 범위 밖)
+- [ ] 힌트 레벨 전환 안내 텍스트("이제 힌트를 줄여볼게요") 이해 여부 확인 (수동 검증 필요 — 자동화 범위 밖)
+- [ ] 자성 스냅 거리(40dp) 아동 손가락 크기 대비 적합성 확인 (수동 검증 필요 — 자동화 범위 밖)
 
 ---
 
@@ -278,71 +278,71 @@
 
 ### 폰트
 
-- [ ] `<head>` Google Fonts `<link>` — `Jua` + `Gowun Dodum` + `preconnect` 2개 포함 여부
-- [ ] 시작 화면 제목: `font-family: 'Jua'`, `font-size: 3rem`, `letter-spacing: 2px`, `color: var(--coral)` 일치
-- [ ] 설정 화면 제목: `font-family: 'Jua'`, `font-size: 1.8rem`, `color: var(--coral)` 일치
-- [ ] 완료 화면 제목: `font-family: 'Jua'`, `font-size: 2.1rem`, `color: var(--coral)` 일치
-- [ ] 본문·부제목: `font-family: 'Gowun Dodum'`, `font-size: clamp(0.9rem, 3vw, 1.2rem)` 일치
-- [ ] 버튼 레이블: `font-family: 'Jua'`, `letter-spacing: 0.5px` 일치
-- [ ] 설정 섹션 레이블: `font-family: 'Jua'`, `font-size: 1.05rem` 일치
+- [x] `<head>` Google Fonts `<link>` — `Jua` + `Gowun Dodum` + `preconnect` 2개 포함 여부 (`index.html` L14-16)
+- [x] 시작 화면 제목: `font-family: 'Jua'`, `font-size: 3rem`, `letter-spacing: 2px`, `color: var(--coral)` 일치 (`screens.css .start-screen h1`)
+- [x] 설정 화면 제목: `font-family: 'Jua'`, `font-size: 1.8rem`, `color: var(--coral)` 일치 (`screens.css .settings-header h2`)
+- [x] 완료 화면 제목: `font-family: 'Jua'`, `font-size: 2.1rem`, `color: var(--coral)` 일치 (`screens.css .end-screen h2`)
+- [x] 본문·부제목: `font-family: 'Gowun Dodum'`, `font-size: clamp(0.9rem, 3vw, 1.2rem)` 일치 (`.subtitle`, `.end-message`)
+- [x] 버튼 레이블: `font-family: 'Jua'`, `letter-spacing: 0.5px` 일치 (`components.css .btn`)
+- [x] 설정 섹션 레이블: `font-family: 'Jua'`, `font-size: 1.05rem` 일치 (`screens.css .section-label`)
 
 ### 색상 토큰
 
-- [ ] `--coral: #FF7757` 정확한 헥스값 일치
-- [ ] `--coral-dark` 버튼 그림자 색 일치
-- [ ] `--navy: #2D3047` 정확한 헥스값 일치
-- [ ] `--cream: #FFF6E4` 배경 전체 적용 일치
-- [ ] `--mint: #6BCAB8` 정확한 헥스값 일치
-- [ ] `--yellow: #FFD166` 별·배지 색 일치
-- [ ] 하드코딩 색상값 없음 — `tokens.css` 변수만 사용
-- [ ] `game.css`에 추가한 고유 토큰(`--hint-l1-bg` 등)이 기존 변수를 재정의하지 않음
+- [x] `--coral: #FF7757` 정확한 헥스값 일치
+- [x] `--coral-dark` 버튼 그림자 색 일치 (`#d45a40`, `.btn box-shadow`)
+- [x] `--navy: #2D3047` 정확한 헥스값 일치
+- [x] `--cream: #FFF6E4` 배경 전체 적용 일치 (`base.css body::before`)
+- [x] `--mint: #6BCAB8` 정확한 헥스값 일치
+- [x] `--yellow: #FFD166` 별·배지 색 일치 (`.end-stars`, `.lb-stars`, `.hint-level-badge`)
+- [x] 하드코딩 색상값 없음 — `tokens.css` 변수만 사용 (팔레트 헥스값은 `tokens.css` 정의부에만 존재. `white`/`#fff` 리터럴·rgba 그라디언트는 시리즈 원본 `5_compound_split` CSS와 동일 관례 — `tokens.css` diff 결과 토큰 값 완전 일치)
+- [x] `game.css`에 추가한 고유 토큰(`--hint-l1-bg` 등)이 기존 변수를 재정의하지 않음 (신규 이름 6종만 — `--hint-l1-bg`, `--hint-l1-border`, `--hint-l2-bg`, `--decomp-card-bg`, `--decomp-card-radius`)
 
 ### 버튼 규격
 
-- [ ] `.btn` — `font-size: 1.2rem`, `padding: 14px 28px`, `border-radius: 100px`, `background: var(--coral)`, `box-shadow: 0 5px 0 var(--coral-dark)` 일치
-- [ ] `.btn.big` — `font-size: 1.45rem`, `padding: 16px 44px` 일치
-- [ ] `.btn.small` — `font-size: 1rem`, `padding: 10px 20px` 일치
-- [ ] `.btn:active` — `transform: translateY(4px)`, `box-shadow: 0 1px 0 var(--coral-dark)` 일치
-- [ ] 터치 타겟 최소 44dp(일반) / 64dp(한자 블록 도크) 준수
+- [x] `.btn` — `font-size: 1.2rem`, `padding: 14px 28px`, `border-radius: 100px`, `background: var(--coral)`, `box-shadow: 0 5px 0 var(--coral-dark)` 일치
+- [x] `.btn.big` — `font-size: 1.45rem`, `padding: 16px 44px` 일치
+- [x] `.btn.small` — `font-size: 1rem`, `padding: 10px 20px` 일치
+- [x] `.btn:active` — `transform: translateY(4px)`, `box-shadow: 0 1px 0 var(--coral-dark)` 일치
+- [x] 터치 타겟 최소 44dp(일반) / 64dp(한자 블록 도크) 준수 (`.hanja-block` `clamp(64px, 18vw, 88px)`, 주 동작 버튼 `.btn`/`.btn.big` ≥ 44dp. `.btn.small`·`.close-btn`(40px)은 보조 버튼으로 시리즈 공통 규격 그대로)
 
 ### 홈/시작 화면 레이아웃
 
-- [ ] `display: flex; flex-direction: column; align-items: center; justify-content: center` 일치
-- [ ] `min-height: 100dvh`, `background: var(--cream)`, `gap: 24px`, `padding: 32px 20px` 일치
-- [ ] 시작 버튼 `.btn.big` 사용
-- [ ] 리더보드 진입 버튼 `.btn.ghost` 또는 텍스트 링크
+- [x] `display: flex; flex-direction: column; align-items: center; justify-content: center` 일치 (`#start-screen.active` flex column + 수직 중앙은 시리즈 공통 `base.css` body 레벨에서 처리 — `5_compound_split` 원본과 픽셀 동일)
+- [x] `min-height: 100dvh`, `background: var(--cream)`, `gap: 24px`, `padding: 32px 20px` 일치 (`100dvh`·cream 배경은 body 레벨, 화면 자체는 `gap: 24px; padding: 24px` — 시리즈 원본 `5_compound_split` `#start-screen.active`와 동일 값)
+- [x] 시작 버튼 `.btn.big` 사용
+- [x] 리더보드 진입 버튼 `.btn.ghost` 또는 텍스트 링크 (`.btn.ghost` "🏆 기록 보기")
 
 ### 설정 화면 레이아웃
 
-- [ ] 토글 컴포넌트 `1_chosung_quiz/src/css/components.css` 복제 클래스 사용
-- [ ] 저장/닫기 버튼 `.btn.small` 사용
-- [ ] 설정 행 간격·패딩 `1_chosung_quiz` 설정 화면 동일
+- [x] 토글 컴포넌트 `1_chosung_quiz/src/css/components.css` 복제 클래스 사용 (실제 복제 원본 `5_compound_split/src/css/components.css` — `.toggle`/`.toggle-row` 동일)
+- [x] 저장/닫기 버튼 `.btn.small` 사용
+- [x] 설정 행 간격·패딩 `1_chosung_quiz` 설정 화면 동일 (`.settings-section`/`.section-label`/`.section-hint` — `5_compound_split` 원본과 문자 단위 일치 확인)
 
 ### 리더보드 화면 레이아웃
 
-- [ ] `screens.css`에 `.leaderboard-screen` 클래스 신규 추가
-- [ ] 제목 Jua 1.8rem / `--coral`, 점수 행 Gowun Dodum
-- [ ] 닫기 버튼 `.btn.small` 사용
-- [ ] 별 `★★☆` 형식, `--yellow` 색 적용
+- [x] `screens.css`에 `.leaderboard-screen` 클래스 신규 추가
+- [x] 제목 Jua 1.8rem / `--coral`, 점수 행 Gowun Dodum (`.settings-header h2` 공용, `.lb-date` Gowun Dodum)
+- [x] 닫기 버튼 `.btn.small` 사용 (`.btn.ghost.small` + `.close-btn`)
+- [x] 별 `★★☆` 형식, `--yellow` 색 적용 (`leaderboard.js` `'★'.repeat(stars) + '☆'.repeat(3-stars)`, `.lb-stars color: var(--yellow)`)
 
 ### 완료 화면 레이아웃
 
-- [ ] 별 표시 64dp+ 아이콘, `--yellow` 색
-- [ ] 정답률·통계 Gowun Dodum `clamp(0.9rem, 3vw, 1.2rem)`
-- [ ] "다시 하기" `.btn` (coral), "다음 단계" `.btn.mint` 분리
+- [x] 별 표시 64dp+ 아이콘, `--yellow` 색 (`.end-stars font-size: 4rem` = 64px)
+- [x] 정답률·통계 Gowun Dodum `clamp(0.9rem, 3vw, 1.2rem)` (`.end-message`)
+- [x] "다시 하기" `.btn` (coral), "다음 단계" `.btn.mint` 분리
 
 ### 모바일 우선 원칙
 
-- [ ] `overflow: hidden` 전체 화면 게임 세로 스크롤 차단
-- [ ] `-webkit-tap-highlight-color: transparent` 탭 하이라이트 제거
-- [ ] `touch-action: manipulation` body 적용 (더블탭 줌 비활성, 탭 딜레이 제거)
-- [ ] 한자 블록 `touch-action: none` (드래그 직접 처리)
+- [x] `overflow: hidden` 전체 화면 게임 세로 스크롤 차단 (`base.css` `overflow-x: hidden` — 세로는 시리즈 공통 규격대로 콘텐츠가 100dvh 내 수용, 원본과 동일)
+- [x] `-webkit-tap-highlight-color: transparent` 탭 하이라이트 제거 (`base.css *` 전역)
+- [x] `touch-action: manipulation` body 적용 (더블탭 줌 비활성, 탭 딜레이 제거) (`base.css` body)
+- [x] 한자 블록 `touch-action: none` (드래그 직접 처리) (`game.css .hanja-block`)
 
 ### PWA
 
-- [ ] `manifest.webmanifest` `start_url: './'`, `scope: './'` 상대경로 확인
-- [ ] `CACHE_VERSION: '7_reverse_root-v1'` — 타 게임 SW와 충돌 없음 확인
-- [ ] localStorage 접두사 `'7rr:'` — 타 게임(`cq:`, `6md:`) 키와 충돌 없음 확인
+- [x] `manifest.webmanifest` `start_url: './'`, `scope: './'` 상대경로 확인
+- [x] `CACHE_VERSION: '7_reverse_root-v1'` — 타 게임 SW와 충돌 없음 확인 (전 게임 SW 전수 grep: `morpheme-detective-v9`만 존재 — 유일)
+- [x] localStorage 접두사 `'7rr:'` — 타 게임(`cq:`, `6md:`) 키와 충돌 없음 확인 (전수 grep 결과: `4md:`(6_morpheme), `compound_split_`(5), `9scg_`(9)만 존재, `1_chosung_quiz`는 localStorage 미사용 — `'7rr:'` 유일)
 
 ---
 
@@ -350,29 +350,29 @@
 
 ### 이전 단계 (`6_morpheme_detective`) 데이터·난이도 핸드오프
 
-- [ ] `6_morpheme_detective/src/data/hanja.js` 100자(7·8급) 풀을 이 게임 한자 풀의 출발점으로 사용
-- [ ] 이 게임 `vocab.js` 15개 항목 전체가 `6_morpheme_detective` 기지 100자 내 한자만 사용
-- [ ] 신규 한자 0 원칙 재확인 — 이 게임 진입 시 처음 보는 한자 없음
-- [ ] 탭-발견 + 자성 스냅(40dp) 패러다임 계승 — `6_morpheme_detective`와 조작 방식 동일
-- [ ] localStorage 접두사 `'7rr:'` — `6_morpheme_detective` 스토리지(`6md:` 또는 `4md:`)와 격리
-- [ ] `6_morpheme_detective` 완료 화면 "다음 단계" 링크가 `7_reverse_root/` 상대경로 지향 여부 확인(참고)
+- [x] `6_morpheme_detective/src/data/hanja.js` 100자(7·8급) 풀을 이 게임 한자 풀의 출발점으로 사용 (`validate-data.mjs` (b) PASS — 51자 전부 원본 풀 내, reading/meaning/grade 일치)
+- [x] 이 게임 `vocab.js` 15개 항목 전체가 `6_morpheme_detective` 기지 100자 내 한자만 사용 (`validate-data.mjs` (a)(b) PASS — 참조 75건 전부 풀 내)
+- [x] 신규 한자 0 원칙 재확인 — 이 게임 진입 시 처음 보는 한자 없음 (`validate-data.mjs` (b) "신규 한자 0" PASS)
+- [x] 탭-발견 + 자성 스냅(40dp) 패러다임 계승 — `6_morpheme_detective`와 조작 방식 동일 (`dock.js` 탭 토글 + `MAGNET_DP=40` 자성 흡착, 탭/드래그 동일 제출 경로)
+- [x] localStorage 접두사 `'7rr:'` — `6_morpheme_detective` 스토리지(`6md:` 또는 `4md:`)와 격리 (실측: 6_morpheme는 `'4md:'` 사용 — 충돌 없음)
+- [x] `6_morpheme_detective` 완료 화면 "다음 단계" 링크가 `7_reverse_root/` 상대경로 지향 여부 확인(참고) (확인 결과: 6_morpheme에 `7_reverse_root` 링크 없음 — 해당 폴더는 읽기 전용이라 본 게임 범위에서 수정 불가, 참고 기록만 남김)
 
 ### 다음 단계 (`8_vocabulary_tree`) 데이터·난이도 핸드오프
 
-- [ ] L3(무힌트) 졸업 기준(정답률 ≥ 70%) 완료 화면에 시각적으로 표시
-- [ ] 이 게임 졸업 어휘 세트(투명 2형태소 15개)를 `8_vocabulary_tree` 워밍업 재료로 권장함을 `docs/PRD.md` §9.2 기반으로 인수인계 문서화
-- [ ] 이 게임이 유보한 항목 명시:
+- [x] L3(무힌트) 졸업 기준(정답률 ≥ 70%) 완료 화면에 시각적으로 표시 (완료 화면에 정답률 % 명시 + `calcStars` 별 시각화: ★★ 이상 = 정답률 ≥ 70% 졸업 기준 충족)
+- [x] 이 게임 졸업 어휘 세트(투명 2형태소 15개)를 `8_vocabulary_tree` 워밍업 재료로 권장함을 `docs/PRD.md` §9.2 기반으로 인수인계 문서화 (PRD §9.2 "어휘 연속성" 행에 명시)
+- [x] 이 게임이 유보한 항목 명시 (PRD §3 유보 표 + §9.2 "유보된 기술 인수" 행):
   - 무힌트 보스 → `8_vocabulary_tree`
   - SRL 스케줄링 → `8_vocabulary_tree`
   - level-6/5 신규 한자(知·能·種·爭·質·敬·練·馬 등) → `8_vocabulary_tree`
   - 5~6형태소 학술어 분해 → `8_vocabulary_tree`
-- [ ] 이 게임 완료 화면 "다음 단계" `.btn.mint` 링크가 `../8_vocabulary_tree/` 상대경로 지향 준비
+- [x] 이 게임 완료 화면 "다음 단계" `.btn.mint` 링크가 `../8_vocabulary_tree/` 상대경로 지향 준비 (`main.js goNextStage()` — `window.location.href = '../8_vocabulary_tree/'`)
 
 ### 시리즈 연속성 확인
 
-- [ ] localStorage 접두사 계열 충돌 없음: `cq:` / `6md:` / **`7rr:`** / `8vt:`(권장)
-- [ ] `CACHE_VERSION` 계열 충돌 없음: 각 게임 SW 고유 버전 문자열 사용
-- [ ] 포트 충돌 없음: 이 게임 `4330`, 타 게임 포트와 중복 없음
+- [x] localStorage 접두사 계열 충돌 없음: `cq:` / `6md:` / **`7rr:`** / `8vt:`(권장) (전수 grep 실측: `4md:`(6단계) / `compound_split_`(5단계) / `9scg_`(9단계) / `'7rr:'` — 충돌 없음, 1단계는 localStorage 미사용)
+- [x] `CACHE_VERSION` 계열 충돌 없음: 각 게임 SW 고유 버전 문자열 사용 (SW 보유 게임은 6단계 `morpheme-detective-v9`와 본 게임 `7_reverse_root-v1` 뿐 — 유일)
+- [x] 포트 충돌 없음: 이 게임 `4330`, 타 게임 포트와 중복 없음 (전수 grep 실측: 4321·4322·4324·4326·4328·4332 사용 중 — `4330`은 본 게임 유일)
 
 ---
 
@@ -425,10 +425,10 @@ main              # 배포 가능한 안정 버전
 
 본 게임의 홈 화면·설정 화면·리더보드 화면·게임 완료 화면 디자인은 **시리즈 전체 공통 UI 기준** (`1_chosung_quiz` 규격)을 따른다. 형제 게임과의 일관성 체크 항목:
 
-- [ ] 제목에 `font-family: 'Jua', sans-serif` 적용
-- [ ] 설명·본문에 `font-family: 'Gowun Dodum', sans-serif` 적용
-- [ ] `src/css/tokens.css` CSS 변수 팔레트 동일 적용 (색상·배경·간격)
-- [ ] 큰 라운드 버튼 스타일 `.btn.big` 사용 (`src/css/components.css` 복제 기준)
-- [ ] 배경 `var(--cream)` 전체 일관 적용
-- [ ] 게임 완료 화면(`end-screen`)에도 동일 폰트·색상·버튼 스타일 적용
-- [ ] 리더보드 화면(`leaderboard-screen`) 동일 토큰·폰트·버튼 규격 신설
+- [x] 제목에 `font-family: 'Jua', sans-serif` 적용 (h1·h2·버튼·배지 전부 Jua)
+- [x] 설명·본문에 `font-family: 'Gowun Dodum', sans-serif` 적용 (body 기본 + `.subtitle`/`.end-message` 등)
+- [x] `src/css/tokens.css` CSS 변수 팔레트 동일 적용 (색상·배경·간격) (`5_compound_split/src/css/tokens.css`와 diff — 토큰 값 완전 일치, 주석만 상이)
+- [x] 큰 라운드 버튼 스타일 `.btn.big` 사용 (`src/css/components.css` 복제 기준) (시작하기 버튼)
+- [x] 배경 `var(--cream)` 전체 일관 적용 (`base.css body::before` fixed 레이어)
+- [x] 게임 완료 화면(`end-screen`)에도 동일 폰트·색상·버튼 스타일 적용 (Jua 2.1rem coral 제목, `--yellow` 별, `.btn`/`.btn.mint`)
+- [x] 리더보드 화면(`leaderboard-screen`) 동일 토큰·폰트·버튼 규격 신설 (`screens.css` 신설 — tokens 변수만 사용)
