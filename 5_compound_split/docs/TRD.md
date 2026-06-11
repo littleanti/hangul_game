@@ -1,7 +1,7 @@
 # TRD — 합성어 쪼개기 (5_compound_split)
 
 > Technical Requirements Document
-> Last updated: 2026-06-10
+> Last updated: 2026-06-11
 
 ---
 
@@ -164,7 +164,8 @@ export const SHARED_MORPHEME_PAIRS = {
 state = {
   settings: {
     questionCount: 6 | 12 | 18,   // 문항 수
-    fadingLevel:   1 | 2 | 3,     // 3단 페이딩 레벨 (경계 가시성·단서량)
+    fadingLevel:   2 | 3,         // 2모드 — 2: 연습하기(점선 경계+첫 조각 힌트), 3: 도전하기(무단서)
+                                  // 값 1은 레거시(구 L1 실선) — 로드 시 2로 마이그레이션 후 저장
     ttsEnabled:    boolean,
     soundEnabled:  boolean,
   },
@@ -198,7 +199,8 @@ state = {
 [
   {
     ts:           number,   // 완료 타임스탬프 (Unix ms)
-    fadingLevel:  number,   // 1 | 2 | 3
+    fadingLevel:  number,   // 2 | 3 (신규 기록). 과거 기록의 1은 데이터 수정 없이
+                            // 표시 시에만 레이블 매핑: 1·2 → "연습하기", 3 → "도전하기"
     questionCount: number,
     correctCount: number,
     errorCount:   number,   // 세션 전체 오류 탭 횟수
@@ -300,9 +302,8 @@ CSS 로드 순서 (`index.html` `<head>`):
 | 요소 | 설명 |
 |---|---|
 | `.compound-card` | 합성어 카드 컨테이너 — 경계 표시 레이어 포함, `min-height: 120px`, `border-radius: 32px` |
-| `.boundary-solid` | L1 실선 경계 — `border-left: 3px solid var(--navy)` |
-| `.boundary-dashed` | L2 점선 경계 — `border-left: 3px dashed var(--coral)` |
-| `.boundary-hidden` | L3 경계 없음 — `border: none` (클래스만 다름, 실제 선 없음) |
+| `.boundary-dashed` | 연습하기 점선 경계 — `border-left: 3px dashed var(--coral)` |
+| `.boundary-hidden` | 도전하기 경계 없음 — `border: none` (클래스만 다름, 실제 선 없음) |
 | `.split-part` | 분절된 조각 카드 — `min-width: 56dp`, 탭 영역 전체 터치 가능 |
 | `.split-popup` | 정답 팝업 오버레이 — `.modal-overlay` 기반, 조각 그림 2장 + 뜻 라벨 |
 | `.popup-piece` | 팝업 내 조각 카드 1장 — 이모지 + 뜻 라벨 세로 배열 |
@@ -343,22 +344,20 @@ tryWrongSplit(part):
   5. 카드 원위치 유지 (애니메이션 후 복귀)
 ```
 
-### 5.3 3단 페이딩 렌더링
+### 5.3 2모드 페이딩 렌더링
 
 ```
 renderCard(word, fadingLevel):
   // 경계 가시성
-  if fadingLevel === 1: card.addClass('boundary-solid')
-  if fadingLevel === 2: card.addClass('boundary-dashed')
-  if fadingLevel === 3: card.addClass('boundary-hidden')
+  if fadingLevel === 2: card.addClass('boundary-dashed')   // 연습하기: 점선 경계
+  if fadingLevel === 3: card.addClass('boundary-hidden')   // 도전하기: 경계 없음
 
   // 뜻 단서량
-  if fadingLevel === 1: showBothPartHints(word)   // 조각 양쪽 그림 + 뜻 라벨
-  if fadingLevel === 2: showPart1HintOnly(word)   // 첫 번째 조각 그림만
-  if fadingLevel === 3: hideAllHints()            // 그림 단서 없음
+  if fadingLevel === 2: showPart1HintOnly(word)   // 연습하기: 첫 번째 조각 그림만
+  if fadingLevel === 3: hideAllHints()            // 도전하기: 그림 단서 없음 (뜻은 정답 팝업에서만)
 ```
 
-입력 방식(탭/드래그), 화면 구성, 어휘는 레벨 간 불변이다.
+레거시 값 1(구 L1 실선+양쪽 단서)은 설정 로드 시 2로 마이그레이션되므로 렌더링 분기에 존재하지 않는다. `boundary-solid` 클래스와 양쪽 단서 렌더링(`showBothPartHints`) 분기는 삭제한다. 입력 방식(탭/드래그), 화면 구성, 어휘는 모드 간 불변이다.
 
 ### 5.4 정답 팝업 흐름
 
@@ -568,7 +567,7 @@ self.addEventListener('fetch', e => {
 |---|---|
 | 화면 식별자 | `leaderboard-screen` |
 | CSS | `screens.css`의 공용 토큰·폰트·버튼 규격 그대로 적용 |
-| 표시 항목 | 날짜·시간, 페이딩 레벨, 문항 수, 정답 수, 오류 탭 수 |
+| 표시 항목 | 날짜·시간, 모드(연습하기/도전하기 — 레거시 fadingLevel 1·2는 "연습하기", 3은 "도전하기"로 표시), 문항 수, 정답 수, 오류 탭 수 |
 | 최대 기록 수 | 20건 (초과 시 가장 오래된 항목 삭제) |
 | 정렬 | 최신 기록 우선 (내림차순) |
 | 빈 상태 | "아직 기록이 없어요" 안내 텍스트 |
@@ -659,9 +658,9 @@ function playError() {
 
 ### 수동 테스트 체크리스트
 
-- [ ] L1(실선 경계) → 올바른 경계 탭 → 팝업 정상 출현, TTS 재생, 뜻 라벨 표시
-- [ ] L2(점선 경계) → 첫 번째 조각 그림만 표시됨을 확인
-- [ ] L3(경계 없음) → 그림 단서 없음, 정답 후 팝업에서 뜻 공개
+- [ ] 연습하기(점선 경계) → 올바른 경계 탭 → 팝업 정상 출현, TTS 재생, 뜻 라벨 표시 + 첫 번째 조각 그림만 표시됨을 확인
+- [ ] 도전하기(경계 없음) → 그림 단서 없음, 정답 후 팝업에서 뜻 공개
+- [ ] 레거시 설정(localStorage `fadingLevel: 1` 또는 무효값) → 로드 시 2(연습하기)로 치환·저장됨을 확인
 - [ ] 잘못된 경계 탭 → "그 조각은 뜻이 없네" 메시지 + 흔들림 + 카드 복귀
 - [ ] 6라운드 전체 완료 → end-screen 진입
 - [ ] 리더보드 → 기록 정상 저장·표시
@@ -674,7 +673,7 @@ function playError() {
 ### 자동화 (추후)
 
 - Vitest + jsdom으로 `buildQueue`, `hitTest`, `loadData`, `saveData` 유닛 테스트
-- Playwright로 L1~L3 전체 라운드 완주 E2E 시나리오
+- Playwright로 연습하기·도전하기 두 모드 전체 라운드 완주 E2E 시나리오
 
 ---
 
@@ -706,5 +705,5 @@ function playError() {
 ### 15.3 오픈 이슈 (기술)
 
 - [ ] 조각 단위 신규 그림 자산(이모지 vs 일러스트) 확정 시 `part1ImageUrl` / `part2ImageUrl` 채움
-- [ ] L3 자동 승급 조건(연속 정답 N회) vs 수동 선택 — 구현 전 PRD 확정 필요
+- [ ] 도전하기 자동 승급 조건(연습하기에서 연속 정답 N회, `AUTO_ADVANCE_STREAK` 플래그 ON 시 2→3 단 한 번만) vs 수동 선택 — 구현 전 PRD 확정 필요
 - [ ] 공유 형태소 두 번째 출현 시 시각 연출(하이라이트) 여부 — `sharedMorpheme` 필드로 제어 가능하도록 설계 완료, 연출 ON/OFF는 config.js 플래그로 조절
