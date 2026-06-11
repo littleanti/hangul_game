@@ -11,7 +11,7 @@ import { unlock } from './tts.js';
 import { resumeAudio } from './sound.js';
 import { initLevel0, tapChoice, speakCurrentL0 } from './level0.js';
 import { tapBucket, speakCurrentL1 } from './level1.js';
-import { toggleSetting, selectCount, syncSettingsUI } from './settings.js';
+import { toggleSetting, selectCount, selectL1Count, syncSettingsUI } from './settings.js';
 import { openLeaderboard } from './leaderboard.js';
 
 /** 시작하기 — 화면 상태 머신: start → level0 → level1 → drag-onboarding → end */
@@ -38,6 +38,7 @@ window.tapBucket     = tapBucket;
 window.speakVowel    = speakVowel;
 window.toggleSetting = toggleSetting;
 window.selectCount   = selectCount;
+window.selectL1Count = selectL1Count;
 window.goToNextStage = goToNextStage;
 window.openLeaderboard = openLeaderboard;
 

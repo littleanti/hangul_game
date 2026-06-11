@@ -1,8 +1,9 @@
 /**
- * 설정 화면 (M3, TRD §2.3 — state.js·storage.js 의존)
- * TTS·효과음 토글 + 난이도 칩(vowelCount 5/10) 바인딩.
+ * 설정 화면 (M3·M7, TRD §2.3 — state.js·storage.js 의존)
+ * TTS·효과음 토글 + 난이도 칩(vowelCount 5/10, l1Count 5/10) 바인딩.
  * 변경 즉시 saveSettings() → localStorage 반영 — 새로고침 후에도 유지.
- * vowelCount는 startGame → initLevel0 → buildLevel0Questions(vowelCount)로 연동.
+ * vowelCount는 startGame → initLevel0 → buildLevel0Questions(vowelCount),
+ * l1Count는 initLevel1 → buildLevel1Queue(l1Count)로 연동.
  */
 
 import { state } from './state.js';
@@ -21,12 +22,24 @@ export function toggleSetting(key, el) {
 }
 
 /**
- * 난이도 칩 (Level 0 모음 수 5/10) — 즉시 저장
+ * 난이도 칩 (Level 0 소리 찾기 모음 수 5/10) — 즉시 저장
  * @param {5|10} count
  */
 export function selectCount(count) {
   state.settings.vowelCount = count;
   document.querySelectorAll('#count-chips .chip').forEach(chip => {
+    chip.classList.toggle('active', Number(chip.dataset.count) === count);
+  });
+  saveSettings();
+}
+
+/**
+ * 난이도 칩 (Level 1 모양 나누기 문항 수 5/10) — 즉시 저장 (M7)
+ * @param {5|10} count
+ */
+export function selectL1Count(count) {
+  state.settings.l1Count = count;
+  document.querySelectorAll('#l1-count-chips .chip').forEach(chip => {
     chip.classList.toggle('active', Number(chip.dataset.count) === count);
   });
   saveSettings();
@@ -40,6 +53,9 @@ export function syncSettingsUI() {
   if (sfxToggle) sfxToggle.classList.toggle('on', state.settings.sfxEnabled);
   document.querySelectorAll('#count-chips .chip').forEach(chip => {
     chip.classList.toggle('active', Number(chip.dataset.count) === state.settings.vowelCount);
+  });
+  document.querySelectorAll('#l1-count-chips .chip').forEach(chip => {
+    chip.classList.toggle('active', Number(chip.dataset.count) === state.settings.l1Count);
   });
 
   // TTS 미지원 브라우저 — 토글 자동 비활성화 (graceful degradation, PRD §9.3)

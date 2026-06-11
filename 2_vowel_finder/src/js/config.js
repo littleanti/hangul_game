@@ -8,16 +8,20 @@ export const SNAP_RADIUS = 20;
 // Level 0 기본 출제 모음 수 (설정 vowelCount 기본값)
 export const L0_COUNT_DEFAULT = 5;
 
+// Level 1 기본 출제 문항 수 (설정 l1Count 기본값) — 10이면 10개 모음 전체 1회 순환
+export const L1_COUNT_DEFAULT = 5;
+
 // Level 1 비계(scaffold) 페이딩 — 후반 구간 비율 (TRD §9.4, 2단 비계)
-//   1단계 시작 인덱스 = Math.ceil(전체 문항 수 * SCAFFOLD_FADE_RATIO)
+//   1단계 시작 인덱스 = Math.floor(전체 문항 수 * SCAFFOLD_FADE_RATIO)
 //   전반(idx < 시작): 0단계 (아이콘 + 통 이름 레이블 + 예시 모음)
 //   후반(idx >= 시작): 1단계 (아이콘 + 통 이름 레이블 — 예시 모음 숨김)
-//   10문항 기준: idx 0~4 = 0단계, idx 5~9 = 1단계
+//   5문항 기준: idx 0~1 = 0단계, idx 2~4(3문항) = 1단계 / 10문항 기준: idx 0~4 = 0단계, idx 5~9 = 1단계
 export const SCAFFOLD_FADE_RATIO = 0.5;
 
 // Level 0 음성 전용 페이딩 — 후반 구간 비율 (TRD §9.5)
-//   음성 전용 시작 인덱스 = Math.ceil(전체 문항 수 * L0_AUDIO_ONLY_RATIO)
+//   음성 전용 시작 인덱스 = Math.floor(전체 문항 수 * L0_AUDIO_ONLY_RATIO)
 //   전반(idx < 시작): 글자 카드 + TTS  /  후반(idx >= 시작): TTS만 (카드는 물음표 ? placeholder)
+//   5문항이면 idx 2~4(3문항), 10문항이면 idx 5~9가 음성 전용
 //   TTS 불가(설정 OFF 또는 Web Speech API 미지원) 시 페이딩 비활성화 — 카드 항상 표시
 export const L0_AUDIO_ONLY_RATIO = 0.5;
 
@@ -34,4 +38,5 @@ export const DEFAULT_SETTINGS = {
   ttsEnabled: true,            // TTS 켜기/끄기
   sfxEnabled: true,            // 효과음 켜기/끄기
   vowelCount: L0_COUNT_DEFAULT, // Level 0 출제 모음 수 (5 | 10)
+  l1Count: L1_COUNT_DEFAULT,    // Level 1 출제 문항 수 (5 | 10, 기본 5)
 };

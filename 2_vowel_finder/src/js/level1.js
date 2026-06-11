@@ -1,7 +1,7 @@
 /**
  * Level 1 — 모음 형태 분류 (PRD §5·§7.3, TRD §9.2·§9.4)
  * 모음 카드 1장 → 세로형 통 / 가로형 통에 탭 또는 드래그로 분류.
- * 비계(scaffold) 0~1단계 (2단): 전반 ⌈N/2⌉ → 아이콘+레이블+예시, 후반 → 아이콘+레이블.
+ * 비계(scaffold) 0~1단계 (2단): 전반 ⌊N/2⌋ → 아이콘+레이블+예시, 후반 ⌈N/2⌉ → 아이콘+레이블.
  */
 
 import { state, buildLevel1Queue, getScaffoldLevel } from './state.js';
@@ -21,11 +21,11 @@ let firstTry = true; // 첫 시도 기준 정답률 (level0과 동일 정책)
 const HUD_LABEL = '🧺 모양 나누기';
 const SHAPE_NAME = { vertical: '세로', horizontal: '가로' };
 
-/** Level 1 시작 — 10개 모음 셔플 큐 + 비계 초기화 + 첫 문항 렌더링 */
+/** Level 1 시작 — 셔플 후 l1Count개 추출 큐 + 비계 초기화 + 첫 문항 렌더링 */
 export function initLevel1() {
   const g = state.game;
   g.phase = 'level1';
-  g.l1Queue = buildLevel1Queue();
+  g.l1Queue = buildLevel1Queue(state.settings.l1Count);
   g.l1Idx = 0;
   g.l1Correct = 0;
   g.answered = false;

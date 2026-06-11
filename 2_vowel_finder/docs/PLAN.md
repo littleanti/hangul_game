@@ -1,7 +1,7 @@
 # PLAN — 모음 찾기 (2_vowel_finder)
 
 > 구현 계획서
-> Last updated: 2026-06-10
+> Last updated: 2026-06-12
 
 ---
 
@@ -27,6 +27,7 @@
 | M4 | PWA·리더보드 | M3 |
 | M5 | QA — 수동 테스트·접근성·성능 | M4 |
 | M6 | Level 0 음성 전용 페이딩 (기능 추가) | M2-B |
+| M7 | 모양 나누기 문항 수 설정·페이딩 비율 조정 | M3, M6 |
 
 ---
 
@@ -92,7 +93,7 @@
 - [x] `level1.js` — `renderBucketQuestion(idx)`: 모음 카드 + 세로형 통 + 가로형 통 2구역
 - [x] `level1.js` — `tapBucket(shape)`: 탭으로 통 배정 → 정오답 판정 → 피드백
 - [x] 비계 단계(`scaffoldLevel`) 렌더링: `0`=아이콘+통 이름+예시 모음, `1`=아이콘+통 이름 (2단 비계 — 3단→2단 축소: "아이콘만" 단계는 아이콘이 같은 범주 정보를 계속 제공해 의미 있는 페이딩이 아니어서 제거)
-- [x] `scaffoldLevel` 자동 전환: 문항 인덱스 < `Math.ceil(전체 문항 수 / 2)` → 0단계, 이후 → 1단계 (10문항 기준 0~4 = 0단계, 5~9 = 1단계)
+- [x] `scaffoldLevel` 자동 전환: 문항 인덱스 < `Math.ceil(전체 문항 수 / 2)` → 0단계, 이후 → 1단계 (10문항 기준 0~4 = 0단계, 5~9 = 1단계) — ※ M7에서 임계를 `Math.floor(N/2)`로 변경 예정
 - [x] 드래그 분류 선택적 지원 — Level 1에서 탭과 드래그 병행 허용 (`drag.js` 호출)
 - [x] Level 1 완료 → `goTo('drag-onboarding')`
 
@@ -162,7 +163,7 @@
 > 후반 50% 문항에서 모음 카드 글자를 숨기고 청각 단서만 제공 — Level 1 `scaffoldLevel`과 동일한 페이딩 패턴으로 G1(자소-음소 재인 자동화) 평가 정밀화 (PRD §7.2, TRD §9.5)
 
 - [x] `src/js/config.js` — `L0_AUDIO_ONLY_RATIO = 0.5` 상수 추가 (임계값 하드코딩 금지)
-- [x] `src/js/level0.js` — `renderQuestion`: `idx >= Math.ceil(전체 문항 수 * L0_AUDIO_ONLY_RATIO)` 이고 TTS 사용 가능 시 카드 글자 숨김 + 물음표(?) placeholder
+- [x] `src/js/level0.js` — `renderQuestion`: `idx >= Math.ceil(전체 문항 수 * L0_AUDIO_ONLY_RATIO)` 이고 TTS 사용 가능 시 카드 글자 숨김 + 물음표(?) placeholder — ※ M7에서 시작 인덱스를 `Math.floor`로 변경 예정
 - [x] TTS fallback — `TTS_AVAILABLE`(tts.js 기존 감지 로직 재사용) `&& state.settings.ttsEnabled` 미충족 시 모든 문항에서 카드 글자 항상 표시 (게임이 풀 수 없는 상태 방지)
 - [x] 접근성 — 음성 전용 카드 `aria-label="소리를 듣고 같은 모음을 찾아요"`, 다시 듣기 버튼 `aria-label="소리 듣기"` 유지
 - [x] 정답 시 숨겨졌던 글자 공개 후 `correct` 피드백 (자소-음소 연결 재강화)
@@ -170,6 +171,30 @@
 - [x] 다시 듣기 버튼(`.tts-btn`, 48dp) 양쪽 모드 항상 표시 — 기존 마크업 유지 확인
 - [x] 문항 시작 시 TTS 자동 재생 기존 동작 유지 확인
 - [x] 문서 갱신 — PRD §5·§7.2 / TRD §3.2·§9.5·§12 / PLAN 본 섹션
+
+---
+
+## M7 — 모양 나누기 문항 수 설정·페이딩 비율 조정
+
+> Level 1(형태 분류·모양 나누기) 문항 수를 설정 가능하게(5/10, **기본 5**) 하고, Level 0·Level 1 페이딩 시작 인덱스를 `Math.ceil(N/2)` → `Math.floor(N/2)`로 변경 — 후반 페이딩 문항 수 = ⌈N/2⌉ (5문항이면 3~5번째 3문항). (PRD §5·§6.1·§7.2·§7.3, TRD §3.2·§3.3·§8.1·§9.2·§9.4·§9.5·§12)
+> 체크는 구현 단계에서 진행.
+
+### 문항 수 설정 (l1Count)
+
+- [x] `src/js/state.js` — settings에 `l1Count: 5 | 10` 키 추가 (기본 5)
+- [x] `src/js/storage.js` — `loadSettings()` 기본값 머지 보정: 기존 저장값에 `l1Count` 없으면 5로 동작 (`{ ...DEFAULT_SETTINGS, ...stored }` — 별도 마이그레이션 없음)
+- [x] `index.html` + `src/js/settings.js` — 모양 나누기 문항 수 칩(5개/10개) 추가 — 기존 소리찾기(vowelCount) 칩과 동일 스타일·동작 (탭 즉시 `saveSettings()`)
+- [x] `buildLevel1Queue(count)` 시그니처 변경 — 10개 모음 셔플 후 `count`개 추출 (10이면 전체 1회 순환 = 기존 동작, TRD §9.2)
+- [x] `src/js/level1.js` — `initLevel1()`에서 `state.settings.l1Count` 연동
+- [x] 설정 변경 후 새로고침 → l1Count 값 유지 확인 (localStorage) — `selectL1Count()` 즉시 `saveSettings()`, `loadSettings()` 머지 + `syncSettingsUI()` 칩 복원
+- [x] l1Accuracy·진행률 HUD·리더보드 — `l1Queue.length` 기반 분모로 자동 적응하는지 확인 (코드 변경 없이 검증만) — HUD `level1.js`, 정답률 `onboarding.js`(`l1Queue.length || 1`), 리더보드는 저장된 비율만 사용
+
+### 페이딩 비율 조정 (시작 인덱스 ceil → floor)
+
+- [x] `src/js/level0.js` — `audioOnlyStart = Math.floor(전체 문항 수 * L0_AUDIO_ONLY_RATIO)` — 5문항: 1~2번 글자 표시, 3~5번(3문항) 물음표(?) 음성 전용 / 10문항: 5/5 (기존과 동일)
+- [x] `src/js/level1.js` — `scaffoldLevel` 전환 임계 `Math.floor(전체 문항 수 / 2)` — 5문항: 1~2번 예시 모음 표시, 3~5번(3문항) 예시 없음(아이콘+레이블만) / 10문항: 5/5 (기존과 동일)
+- [x] TTS 불가(설정 OFF 또는 미지원) 시 모든 문항 카드 상시 표시 fallback 등 기존 예외 동작 유지 확인 — `renderQuestion`의 `TTS_AVAILABLE && ttsEnabled` 문항별 재평가 가드 변경 없음
+- [x] 문서 동기화 — PRD §5·§6.1·§7.2·§7.3 / TRD §3.2·§3.3·§8.1·§9.2·§9.4·§9.5·§12 / PLAN 본 섹션
 
 ---
 

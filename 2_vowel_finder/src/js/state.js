@@ -16,7 +16,7 @@ function initialGame() {
     l0Idx: 0,           // 현재 문항 인덱스
     l0Correct: 0,       // 정답 수
     // Level 1
-    l1Queue: [],        // 10개 모음 셔플 큐
+    l1Queue: [],        // 10개 모음 셔플 후 l1Count개 추출 큐
     l1Idx: 0,
     l1Correct: 0,
     // 공통
@@ -67,17 +67,19 @@ export function buildLevel0Questions(vowelCount) {
 }
 
 /**
- * Level 1 모음 큐 구성 (TRD §9.2) — 10개 모음 전체 셔플
+ * Level 1 모음 큐 구성 (TRD §9.2) — 10개 모음 셔플 후 count개 추출
+ * count = state.settings.l1Count (5 | 10, 기본 5) — 10이면 전체 1회 순환 (기존 동작)
+ * @param {number} count
  */
-export function buildLevel1Queue() {
-  return shuffle([...VOWELS]);
+export function buildLevel1Queue(count) {
+  return shuffle([...VOWELS]).slice(0, count);
 }
 
 /**
  * Level 1 비계 단계 산출 (TRD §9.4, 2단 비계) — 문항 인덱스(0-based) 기준
- * 전반(idx < ⌈total/2⌉) → 0 (아이콘+레이블+예시) / 후반 → 1 (아이콘+레이블)
+ * 전반(idx < ⌊total/2⌋) → 0 (아이콘+레이블+예시) / 후반 ⌈total/2⌉ → 1 (아이콘+레이블)
  * @returns {0|1}
  */
 export function getScaffoldLevel(idx, total) {
-  return idx >= Math.ceil(total * SCAFFOLD_FADE_RATIO) ? 1 : 0;
+  return idx >= Math.floor(total * SCAFFOLD_FADE_RATIO) ? 1 : 0;
 }

@@ -22,6 +22,7 @@ export function loadSettings() {
     const raw = localStorage.getItem(SETTINGS_KEY);
     if (!raw) return;
     const parsed = JSON.parse(raw);
+    // 기본값 머지 보정 (TRD §8.1) — 구버전 저장값에 없는 키(예: l1Count)는 기본값으로 동작
     state.settings = { ...DEFAULT_SETTINGS, ...parsed };
   } catch (e) {
     /* 무시 — 손상된 JSON·저장 불가 환경이면 기본값 유지 */

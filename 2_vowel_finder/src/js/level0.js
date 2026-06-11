@@ -42,10 +42,11 @@ export function renderQuestion(idx) {
   updateHud(`${idx + 1} / ${g.l0Questions.length}`, HUD_LABEL, g.l0Correct);
 
   const card = document.getElementById('l0-card');
-  // ----- 음성 전용 페이딩 (TRD §9.5): 후반 50% 문항은 글자 숨김 — 청각 단서만 -----
+  // ----- 음성 전용 페이딩 (TRD §9.5): 후반 ⌈N/2⌉ 문항은 글자 숨김 — 청각 단서만 -----
+  // 시작 인덱스 = ⌊N/2⌋ — 5문항이면 idx 2~4(3문항), 10문항이면 idx 5~9가 음성 전용.
   // TTS fallback: speak()의 가드(TTS_AVAILABLE && ttsEnabled)와 동일 조건을 문항마다 재평가.
   // 소리 단서가 불가능하면 모든 문항에서 글자 표시 — 게임이 풀 수 없는 상태 방지.
-  const audioOnlyStart = Math.ceil(g.l0Questions.length * L0_AUDIO_ONLY_RATIO);
+  const audioOnlyStart = Math.floor(g.l0Questions.length * L0_AUDIO_ONLY_RATIO);
   const audioOnly = idx >= audioOnlyStart && TTS_AVAILABLE && state.settings.ttsEnabled;
   if (audioOnly) {
     card.textContent = '?';

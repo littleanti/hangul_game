@@ -1,7 +1,7 @@
 # TRD — 모음 찾기 (2_vowel_finder)
 
 > Technical Requirements Document
-> Last updated: 2026-06-10
+> Last updated: 2026-06-12
 
 ---
 
@@ -203,6 +203,7 @@ state = {
     ttsEnabled:    boolean,   // TTS 켜기/끄기 (기본 true)
     sfxEnabled:    boolean,   // 효과음 켜기/끄기 (기본 true)
     vowelCount:    5 | 10,    // Level 0 출제 모음 수 (난이도 조절)
+    l1Count:       5 | 10,    // Level 1 출제 문항 수 (기본 5 — 10이면 10개 모음 전체 1회 순환)
   },
   game: {
     phase:         'idle' | 'level0' | 'level1' | 'onboarding' | 'end',
@@ -211,7 +212,7 @@ state = {
     l0Idx:         number,         // 현재 문항 인덱스
     l0Correct:     number,         // 정답 수
     // Level 1
-    l1Queue:       Vowel[],        // 10개 모음 셔플 큐
+    l1Queue:       Vowel[],        // 10개 모음 셔플 후 l1Count개 추출 큐
     l1Idx:         number,
     l1Correct:     number,
     // 공통
@@ -232,7 +233,9 @@ state = {
 
 ```js
 // 설정
-'vowel_finder_settings'  →  JSON: { ttsEnabled, sfxEnabled, vowelCount }
+'vowel_finder_settings'  →  JSON: { ttsEnabled, sfxEnabled, vowelCount, l1Count }
+// l1Count는 추후 도입 키 — 기존 사용자의 저장값에 없으면
+// loadSettings()가 기본값 객체에 머지하여 5로 보정 (§8.1)
 
 // 리더보드 (최근 20세션)
 'vowel_finder_scores'    →  JSON: SessionRecord[]
@@ -631,8 +634,12 @@ document.addEventListener('pointerdown', () => {
 {
   ttsEnabled: true,
   sfxEnabled: true,
-  vowelCount: 5       // 5 | 10
+  vowelCount: 5,      // 5 | 10 — Level 0 문항 수
+  l1Count: 5          // 5 | 10 — Level 1 문항 수 (기본 5)
 }
+// 머지 보정: loadSettings()는 기본값 객체 위에 저장 JSON을 펼쳐 머지
+// (예: { ...DEFAULT_SETTINGS, ...stored }) — 구버전 저장값에
+// l1Count 키가 없어도 기본 5로 동작. 별도 마이그레이션 불필요.
 
 // 키: 'vowel_finder_scores'  (배열, 최신 20건 유지)
 [
@@ -690,10 +697,14 @@ function buildLevel0Questions(vowelCount) {
 ### 9.2 Level 1 모음 큐 구성
 
 ```js
-function buildLevel1Queue() {
-  return shuffle([...VOWELS]); // 10개 모음 전체 셔플
+function buildLevel1Queue(count) {
+  // 10개 모음 셔플 후 count개 추출 — count = state.settings.l1Count (5 | 10, 기본 5)
+  // count = 10 이면 전체 1회 순환 (기존 동작과 동일)
+  return shuffle([...VOWELS]).slice(0, count);
 }
 ```
+
+> 정답률(l1Accuracy)·진행률 HUD·리더보드는 모두 `l1Queue.length`(큐 길이) 기반 분모를 사용하므로 문항 수 변경에 자동 적응한다.
 
 ### 9.3 자성 스냅 거리 계산
 
@@ -721,23 +732,24 @@ Level 1 진행 중 `scaffoldLevel`을 자동 강등 (2단계):
 
 | 조건 (문항 인덱스 idx, 0-based) | scaffoldLevel |
 |---|---|
-| idx < ⌈전체 문항 수 / 2⌉ — 전반 50% | 0 — 통 아이콘 + 이름 레이블 + 예시 모음 표시 |
-| idx ≥ ⌈전체 문항 수 / 2⌉ — 후반 50% | 1 — 통 아이콘 + 이름 레이블 (예시 모음 숨김) |
+| idx < ⌊전체 문항 수 / 2⌋ — 전반 ⌊N/2⌋ | 0 — 통 아이콘 + 이름 레이블 + 예시 모음 표시 |
+| idx ≥ ⌊전체 문항 수 / 2⌋ — 후반 ⌈N/2⌉ | 1 — 통 아이콘 + 이름 레이블 (예시 모음 숨김) |
 
-> 10문항 기준: idx 0~4 = 0단계, idx 5~9 = 1단계. 임계값은 `Math.ceil(전체 문항 수 / 2)`.
-> 변경 이력: 기존 3단(레이블+예시 → 레이블 → 아이콘만)에서 2단으로 축소 — 레이블이 사라져도 아이콘이 같은 범주 정보를 계속 제공하므로 "아이콘만" 단계는 의미 있는 페이딩이 아니어서 제거. §9.5의 Level 0 페이딩과 동일한 전반/후반 ⌈N/2⌉ 임계 패턴으로 통일.
+> 5문항 기준: idx 0~1 = 0단계, idx 2~4(3문항) = 1단계 / 10문항 기준: idx 0~4 = 0단계, idx 5~9 = 1단계. 임계값은 `Math.floor(전체 문항 수 / 2)` — 후반 페이딩 문항 수 = ⌈N/2⌉.
+> 변경 이력 1: 기존 3단(레이블+예시 → 레이블 → 아이콘만)에서 2단으로 축소 — 레이블이 사라져도 아이콘이 같은 범주 정보를 계속 제공하므로 "아이콘만" 단계는 의미 있는 페이딩이 아니어서 제거.
+> 변경 이력 2: 전환 임계 `Math.ceil(N/2)` → `Math.floor(N/2)` — 5문항(기본값) 기준 페이딩 구간이 2문항 → 3문항으로 늘어나 비계 제거 평가 비중 확보. §9.5의 Level 0 페이딩과 동일한 ⌊N/2⌋ 시작 임계 패턴으로 통일.
 
 ### 9.5 Level 0 음성 전용 페이딩
 
-Level 1의 `scaffoldLevel`(§9.4)과 동일한 페이딩 패턴 — 후반 50% 문항에서 모음 카드의 글자를 숨기고 청각 단서만 제공한다 (PRD §7.2 "Level 0 비계 페이딩").
+Level 1의 `scaffoldLevel`(§9.4)과 동일한 페이딩 패턴 — 후반 ⌈N/2⌉ 문항에서 모음 카드의 글자를 숨기고 청각 단서만 제공한다 (PRD §7.2 "Level 0 비계 페이딩").
 
 ```js
 // config.js — 후반 음성 전용 구간 비율 (하드코딩 금지)
 export const L0_AUDIO_ONLY_RATIO = 0.5;
 
 // level0.js — renderQuestion(idx) 내부에서 문항마다 평가
-const audioOnlyStart = Math.ceil(g.l0Questions.length * L0_AUDIO_ONLY_RATIO);
-// = Math.ceil(전체/2) — 5문항이면 idx 3~4, 10문항이면 idx 5~9가 음성 전용
+const audioOnlyStart = Math.floor(g.l0Questions.length * L0_AUDIO_ONLY_RATIO);
+// = Math.floor(전체/2) — 5문항이면 idx 2~4(3문항), 10문항이면 idx 5~9가 음성 전용
 const audioOnly = idx >= audioOnlyStart
   && TTS_AVAILABLE                 // tts.js 기존 감지 로직 재사용 (재구현 금지)
   && state.settings.ttsEnabled;    // 설정 TTS ON
@@ -787,9 +799,12 @@ const audioOnly = idx >= audioOnlyStart
 
 - [ ] Level 0: 정답 탭 → 정답 애니메이션(TTS 재발화 없음) + 800ms 후 다음 문항 진행
 - [ ] Level 0: 오답 탭 → 흔들기 + 재시도 허용 (1200ms 후)
-- [ ] Level 0: 후반 50% 문항 → 카드 글자 숨김(물음표 ? placeholder) + 다시 듣기 버튼으로 재생 가능
+- [ ] Level 0: 후반 ⌈N/2⌉ 문항(5문항 기준 3~5번째) → 카드 글자 숨김(물음표 ? placeholder) + 다시 듣기 버튼으로 재생 가능
 - [ ] Level 0: TTS OFF 또는 미지원 → 모든 문항에서 카드 글자 항상 표시 (음성 전용 모드 비활성화)
 - [ ] Level 1: 탭으로 분류 → 올바른 통에 배정 시 정답 피드백
+- [ ] Level 1: 후반 ⌈N/2⌉ 문항(5문항 기준 3~5번째) → 통 예시 모음 숨김 (아이콘+레이블만)
+- [ ] 설정: 모양 나누기 문항 수 칩 5/10 변경 → Level 1 출제 수·HUD·정답률 분모 반영, 새로고침 후 유지
+- [ ] 구버전 저장값(l1Count 없음) → loadSettings 머지 보정으로 기본 5 적용
 - [ ] Level 1: 드래그로 분류 → ±20dp 내 스냅 성공 + 효과음
 - [ ] Level 1: ±20dp 초과 드롭 → 카드 원위치 복귀
 - [ ] 드래그 온보딩: ±20dp 내 드롭 → 자성 스냅 + 완료 화면 진행
