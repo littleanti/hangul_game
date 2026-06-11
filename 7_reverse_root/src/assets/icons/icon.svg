@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 배경 원: 시리즈 주 강조색 coral (#FF7757) -->
+  <circle cx="256" cy="256" r="256" fill="#FF7757"/>
+  <!-- 합성어 카드가 두 한자 조각으로 갈라지는 모습 (역분해) -->
+  <g transform="rotate(-8 151 266)">
+    <rect x="62" y="156" width="178" height="220" rx="30" fill="#FFF6E4" stroke="#2D3047" stroke-width="14"/>
+    <text x="151" y="288" text-anchor="middle" font-size="124" font-weight="bold"
+          fill="#2D3047" font-family="serif">火</text>
+  </g>
+  <g transform="rotate(8 361 266)">
+    <rect x="272" y="156" width="178" height="220" rx="30" fill="#FFF6E4" stroke="#2D3047" stroke-width="14"/>
+    <text x="361" y="288" text-anchor="middle" font-size="124" font-weight="bold"
+          fill="#2D3047" font-family="serif">山</text>
+  </g>
+  <!-- 갈라지는 틈의 스파크: yellow (#FFD166) -->
+  <polygon points="256,176 238,266 260,260 244,356 282,250 258,256 278,182"
+           fill="#FFD166" stroke="#2D3047" stroke-width="8" stroke-linejoin="round"/>
+</svg>

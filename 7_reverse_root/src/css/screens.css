@@ -118,6 +118,30 @@
   margin-top: 20px;
 }
 
+/* 진행 초기화 — 인페이지 확인 단계 (M4, 브라우저 confirm 모달 금지) */
+.reset-confirm { display: none; }
+.reset-confirm.open {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 14px;
+  background: var(--color-surface2);
+  border: 2px dashed var(--red);
+  border-radius: 16px;
+}
+.reset-confirm-text {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.95rem;
+  color: var(--navy);
+}
+.reset-confirm-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#reset-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
 /* ========== 리더보드 화면 ==========
    공용 신설 섹션 — tokens.css 변수·공용 규격만 사용 (TRD §4.5, PLAN R5) */
 .leaderboard-screen { padding: 10px 0 20px; }
@@ -169,9 +193,11 @@
 .lb-stars {
   font-family: 'Jua', sans-serif;
   font-size: 1rem;
-  color: var(--yellow-dark);
+  color: var(--yellow);
+  text-shadow: 0 2px 0 var(--yellow-dark); /* 흰 카드 위 가독성 보강 */
   letter-spacing: 2px;
 }
+.lb-item.best .lb-stars { color: #fff; } /* 노란 배경 카드 대비 */
 
 .lb-stats {
   display: flex;

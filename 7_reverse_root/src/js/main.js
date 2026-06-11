@@ -41,7 +41,10 @@ window.saveSettings = () => {
   ui.goTo('start');
 };
 
-window.resetProgress = () => settings.resetProgress();
+// 진행 초기화 — 인페이지 확인 단계 (M4, 브라우저 confirm 모달 금지)
+window.resetProgress = () => settings.requestReset();
+window.confirmResetProgress = () => settings.confirmReset();
+window.cancelResetProgress = () => settings.cancelReset();
 
 window.endSession = () => game.endSession();
 
@@ -52,4 +55,6 @@ window.goNextStage = () => {
 
 // ----- 초기화 -----
 settings.init();
+settings.initInstallPrompt(); // beforeinstallprompt 저장 (M4)
+game.loadProgress();          // '7rr:progress' 복원 (M4)
 ui.goTo('start');

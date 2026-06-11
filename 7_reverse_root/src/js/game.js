@@ -6,6 +6,8 @@ import { state } from './state.js';
 import { ROUND_SUMMARY_MS } from './config.js';
 import { shuffle } from './utils.js';
 import * as ui from './ui.js';
+import * as storage from './storage.js';
+import * as settings from './settings.js';
 import * as tts from './tts.js';
 import * as audio from './audio.js';
 import * as hint from './hint.js';
@@ -233,8 +235,27 @@ export function endSession() {
   // 다음 세션 pickQueue의 중복 제한용 (메모리 내, 미영속 — TRD §10.3)
   state.session.lastPlayedWords = new Set(state.session.queue.map(v => v.word));
 
-  // 다음 세션 힌트 레벨 초기값 핸드오프 (M4에서 '7rr:progress'로 영속화)
+  // 다음 세션 힌트 레벨 초기값 핸드오프
   state.progress.lastHintLevel = state.session.hintLevel;
+
+  // ----- 영속화 (M4, TRD §9.2) -----
+  // 리더보드: '7rr:leaderboard' 상위 10개 유지 (점수 내림차순)
+  storage.saveScore({
+    score,
+    stars,
+    correctCount: correct,
+    totalCount: total,
+    hintLevel: state.session.hintLevel,
+    playedAt: Date.now(),
+  });
+  // 진행률: '7rr:progress' { totalSessions, lastHintLevel, lastPlayedAt }
+  state.progress.totalSessions += 1;
+  state.progress.bestScore = Math.max(state.progress.bestScore || 0, score); // 메모리 내 참고치
+  storage.set('progress', {
+    totalSessions: state.progress.totalSessions,
+    lastHintLevel: state.progress.lastHintLevel,
+    lastPlayedAt: Date.now(),
+  });
 
   // 진행률 바 가득 채움
   const fill = document.getElementById('progress-fill');
@@ -270,6 +291,17 @@ export function endSession() {
     });
   }
 
-  // TODO(M4): storage.saveScore({ score, stars, ... }) + progress 영속화
   ui.goTo('end');
+
+  // PWA 설치 프롬프트 — 세션 최초 완료 후 표시 (M4, TRD §15)
+  settings.maybeOfferInstall();
+}
+
+/** 앱 시작 시 '7rr:progress' 로드 — lastHintLevel 등 세션 초기값 복원 (M4) */
+export function loadProgress() {
+  const saved = storage.get('progress');
+  if (!saved || typeof saved !== 'object') return;
+  if (Number.isFinite(saved.totalSessions)) state.progress.totalSessions = saved.totalSessions;
+  if ([1, 2, 3].includes(saved.lastHintLevel)) state.progress.lastHintLevel = saved.lastHintLevel;
+  if (Number.isFinite(saved.lastPlayedAt)) state.progress.lastPlayedAt = saved.lastPlayedAt;
 }

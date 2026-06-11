@@ -2,7 +2,7 @@
 
 > 개발 계획 및 진행 상태
 > Last updated: 2026-06-11
-> **현재 상태: M3 힌트 페이딩·난이도 진행 완료, M4 PWA·리더보드·영속화 착수 예정**
+> **현재 상태: M4 PWA·리더보드·영속화 완료, M5 QA·디바이스 검증 착수 예정**
 
 ---
 
@@ -13,7 +13,7 @@
 | PRD (제품 요구사항) | ✅ 완료 (`docs/PRD.md`) |
 | TRD (기술 요구사항) | ✅ 완료 (`docs/TRD.md`) |
 | PLAN (구현 계획) | ✅ 완료 (본 문서) |
-| 게임 코드 구현 | 🟡 M0·M1·M2·M3 완료 (M4·M5 미착수) |
+| 게임 코드 구현 | 🟡 M0·M1·M2·M3·M4 완료 (M5 미착수) |
 | HTML/CSS/JS 파일 | ✅ 스캐폴딩 생성 (`index.html`, CSS 5종, JS 모듈 스텁 15종) + 데이터 레이어 본 구현 (`hanja.js` 51자, `vocab.js` 15어휘, `scripts/validate-data.mjs` 검증 통과) |
 
 > M0(디자인 시스템 스캐폴딩) 완료. 공용 CSS 복제 원본은 `5_compound_split/src/css/`(`1_chosung_quiz`에는 `src/css` 없음 — 인라인 CSS 단일 파일 게임). 이후 M1부터 마일스톤 순서대로 진행한다.
@@ -201,30 +201,31 @@
 
 ### PWA 설정
 
-- [ ] `manifest.webmanifest` 작성: `name`, `short_name`, `start_url: './'`, `scope: './'`, `display: standalone`, `background_color: #FFF6E4`, `theme_color: #FF7757`, 아이콘 2종(192×192, 512×512)
-- [ ] `service-worker.js` 작성: `CACHE_VERSION = '7_reverse_root-v1'`, `PRECACHE_ASSETS` 전체 파일 목록, install/activate/fetch 핸들러
-- [ ] `index.html` SW 등록 인라인 스크립트: `navigator.serviceWorker.register('./service-worker.js')`
-- [ ] 오프라인 동작 확인 (DevTools Network → Offline)
+- [x] `manifest.webmanifest` 작성: `name`, `short_name`, `start_url: './'`, `scope: './'`, `display: standalone`, `background_color: #FFF6E4`, `theme_color: #FF7757`, 아이콘 2종(192×192, 512×512)
+- [x] PWA 아이콘 실제 PNG 생성 — `src/assets/icons/icon.svg`(火·山 카드 분해 모티프) → `scripts/gen-icons.mjs`(sharp, `6_morpheme_detective` devDependency 읽기 전용 재사용)로 `icon-192.png`·`icon-512.png` 렌더링
+- [x] `service-worker.js` 작성: `CACHE_VERSION = '7_reverse_root-v1'`, `PRECACHE_ASSETS` 전체 파일 목록(27개 — html·manifest·CSS 5·JS 15·데이터 2·아이콘 2 포함), install/activate/fetch 핸들러 (TRD §7.2 그대로 cache-first)
+- [x] `index.html` SW 등록 인라인 스크립트: `navigator.serviceWorker.register('./service-worker.js')`
+- [x] 오프라인 동작 확인 — Playwright `context.setOffline(true)` 후 새로고침: 시작 화면 정상 렌더, 27개 자산 전부 캐시 적중 (크로스오리진 Google Fonts만 시스템 폰트 폴백)
 
 ### 리더보드 (`leaderboard.js`)
 
-- [ ] `storage.saveScore(scoreObj)` — `'7rr:leaderboard'` 키에 최대 10개 점수 목록 유지 (점수 내림차순, 초과 시 버림)
-- [ ] `renderLeaderboard()` — `#leaderboard-screen`에 상위 10개 DOM 주입. 날짜 포맷 `M월 D일`, 별 `★★☆` 시각화(`--yellow`), 빈 경우 안내 텍스트
-- [ ] 리더보드 화면 `screens.css` `.leaderboard-screen` 클래스: 카드형 컨테이너, 수직 목록, 제목 Jua 1.8rem/`--coral`
+- [x] `storage.saveScore(scoreObj)` — `'7rr:leaderboard'` 키에 최대 10개 점수 목록 유지 (점수 내림차순, 초과 시 버림 — 11개 연속 저장 테스트로 확인)
+- [x] `renderLeaderboard()` — `#leaderboard-screen`에 상위 10개 DOM 주입. 날짜 포맷 `M월 D일`, 별 `★★☆` 시각화(`--yellow`), 빈 경우 안내 텍스트("아직 기록이 없어요")
+- [x] 리더보드 화면 `screens.css` `.leaderboard-screen` 클래스: 카드형 컨테이너, 수직 목록, 제목 Jua 1.8rem/`--coral` (M0 신설분에 `.lb-stars` 색 `--yellow` 정합 + best 카드 대비 보강)
 
 ### 영속화 (`storage.js`)
 
-- [ ] `'7rr:settings'` 저장·로드: `{ ttsEnabled, sfxEnabled, hintVisible }`
-- [ ] `'7rr:progress'` 저장·로드: `{ totalSessions, lastHintLevel, lastPlayedAt }`
-- [ ] `'7rr:leaderboard'` 저장·로드: `Array<{ score, stars, correctCount, totalCount, hintLevel, playedAt }>`
-- [ ] localStorage 5MB 한도 초과 대비 try/catch graceful 처리
+- [x] `'7rr:settings'` 저장·로드: `{ ttsEnabled, sfxEnabled, hintVisible }`
+- [x] `'7rr:progress'` 저장·로드: `{ totalSessions, lastHintLevel, lastPlayedAt }` — `game.endSession()` 저장, `game.loadProgress()` 앱 시작 시 복원(다음 세션 `lastHintLevel` 계승 확인)
+- [x] `'7rr:leaderboard'` 저장·로드: `Array<{ score, stars, correctCount, totalCount, hintLevel, playedAt }>`
+- [x] localStorage 5MB 한도 초과 대비 try/catch graceful 처리 (`set/get/remove` 전부 try/catch — Private Mode 포함)
 
 ### 설정 화면 완성 (`settings.js`)
 
-- [ ] 설정 로드·저장 연동 (`storage.get/set`)
-- [ ] TTS 미지원 시 TTS 토글 자동 비활성화 (graceful degradation)
-- [ ] "진행 초기화" — `'7rr:progress'` + `'7rr:leaderboard'` 삭제, 확인 다이얼로그
-- [ ] PWA 설치 프롬프트 — 세션 최초 완료 후 `beforeinstallprompt` 이벤트 저장 후 표시
+- [x] 설정 로드·저장 연동 (`storage.get/set`)
+- [x] TTS 미지원 시 TTS 토글 자동 비활성화 (graceful degradation — `speechSynthesis` 제거 시뮬레이션으로 토글 `.disabled`·안내 문구 확인)
+- [x] "진행 초기화" — `'7rr:progress'` + `'7rr:leaderboard'` 삭제, 인페이지 확인 단계(`#reset-confirm` — 브라우저 `confirm()` 모달 미사용)
+- [x] PWA 설치 프롬프트 — `beforeinstallprompt` 저장(`settings.initInstallPrompt`) 후 세션 최초 완료 시 완료 화면 `#install-slot`에 "홈 화면에 추가" 버튼 표시(`settings.maybeOfferInstall`)
 
 ---
 
