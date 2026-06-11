@@ -6,7 +6,7 @@
  */
 
 import { state, resetGame, startSession, WORDS } from './state.js';
-import { shuffle } from './utils.js';
+import { shuffle, josa } from './utils.js';
 import { speak, cancelSpeech } from './tts.js';
 import { playCorrect, playError } from './sound.js';
 import { goTo, closePopups } from './ui.js';
@@ -338,7 +338,7 @@ function showSplitPopup(word) {
 
   popup.innerHTML = `
     <div class="split-popup-card">
-      <h3 class="split-popup-title">'${word.word}'은(는) 두 조각!</h3>
+      <h3 class="split-popup-title">'${word.word}'${josa(word.word, '은/는')} 두 조각!</h3>
       <div class="popup-pieces">
         ${pieceHtml(word.part1Emoji, part1Display(word), word.part1Meaning, 1)}
         <span class="piece-plus" aria-hidden="true">+</span>
