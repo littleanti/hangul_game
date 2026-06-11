@@ -185,6 +185,16 @@ mark.hl {
   cursor: default;
 }
 
+/* 드래그 중 칩 — opacity .7 + scale(1.08)은 dock.js 인라인 transform (TRD §5.3, §10) */
+.dock-chip.dragging {
+  opacity: 0.7;
+  will-change: transform;   /* compositor 레이어 승격 (TRD §10) */
+  position: relative;
+  z-index: 10;
+  transition: none;         /* 드래그 추적은 즉시 — 스냅·복귀만 인라인 transition */
+  cursor: grabbing;
+}
+
 /* 판정 레이블(⭕/❌) — 색상 단독 금지, 텍스트 병기 (TRD §7.4) */
 .judge-mark {
   font-size: 0.9em;
@@ -195,3 +205,35 @@ mark.hl {
 
 #game-feedback.ok { color: var(--mint-dark); }
 #game-feedback.no { color: var(--red); }
+
+/* ---------- 가로 모드 — 2-column 그리드 (TRD §7.1) ---------- */
+
+@media (orientation: landscape) and (max-height: 700px) {
+  #play-screen.active {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-auto-rows: min-content;
+    align-items: start;
+    column-gap: 14px;
+  }
+
+  /* 헤더·진행바·피드백은 양 컬럼 가로 통과 */
+  #play-screen.active .play-header,
+  #play-screen.active .progress-bar,
+  #play-screen.active #game-feedback {
+    grid-column: 1 / -1;
+  }
+
+  /* 문장 카드(좌) ↔ 힌트 버튼·도크(우)
+     카드가 우측 컬럼의 두 행(.play-controls + .dock)을 세로로 스팬해야
+     도크가 카드 '아래 새 행'이 아닌 카드 옆 같은 행 묶음에 배치된다. */
+  #play-screen.active .sentence-card {
+    grid-column: 1;
+    grid-row: span 2;
+  }
+  #play-screen.active .play-controls,
+  #play-screen.active .dock {
+    grid-column: 2;
+    margin-top: 0;
+  }
+}
