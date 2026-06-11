@@ -2,7 +2,7 @@
 
 > 개발 계획 및 진행 상태
 > Last updated: 2026-06-11
-> **현재 상태: M1 데이터 레이어 완료, M2 게임 플레이 핵심 로직 착수 예정**
+> **현재 상태: M2 게임 플레이 핵심 로직 완료, M3 힌트 페이딩 착수 예정**
 
 ---
 
@@ -13,7 +13,7 @@
 | PRD (제품 요구사항) | ✅ 완료 (`docs/PRD.md`) |
 | TRD (기술 요구사항) | ✅ 완료 (`docs/TRD.md`) |
 | PLAN (구현 계획) | ✅ 완료 (본 문서) |
-| 게임 코드 구현 | 🟡 M0·M1 완료 (M2~M5 미착수) |
+| 게임 코드 구현 | 🟡 M0·M1·M2 완료 (M3~M5 미착수) |
 | HTML/CSS/JS 파일 | ✅ 스캐폴딩 생성 (`index.html`, CSS 5종, JS 모듈 스텁 15종) + 데이터 레이어 본 구현 (`hanja.js` 51자, `vocab.js` 15어휘, `scripts/validate-data.mjs` 검증 통과) |
 
 > M0(디자인 시스템 스캐폴딩) 완료. 공용 CSS 복제 원본은 `5_compound_split/src/css/`(`1_chosung_quiz`에는 `src/css` 없음 — 인라인 CSS 단일 파일 게임). 이후 M1부터 마일스톤 순서대로 진행한다.
@@ -102,55 +102,55 @@
 
 ### 기반 모듈 (`config.js`, `state.js`, `utils.js`, `storage.js`)
 
-- [ ] `config.js` — 상수 정의: `PORT=4330`, `HINT_LEVELS=[1,2,3]`, `MAGNET_DP=40`, `SNAP_DIST=8`, `ROUND_COUNTS_PER_LEVEL=[5,5,5]`, `STORAGE_PREFIX='7rr:'`, `CACHE_VERSION='7_reverse_root-v1'`, 애니메이션 duration 상수
-- [ ] `state.js` — TRD §3.3 스키마(`settings`, `session`, `round`, `progress`) 그대로 구현
-- [ ] `utils.js` — `clamp`, `shuffle`, `dist` 순수 유틸 함수 구현
-- [ ] `storage.js` — `'7rr:'` 접두사 강제 래퍼: `get`, `set`, `remove` 구현. Incognito 모드 try/catch 처리
+- [x] `config.js` — 상수 정의: `PORT=4330`, `HINT_LEVELS=[1,2,3]`, `MAGNET_DP=40`, `SNAP_DIST=8`, `ROUND_COUNTS_PER_LEVEL=[5,5,5]`, `STORAGE_PREFIX='7rr:'`, `CACHE_VERSION='7_reverse_root-v1'`, 애니메이션 duration 상수
+- [x] `state.js` — TRD §3.3 스키마(`settings`, `session`, `round`, `progress`) 그대로 구현 (+ `session.wrongPerRound` — TRD §9.1 calcScore 보너스 산정용)
+- [x] `utils.js` — `clamp`, `shuffle`, `dist` 순수 유틸 함수 구현
+- [x] `storage.js` — `'7rr:'` 접두사 강제 래퍼: `get`, `set`, `remove` 구현. Incognito 모드 try/catch 처리
 
 ### 오디오 모듈 (`tts.js`, `audio.js`)
 
-- [ ] `tts.js` — Web Speech API 래퍼: `unlock()`, `speak(text)`, `cancel()`, 한국어 보이스 우선 선택, `voiceschanged` 대기, 미지원 graceful fallback
-- [ ] `audio.js` — Web Audio API 오실레이터 효과음: `unlock()`, `playCorrect()`, `playWrong()`, `playDecomp()`, `stopAll()`
+- [x] `tts.js` — Web Speech API 래퍼: `unlock()`, `speak(text)`, `cancel()`, 한국어 보이스 우선 선택, `voiceschanged` 대기, 미지원 graceful fallback
+- [x] `audio.js` — Web Audio API 오실레이터 효과음: `unlock()`, `playCorrect()`, `playWrong()`, `playDecomp()`, `stopAll()`
 
 ### 입력 모듈 (`pointer.js`, `dock.js`)
 
-- [ ] `pointer.js` — Pointer Events API 통합: `setPointerCapture`, 드래그 이동 추적, 탭 판별(이동 < 8px), `releaseAll()`
-- [ ] `dock.js` — 한자 블록 렌더링: `buildDockItems(vocabItem)` (정답 2 + 디스트랙터 2~3 shuffle), 탭 선택 토글(`.selected`), 드래그 + 자성 스냅(40dp), 2개 선택 완료 시 `game.onBlocksSelected()` 호출, `playWrongFeedback()` shake 애니메이션
+- [x] `pointer.js` — Pointer Events API 통합: `setPointerCapture`, 드래그 이동 추적, 탭 판별(이동 < 8px), `releaseAll()`
+- [x] `dock.js` — 한자 블록 렌더링: `buildDockItems(vocabItem)` (정답 2 + 디스트랙터 2~3 shuffle), 탭 선택 토글(`.selected`), 드래그 + 자성 스냅(40dp), 2개 선택 완료 시 `game.onBlocksSelected()` 호출, `playWrongFeedback()` shake 애니메이션 (블록 `aria-label="화 (불 화)"` 형식 포함)
 
 ### 게임 로직 (`game.js`)
 
-- [ ] `buildSessionQueue(vocab)` — difficulty 오름차순 정렬 후 각 구간 내부 shuffle
-- [ ] `pickQueue(vocab)` — 직전 세션 어휘 중복 ≤ 20% 제한 (fresh 우선)
-- [ ] `startSession()` — 큐 구성, 힌트 레벨 초기화(`progress.lastHintLevel` 계승), `state.session` 초기화
-- [ ] `startRound(idx)` — 합성어 카드 렌더링, TTS 발화, 도크 구성, 힌트 레이어 적용
-- [ ] `onBlocksSelected(ids)` — `checkAnswer(ids, vocabItem)` 호출 → 정답/오답 분기
-- [ ] `checkAnswer(selectedIds, vocabItem)` — 순서 무관 집합 비교 (Set 기반)
-- [ ] 정답 처리: `state.round.phase = 'correct'`, 정답음 재생, `decomp.js` 분해 애니메이션 호출
-- [ ] 오답 처리: `state.round.phase = 'wrong'`, 오답음 재생, shake 피드백, 힌트 레벨 유지, 재시도
-- [ ] `endSession()` — `calcScore`, `calcStars`, `storage.saveScore()`, `ui.goTo('end')`
+- [x] `buildSessionQueue(vocab)` — difficulty 오름차순 정렬 후 각 구간 내부 shuffle
+- [x] `pickQueue(vocab)` — 직전 세션 어휘 중복 ≤ 20% 제한 (fresh 우선)
+- [x] `startSession()` — 큐 구성, 힌트 레벨 초기화(`progress.lastHintLevel` 계승), `state.session` 초기화
+- [x] `startRound(idx)` — 합성어 카드 렌더링, TTS 발화, 도크 구성, 힌트 레이어 적용 (M2는 합성어 텍스트만 — 힌트 DOM은 M3)
+- [x] `onBlocksSelected(ids)` — `checkAnswer(ids, vocabItem)` 호출 → 정답/오답 분기
+- [x] `checkAnswer(selectedIds, vocabItem)` — 순서 무관 집합 비교 (Set 기반)
+- [x] 정답 처리: `state.round.phase = 'correct'`, 정답음 재생, `decomp.js` 분해 애니메이션 호출
+- [x] 오답 처리: `state.round.phase = 'wrong'`, 오답음 재생, shake 피드백, 힌트 레벨 유지, 재시도
+- [x] `endSession()` — `calcScore`, `calcStars`, `ui.goTo('end')` 연결 (`storage.saveScore()` 영속 저장은 M4에서 완성)
 
 ### 분해 애니메이션 (`decomp.js`)
 
-- [ ] `playDecomp(vocabItem)` — 합성어 카드에서 두 한자 조각으로 갈라지는 CSS transform/opacity 애니메이션 (`pieceReveal` keyframe, 0.4s ease-out)
-- [ ] `decomp-overlay` + `decomp-card` + `decomp-piece` DOM 구성
-- [ ] 각 한자 조각에 음독·뜻 표시, TTS 자동 발화 (reading + meaning)
-- [ ] "다음" 버튼(`.btn`) → 다음 라운드 진행
+- [x] `playDecomp(vocabItem)` — 합성어 카드에서 두 한자 조각으로 갈라지는 CSS transform/opacity 애니메이션 (`pieceReveal` keyframe, 0.4s ease-out)
+- [x] `decomp-overlay` + `decomp-card` + `decomp-piece` DOM 구성
+- [x] 각 한자 조각에 음독·뜻 표시, TTS 자동 발화 (reading + meaning)
+- [x] "다음" 버튼(`.btn`) → 다음 라운드 진행
 
 ### 화면 전환 (`ui.js`)
 
-- [ ] `goTo(screenName)` — `pointer.releaseAll()` + `tts.cancel()` + `audio.stopAll()` 후 화면 전환
-- [ ] `start` 화면 첫 탭 → `tts.unlock()` + `audio.unlock()` 사용자 제스처 게이트
-- [ ] `play` 화면 진입 → `game.startSession()` 호출
+- [x] `goTo(screenName)` — `pointer.releaseAll()` + `tts.cancel()` + `audio.stopAll()` 후 화면 전환 (+ 분해 팝업 잔존 시 `decomp.close()`)
+- [x] `start` 화면 첫 탭 → `tts.unlock()` + `audio.unlock()` 사용자 제스처 게이트 (`main.js` pointerdown once)
+- [x] `play` 화면 진입 → `game.startSession()` 호출 (`main.js startGame()` 경유 — 이중 호출 방지)
 
 ### game.css — 플레이 화면 고유 스타일
 
-- [ ] `#play-screen` flex column 레이아웃, 세로 모드 우선
-- [ ] `.compound-card` — 합성어 카드 (white bg, 20px radius, Jua `clamp(2rem, 8vw, 3.5rem)`)
-- [ ] `.hanja-dock` flex wrap, gap 12px
-- [ ] `.hanja-block` — `clamp(64px, 18vw, 88px)` 정방형, Jua `clamp(1.6rem, 6vw, 2.8rem)`, `touch-action: none`
-- [ ] `.hanja-block.selected`, `.hanja-block.snapped` 상태 스타일
-- [ ] `@keyframes wrongShake` + `.hanja-block.wrong-shake`
-- [ ] 가로 모드 폴백 `@media (orientation: landscape) and (max-height: 600px)`
+- [x] `#play-screen` flex column 레이아웃, 세로 모드 우선
+- [x] `.compound-card` — 합성어 카드 (white bg, 20px radius, Jua `clamp(2rem, 8vw, 3.5rem)`)
+- [x] `.hanja-dock` flex wrap, gap 12px
+- [x] `.hanja-block` — `clamp(64px, 18vw, 88px)` 정방형, Jua `clamp(1.6rem, 6vw, 2.8rem)`, `touch-action: none`
+- [x] `.hanja-block.selected`, `.hanja-block.snapped` 상태 스타일 (+ `.dragging` 드래그 중 z-index·그림자)
+- [x] `@keyframes wrongShake` + `.hanja-block.wrong-shake`
+- [x] 가로 모드 폴백 `@media (orientation: landscape) and (max-height: 600px)`
 
 ---
 

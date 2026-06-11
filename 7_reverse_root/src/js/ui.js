@@ -3,6 +3,7 @@
 import * as pointer from './pointer.js';
 import * as tts from './tts.js';
 import * as audio from './audio.js';
+import * as decomp from './decomp.js';
 
 export const SCREENS = ['start', 'settings', 'leaderboard', 'end', 'play'];
 
@@ -18,6 +19,7 @@ export function goTo(screenName) {
   pointer.releaseAll();
   tts.cancel();
   audio.stopAll();
+  decomp.close(); // 떠 있는 분해 팝업 정리 (화면 전환 부작용)
 
   for (const name of SCREENS) {
     const el = document.getElementById(`${name}-screen`);

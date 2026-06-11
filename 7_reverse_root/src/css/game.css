@@ -129,12 +129,105 @@
   box-shadow: 0 4px 0 var(--mint-dark);
 }
 
+/* 드래그 중 — 최상위로 띄우고 그림자 강조 (transform은 JS 인라인) */
+.hanja-block.dragging {
+  position: relative;
+  z-index: 50;
+  box-shadow: 0 8px 16px var(--shadow);
+}
+
+/* 오답 shake 피드백 (TRD §6.2) */
+@keyframes wrongShake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-8px); }
+  75%      { transform: translateX(8px); }
+}
+.hanja-block.wrong-shake {
+  animation: wrongShake 0.35s ease-in-out;
+  border-color: var(--red);
+  box-shadow: 0 4px 0 var(--red-dark);
+}
+
 /* 플레이 화면 하단 보조 버튼 행 */
 .play-footer {
   display: flex;
   gap: 10px;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+/* ----- 분해 결과 팝업 decomp-result (TRD §5.3) ----- */
+.decomp-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(45, 48, 71, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.decomp-card {
+  background: var(--decomp-card-bg);
+  border-radius: var(--decomp-card-radius);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column; /* 헤더·조각 행·다음 버튼 수직 배치 (TRD §5.3 확장) */
+  gap: 24px;
+  align-items: center;
+  box-shadow: 0 12px 40px var(--shadow);
+  max-width: 92vw;
+}
+
+.decomp-word {
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  color: var(--navy);
+}
+
+.decomp-pieces {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.decomp-plus {
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(1.5rem, 6vw, 2.2rem);
+  color: var(--color-text-dim);
+}
+
+.decomp-piece {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: pieceReveal 0.4s ease-out both;
+}
+
+@keyframes pieceReveal {
+  from { opacity: 0; transform: scale(0.7) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.decomp-piece .hanja-char {
+  font-family: 'Jua', sans-serif;
+  font-size: clamp(2.5rem, 10vw, 4rem);
+  color: var(--coral);
+}
+
+.decomp-piece .reading {
+  font-family: 'Jua', sans-serif;
+  font-size: 1rem;
+  color: var(--navy);
+}
+
+.decomp-piece .meaning {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.9rem;
+  color: var(--color-text-dim);
 }
 
 /* ----- 가로 모드 폴백 (TRD §5.1) ----- */
