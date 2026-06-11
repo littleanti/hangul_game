@@ -2,7 +2,7 @@
 
 > 개발 계획 및 진행 상태
 > Last updated: 2026-06-11
-> **현재 상태: M0 스캐폴딩 완료, M1 데이터 레이어 착수 예정**
+> **현재 상태: M1 데이터 레이어 완료, M2 게임 플레이 핵심 로직 착수 예정**
 
 ---
 
@@ -13,8 +13,8 @@
 | PRD (제품 요구사항) | ✅ 완료 (`docs/PRD.md`) |
 | TRD (기술 요구사항) | ✅ 완료 (`docs/TRD.md`) |
 | PLAN (구현 계획) | ✅ 완료 (본 문서) |
-| 게임 코드 구현 | 🟡 M0 완료 (M1~M5 미착수) |
-| HTML/CSS/JS 파일 | ✅ 스캐폴딩 생성 (`index.html`, CSS 5종, JS 모듈 스텁 15종, 데이터 스텁 2종) |
+| 게임 코드 구현 | 🟡 M0·M1 완료 (M2~M5 미착수) |
+| HTML/CSS/JS 파일 | ✅ 스캐폴딩 생성 (`index.html`, CSS 5종, JS 모듈 스텁 15종) + 데이터 레이어 본 구현 (`hanja.js` 51자, `vocab.js` 15어휘, `scripts/validate-data.mjs` 검증 통과) |
 
 > M0(디자인 시스템 스캐폴딩) 완료. 공용 CSS 복제 원본은 `5_compound_split/src/css/`(`1_chosung_quiz`에는 `src/css` 없음 — 인라인 CSS 단일 파일 게임). 이후 M1부터 마일스톤 순서대로 진행한다.
 
@@ -74,24 +74,25 @@
 
 ### 한자 데이터 (`src/data/hanja.js`)
 
-- [ ] `6_morpheme_detective/src/data/hanja.js` 파일 참조하여 사용 필드 확인 (`id`, `reading`, `meaning`, `grade`)
-- [ ] `vocab.js`에 등장하는 모든 한자 ID가 `6_morpheme_detective` 100자 풀 내에 있음을 교차 검증
-- [ ] 신규 한자 0 원칙 확인 — `hanja.js`에 기지 100자 외 항목 없음
-- [ ] `HANJA` 객체 구조: 키=한자 문자, 값=`{ id, reading, meaning, grade }` 스키마로 작성
+- [x] `6_morpheme_detective/src/data/hanja.js` 파일 참조하여 사용 필드 확인 (`id`, `reading`, `meaning`, `grade`)
+- [x] `vocab.js`에 등장하는 모든 한자 ID가 `6_morpheme_detective` 100자 풀 내에 있음을 교차 검증 (`scripts/validate-data.mjs` (b) 통과 — 51자, 코드포인트 단위 일치. '教' U+6559 사용, 이체자 '敎' U+654E 아님)
+- [x] 신규 한자 0 원칙 확인 — `hanja.js`에 기지 100자 외 항목 없음
+- [x] `HANJA` 객체 구조: 키=한자 문자, 값=`{ id, reading, meaning, grade }` 스키마로 작성
 
 ### 어휘 데이터 (`src/data/vocab.js`)
 
-- [ ] PRD §7.2 초기 설계 세트 15개 항목 전체 구현
-- [ ] 각 항목 스키마: `{ word, components[2], hanja, distractors[2~3], difficulty }` 완성
-- [ ] 디스트랙터 3종 유형(음독 유사·의미 근접·무관) 각 항목에 배분
-- [ ] `difficulty` 값(1/2/3) 배정 — 8급 기지 한자 위주 항목은 1, 의미 근접 디스트랙터 포함 항목은 2~3
-- [ ] 투명성 기준(각 형태소 뜻이 합성 결과에 직관적으로 반영) 재검토
+- [x] PRD §7.2 초기 설계 세트 15개 항목 전체 구현
+  - ⚠ **교체 4건**: PRD §7.2 목록 중 100자 풀 밖 한자를 포함한 합성어를 풀 내 투명 2형태소 합성어로 교체 — 국어(國語, 語 풀 밖)→국민(國民), 도로(道路, 路 풀 밖)→학교(學校), 소방(消防, 消·防 풀 밖)→시장(市場), 인구(人口, 口 풀 밖)→전화(電話). 총 15개 유지. (R1 해소)
+- [x] 각 항목 스키마: `{ word, components[2], hanja, distractors[2~3], difficulty }` 완성
+- [x] 디스트랙터 3종 유형(음독 유사·의미 근접·무관) 각 항목에 배분 (음독 동음자가 풀에 없는 항목은 의미 근접 + 무관으로 구성, 항목별 유형 주석 명기)
+- [x] `difficulty` 값(1/2/3) 배정 — 8급 기지 한자 위주 항목은 1, 의미 근접 디스트랙터 포함 항목은 2~3 (분포 5/5/5 = `ROUND_COUNTS_PER_LEVEL`)
+- [x] 투명성 기준(각 형태소 뜻이 합성 결과에 직관적으로 반영) 재검토
 
 ### 데이터 유효성 자가 검사
 
-- [ ] `vocab.js`의 모든 `components` 값이 `hanja.js` 키로 존재함을 코드 주석 또는 별도 검증 스크립트로 확인
-- [ ] `distractors`의 모든 항목도 `hanja.js` 키로 존재함을 확인
-- [ ] 중복 어휘 없음, 중복 컴포넌트 쌍 없음 확인
+- [x] `vocab.js`의 모든 `components` 값이 `hanja.js` 키로 존재함을 코드 주석 또는 별도 검증 스크립트로 확인 (`scripts/validate-data.mjs` 작성, `node scripts/validate-data.mjs` 전 항목 PASS)
+- [x] `distractors`의 모든 항목도 `hanja.js` 키로 존재함을 확인 (참조 75건 전부 통과)
+- [x] 중복 어휘 없음, 중복 컴포넌트 쌍 없음 확인 (순서 무관 쌍 비교 포함)
 
 ---
 
@@ -377,7 +378,7 @@
 
 | # | 이슈 | 영향 | 해결 방안 | 우선순위 |
 |---|------|------|-----------|---------|
-| R1 | 최종 어휘 세트 교차 검증 미완 | `vocab.js` 한자 ID가 `6_morpheme_detective` 100자 풀 밖에 있을 경우 데이터 오류 | M1 단계에서 `6_morpheme_detective/src/data/hanja.js` 대조 필수 | High |
+| R1 | ~~최종 어휘 세트 교차 검증 미완~~ ✅ 해소(M1) | PRD §7.2 중 4개 합성어(국어·도로·소방·인구)가 풀 밖 한자(語·路·消·防·口) 포함 → 국민·학교·시장·전화로 교체, 총 15개 유지 | `scripts/validate-data.mjs` 로 100자 풀 대조 자동 검증 — 전 항목 통과 | ~~High~~ 완료 |
 | R2 | iOS Safari `speechSynthesis` 한국어 보이스 디바이스별 미지원 | L1 뜻 라벨 TTS 발화 불가 시 시각 자막으로만 게임 진행 | TTS graceful fallback(자동 비활성화 + 시각 자막) 구현으로 대응, M5 실기기 검증 | High |
 | R3 | 힌트 L1 뜻 라벨 위치 (카드 위 vs 내부 오버레이) | 만 8세 가독성 영향 | M2 단계 프로토타입 제작 후 M5 인지 테스트에서 결정 | Medium |
 | R4 | 분해 애니메이션 구현 수준 결정 미확정 | CSS clip-path split 효과 vs transform 이동 분기 선택에 따라 개발 난이도 차이 | M2 착수 시 transform 이동 방식 우선 구현, clip-path는 P2 고도화 | Medium |
