@@ -9,6 +9,8 @@ import {
   LEADERBOARD_KEY,
   LEADERBOARD_MAX,
   DEFAULT_SETTINGS,
+  DEFAULT_FADING_LEVEL,
+  FADING_LEVELS,
 } from './config.js';
 import { state } from './state.js';
 
@@ -43,6 +45,11 @@ export function saveData(key, value) {
 export function loadSettings() {
   const saved = loadData(SETTINGS_KEY, {});
   state.settings = { ...DEFAULT_SETTINGS, ...saved };
+  // 레거시 마이그레이션 — 구 L1(값 1)·무효값은 연습하기(2)로 치환 후 즉시 영속화 (2모드 체계)
+  if (!FADING_LEVELS.includes(state.settings.fadingLevel)) {
+    state.settings.fadingLevel = DEFAULT_FADING_LEVEL;
+    saveSettings();
+  }
 }
 
 /** 설정 저장 — 설정 변경 즉시 호출 */
@@ -67,7 +74,7 @@ export function saveLeaderboardRecord(record) {
 /**
  * 진척 갱신 (TRD §3.3 — compound_split_progress)
  * 페이딩 레벨별 최고 연속 정답 수·완료 횟수를 누적한다.
- * @param {1|2|3} fadingLevel
+ * @param {2|3} fadingLevel 2 = 연습하기 / 3 = 도전하기
  * @param {number} bestStreak 이번 세션 최고 연속 정답 수
  */
 export function updateProgress(fadingLevel, bestStreak) {

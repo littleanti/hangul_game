@@ -65,7 +65,7 @@
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); /* transform only */
 }
 
-/* 형태소 경계 — 페이딩 레벨별 가시성 (M3: renderCard가 레벨별 클래스 토글, TRD §5.3) */
+/* 형태소 경계 — 모드별 가시성 (renderCard가 모드별 클래스 토글, TRD §5.3) */
 .card-boundary {
   display: inline-block;
   align-self: stretch;
@@ -74,9 +74,8 @@
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
-.compound-card.boundary-solid  .card-boundary { border-left: 3px solid var(--navy); }   /* L1 */
-.compound-card.boundary-dashed .card-boundary { border-left: 3px dashed var(--coral); } /* L2 */
-.compound-card.boundary-hidden .card-boundary { border-left: none; }                    /* L3 */
+.compound-card.boundary-dashed .card-boundary { border-left: 3px dashed var(--coral); } /* 연습하기 */
+.compound-card.boundary-hidden .card-boundary { border-left: none; }                    /* 도전하기 */
 
 /* 정답 분리 애니메이션 — 두 조각이 양옆으로 벌어짐 (< 100ms 시작, transform only) */
 .compound-card.split { cursor: default; }
@@ -95,7 +94,7 @@
   80%      { transform: translateX(6px); }
 }
 
-/* ----- 뜻 단서 행 — L1: 양쪽 그림+뜻 라벨 / L2: 첫 조각 그림만 / L3: 미렌더링 ----- */
+/* ----- 단서 행 — 연습하기: 첫 조각 그림만 / 도전하기: 미렌더링 ----- */
 .hint-row {
   display: flex;
   justify-content: center;

@@ -1,6 +1,6 @@
 /**
  * 설정 화면 렌더링·조작 (TRD §2.2, PLAN M0)
- * 문항 수(6·12·18) / 페이딩 레벨(1·2·3) / TTS·효과음 토글.
+ * 문항 수(6·12·18) / 모드(연습하기 2 · 도전하기 3) / TTS·효과음 토글.
  * 변경 즉시 saveSettings() 영속화.
  */
 
@@ -56,8 +56,8 @@ export function selectCount(n) {
 }
 
 /**
- * 페이딩 레벨 선택 — 시작 화면·설정 화면 칩 동시 동기화 (HTML onclick에서 호출)
- * @param {1|2|3} level
+ * 모드 선택 — 시작 화면·설정 화면 칩 동시 동기화 (HTML onclick에서 호출)
+ * @param {2|3} level 2 = 연습하기 / 3 = 도전하기
  */
 export function selectFadingLevel(level) {
   if (!FADING_LEVELS.includes(level)) return;

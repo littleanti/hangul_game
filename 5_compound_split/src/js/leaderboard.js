@@ -1,10 +1,11 @@
 /**
  * 리더보드 화면 렌더링 (TRD §9.1)
- * 표시: 날짜·페이딩 레벨·문항 수·정답 수·오류 수 / 최신순 / 빈 상태 메시지.
+ * 표시: 날짜·모드·문항 수·정답 수·오류 수 / 최신순 / 빈 상태 메시지.
+ * 과거 기록의 fadingLevel 1·2는 '연습하기', 3은 '도전하기'로 레이블 매핑 (데이터는 불변).
  * 순수 DOM 생성 — 동적 텍스트는 모두 textContent (TRD §11).
  */
 
-import { LEADERBOARD_KEY } from './config.js';
+import { LEADERBOARD_KEY, FADING_LEVEL_LABELS } from './config.js';
 import { loadData } from './storage.js';
 import { goTo } from './ui.js';
 
@@ -45,7 +46,8 @@ function buildItem(record) {
 
   const stats = document.createElement('div');
   stats.className = 'lb-stats';
-  stats.appendChild(span('lb-stat', `✂️ ${record.fadingLevel || 1}단계`));
+  // 구 L1(값 1) 기록 포함 무효값은 '연습하기'로 폴백 표시 (2모드 체계)
+  stats.appendChild(span('lb-stat', `✂️ ${FADING_LEVEL_LABELS[record.fadingLevel] || FADING_LEVEL_LABELS[2]}`));
   stats.appendChild(span('lb-stat', `🎲 ${record.questionCount || 0}문항`));
   stats.appendChild(span('lb-stat', `⭕ ${record.correctCount || 0}`));
   stats.appendChild(span('lb-stat', `❌ ${record.errorCount || 0}`));
