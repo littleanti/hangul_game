@@ -75,7 +75,7 @@
   transition: opacity 0.25s ease;
 }
 .compound-card.boundary-dashed .card-boundary { border-left: 3px dashed var(--coral); } /* 연습하기 */
-.compound-card.boundary-hidden .card-boundary { border-left: none; }                    /* 도전하기 */
+.compound-card.boundary-hidden .card-boundary { border-left: none; margin: 0; }         /* 도전하기 — 간격까지 접어야 경계 위치가 새지 않음 (PRD §5 "경계 힌트 없음") */
 
 /* 정답 분리 애니메이션 — 두 조각이 양옆으로 벌어짐 (< 100ms 시작, transform only) */
 .compound-card.split { cursor: default; }
