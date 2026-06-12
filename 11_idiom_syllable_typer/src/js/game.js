@@ -11,7 +11,7 @@
  * - Lv.2 초성 힌트 + 자모 키패드 조립 (QWERTY 계열 임시 배열 — PLAN R2, IME 비노출)
  * - Lv.3 자유 IME `<input maxlength=1>` — 완성형 한글(U+AC00~D7A3)만 채점
  * - 슬롯 독립 페이딩: 오답 슬롯만 Lv.1 재강화 (onSlotWrong), 나머지 레벨 유지
- * - 자동 진급: autoFade ON + 레벨 고정 OFF + 문항 오답 0 → fadingLevel +1 (최대 3)
+ * - 자동 진급: autoFade ON(기본 OFF) + 문항 오답 0 → fadingLevel +1 (최대 3)
  */
 
 import {
@@ -640,12 +640,12 @@ export function onIdiomComplete() {
 
 /**
  * 자동 페이딩 진급 (PLAN M3 / TRD §9.2):
- * autoFade ON + 레벨 고정 OFF + 문항 오답 0 → fadingLevel = min(3, fadingLevel + 1).
+ * autoFade ON(기본 OFF) + 문항 오답 0 → fadingLevel = min(3, fadingLevel + 1).
  * 다음 문항부터 적용. 변경 즉시 11ist_settings 저장.
  */
 function maybeAutoFade() {
   const settings = state.settings;
-  if (!settings.autoFade || settings.levelLock) return;
+  if (!settings.autoFade) return;
   if (state.session.wrongSlots.size > 0) return;
   if (settingsLevel() >= MAX_FADING_LEVEL) return;
   settings.fadingLevel = Math.min(MAX_FADING_LEVEL, settingsLevel() + 1);

@@ -1,7 +1,7 @@
 /**
  * settings.js — 설정 로드/저장 + 화면 렌더 + 토글 + 시작 레벨 (PLAN M3 / TRD §2.2)
  *
- * - 토글: TTS·효과음·자동 페이딩 진급·레벨 고정 → state.settings + 11ist_settings 즉시 저장
+ * - 토글: TTS·효과음·자동 페이딩 진급(기본 OFF) → state.settings + 11ist_settings 즉시 저장
  * - selectLevel(level): 시작 화면 레벨 칩 탭 → fadingLevel 교체·저장 (선택만 — 시작은 "시작하기" 버튼)
  * - TTS 미지원 기기: ttsEnabled 강제 OFF + 토글 비활성화 + 안내 문구
  */
@@ -17,7 +17,6 @@ const TOGGLE_MAP = {
   'toggle-tts': 'ttsEnabled',
   'toggle-sound': 'soundEnabled',
   'toggle-autofade': 'autoFade',
-  'toggle-levellock': 'levelLock',
 };
 
 /** 페이딩 레벨을 1~3 범위로 보정 */

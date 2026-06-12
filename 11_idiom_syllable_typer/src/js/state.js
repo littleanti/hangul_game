@@ -39,16 +39,14 @@ export function createResult() {
 /** 전역 상태 싱글톤 */
 export const state = {
   settings: {
-    /** 1 | 2 | 3 — 현재 페이딩 레벨 고정값 (0 = 자동) */
+    /** 1 | 2 | 3 — 현재 페이딩 레벨 (홈 레벨 칩으로 선택) */
     fadingLevel: 1,
-    /** 자동 페이딩 진급 여부 */
-    autoFade: true,
+    /** 자동 페이딩 진급 여부 (기본 OFF — OFF 면 선택 레벨로 고정 진행) */
+    autoFade: false,
     /** TTS 온/오프 */
     ttsEnabled: true,
     /** 효과음 온/오프 */
     soundEnabled: true,
-    /** 레벨 고정 — ON 이면 자동 진급 없이 fadingLevel 로만 진행 */
-    levelLock: false,
   },
   session: createSession(),
   result: createResult(),

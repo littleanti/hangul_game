@@ -61,6 +61,11 @@
   gap: 14px;
 }
 
+/* 하단 보조 버튼 행 (⚙️ 설정 · 🏆 리더보드) — S10 start-sub-row 컨벤션 */
+.start-sub-row {
+  display: flex; gap: 10px;
+}
+
 .btn-settings {
   font-family: 'Jua', sans-serif;
   font-size: 1rem;

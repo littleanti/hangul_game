@@ -38,7 +38,10 @@
 
     <div class="start-buttons">
       <button class="btn big" data-goto="game-screen">시작하기 🚀</button>
-      <button class="btn mint" data-goto="settings-screen">설정하고 시작 ⚙️</button>
+    </div>
+
+    <div class="start-sub-row">
+      <button class="btn-settings" data-goto="settings-screen">⚙️ 설정</button>
       <button class="btn-settings" data-goto="leaderboard-screen">🏆 리더보드</button>
     </div>
   </div>
@@ -69,17 +72,9 @@
     <div class="settings-section">
       <div class="toggle-row">
         <span class="toggle-label">📈 자동 페이딩 진급</span>
-        <div class="toggle on" id="toggle-autofade" role="switch" aria-checked="true" tabindex="0"></div>
+        <div class="toggle" id="toggle-autofade" role="switch" aria-checked="false" tabindex="0"></div>
       </div>
-      <div class="section-hint">오답 없이 완료하면 다음 레벨로 올라가요</div>
-    </div>
-
-    <div class="settings-section">
-      <div class="toggle-row">
-        <span class="toggle-label">🔒 레벨 고정</span>
-        <div class="toggle" id="toggle-levellock" role="switch" aria-checked="false" tabindex="0"></div>
-      </div>
-      <div class="section-hint">켜면 자동 진급 없이 선택한 레벨로만 진행해요</div>
+      <div class="section-hint">켜면 오답 없이 완료할 때 다음 레벨로 올라가요 (꺼져 있으면 선택한 레벨 고정)</div>
     </div>
 
     <div class="settings-footer">

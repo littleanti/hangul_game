@@ -58,7 +58,7 @@
 
 ### HTML 화면 슬롯
 
-- [x] `#start-screen` 마크업 — `h1` (Jua 3rem/--coral), `.btn.big` "시작하기", `.btn` "설정하고 시작", 레벨 칩 Lv.1~3 (칩은 선택만 — 시작은 "시작하기" 버튼)
+- [x] `#start-screen` 마크업 — `h1` (Jua 3rem/--coral), `.btn.big` "시작하기", 레벨 칩 Lv.1~3 (칩은 선택만 — 시작은 "시작하기" 버튼), 하단 `.start-sub-row`에 `.btn-settings` "⚙️ 설정"·"🏆 리더보드" (시리즈 공통 고스트 버튼)
 - [x] `#settings-screen` 마크업 — `h2` (Jua 1.8rem/--coral), 토글 섹션 (TTS·효과음·자동페이딩), `.btn` "저장 후 시작"
 - [x] `#leaderboard-screen` 마크업 — `h2` (Jua 1.8rem/--coral), 사자성어 10개 표 스켈레톤, `.btn.small` "돌아가기"
 - [x] `#end-screen` 마크업 — `h2` (Jua 2.1rem/--coral), 완료 사자성어 목록 스켈레톤, `.btn.big` "다시 하기", `.btn.small` "리더보드"
@@ -134,11 +134,11 @@
 ### 슬롯 독립 페이딩
 
 - [x] `src/js/game.js` — `onSlotWrong(slotIdx)`: 해당 슬롯만 `slotLevels[slotIdx] = 1` 재강화, 나머지 슬롯 레벨 유지
-- [x] `src/js/game.js` — `onSessionComplete()`: `autoFade` ON + `wrongSlots.size === 0` 조건 시 `fadingLevel = Math.min(3, fadingLevel + 1)` 진급 (`maybeAutoFade()` — 문항 완성 시점에 판정, 다음 문항부터 적용)
+- [x] `src/js/game.js` — `onSessionComplete()`: `autoFade` ON(기본 OFF) + `wrongSlots.size === 0` 조건 시 `fadingLevel = Math.min(3, fadingLevel + 1)` 진급 (`maybeAutoFade()` — 문항 완성 시점에 판정, 다음 문항부터 적용)
 
 ### 설정 화면 연동
 
-- [x] `src/js/settings.js` — 설정 화면 렌더링 + 토글 이벤트 (TTS·효과음·자동페이딩·레벨 고정)
+- [x] `src/js/settings.js` — 설정 화면 렌더링 + 토글 이벤트 (TTS·효과음·자동페이딩 — 자동페이딩 기본 OFF. '레벨 고정' 토글은 자동 진급 OFF와 중복이므로 제거)
 - [x] `src/js/settings.js` — `selectLevel(level)`: 레벨 칩 탭 → `fadingLevel` 교체·저장 (선택만, 게임 시작은 "시작하기" 버튼)
 - [x] TTS 미지원 기기 감지 → 토글 자동 비활성화 + 안내 메시지 표시
 

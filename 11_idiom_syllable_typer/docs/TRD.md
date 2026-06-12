@@ -153,8 +153,8 @@ export const IDIOMS = [
 ```js
 const state = {
   settings: {
-    fadingLevel: 1,          // 1 | 2 | 3  (현재 페이딩 레벨 고정값, 0 = 자동)
-    autoFade: true,          // 자동 페이딩 진급 여부
+    fadingLevel: 1,          // 1 | 2 | 3  (현재 페이딩 레벨 — 홈 레벨 칩으로 선택)
+    autoFade: false,         // 자동 페이딩 진급 여부 (기본 OFF — OFF 면 선택 레벨 고정. 별도 레벨 고정 옵션 없음)
     ttsEnabled: true,        // TTS 온/오프
     soundEnabled: true,      // 효과음 온/오프
   },
@@ -316,7 +316,7 @@ body { background: var(--cream); }
 
 | 화면 | 재사용 컴포넌트 | 비고 |
 |---|---|---|
-| `#start-screen` | `h1`(3rem/Jua/--coral), `.btn.big`(시작), `.chip`(레벨 선택 Lv.1~3) | 시리즈 공통 토큰·버튼 그대로 |
+| `#start-screen` | `h1`(3rem/Jua/--coral), `.btn.big`(시작하기), `.chip`(레벨 선택 Lv.1~3), 하단 `.start-sub-row` + `.btn-settings`(⚙️ 설정·🏆 리더보드) | 시리즈 공통 토큰·버튼 그대로 — 설정 진입 버튼은 1_chosung_quiz·S10 과 동일한 고스트 스타일(.btn-settings)·하단 배치 |
 | `#settings-screen` | `h2`(1.8rem/Jua/--coral), `.settings-section`, `.section-label`, `.toggle-row`, `.toggle`, `.btn` | TTS·효과음·자동페이딩 토글 |
 | `#leaderboard-screen` | `h2`(1.8rem/Jua/--coral), `.btn.small`, `Gowun Dodum` 본문, `--coral` 헤더 토큰 | 사자성어별 최고 레벨·정답률 표 |
 | `#end-screen` | `h2`(2.1rem/Jua/--coral), `.btn.big`(다시 하기), `.btn.small`(리더보드), `.review-list` | 완료 사자성어 10개·오답 TTS |

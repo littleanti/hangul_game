@@ -36,7 +36,7 @@ function bindEvents() {
       return;
     }
 
-    /* 설정 토글 (TTS·효과음·자동페이딩·레벨 고정) */
+    /* 설정 토글 (TTS·효과음·자동페이딩) */
     const toggle = e.target.closest('.toggle');
     if (toggle) settings.toggleSetting(toggle);
   });
