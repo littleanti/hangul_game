@@ -11,6 +11,7 @@ import * as ui from './ui.js';
 import * as settings from './settings.js';
 import * as game from './game.js';
 import * as end from './end.js';
+import * as leaderboard from './leaderboard.js';
 
 /** 레벨 칩 탭 즉시 시작 경로 (settings.js 에 콜백 주입 — 순환 import 회피) */
 function startGame() {
@@ -28,6 +29,7 @@ function bindEvents() {
       const target = gotoBtn.dataset.goto;
       ui.showScreen(target);
       if (target === 'game-screen') game.startSession();
+      if (target === 'leaderboard-screen') leaderboard.render();
       return;
     }
 

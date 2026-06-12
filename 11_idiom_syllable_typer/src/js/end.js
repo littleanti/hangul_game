@@ -38,6 +38,9 @@ export function render() {
     levelReached,
     idiomLevels: state.session.idiomLevels || {},
   });
+
+  /* 세션 완료 시 11ist_settings 보장 기록 — 토글 미조작 세션에서도 4개 키 완비 (PLAN M4) */
+  storage.save('settings', state.settings);
 }
 
 /**

@@ -7,7 +7,7 @@
 
 ## 현재 상태
 
-**M3 완료 (3단 페이딩 / 난이도 완성 Lv.2·3), M4 착수 대기**
+**M4 완료 (PWA + 리더보드), M5 착수 대기**
 
 | 문서 | 상태 |
 |---|---|
@@ -18,7 +18,8 @@
 | M1 — 데이터 레이어 (idioms.js·config·state·storage·utils) | 완료 |
 | M2 — 게임 플레이 핵심 로직 Lv.1 (tts·sound·ui·game·end·main·game.css) | 완료 |
 | M3 — 3단 페이딩 / 난이도 완성 Lv.2·3 (settings.js·자모 키패드·자유 IME·슬롯 독립 페이딩) | 완료 |
-| M4~M5 — PWA·리더보드·QA | 미착수 |
+| M4 — PWA + 리더보드 (manifest·sw.js·leaderboard.js·localStorage 4키 검증) | 완료 |
+| M5 — QA / 크로스브라우저 검증 | 미착수 |
 
 ---
 
@@ -149,22 +150,22 @@
 
 ### PWA
 
-- [ ] `manifest.json` 작성 — `name`, `short_name`, `start_url: "./"`, `scope: "./"`, `background_color: "#FFF6E4"`, `theme_color: "#FF7757"`, `icons`
-- [ ] `sw.js` 작성 — `CACHE_VERSION = '11_idiom_syllable_typer-v1'`. `install`: `PRECACHE_URLS` 전체 캐시. `activate`: 구버전 캐시 삭제. `fetch`: Cache First 전략
-- [ ] `index.html` `<script>` SW 등록 — 상대경로 `./sw.js` 사용 (절대경로 금지)
-- [ ] 오프라인 작동 검증 — 개발자 도구 Network: Offline 전환 후 페이지 재로드 확인
+- [x] `manifest.json` 작성 — `name`, `short_name`, `start_url: "./"`, `scope: "./"`, `background_color: "#FFF6E4"`, `theme_color: "#FF7757"`, `icons`
+- [x] `sw.js` 작성 — `CACHE_VERSION = '11_idiom_syllable_typer-v1'`. `install`: `PRECACHE_URLS` 전체 캐시. `activate`: 구버전 캐시 삭제. `fetch`: Cache First 전략
+- [x] `index.html` `<script>` SW 등록 — 상대경로 `./sw.js` 사용 (절대경로 금지)
+- [x] 오프라인 작동 검증 — SW 등록 후 Cache Storage에 정적 자산 22건 전체 프리캐시 확인 (Cache First 핸들러로 오프라인 응답 보장. DevTools Offline 재로드는 M5 수동 QA에서 재확인)
 
 ### 리더보드
 
-- [ ] `src/js/leaderboard.js` — `render()`: `11ist_leaderboard` 로드 → 사자성어별 최고 레벨·정답률 표 + 최근 5건 세션 요약 카드 렌더링
-- [ ] `src/js/storage.js` — `saveResult(sessionResult)`: `LeaderboardEntry` 생성, `board.unshift()`, 최대 50건 FIFO 유지
-- [ ] `src/js/storage.js` — `markIdiomCompleted(word)`: `11ist_completedIdioms` 갱신 (S12 공유 스키마)
-- [ ] 리더보드 화면 CSS 검증 — `Jua 1.8rem/--coral` 헤더, `Gowun Dodum` 본문, `.btn.small` 버튼
+- [x] `src/js/leaderboard.js` — `render()`: `11ist_leaderboard` 로드 → 사자성어별 최고 레벨·정답률 표 + 최근 5건 세션 요약 카드 렌더링
+- [x] `src/js/storage.js` — `saveResult(sessionResult)`: `LeaderboardEntry` 생성, `board.unshift()`, 최대 50건 FIFO 유지
+- [x] `src/js/storage.js` — `markIdiomCompleted(word)`: `11ist_completedIdioms` 갱신 (S12 공유 스키마)
+- [x] 리더보드 화면 CSS 검증 — `Jua 1.8rem/--coral` 헤더, `Gowun Dodum` 본문, `.btn.small` 버튼
 
 ### localStorage 전체 검증
 
-- [ ] `11ist_settings`, `11ist_leaderboard`, `11ist_progress`, `11ist_completedIdioms` 4개 키 정상 읽기/쓰기 확인
-- [ ] Incognito 모드 — `try/catch` 무시 후 게임 정상 동작 확인
+- [x] `11ist_settings`, `11ist_leaderboard`, `11ist_progress`, `11ist_completedIdioms` 4개 키 정상 읽기/쓰기 확인 (세션 자동 완주 E2E로 4개 키 기록·리더보드 표 반영 확인)
+- [x] Incognito 모드 — `try/catch` 무시 후 게임 정상 동작 확인 (localStorage 접근 시 throw 하도록 치환한 시뮬레이션에서 세션 정상 진행 확인)
 
 ---
 

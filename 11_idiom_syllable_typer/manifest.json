@@ -1,0 +1,12 @@
+{
+  "name": "사자성어 음절 받아쓰기",
+  "short_name": "음절 받아쓰기",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFF6E4",
+  "theme_color": "#FF7757",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

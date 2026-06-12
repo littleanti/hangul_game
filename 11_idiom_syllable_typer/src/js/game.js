@@ -571,6 +571,25 @@ export function hideEtymologyPopup() {
 /* ── 문항 완성 / 세션 종료 ──────────────────────── */
 
 /**
+ * 세션 진행 자동저장 — `11ist_progress` (TRD §3.3, 재개용 스냅샷).
+ * 문항 완성 시마다 갱신, 세션 완료 시 done: true 로 마감 기록.
+ * @param {boolean} done 세션(10문항) 완료 여부
+ */
+function saveProgress(done) {
+  const session = state.session;
+  storage.save('progress', {
+    date: new Date().toISOString(),
+    done,
+    currentIdx: session.currentIdx,
+    words: session.idioms.map((i) => i.word),
+    idiomLevels: session.idiomLevels,
+    fadingLevel: settingsLevel(),
+    totalCorrect: state.result.totalCorrect,
+    wrongIdioms: state.result.wrongIdioms,
+  });
+}
+
+/**
  * 4슬롯 전체 정답: 전체 팝 애니메이션 + 사자성어 TTS 발화 +
  * 0.8초 후 다음 문항 또는 완료 화면 전환.
  */
@@ -582,6 +601,7 @@ export function onIdiomComplete() {
   session.idiomLevels[idiom.word] = idiomLevel;
   state.result.levelReached = Math.max(state.result.levelReached, idiomLevel);
   storage.markIdiomCompleted(idiom.word); // S12 공유 스키마 (11ist_completedIdioms)
+  saveProgress(session.currentIdx + 1 >= session.idioms.length); // 11ist_progress
   maybeAutoFade();
 
   el('slot-row').classList.add('complete');
