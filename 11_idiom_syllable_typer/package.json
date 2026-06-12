@@ -1,0 +1,21 @@
+{
+  "name": "idiom-syllable-typer",
+  "version": "0.1.0",
+  "description": "사자성어 음절 받아쓰기 — 한자 어원을 보며 한 음절씩 받아쓰는 IME 비계 게임",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx -y serve . -l 4332",
+    "start": "npx -y serve . -l 4332",
+    "live": "npx -y live-server --port=4332 --no-browser"
+  },
+  "keywords": [
+    "korean",
+    "idiom",
+    "hangul",
+    "typing",
+    "game",
+    "education"
+  ],
+  "license": "MIT"
+}

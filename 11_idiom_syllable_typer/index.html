@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>사자성어 음절 받아쓰기</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+  <!-- CSS (순서 고정: tokens → base → components → screens → game) -->
+  <link rel="stylesheet" href="src/css/tokens.css">
+  <link rel="stylesheet" href="src/css/base.css">
+  <link rel="stylesheet" href="src/css/components.css">
+  <link rel="stylesheet" href="src/css/screens.css">
+  <link rel="stylesheet" href="src/css/game.css">
+</head>
+<body>
+<div class="container">
+
+  <!-- =========== 시작 화면 =========== -->
+  <div id="start-screen" class="screen active start-screen">
+    <div class="start-emoji">📜</div>
+    <h1>사자성어 음절 받아쓰기</h1>
+    <p class="subtitle">한자 어원을 보며 한 음절씩 받아써요 ✍️</p>
+
+    <p class="level-label">시작 레벨을 선택하세요</p>
+    <div class="chip-row level-chips" id="level-chips">
+      <button class="chip active" data-level="1">Lv.1 음절블록</button>
+      <button class="chip" data-level="2">Lv.2 자모 조립</button>
+      <button class="chip" data-level="3">Lv.3 자유 입력</button>
+    </div>
+
+    <div class="start-buttons">
+      <button class="btn big" data-goto="game-screen">바로 시작 🚀</button>
+      <button class="btn mint" data-goto="settings-screen">설정하고 시작 ⚙️</button>
+      <button class="btn-settings" data-goto="leaderboard-screen">🏆 리더보드</button>
+    </div>
+  </div>
+
+  <!-- =========== 설정 화면 =========== -->
+  <div id="settings-screen" class="screen settings-screen">
+    <div class="settings-header">
+      <h2>⚙️ 설정</h2>
+      <button class="close-btn" data-goto="start-screen">✕</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🔊 발음 듣기 (TTS)</span>
+        <div class="toggle on" id="toggle-tts" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+      <div class="section-hint" id="tts-hint">사자성어와 음절을 소리로 읽어줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🎵 효과음</span>
+        <div class="toggle on" id="toggle-sound" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+      <div class="section-hint">정답·오답 효과음을 들려줘요</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">📈 자동 페이딩 진급</span>
+        <div class="toggle on" id="toggle-autofade" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+      <div class="section-hint">오답 없이 완료하면 다음 레벨로 올라가요</div>
+    </div>
+
+    <div class="settings-footer">
+      <button class="btn big" data-goto="game-screen">저장 후 시작 🚀</button>
+    </div>
+  </div>
+
+  <!-- =========== 리더보드 화면 =========== -->
+  <div id="leaderboard-screen" class="screen leaderboard-screen">
+    <div class="leaderboard-header">
+      <h2>🏆 리더보드</h2>
+      <button class="close-btn" data-goto="start-screen">✕</button>
+    </div>
+
+    <div class="leaderboard-section">
+      <div class="section-label">📜 사자성어별 최고 기록</div>
+      <table class="leaderboard-table" id="idiom-record-table">
+        <thead>
+          <tr><th>사자성어</th><th>최고 레벨</th><th>정답률</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>일석이조</td><td><span class="level-badge">—</span></td><td>—</td></tr>
+          <tr><td>이심전심</td><td><span class="level-badge">—</span></td><td>—</td></tr>
+          <tr><td>동문서답</td><td><span class="level-badge">—</span></td><td>—</td></tr>
+          <tr><td>오리무중</td><td><span class="level-badge">—</span></td><td>—</td></tr>
+          <tr><td>일취월장</td><td><span class="level-badge">—</span></td><td>—</td></tr>
+          <tr><td>청출어람</td><td><span class="level-badge">—</span></td><td>—</td></tr>
+          <tr><td>천고마비</td><td><span class="level-badge">—</span></td><td>—</td></tr>
+          <tr><td>화룡점정</td><td><span class="level-badge">—</span></td><td>—</td></tr>
+          <tr><td>대기만성</td><td><span class="level-badge">—</span></td><td>—</td></tr>
+          <tr><td>백발백중</td><td><span class="level-badge">—</span></td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="leaderboard-section">
+      <div class="section-label">🗓 최근 세션</div>
+      <div id="session-history">
+        <p class="leaderboard-empty">아직 기록이 없어요</p>
+      </div>
+    </div>
+
+    <div class="leaderboard-footer">
+      <button class="btn small" data-goto="start-screen">돌아가기</button>
+    </div>
+  </div>
+
+  <!-- =========== 완료 화면 =========== -->
+  <div id="end-screen" class="screen end-screen">
+    <div class="celebration-emojis">🎉✨🎊</div>
+    <h2 id="end-title">참 잘했어요!</h2>
+    <p class="end-message">전체 정답률</p>
+    <div class="final-score">
+      <span class="num" id="final-correct">0</span>
+      <span style="opacity:0.4;">/</span>
+      <span id="final-total">40</span>
+    </div>
+    <p class="end-message" id="accuracy">정답률 0%</p>
+
+    <div class="review-list open" id="end-idiom-list">
+      <div class="review-item">
+        <span class="review-emoji">📜</span>
+        <span class="review-word">완료한 사자성어가 여기에 표시돼요<small>오답 어휘는 🔊 버튼으로 복습</small></span>
+      </div>
+    </div>
+
+    <div class="end-buttons">
+      <button class="btn big" data-goto="game-screen">다시 하기 🔄</button>
+      <button class="btn mint small" data-goto="leaderboard-screen">🏆 리더보드</button>
+    </div>
+    <div class="end-buttons" style="margin-top: 14px;">
+      <button class="btn ghost small" data-goto="start-screen">🏠 홈으로</button>
+    </div>
+  </div>
+
+  <!-- =========== 게임 플레이 화면 (스켈레톤) =========== -->
+  <div id="game-screen" class="screen game-screen">
+    <div class="game-header">
+      <button class="quit-btn" data-goto="start-screen">🏠 홈으로</button>
+      <span class="progress-text">문항 <span id="current-num">1</span> / <span id="total-num">10</span></span>
+      <span class="fading-badge" id="fading-badge">Lv.1</span>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
+    </div>
+
+    <!-- 한자 카드: 한자 4자 + 한글독음 병기 + 의미 + TTS -->
+    <div class="hanja-card" id="hanja-card">
+      <button class="tts-button" id="tts-btn" aria-label="발음 듣기">🔊</button>
+      <div class="hanja-row" id="hanja-row">
+        <span>一</span><span>石</span><span>二</span><span>鳥</span>
+      </div>
+      <div class="hanja-reading" id="hanja-reading">일석이조</div>
+      <div class="hanja-meaning" id="hanja-meaning">두 가지 이득</div>
+    </div>
+
+    <!-- 4×1 입력 슬롯 -->
+    <div class="slot-row" id="slot-row">
+      <div class="slot active" data-slot="0" aria-label="1번 슬롯: 비어 있음"></div>
+      <div class="slot" data-slot="1" aria-label="2번 슬롯: 비어 있음"></div>
+      <div class="slot" data-slot="2" aria-label="3번 슬롯: 비어 있음"></div>
+      <div class="slot" data-slot="3" aria-label="4번 슬롯: 비어 있음"></div>
+    </div>
+
+    <!-- Lv.1 음절블록 도크 (하단 오버레이 자리, M2 에서 동적 렌더링) -->
+    <div class="lv1-dock" id="lv1-dock">
+      <button class="dock-block" type="button">일</button>
+      <button class="dock-block" type="button">월</button>
+      <button class="dock-block" type="button">석</button>
+      <button class="dock-block" type="button">삭</button>
+      <button class="dock-block" type="button">이</button>
+      <button class="dock-block" type="button">의</button>
+      <button class="dock-block" type="button">조</button>
+      <button class="dock-block" type="button">도</button>
+    </div>
+
+    <!-- Lv.2 자모 키패드 (하단 오버레이 자리, M3 에서 동적 렌더링) -->
+    <div class="lv2-pad" id="lv2-pad" hidden>
+      <span class="chosung-hint-badge" id="chosung-hint">힌트: ㅇ</span>
+      <div class="jamo-grid" id="jamo-grid"></div>
+    </div>
+
+    <!-- 어원 팝업 자리 (M2 에서 동적 렌더링) -->
+    <div class="modal-overlay" id="etymology-popup" hidden role="dialog" aria-modal="true" aria-label="한자 어원">
+      <div class="modal">
+        <div class="etymology-hanja" id="etymology-hanja">一</div>
+        <div class="etymology-sound-meaning" id="etymology-sound-meaning">일 · 하나</div>
+        <p class="etymology-story" id="etymology-story">어원 이야기가 여기에 표시돼요.</p>
+        <button class="btn small" id="etymology-close">닫기</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ES Module 진입점 -->
+<script type="module" src="./src/js/main.js"></script>
+</body>
+</html>

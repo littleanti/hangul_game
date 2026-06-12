@@ -1,0 +1,39 @@
+/* ==========================================
+   디자인 토큰 (색상, 그림자 등 전역 변수)
+   — 1_chosung_quiz/src/css/tokens.css 원본 복사 (수치 변경 금지)
+   ========================================== */
+
+:root {
+  /* 색상 */
+  --cream: #FFF6E4;
+  --coral: #FF7757;
+  --coral-dark: #d45a40;
+  --mint: #6BCAB8;
+  --mint-dark: #4fa192;
+  --navy: #2D3047;
+  --navy-dark: #1a1c2b;
+  --yellow: #FFD166;
+  --yellow-dark: #d4ad4e;
+  --pink: #FFB5B5;
+  --red: #E84545;
+  --red-dark: #b63333;
+  --gray: #E5E1D6;
+
+  /* 그림자 */
+  --shadow: rgba(45, 48, 71, 0.15);
+
+  /* 크로스-게임 공통 시맨틱 토큰 (2_syllable_assembly와 동일) */
+  --color-text: var(--navy);
+  --color-text-dim: #6b6e82;
+  --color-surface: #FFFFFF;
+  --color-surface2: #F5EDD8;
+  --color-border: var(--gray);
+}
+
+/* S11 확장 */
+:root {
+  --slot-active-border: var(--coral);   /* 활성 슬롯 테두리 */
+  --slot-correct-bg:    var(--mint);    /* 정답 슬롯 배경 */
+  --slot-wrong-bg:      var(--red);     /* 오답 슬롯 배경 */
+  --hanja-card-bg:      #FFFFFF;        /* 한자 카드 배경 */
+}

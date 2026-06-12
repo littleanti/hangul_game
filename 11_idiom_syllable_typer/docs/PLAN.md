@@ -7,14 +7,15 @@
 
 ## 현재 상태
 
-**설계 완료, 구현 미착수**
+**M0 완료 (디자인 시스템 스캐폴딩), M1 착수 대기**
 
 | 문서 | 상태 |
 |---|---|
 | PRD.md | 완료 |
 | TRD.md | 완료 |
 | PLAN.md | 완료 |
-| 코드 / HTML / CSS / JS | 미착수 |
+| M0 — 스캐폴딩 (HTML/CSS/main.js 스텁) | 완료 |
+| M1~M5 — 데이터·게임 로직·PWA·QA | 미착수 |
 
 ---
 
@@ -37,27 +38,27 @@
 
 ### 프로젝트 초기화
 
-- [ ] `11_idiom_syllable_typer/` 루트 디렉터리 생성
-- [ ] `package.json` 작성 (`dev: npx -y serve . -l 4332`, `live: npx -y live-server --port=4332`)
-- [ ] `index.html` 뼈대 작성 — `<head>` Google Fonts preconnect + 5개 CSS `<link>` 순서 고정
-- [ ] `favicon.svg` 추가
-- [ ] `AGENTS.md` 작성 (게임 범위·포트·설계 참조 링크)
+- [x] `11_idiom_syllable_typer/` 루트 디렉터리 생성
+- [x] `package.json` 작성 (`dev: npx -y serve . -l 4332`, `live: npx -y live-server --port=4332`)
+- [x] `index.html` 뼈대 작성 — `<head>` Google Fonts preconnect + 5개 CSS `<link>` 순서 고정
+- [x] `favicon.svg` 추가
+- [x] `AGENTS.md` 작성 (게임 범위·포트·설계 참조 링크)
 
 ### CSS — 공용 디자인 시스템 이식
 
-- [ ] `src/css/tokens.css` — `1_chosung_quiz/src/css/tokens.css` 원본 복사 후 하단에 `/* S11 확장 */` 블록 추가 (`--slot-active-border`, `--slot-correct-bg`, `--slot-wrong-bg`, `--hanja-card-bg`)
-- [ ] `src/css/base.css` — `1_chosung_quiz/src/css/base.css` 기반 복사 (리셋·body·container)
-- [ ] `src/css/components.css` — `1_chosung_quiz/src/css/components.css` 복사 (`.btn`, `.chip`, `.toggle`, `.modal`, `.flash`)
-- [ ] `src/css/screens.css` — `1_chosung_quiz/src/css/screens.css` 기반 복사. `start-screen`, `settings-screen`, `end-screen` 재사용. `leaderboard-screen` 신규 정의. 플레이 전용 규칙은 `game.css`로 분리
-- [ ] `src/css/game.css` — 신규 작성 스켈레톤 (`#game-screen` 레이아웃 placeholder)
+- [x] `src/css/tokens.css` — `1_chosung_quiz/src/css/tokens.css` 원본 복사 후 하단에 `/* S11 확장 */` 블록 추가 (`--slot-active-border`, `--slot-correct-bg`, `--slot-wrong-bg`, `--hanja-card-bg`)
+- [x] `src/css/base.css` — `1_chosung_quiz/src/css/base.css` 기반 복사 (리셋·body·container)
+- [x] `src/css/components.css` — `1_chosung_quiz/src/css/components.css` 복사 (`.btn`, `.chip`, `.toggle`, `.modal`, `.flash`)
+- [x] `src/css/screens.css` — `1_chosung_quiz/src/css/screens.css` 기반 복사. `start-screen`, `settings-screen`, `end-screen` 재사용. `leaderboard-screen` 신규 정의. 플레이 전용 규칙은 `game.css`로 분리
+- [x] `src/css/game.css` — 신규 작성 스켈레톤 (`#game-screen` 레이아웃 placeholder)
 
 ### HTML 화면 슬롯
 
-- [ ] `#start-screen` 마크업 — `h1` (Jua 3rem/--coral), `.btn.big` "바로 시작", `.btn` "설정하고 시작", 레벨 칩 Lv.1~3
-- [ ] `#settings-screen` 마크업 — `h2` (Jua 1.8rem/--coral), 토글 섹션 (TTS·효과음·자동페이딩), `.btn` "저장 후 시작"
-- [ ] `#leaderboard-screen` 마크업 — `h2` (Jua 1.8rem/--coral), 사자성어 10개 표 스켈레톤, `.btn.small` "돌아가기"
-- [ ] `#end-screen` 마크업 — `h2` (Jua 2.1rem/--coral), 완료 사자성어 목록 스켈레톤, `.btn.big` "다시 하기", `.btn.small` "리더보드"
-- [ ] `#game-screen` 마크업 스켈레톤 — 한자 카드 영역·4×1 슬롯·도크/키패드 오버레이·어원 팝업 자리
+- [x] `#start-screen` 마크업 — `h1` (Jua 3rem/--coral), `.btn.big` "바로 시작", `.btn` "설정하고 시작", 레벨 칩 Lv.1~3
+- [x] `#settings-screen` 마크업 — `h2` (Jua 1.8rem/--coral), 토글 섹션 (TTS·효과음·자동페이딩), `.btn` "저장 후 시작"
+- [x] `#leaderboard-screen` 마크업 — `h2` (Jua 1.8rem/--coral), 사자성어 10개 표 스켈레톤, `.btn.small` "돌아가기"
+- [x] `#end-screen` 마크업 — `h2` (Jua 2.1rem/--coral), 완료 사자성어 목록 스켈레톤, `.btn.big` "다시 하기", `.btn.small` "리더보드"
+- [x] `#game-screen` 마크업 스켈레톤 — 한자 카드 영역·4×1 슬롯·도크/키패드 오버레이·어원 팝업 자리
 
 ---
 
