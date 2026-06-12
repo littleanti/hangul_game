@@ -1,13 +1,13 @@
 # PLAN — 사자성어 음절 받아쓰기 (Idiom Syllable Typer)
 
 > 구현 계획서 및 진행 상태
-> Last updated: 2026-06-10
+> Last updated: 2026-06-12
 
 ---
 
 ## 현재 상태
 
-**M2 완료 (게임 플레이 핵심 로직 Lv.1), M3 착수 대기**
+**M3 완료 (3단 페이딩 / 난이도 완성 Lv.2·3), M4 착수 대기**
 
 | 문서 | 상태 |
 |---|---|
@@ -17,7 +17,8 @@
 | M0 — 스캐폴딩 (HTML/CSS/main.js 스텁) | 완료 |
 | M1 — 데이터 레이어 (idioms.js·config·state·storage·utils) | 완료 |
 | M2 — 게임 플레이 핵심 로직 Lv.1 (tts·sound·ui·game·end·main·game.css) | 완료 |
-| M3~M5 — 페이딩 Lv.2·3·PWA·QA | 미착수 |
+| M3 — 3단 페이딩 / 난이도 완성 Lv.2·3 (settings.js·자모 키패드·자유 IME·슬롯 독립 페이딩) | 완료 |
+| M4~M5 — PWA·리더보드·QA | 미착수 |
 
 ---
 
@@ -119,26 +120,26 @@
 
 ### Lv.2 자모 키패드
 
-- [ ] `src/css/game.css` — Lv.2 키패드 그리드 (48dp 버튼), 초성 힌트 배지, 조립 미리보기 영역
-- [ ] `src/js/game.js` — `renderLv2Pad(slotIdx)`: 초성 힌트 배지 표시 + 자모 키패드 렌더링 (`<button>` 그리드, IME 비노출)
-- [ ] `src/js/utils.js` — `assembleSyllable(cho, jung, jong)` 조합기 완성 및 단위 테스트 케이스 주석
-- [ ] `src/js/game.js` — 자모 탭 → 내부 조합기 호출 → 완성 음절 미리보기 실시간 반영 → 종성 완료/다음 초성 탭 시 확정 채점
+- [x] `src/css/game.css` — Lv.2 키패드 그리드 (48dp 버튼), 초성 힌트 배지, 조립 미리보기 영역
+- [x] `src/js/game.js` — `renderLv2Pad(slotIdx)`: 초성 힌트 배지 표시 + 자모 키패드 렌더링 (`<button>` 그리드, IME 비노출)
+- [x] `src/js/utils.js` — `assembleSyllable(cho, jung, jong)` 조합기 완성 및 단위 테스트 케이스 주석
+- [x] `src/js/game.js` — 자모 탭 → 내부 조합기 호출 → 완성 음절 미리보기 실시간 반영 → 종성 완료/다음 초성 탭 시 확정 채점
 
 ### Lv.3 자유 IME
 
-- [ ] `src/js/game.js` — `renderLv3Input(slotIdx)`: `<input type="text" inputmode="text" maxlength="1">` 노출 + `autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"` 설정
-- [ ] `src/js/game.js` — `input` 이벤트 핸들러: `isCompleteHangul(value)` 통과 시만 채점 (자모 단독 입력 거부)
+- [x] `src/js/game.js` — `renderLv3Input(slotIdx)`: `<input type="text" inputmode="text" maxlength="1">` 노출 + `autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"` 설정
+- [x] `src/js/game.js` — `input` 이벤트 핸들러: `isCompleteHangul(value)` 통과 시만 채점 (자모 단독 입력 거부)
 
 ### 슬롯 독립 페이딩
 
-- [ ] `src/js/game.js` — `onSlotWrong(slotIdx)`: 해당 슬롯만 `slotLevels[slotIdx] = 1` 재강화, 나머지 슬롯 레벨 유지
-- [ ] `src/js/game.js` — `onSessionComplete()`: `autoFade` ON + `wrongSlots.size === 0` 조건 시 `fadingLevel = Math.min(3, fadingLevel + 1)` 진급
+- [x] `src/js/game.js` — `onSlotWrong(slotIdx)`: 해당 슬롯만 `slotLevels[slotIdx] = 1` 재강화, 나머지 슬롯 레벨 유지
+- [x] `src/js/game.js` — `onSessionComplete()`: `autoFade` ON + `wrongSlots.size === 0` 조건 시 `fadingLevel = Math.min(3, fadingLevel + 1)` 진급 (`maybeAutoFade()` — 문항 완성 시점에 판정, 다음 문항부터 적용)
 
 ### 설정 화면 연동
 
-- [ ] `src/js/settings.js` — 설정 화면 렌더링 + 토글 이벤트 (TTS·효과음·자동페이딩·레벨 고정)
-- [ ] `src/js/settings.js` — `startWithLevel(level)`: 레벨 칩 탭 → `fadingLevel` 교체 → 즉시 게임 시작
-- [ ] TTS 미지원 기기 감지 → 토글 자동 비활성화 + 안내 메시지 표시
+- [x] `src/js/settings.js` — 설정 화면 렌더링 + 토글 이벤트 (TTS·효과음·자동페이딩·레벨 고정)
+- [x] `src/js/settings.js` — `startWithLevel(level)`: 레벨 칩 탭 → `fadingLevel` 교체 → 즉시 게임 시작
+- [x] TTS 미지원 기기 감지 → 토글 자동 비활성화 + 안내 메시지 표시
 
 ---
 

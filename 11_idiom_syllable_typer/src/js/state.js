@@ -47,6 +47,8 @@ export const state = {
     ttsEnabled: true,
     /** 효과음 온/오프 */
     soundEnabled: true,
+    /** 레벨 고정 — ON 이면 자동 진급 없이 fadingLevel 로만 진행 */
+    levelLock: false,
   },
   session: createSession(),
   result: createResult(),

@@ -36,7 +36,14 @@ export function shuffle(arr) {
  * @param {number} jung 중성 인덱스 (JUNGSUNG, 0~20)
  * @param {number} jong 종성 인덱스 (JONGSUNG, 0~27, 0 = 받침 없음)
  * @returns {string} 완성형 한글 1글자
- *   예: assembleSyllable(11, 20, 8) === '일'
+ *
+ * 단위 테스트 케이스 (Vitest 도입 전 수동 검증 — PLAN M3):
+ *   assembleSyllable(11, 20, 8) === '일'   // ㅇ+ㅣ+ㄹ  (U+C77C)
+ *   assembleSyllable(9, 4, 1)   === '석'   // ㅅ+ㅓ+ㄱ  (U+C11D)
+ *   assembleSyllable(11, 20, 0) === '이'   // ㅇ+ㅣ     (받침 없음)
+ *   assembleSyllable(12, 8, 0)  === '조'   // ㅈ+ㅗ
+ *   assembleSyllable(14, 16, 0) === '취'   // ㅊ+ㅟ     (복합 모음)
+ *   assembleSyllable(11, 14, 8) === '월'   // ㅇ+ㅝ+ㄹ  (복합 모음+받침)
  */
 export function assembleSyllable(cho, jung, jong = 0) {
   return String.fromCharCode(0xAC00 + (cho * 21 + jung) * 28 + jong);

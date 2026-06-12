@@ -72,6 +72,14 @@
       <div class="section-hint">오답 없이 완료하면 다음 레벨로 올라가요</div>
     </div>
 
+    <div class="settings-section">
+      <div class="toggle-row">
+        <span class="toggle-label">🔒 레벨 고정</span>
+        <div class="toggle" id="toggle-levellock" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+      <div class="section-hint">켜면 자동 진급 없이 선택한 레벨로만 진행해요</div>
+    </div>
+
     <div class="settings-footer">
       <button class="btn big" data-goto="game-screen">저장 후 시작 🚀</button>
     </div>
@@ -187,10 +195,24 @@
       <button class="dock-block" type="button">도</button>
     </div>
 
-    <!-- Lv.2 자모 키패드 (하단 오버레이 자리, M3 에서 동적 렌더링) -->
+    <!-- Lv.2 자모 키패드 (초성 힌트 + 조립 미리보기 + QWERTY 계열 자모 버튼 그리드 — IME 비노출) -->
     <div class="lv2-pad" id="lv2-pad" hidden>
-      <span class="chosung-hint-badge" id="chosung-hint">힌트: ㅇ</span>
-      <div class="jamo-grid" id="jamo-grid"></div>
+      <div class="lv2-top">
+        <span class="chosung-hint-badge" id="chosung-hint">초성 힌트: ㅇ</span>
+        <span class="lv2-preview" id="lv2-preview" role="status" aria-label="조립 미리보기"></span>
+      </div>
+      <div class="jamo-grid" id="jamo-grid" aria-label="자모 키패드"></div>
+    </div>
+
+    <!-- Lv.3 자유 IME 입력 (완성형 한글 1글자만 채점 — 자모 단독 거부) -->
+    <div class="lv3-area" id="lv3-area" hidden>
+      <div class="lv3-row">
+        <input class="lv3-input" id="lv3-input" type="text" inputmode="text" maxlength="1"
+               autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+               aria-label="음절 입력 (완성형 한글 1글자)">
+        <button class="btn small" id="lv3-confirm" type="button">입력</button>
+      </div>
+      <p class="lv3-hint">키보드로 한 글자를 입력해요 (예: 일)</p>
     </div>
 
     <!-- 어원 팝업 자리 (M2 에서 동적 렌더링) -->

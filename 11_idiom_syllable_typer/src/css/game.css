@@ -231,10 +231,24 @@
   transform: translateY(2px);
 }
 
-/* ----- Lv.2 자모 키패드 (하단 오버레이, M3 완성) ----- */
+/* ----- 입력 UI 표시/숨김 (슬롯 레벨별 전환) -----
+   display 규칙(grid/flex)이 [hidden] 기본값을 덮지 않도록 명시 */
+.lv1-dock[hidden],
+.lv2-pad[hidden],
+.lv3-area[hidden] { display: none; }
+
+/* ----- Lv.2 자모 키패드 (초성 힌트 + 조립 미리보기 + 자모 키, IME 비노출) ----- */
 .lv2-pad {
   margin: 0 auto 1rem;
   text-align: center;
+}
+
+.lv2-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 0.6rem;
 }
 
 .chosung-hint-badge {
@@ -246,17 +260,42 @@
   background: var(--yellow);
   color: var(--navy);
   box-shadow: 0 3px 0 var(--yellow-dark);
-  margin-bottom: 0.6rem;
+}
+
+/* 조립 미리보기 — 현재 조합 중인 글자 (활성 슬롯에도 동시 반영) */
+.lv2-preview {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 52px;
+  border: 2px dashed var(--coral);
+  border-radius: 12px;
+  background: white;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.6rem;
+  color: var(--navy);
 }
 
 .jamo-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 6px;
+  max-width: 460px;
+  margin: 0 auto;
 }
 
+.jamo-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+/* 자모 키 — 48dp 터치 타겟 (TRD §7.2). 좁은 화면은 높이 48dp 고정 + 폭 유동 */
 .jamo-key {
-  min-width: 44px;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 48px;
   min-height: 48px;
   border: 2px solid var(--navy);
   border-radius: 10px;
@@ -271,6 +310,54 @@
 .jamo-key:active {
   transform: translateY(2px);
   box-shadow: 0 1px 0 var(--navy);
+}
+.jamo-key.fn {
+  background: var(--gray);
+  font-size: 1rem;
+}
+.jamo-key.fn.ok {
+  background: var(--mint);
+  color: white;
+  border-color: var(--mint-dark);
+  box-shadow: 0 2px 0 var(--mint-dark);
+}
+
+/* ----- Lv.3 자유 IME 입력 ----- */
+.lv3-area {
+  margin: 0 auto 1rem;
+  text-align: center;
+}
+
+.lv3-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.lv3-input {
+  width: 72px;
+  height: 72px;
+  border: 3px solid var(--slot-active-border);
+  border-radius: 14px;
+  background: white;
+  font-family: 'Jua', sans-serif;
+  font-size: 2rem;
+  color: var(--navy);
+  text-align: center;
+  box-shadow: 0 3px 0 var(--navy);
+}
+.lv3-input:focus {
+  outline: none;
+  border-color: var(--coral);
+  box-shadow: 0 3px 0 var(--navy), 0 0 0 4px rgba(255, 119, 87, 0.25);
+}
+
+.lv3-hint {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.9rem;
+  color: var(--color-text-dim);
+  margin-top: 0.5rem;
 }
 
 /* ----- 어원 팝업 (모달) ----- */
