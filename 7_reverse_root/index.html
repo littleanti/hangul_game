@@ -144,9 +144,12 @@
 
     <div class="compound-area" id="compound-area">
       <div class="compound-card" id="compound-card">
-        <span id="compound-word" aria-live="polite">화산</span>
-        <!-- hint.js renderHint()가 힌트 오버레이를 채움 (M3) -->
-        <div class="hint-overlay" id="hint-overlay"></div>
+        <!-- .word-wrap이 글자 폭만큼 shrink-wrap — 힌트 오버레이가 음절 영역에 정렬 (TRD §5.2) -->
+        <span class="word-wrap">
+          <span id="compound-word" aria-live="polite">화산</span>
+          <!-- hint.js renderHint()가 힌트 오버레이를 채움 (M3) -->
+          <div class="hint-overlay" id="hint-overlay"></div>
+        </span>
       </div>
     </div>
 

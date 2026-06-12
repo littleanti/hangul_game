@@ -113,12 +113,17 @@
 }
 
 /* ----- 힌트 레이어 (TRD §5.2 — hint.js가 채움, M3) ----- */
+/* 오버레이 기준은 카드가 아닌 글자 래퍼 — 카드 기준(inset 0)이면 세그먼트가
+   좌우 패딩 48px까지 포함해 카드 전폭을 분할하므로 칩·하이라이트가 음절과 어긋난다.
+   한글 음절은 전각(고정폭)이라 글자 영역 균등 분할 = 음절 경계 1:1 일치. */
+.word-wrap {
+  position: relative;      /* .hint-overlay absolute 기준 */
+  display: inline-block;   /* 글자 폭만큼 shrink-wrap */
+}
 .hint-overlay {
   position: absolute;
-  inset: 0;
+  inset: -10px 0;          /* 세로만 확장 — 가로는 글자 폭과 1:1 (음절 중심 정렬 보장) */
   display: flex;
-  gap: 8px;
-  padding: 10px;
   pointer-events: none;
 }
 
@@ -126,6 +131,7 @@
 .hint-segment {
   position: relative;   /* .hint-label absolute 기준 */
   flex: 1;
+  margin: 0 3px;        /* 세그먼트 간 시각적 간격 — 대칭 마진이라 중심은 음절 중심 유지 */
   border-radius: 12px;
   background: var(--hint-l1-bg);
   border: 2px solid var(--hint-l1-border);
@@ -142,10 +148,12 @@
   opacity: 0.85;
 }
 
-/* L1 뜻 라벨 배지 — "불 화" / "뫼 산" */
+/* L1 뜻 라벨 배지 — "불 화" / "뫼 산". 항상 자기 음절 위 정중앙(매핑 신호).
+   세그먼트가 음절 폭(전각 1자)이라 칩("시장·도시 시" 등)이 더 넓을 수 있음 →
+   인접 칩 겹침을 2행 지그재그로 구조적으로 방지 (1음절 윗행, 2음절 아랫행 = 읽기 순서). */
 .hint-label {
   position: absolute;
-  top: -28px;
+  top: -58px;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -156,6 +164,9 @@
   padding: 2px 8px;
   border-radius: 100px;
   box-shadow: 0 2px 0 var(--mint-dark);
+}
+.hint-segment:nth-child(even) .hint-label {
+  top: -26px;
 }
 
 /* 한자 블록 도크 컨테이너 (dock.js가 채움 — M2) */

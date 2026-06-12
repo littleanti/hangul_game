@@ -474,11 +474,38 @@ function buildDockItems(vocabItem) {
 
 ### 5.2 힌트 레이어 (`src/js/hint.js`)
 
-합성어 카드 위에 절대위치 오버레이로 렌더링된다.
+합성어 글자 래퍼(`.word-wrap`) 위에 절대위치 오버레이로 렌더링된다.
+
+> **정렬 원리 (오버레이↔음절 매핑 버그픽스):** 오버레이를 카드(`.compound-card`,
+> padding 32px 48px) 기준 `inset: 0`으로 깔면 `.hint-segment{flex:1}`가 **카드 전폭**을
+> 균등 분할한다. 세그먼트 중심(= `.hint-label` 칩 위치)이 카드 폭의 1/4·3/4 지점에
+> 찍히는 반면 실제 음절 글리프는 카드 중앙 텍스트 영역에만 있으므로, 칩·하이라이트가
+> 글자와 어긋난다(카드 좌우 패딩 48px만큼 바깥으로 퍼짐). 따라서 오버레이는 글자를
+> shrink-wrap하는 `.word-wrap`(inline-block) 내부에 두고 **음절 영역만** 분할한다.
+> 한글 음절 글리프는 전각(고정폭 advance)이므로 `flex: 1` 균등 분할이 음절 경계와
+> 1:1로 일치하며, 폰트 로딩·뷰포트 리사이즈(clamp 폰트)에도 JS 측정 없이 정렬이 유지된다.
+> 세그먼트 간 시각 간격은 `gap`/가로 `inset` 확장 대신 **세그먼트 자체의 대칭 마진**
+> (`margin: 0 3px`)으로 만든다 — gap·inset은 세그먼트 중심을 음절 중심 바깥으로
+> 밀어내지만(±6px 오차), 대칭 마진은 중심을 보존한다(실측 오차 0.2px 이내).
+>
+> **뜻 라벨 칩 겹침 방지:** 세그먼트가 음절 폭(전각 1자)으로 좁아지므로, 칩("시장·도시 시"
+> 등 최대 7자)이 세그먼트보다 넓어 같은 높이에선 인접 칩이 반드시 겹친다. 칩은 항상
+> 자기 음절 위 **정중앙**(매핑 신호)에 두되, 1음절 칩은 윗행·2음절 칩은 아랫행의
+> 2행 지그재그(읽기 순서 = 위→아래)로 구조적으로 겹침을 차단한다.
+
+```html
+<div class="compound-card" id="compound-card">
+  <span class="word-wrap">
+    <span id="compound-word">화산</span>     <!-- game.js renderWord()가 .syllable span으로 분해 -->
+    <div class="hint-overlay" id="hint-overlay"></div>
+  </span>
+</div>
+```
 
 ```
 L1 상태:
-  [불 화]  [뫼 산]          ← 뜻 라벨 배지 (--mint 배경, Jua 0.9rem)
+  [불 화]                    ← 뜻 라벨 배지 윗행 (1음절 위 정중앙, --mint 배경, Jua 0.9rem)
+      [산 산]                ← 뜻 라벨 배지 아랫행 (2음절 위 정중앙 — 지그재그 겹침 방지)
   ┌───────┬───────┐
   │  화   │  산   │          ← 색 하이라이트 (--hint-l1-bg, 테두리 --hint-l1-border)
   └───────┴───────┘
@@ -493,13 +520,18 @@ L3 상태:
 ```
 
 ```css
+.word-wrap {
+  position: relative;      /* .hint-overlay absolute 기준 — 글자 영역에 정렬 */
+  display: inline-block;   /* 글자 폭만큼 shrink-wrap */
+}
 .hint-overlay {
-  position: absolute; inset: 0;
+  position: absolute; inset: -10px 0;  /* 세로만 확장 — 가로는 글자 폭과 1:1 */
   display: flex;
   pointer-events: none;
 }
 .hint-segment {
   flex: 1;
+  margin: 0 3px;          /* 세그먼트 간 간격 — 대칭 마진이라 중심은 음절 중심 유지 */
   border-radius: 12px;
   background: var(--hint-l1-bg);
   border: 2px solid var(--hint-l1-border);
@@ -513,13 +545,19 @@ L3 상태:
 }
 .hint-label {
   position: absolute;
-  top: -28px;
+  top: -58px;                      /* 윗행 (1음절 칩) */
+  left: 50%;
+  transform: translateX(-50%);     /* 자기 음절 위 정중앙 */
+  white-space: nowrap;
   font-family: 'Jua', sans-serif;
   font-size: 0.9rem;
   background: var(--mint);
   color: #fff;
   padding: 2px 8px;
   border-radius: 100px;
+}
+.hint-segment:nth-child(even) .hint-label {
+  top: -26px;                      /* 아랫행 (2음절 칩) — 지그재그 겹침 방지 */
 }
 ```
 
