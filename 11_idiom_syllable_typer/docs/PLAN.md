@@ -58,7 +58,7 @@
 
 ### HTML 화면 슬롯
 
-- [x] `#start-screen` 마크업 — `h1` (Jua 3rem/--coral), `.btn.big` "바로 시작", `.btn` "설정하고 시작", 레벨 칩 Lv.1~3
+- [x] `#start-screen` 마크업 — `h1` (Jua 3rem/--coral), `.btn.big` "시작하기", `.btn` "설정하고 시작", 레벨 칩 Lv.1~3 (칩은 선택만 — 시작은 "시작하기" 버튼)
 - [x] `#settings-screen` 마크업 — `h2` (Jua 1.8rem/--coral), 토글 섹션 (TTS·효과음·자동페이딩), `.btn` "저장 후 시작"
 - [x] `#leaderboard-screen` 마크업 — `h2` (Jua 1.8rem/--coral), 사자성어 10개 표 스켈레톤, `.btn.small` "돌아가기"
 - [x] `#end-screen` 마크업 — `h2` (Jua 2.1rem/--coral), 완료 사자성어 목록 스켈레톤, `.btn.big` "다시 하기", `.btn.small` "리더보드"
@@ -139,7 +139,7 @@
 ### 설정 화면 연동
 
 - [x] `src/js/settings.js` — 설정 화면 렌더링 + 토글 이벤트 (TTS·효과음·자동페이딩·레벨 고정)
-- [x] `src/js/settings.js` — `startWithLevel(level)`: 레벨 칩 탭 → `fadingLevel` 교체 → 즉시 게임 시작
+- [x] `src/js/settings.js` — `selectLevel(level)`: 레벨 칩 탭 → `fadingLevel` 교체·저장 (선택만, 게임 시작은 "시작하기" 버튼)
 - [x] TTS 미지원 기기 감지 → 토글 자동 비활성화 + 안내 메시지 표시
 
 ---

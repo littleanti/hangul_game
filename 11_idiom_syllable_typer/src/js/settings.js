@@ -2,9 +2,8 @@
  * settings.js — 설정 로드/저장 + 화면 렌더 + 토글 + 시작 레벨 (PLAN M3 / TRD §2.2)
  *
  * - 토글: TTS·효과음·자동 페이딩 진급·레벨 고정 → state.settings + 11ist_settings 즉시 저장
- * - startWithLevel(level): 시작 화면 레벨 칩 탭 → fadingLevel 교체 → 즉시 게임 시작
+ * - selectLevel(level): 시작 화면 레벨 칩 탭 → fadingLevel 교체·저장 (선택만 — 시작은 "시작하기" 버튼)
  * - TTS 미지원 기기: ttsEnabled 강제 OFF + 토글 비활성화 + 안내 문구
- * - 게임 시작 동작은 main.js 가 init() 으로 주입 — game.js 직접 import 회피 (TRD §2.2)
  */
 
 import { MIN_FADING_LEVEL, MAX_FADING_LEVEL } from './config.js';
@@ -21,21 +20,14 @@ const TOGGLE_MAP = {
   'toggle-levellock': 'levelLock',
 };
 
-/** 게임 시작 콜백 (main.js 주입) */
-let onStartGame = null;
-
 /** 페이딩 레벨을 1~3 범위로 보정 */
 function clampLevel(level) {
   const lv = Number(level) || MIN_FADING_LEVEL;
   return Math.min(MAX_FADING_LEVEL, Math.max(MIN_FADING_LEVEL, lv));
 }
 
-/**
- * 부트스트랩: 저장 설정 로드 → TTS 지원 확인 → DOM 반영.
- * @param {{ onStartGame?: () => void }} [opts]
- */
-export function init({ onStartGame: cb } = {}) {
-  onStartGame = cb || null;
+/** 부트스트랩: 저장 설정 로드 → TTS 지원 확인 → DOM 반영. */
+export function init() {
   load();
   applyTtsSupport();
   render();
@@ -99,13 +91,12 @@ export function toggleSetting(toggleEl) {
 }
 
 /**
- * 시작 화면 레벨 칩 탭 → 해당 레벨로 즉시 게임 시작 (PLAN M3).
+ * 시작 화면 레벨 칩 탭 → 시작 레벨 선택만 (게임 시작은 "시작하기" 버튼).
  * @param {number|string} level 1 | 2 | 3
  */
-export function startWithLevel(level) {
+export function selectLevel(level) {
   state.settings.fadingLevel = clampLevel(level);
   save();
   render();
-  showToast(`🚀 Lv.${state.settings.fadingLevel} 바로 시작!`);
-  if (onStartGame) onStartGame();
+  showToast(`🎯 Lv.${state.settings.fadingLevel} 선택!`);
 }

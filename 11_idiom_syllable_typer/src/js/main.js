@@ -3,7 +3,7 @@
  *
  * - settings.js 초기화: 11ist_settings 로드 → DOM 반영, TTS 미지원 처리
  * - 화면 전환 이벤트 바인딩 (data-goto 위임) — game 진입 시 startSession()
- * - 시작 레벨 칩 → settings.startWithLevel() (해당 레벨로 즉시 시작)
+ * - 시작 레벨 칩 → settings.selectLevel() (레벨 선택만 — 시작은 "시작하기" 버튼)
  * - 설정 토글 → settings.toggleSetting()
  */
 
@@ -12,12 +12,6 @@ import * as settings from './settings.js';
 import * as game from './game.js';
 import * as end from './end.js';
 import * as leaderboard from './leaderboard.js';
-
-/** 레벨 칩 탭 즉시 시작 경로 (settings.js 에 콜백 주입 — 순환 import 회피) */
-function startGame() {
-  ui.showScreen('game-screen');
-  game.startSession();
-}
 
 /* ── 이벤트 위임 ────────────────────────────────── */
 
@@ -35,10 +29,10 @@ function bindEvents() {
       return;
     }
 
-    /* 시작 레벨 칩 — 탭 시 해당 레벨로 즉시 시작 (PLAN M3) */
+    /* 시작 레벨 칩 — 탭 시 레벨 선택만 (게임 시작은 "시작하기" 버튼) */
     const chip = e.target.closest('#level-chips .chip');
     if (chip) {
-      settings.startWithLevel(chip.dataset.level);
+      settings.selectLevel(chip.dataset.level);
       return;
     }
 
@@ -50,7 +44,7 @@ function bindEvents() {
 
 /* ── 부트스트랩 ─────────────────────────────────── */
 
-settings.init({ onStartGame: startGame });
+settings.init();
 bindEvents();
 
 game.init({

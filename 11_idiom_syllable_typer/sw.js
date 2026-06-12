@@ -1,14 +1,14 @@
 /**
  * sw.js — Service Worker (TRD §6.2)
  *
- * - CACHE_VERSION: '11_idiom_syllable_typer-v1' (config.js 와 동일 값 — SW 는
+ * - CACHE_VERSION: '11_idiom_syllable_typer-v2' (config.js 와 동일 값 — SW 는
  *   ES Module import 없이 단독 실행되므로 상수를 복제한다)
  * - install: PRECACHE_URLS 전체 사전 캐시
  * - activate: CACHE_NAME 불일치 구버전 캐시 삭제 (타 게임 캐시는 자신의 SW 가 관리)
  * - fetch: Cache First 전략 (캐시 미스 시 네트워크 폴백)
  */
 
-const CACHE_VERSION = '11_idiom_syllable_typer-v1';
+const CACHE_VERSION = '11_idiom_syllable_typer-v2';
 const CACHE_NAME = CACHE_VERSION;
 
 /* 캐시 대상 — 실제 존재하는 정적 자산 전체 */
