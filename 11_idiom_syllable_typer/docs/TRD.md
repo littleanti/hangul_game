@@ -1,4 +1,4 @@
-# TRD — 사자성어 음절 받아쓰기 (Idiom Syllable Typer)
+# TRD — 사자성어 받아쓰기 (Idiom Syllable Typer)
 
 > Technical Requirements Document
 > Last updated: 2026-06-10
@@ -395,8 +395,8 @@ function isCompleteHangul(ch) {
 
 ```json
 {
-  "name": "사자성어 음절 받아쓰기",
-  "short_name": "음절 받아쓰기",
+  "name": "사자성어 받아쓰기",
+  "short_name": "사자성어 받아쓰기",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

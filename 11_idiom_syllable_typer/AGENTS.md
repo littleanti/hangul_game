@@ -1,4 +1,4 @@
-# AGENTS.md — 사자성어 음절 받아쓰기 (11_idiom_syllable_typer)
+# AGENTS.md — 사자성어 받아쓰기 (11_idiom_syllable_typer)
 
 > 에이전트/개발자용 작업 가이드. 설계 근거는 `docs/` 참조.
 

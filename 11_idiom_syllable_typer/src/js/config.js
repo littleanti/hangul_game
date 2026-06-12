@@ -6,7 +6,7 @@
 export const STORAGE_PREFIX = '11ist_';
 
 /** Service Worker 캐시 키 */
-export const CACHE_VERSION = '11_idiom_syllable_typer-v3';
+export const CACHE_VERSION = '11_idiom_syllable_typer-v4';
 
 /* ── 게임 구조 상수 ─────────────────────────────── */
 

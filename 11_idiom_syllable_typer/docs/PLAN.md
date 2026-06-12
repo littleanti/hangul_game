@@ -1,4 +1,4 @@
-# PLAN — 사자성어 음절 받아쓰기 (Idiom Syllable Typer)
+# PLAN — 사자성어 받아쓰기 (Idiom Syllable Typer)
 
 > 구현 계획서 및 진행 상태
 > Last updated: 2026-06-12
