@@ -39,7 +39,7 @@
 7_reverse_root/
 ├── index.html                 # 단일 페이지 앱 진입점
 ├── manifest.webmanifest       # PWA 매니페스트
-├── service-worker.js          # PWA 오프라인 캐시 (CACHE_VERSION: '7_reverse_root-v1')
+├── service-worker.js          # PWA 오프라인 캐시 (CACHE_VERSION: '7_reverse_root-v3')
 ├── docs/
 │   ├── PRD.md
 │   ├── TRD.md                 # 본 문서
@@ -696,7 +696,7 @@ function playWrongFeedback(blockEl) {
 // service-worker.js
 
 // 이 게임 고유 CACHE_VERSION — 다른 게임 SW와 충돌 없음 (자산 변경 시 bump)
-const CACHE_VERSION = '7_reverse_root-v2';
+const CACHE_VERSION = '7_reverse_root-v3'; // cache-first라 자산 내용 변경 릴리즈마다 bump 필수
 const CACHE_NAME = `hangul-games-${CACHE_VERSION}`;
 
 // 캐시할 정적 자산 목록 (릴리즈 시 수동 또는 스크립트로 갱신)
@@ -983,8 +983,8 @@ function pickQueue(vocab) {
 #### 핵심 시나리오
 - [ ] 첫 진입 → "시작" 탭 → SpeechSynthesis + AudioContext unlock 성공
 - [ ] L1 라운드: 힌트 하이라이트 + 뜻 라벨 표시 확인 (화산 → 불 화 / 뫼 산)
-- [ ] 정답 블록 1개 탭 → 카드 음절 한글→한자 제자리 변환(한글 루비) + 음·뜻 TTS, 블록 비활성
-- [ ] 정답 블록 2개째 탭 → 전 음절 변환 → 음·뜻 확인 팝업 + TTS 표시
+- [ ] 정답 블록 1개 탭 → 카드 음절 한글→한자 제자리 변환(한글 루비) + 정답 효과음, 블록 비활성 (개별 음·뜻 TTS 없음)
+- [ ] 정답 블록 2개째 탭 → 전 음절 변환 → 음·뜻 확인 팝업 + TTS 일괄 발화("화산! 불 화, 산 산" — 유일한 음·뜻 발화 지점)
 - [ ] 오답 블록 탭 → 해당 블록만 shake 애니메이션 + 오답 효과음 → 재시도
 - [ ] L1 5라운드 → L2 전환 (뜻 라벨 사라지고 하이라이트만)
 - [ ] L2 5라운드 → L3 전환 (힌트 없음)

@@ -15,7 +15,6 @@ import * as hint from './hint.js';
 import * as dock from './dock.js';
 import * as decomp from './decomp.js';
 import { VOCAB } from '../data/vocab.js';
-import { HANJA } from '../data/hanja.js';
 
 // ====== 큐 구성 (TRD §10.2, §10.3) ======
 
@@ -169,6 +168,9 @@ export function onBlockSelected(id) {
     dock.markBlockCorrect(id);
     transformSyllable(compIdx, id, item.word[compIdx]);
 
+    // 부분 정답엔 개별 TTS 없음 — 효과음·변환 연출만. 음·뜻 발화는 완성 팝업이
+    // 일괄 담당("화산! 불 화, 산 산"). 부분 발화는 마지막 음절만 생략되는 비대칭을
+    // 만들었고, 같은 내용이 팝업에서 반복돼 제거 (시각+청각이 결합되는 팝업 시점이 학습에 유리).
     if (solved.every(Boolean)) {
       // ----- 라운드 완성 — 변환 연출을 보여준 뒤 음·뜻 확인 팝업 -----
       state.round.phase = 'result';
@@ -176,10 +178,6 @@ export function onBlockSelected(id) {
       state.session.wrongPerRound[idx] = state.session.wrongPerRound[idx] ?? 0;
       state.session.solvedPerRound[idx] = true; // 완료 화면 라운드별 요약용
       setTimeout(() => decomp.playDecomp(item, () => nextRound()), WORD_COMPLETE_MS);
-    } else {
-      // 마지막 블록이 아니면 음·뜻 즉시 발화 (완성 시엔 팝업 TTS가 담당)
-      const h = HANJA[id];
-      if (h) tts.speak(`${h.meaning} ${h.reading}`);
     }
   } else {
     // ----- 오답 — 해당 블록만 shake, 힌트 레벨 유지(강등 없음), 재시도 -----
