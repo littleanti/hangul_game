@@ -153,11 +153,11 @@
 }
 
 /* L1 뜻 라벨 배지 — "불 화" / "뫼 산". 항상 자기 음절 위 정중앙(매핑 신호).
-   세그먼트가 음절 폭(전각 1자)이라 칩("시장·도시 시" 등)이 더 넓을 수 있음 →
-   인접 칩 겹침을 2행 지그재그로 구조적으로 방지 (1음절 윗행, 2음절 아랫행 = 읽기 순서). */
+   기본은 한 줄(아랫행) 정렬 — 세그먼트보다 넓은 칩("시장·도시 시" 등)이 인접 칩과
+   실제로 겹칠 때만 hint.js 가 .staggered 를 붙여 앞 칩을 윗행으로 올린다. */
 .hint-label {
   position: absolute;
-  top: -58px;
+  top: -26px;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -169,8 +169,8 @@
   border-radius: 100px;
   box-shadow: 0 2px 0 var(--mint-dark);
 }
-.hint-segment:nth-child(even) .hint-label {
-  top: -26px;
+.hint-label.staggered {
+  top: -58px;
 }
 
 /* 한자 블록 도크 컨테이너 (dock.js가 채움 — M2) */

@@ -32,7 +32,29 @@ export function renderHint(vocabItem, hintLevel = state.session.hintLevel) {
     }
     overlay.appendChild(seg);
   }
+
+  if (hintLevel === 1) staggerOverlappingLabels(overlay);
 }
+
+/* 기본은 모든 칩 한 줄(아랫행) 정렬. 칩이 세그먼트(음절 폭)보다 넓어
+   인접 칩과 실제로 겹치는 경우에만 앞 칩을 윗행(.staggered)으로 올린다 —
+   좁은 칩("산 산"/"물 수")은 같은 높이 유지, 넓은 칩("시장·도시 시")만 지그재그.
+   toggle 이라 조건 해소 시(뷰포트 확대 등) 다시 한 줄로 내려온다. */
+function staggerOverlappingLabels(overlay = document.getElementById('hint-overlay')) {
+  if (!overlay) return;
+  const labels = [...overlay.querySelectorAll('.hint-label')];
+  for (let i = 1; i < labels.length; i++) {
+    const prev = labels[i - 1].getBoundingClientRect();
+    const cur = labels[i].getBoundingClientRect();
+    // .staggered 는 세로(top)만 바꾸므로 가로 겹침 측정은 현재 상태 그대로 유효
+    labels[i - 1].classList.toggle('staggered', prev.right + 4 > cur.left);
+  }
+}
+
+// 칩 폭이 사후에 변하는 경우 재측정 — 뷰포트 리사이즈(clamp 폰트로 세그먼트 폭 변동),
+// 웹폰트(Jua) 지연 로딩(첫 렌더 시 폴백 폰트 폭으로 측정될 수 있음)
+window.addEventListener('resize', () => staggerOverlappingLabels());
+document.fonts?.ready.then(() => staggerOverlappingLabels());
 
 /**
  * 라운드 번호 → 힌트 레벨 (TRD §3.4 — 라운드 수 고정 방식).
