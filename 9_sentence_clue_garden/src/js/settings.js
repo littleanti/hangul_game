@@ -42,9 +42,6 @@ export function renderSettings() {
   } else {
     syncToggle('toggle-tts', s.ttsEnabled);
   }
-
-  const nameInput = document.getElementById('player-name');
-  if (nameInput && nameInput.value !== s.playerName) nameInput.value = s.playerName;
 }
 
 function syncToggle(id, on) {
@@ -72,10 +69,4 @@ export function toggleSetting(key, _el) {
   state.settings[key] = !state.settings[key];
   saveSettings();
   renderSettings();
-}
-
-/** 플레이어 이름 입력 (시리즈 유일 IME 허용 — 리더보드 표기용) */
-export function setPlayerName(name) {
-  state.settings.playerName = String(name).slice(0, 8);
-  saveSettings();
 }

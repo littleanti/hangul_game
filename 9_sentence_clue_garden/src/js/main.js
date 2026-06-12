@@ -21,7 +21,6 @@ import {
   toggleSetting,
   selectDifficulty,
   selectCount,
-  setPlayerName,
 } from './settings.js';
 import { openLeaderboard, setLeaderboardSort } from './leaderboard.js';
 import { onHintButton } from './hint.js';
@@ -37,7 +36,6 @@ window.openLeaderboard = openLeaderboard;
 window.toggleSetting = toggleSetting;
 window.selectDifficulty = selectDifficulty;
 window.selectCount = selectCount;
-window.setPlayerName = setPlayerName;
 window.setLeaderboardSort = setLeaderboardSort;
 window.onHintButton = onHintButton;
 

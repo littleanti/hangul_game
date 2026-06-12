@@ -27,7 +27,6 @@ export const DEFAULT_SETTINGS = {
   hintEnabled: true,
   ttsEnabled: true,
   soundEnabled: true,
-  playerName: '',
 };
 
 // 리더보드 최대 기록 수 (TRD §8.1)

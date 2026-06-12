@@ -68,7 +68,7 @@ function sortRecords(records, mode) {
   return list;
 }
 
-/** 기록 1행 — 순위 + 이름 + 점수·정답률·난이도 배지 + 날짜 */
+/** 기록 1행 — 순위 + 날짜 + 점수·정답률·난이도 배지 */
 function buildItem(record, idx) {
   const item = document.createElement('div');
   item.className = 'lb-item';
@@ -83,13 +83,7 @@ function buildItem(record, idx) {
   main.style.flex = '1';
   main.style.minWidth = '0';
 
-  const nameRow = document.createElement('div');
-  nameRow.style.display = 'flex';
-  nameRow.style.alignItems = 'baseline';
-  nameRow.style.gap = '8px';
-  nameRow.appendChild(span('lb-name', record.name || '익명'));
-  nameRow.appendChild(span('lb-date', formatDate(record.ts)));
-  main.appendChild(nameRow);
+  main.appendChild(span('lb-date', formatDate(record.ts)));
 
   const stats = document.createElement('div');
   stats.style.display = 'flex';

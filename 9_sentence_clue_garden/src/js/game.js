@@ -232,7 +232,6 @@ export function showEndScreen() {
       accuracy: Math.round(accuracy * 100) / 100,
     });
     saveLeaderboard({
-      name: (state.settings.playerName || '').trim() || '익명',
       score: g.score,
       total,
       accuracy: Math.round(accuracy * 100) / 100,

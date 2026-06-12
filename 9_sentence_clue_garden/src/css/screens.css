@@ -163,23 +163,6 @@
   margin-top: 6px;
 }
 
-/* 이름 입력 — 시리즈 유일한 IME 허용 입력 (리더보드 표기용) */
-.name-input {
-  font-family: 'Gowun Dodum', sans-serif;
-  font-size: 1.05rem;
-  padding: 10px 14px;
-  border: 2px solid var(--navy);
-  border-radius: 100px;
-  background: var(--cream);
-  color: var(--navy);
-  outline: none;
-  width: 100%;
-}
-.name-input:focus {
-  border-color: var(--coral);
-  box-shadow: 0 0 0 3px rgba(255, 119, 87, 0.2);
-}
-
 .settings-footer {
   display: flex;
   gap: 10px;
@@ -387,12 +370,6 @@
   color: var(--coral);
   min-width: 2em;
   text-align: center;
-}
-
-.lb-name {
-  font-family: 'Jua', sans-serif;
-  font-size: 1.05rem;
-  flex: 1;
 }
 
 .lb-date {

@@ -59,7 +59,7 @@ export function loadLeaderboard() {
 
 /**
  * 리더보드 기록 추가 (TRD §8.1)
- * record: { name, score, total, accuracy, difficulty, ts }
+ * record: { score, total, accuracy, difficulty, ts }
  * 최대 50개 초과 시 accuracy 기준 정렬 후 하위 항목 삭제.
  */
 export function saveLeaderboard(record) {

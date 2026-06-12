@@ -193,7 +193,6 @@ const state = {
 // localStorage.getItem('9scg_leaderboard') → JSON
 [
   {
-    name: '어린이1',           // 플레이어 이름 (설정에서 입력)
     score: 18,                 // 정답 수
     total: 20,                 // 총 문제 수
     accuracy: 0.90,            // 정답률
@@ -214,8 +213,7 @@ const state = {
   questionCount: 10,
   hintEnabled: true,
   ttsEnabled: true,
-  soundEnabled: true,
-  playerName: ''
+  soundEnabled: true
 }
 ```
 

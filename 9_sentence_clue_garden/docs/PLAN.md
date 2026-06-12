@@ -60,7 +60,7 @@
 - [x] `<head>` — `<meta name="viewport">`, `<link rel="manifest">`, SW 등록 `<script>` 삽입
 - [x] CSS `<link>` 5개 직렬 로드 순서 고정: `tokens → base → components → screens → game`
 - [x] 홈 화면(`#home-screen`) 마크업 — 제목·레벨 버튼·설정 진입 버튼
-- [x] 설정 화면(`#settings-screen`) 마크업 — 난이도·문제수·힌트·TTS·효과음·이름 입력
+- [x] 설정 화면(`#settings-screen`) 마크업 — 난이도·문제수·힌트·TTS·효과음
 - [x] 플레이 화면(`#play-screen`) 마크업 — 문장 카드·빈칸·단서 영역·도크·힌트 버튼
 - [x] 완료 화면(`#end-screen`) 마크업 — 점수·정답률·오답 목록·다시하기·리더보드 버튼
 - [x] 리더보드 화면(`#leaderboard-screen`) 마크업 — 순위 목록·뒤로가기 버튼
@@ -180,7 +180,7 @@
 
 ### 난이도 설정 화면
 
-- [x] `settings.js` — 난이도(easy/medium/hard/all)·문제수(5/10/20)·힌트·TTS·효과음·이름 입력 UI 렌더링
+- [x] `settings.js` — 난이도(easy/medium/hard/all)·문제수(5/10/20)·힌트·TTS·효과음 UI 렌더링
 - [x] `settings.js` — 설정 변경 시 즉시 `saveSettings()` 호출
 - [x] `settings.js` — `loadSettings()` on 앱 시작, 없으면 기본값 적용
 
