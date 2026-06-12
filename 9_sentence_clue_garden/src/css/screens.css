@@ -115,13 +115,6 @@
 }
 .btn-settings:active { background: var(--color-surface2); color: var(--color-text); }
 
-.series-breadcrumb {
-  font-family: 'Gowun Dodum', sans-serif;
-  font-size: 0.8rem;
-  color: var(--color-text-dim);
-}
-.series-breadcrumb strong { color: var(--coral); }
-
 /* ========== 설정 화면 ========== */
 .settings-screen { padding: 10px 0 20px; }
 
