@@ -154,7 +154,7 @@
 | `start-screen` | 홈/시작 화면 | `1_chosung_quiz` 시작 화면 규격 | 제목(Jua 3rem, --coral), "시작" 버튼(`.btn.big`), 리더보드 진입 링크, 크레딧 |
 | `settings-screen` | 설정 화면 | `1_chosung_quiz` 설정 화면 규격 | 제목(Jua 1.8rem), TTS 토글, 효과음 토글, 힌트 표시 설정, 진행 초기화 |
 | `leaderboard-screen` | 리더보드 화면 | 시리즈 공통 컴포넌트(신설 권장) | 상위 점수 목록, 날짜, 닫기(`.btn.small`) |
-| `end-screen` | 완료 화면 | `1_chosung_quiz` 완료 화면 규격 | 제목(Jua 2.1rem), 획득 별 수, 정답률, "다시 하기"·"다음 단계" 버튼(`.btn`) |
+| `end-screen` | 완료 화면 | `1_chosung_quiz` 완료 화면 규격 | 제목(Jua 2.1rem), 획득 별 수, 정답률, "다시 하기" 버튼(`.btn`) — 게임 간 이동 버튼 없음(시리즈 정책) |
 
 **공통 토큰 준수**: `--coral #FF7757`, `--navy #2D3047`, `--cream #FFF6E4`(배경), `--mint #6BCAB8`, `--yellow #FFD166`. 폰트 Google Fonts `Jua` + `Gowun Dodum`.
 

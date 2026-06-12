@@ -48,11 +48,6 @@ window.cancelResetProgress = () => settings.cancelReset();
 
 window.endSession = () => game.endSession();
 
-// "다음 단계" — 8_vocabulary_tree 상대경로 (M3에서 졸업 기준 연동)
-window.goNextStage = () => {
-  window.location.href = '../8_vocabulary_tree/';
-};
-
 // ----- 초기화 -----
 settings.init();
 settings.initInstallPrompt(); // beforeinstallprompt 저장 (M4)

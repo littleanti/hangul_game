@@ -2,7 +2,7 @@
 // 파일 추가·삭제 시 PRECACHE_ASSETS 수동 갱신 + CACHE_VERSION bump 필수.
 
 // 이 게임 고유 CACHE_VERSION — 다른 게임 SW와 충돌 없음
-const CACHE_VERSION = '7_reverse_root-v3';
+const CACHE_VERSION = '7_reverse_root-v4';
 const CACHE_NAME = `hangul-games-${CACHE_VERSION}`;
 
 // 캐시할 정적 자산 목록 (릴리즈 시 수동 또는 스크립트로 갱신)

@@ -97,12 +97,9 @@ function renderEndScreen(g, l0Total, l1Total, stars) {
   }
   starsEl.setAttribute('aria-label', `별 3개 중 ${stars}개`);
 
-  // 종합 정답률 ≥ 80% → Stage 2 Level 1 직행 안내 + CTA 강조,
-  // 미달 → Level 0(소리 찾기) 반복 권장 (PRD §9.2, M3)
+  // 종합 정답률 ≥ 80% → 축하 메시지, 미달 → Level 0(소리 찾기) 반복 권장 (PRD §9.2)
   const passed = overallAcc >= 0.8;
   document.getElementById('end-feedback').textContent = passed
-    ? '정말 멋져요! 바로 음절 조립소 1단계로 가도 좋아요!'
-    : '조금만 더! 소리 찾기를 한 번 더 연습하고 가요!';
-  const nextBtn = document.getElementById('next-stage-btn');
-  if (nextBtn) nextBtn.classList.toggle('cta-glow', passed);
+    ? '정말 멋져요! 모음 소리를 모두 익혔어요!'
+    : '조금만 더! 소리 찾기를 한 번 더 연습해요!';
 }

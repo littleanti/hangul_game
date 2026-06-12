@@ -13,7 +13,7 @@
  * 배포 시 코드 변경이 있으면 CACHE_VERSION 숫자를 올려 activate에서 구캐시를 정리한다.
  */
 
-const CACHE_VERSION = '2_vowel_finder-v1';
+const CACHE_VERSION = '2_vowel_finder-v2';
 // 타 게임 캐시와 충돌 없음:
 //   1_chosung_quiz: 'chosung-quiz-v*'
 //   3_syllable_assembly: '3_syllable_assembly-v*'

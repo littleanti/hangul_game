@@ -282,19 +282,3 @@
   margin-top: 1rem;
 }
 
-/* Stage 2 직행 CTA 강조 — 종합 정답률 ≥ 80% 시 onboarding.js가 부여 (PRD §9.2, M3) */
-.btn.cta-glow {
-  animation: ctaPulse 1.2s ease-in-out infinite;
-}
-@keyframes ctaPulse {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.07); }
-}
-
-/* 가로 전환 예고 1줄 — Stage 2(음절 조립소)는 가로 화면 (PRD §9.2, M3) */
-.rotate-notice {
-  font-family: 'Gowun Dodum', sans-serif;
-  font-size: clamp(0.9rem, 3vw, 1.2rem);
-  color: var(--navy);
-  margin-top: 1.1rem;
-}

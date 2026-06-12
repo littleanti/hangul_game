@@ -105,7 +105,7 @@ main.js
 start ──→ play ──→ end
   │         ↑       │
   ↓         │       ↓
-settings ───┘   (다시하기 / 다음 단계)
+settings ───┘   (다시하기)
   │
   ↓
 leaderboard
@@ -372,8 +372,9 @@ function buildDockItems(vocabItem) {
 /* 별 표시: --yellow 색, 64dp+ 아이콘 */
 /* 정답률·통계: Gowun Dodum clamp(0.9rem, 3vw, 1.2rem) */
 /* "다시 하기" 버튼: .btn (coral) */
-/* "다음 단계" 버튼: .btn.mint */
 ```
+
+> "다음 단계" `.btn.mint` 버튼은 시리즈 정책(게임 간 직접 이동 버튼 없음)으로 제거됨 (2026-06-12). 게임 선택은 런처(루트 `index.html`)가 전담.
 
 ---
 

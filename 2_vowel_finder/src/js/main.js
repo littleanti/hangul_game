@@ -27,9 +27,6 @@ function speakVowel() {
   else if (state.game.phase === 'level1') speakCurrentL1();
 }
 
-/** Stage 2(음절 조립소) 연결 — 배포 경로 확정 후 실제 URL 연결 (현재 no-op) */
-function goToNextStage() {}
-
 // HTML onclick/onpointerdown에서 호출할 수 있게 전역으로 노출 (TRD §2.5)
 window.goTo          = goTo;
 window.startGame     = startGame;
@@ -39,7 +36,6 @@ window.speakVowel    = speakVowel;
 window.toggleSetting = toggleSetting;
 window.selectCount   = selectCount;
 window.selectL1Count = selectL1Count;
-window.goToNextStage = goToNextStage;
 window.openLeaderboard = openLeaderboard;
 
 // 초기화 — 설정 로드(localStorage) 후 설정 화면 UI 동기화 (settings.js, M3)
