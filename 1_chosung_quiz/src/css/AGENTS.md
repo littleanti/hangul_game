@@ -1,5 +1,5 @@
 <!-- Parent: ../AGENTS.md -->
-<!-- Generated: 2026-04-25 | Updated: 2026-04-25 -->
+<!-- Generated: 2026-04-25 | Updated: 2026-06-12 -->
 
 # src/css
 
@@ -12,7 +12,7 @@
 |------|-------------|
 | `tokens.css` | 디자인 토큰. 모든 색상(`--coral`, `--mint` 등), 간격, 폰트 크기를 CSS 변수로 정의 |
 | `base.css` | reset, body, `*`, 공통 레이아웃 기반 스타일 |
-| `components.css` | chip, button, toggle, card, modal 등 재사용 컴포넌트 스타일 |
+| `components.css` | chip, button, toggle, card 등 재사용 컴포넌트 스타일 |
 | `screens.css` | start-screen, settings-screen, play-screen, end-screen 각 화면별 스타일 |
 
 ## CSS Layer Load Order

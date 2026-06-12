@@ -7,13 +7,12 @@
 
 그림을 보고 한글 초성 힌트로 단어를 맞히는 웹 기반 한글 공부 게임입니다.
 
-![version](https://img.shields.io/badge/version-2.3.0-FF7757)
+![version](https://img.shields.io/badge/version-2.4.0-FF7757)
 ![license](https://img.shields.io/badge/license-MIT-6BCAB8)
 
 ## 🎮 주요 기능
 
 - **🌱🌿🌳 레벨 선택**: 시작 화면에서 단어 길이 기반으로 레벨 1/2/3 즉시 선택
-- **👤 다중 프로필**: 최대 8개 프로필 생성, 프로필별 설정 독립 저장
 - **✕ 게임 중단**: 플레이 중 언제든 "그만" 버튼으로 중단 → 현재까지 결과 표시
 - **🎯 카테고리 선택**: 과일 / 동물 / 탈것 / 음식 / 자연 / 채소 / 스포츠 / 악기 (복수 선택)
 - **📏 난이도 조절**: 쉬움(1-2글자) / 보통(3글자) / 어려움(4글자+)
@@ -25,7 +24,7 @@
 - **💡 힌트 버튼**: 게임 중 글자를 한 개씩 확인 (설정에서 끄기 가능)
 - **🎵 사운드 피드백**: 정답/오답 효과음 (Web Audio API, 외부 파일 없음)
 - **📝 틀린 문제 복습**: 종료 화면에서 오답 리스트 확인 + 발음 듣기
-- **💾 설정 자동 저장**: 프로필별 localStorage 저장
+- **💾 설정 자동 저장**: localStorage 저장
 - **📱 가로 모드 적응형 레이아웃**: 가로 화면에서 자동으로 카드/입력영역 2컬럼 전환, viewport 비례 사이즈 (모바일~태블릿)
 
 ## 🚀 빠른 시작
@@ -92,8 +91,6 @@ chosung-quiz/
         ├── config.js           #   상수
         ├── state.js            #   전역 상태
         ├── storage.js          #   localStorage
-        ├── profiles.js         #   다중 프로필 관리
-        ├── profile-ui.js       #   프로필 칩 + 모달 UI
         ├── utils.js            #   getChosung, shuffle
         ├── tts.js              #   Web Speech API
         ├── sound.js            #   Web Audio API 효과음

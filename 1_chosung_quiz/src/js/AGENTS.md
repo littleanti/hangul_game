@@ -1,5 +1,5 @@
 <!-- Parent: ../AGENTS.md -->
-<!-- Generated: 2026-04-25 | Updated: 2026-04-25 -->
+<!-- Generated: 2026-04-25 | Updated: 2026-06-12 -->
 
 # src/js
 
@@ -17,9 +17,7 @@
 | `game.js` | 게임 로직. 문제 출제, 정답 처리, 힌트, 글자 선택 모드, 종료 화면 |
 | `settings.js` | 설정 화면 렌더링 및 인터랙션. `filterWords()` 도 여기에 있음 |
 | `ui.js` | 화면 전환 `goTo()`, 플래시 메시지 `showFlash()` |
-| `storage.js` | localStorage 영속화 — 현재 프로필의 settings를 저장/로드 |
-| `profiles.js` | 다중 프로필 관리 (생성/삭제/전환, localStorage `chosung-quiz-profiles-v1`) |
-| `profile-ui.js` | 프로필 칩 + 모달 UI 렌더링 및 이벤트 핸들러 |
+| `storage.js` | localStorage 영속화 — settings 저장/로드 (`chosung-quiz-settings-v2` 키, 레거시 프로필 데이터 1회 마이그레이션) |
 | `utils.js` | `getChosung()`, `shuffle()`, `$()`, `$$()` |
 | `timer.js` | 100ms setInterval 카운트다운. warn/danger CSS 클래스 자동 토글 |
 | `tts.js` | Web Speech API 래퍼. ko-KR 음성 우선 선택, 미지원 시 TTS_AVAILABLE=false |
@@ -32,14 +30,12 @@ config.js          (순수 상수, import 없음)
 words.js           (순수 데이터)
 utils.js  → config
 state.js  → config, words
-storage.js → state, config, words, profiles
+storage.js → state, config, words
 tts.js             (Web Speech API)
 timer.js  → state, utils
 ui.js     → utils, timer, tts
 settings.js → state, storage, tts, ui, game, words
 game.js   → state, utils, timer, tts, ui, settings, sound
-profiles.js → config, words
-profile-ui.js → profiles, utils, storage, settings, ui
 main.js   → 모두 (진입점)
 ```
 
@@ -50,7 +46,7 @@ main.js   → 모두 (진입점)
 ### Working In This Directory
 - **새 함수를 HTML onclick에서 호출하려면** `main.js`에서 반드시 `window.함수명 = 함수명` 추가.
 - **상태 변경은 항상 `state` 객체를 통해** — 함수 내부 로컬 변수로 게임 상태를 관리하지 않는다.
-- **localStorage 접근은 `storage.js` / `profiles.js`에서만** — 다른 모듈에서 직접 접근하지 않는다.
+- **localStorage 접근은 `storage.js`에서만** — 다른 모듈에서 직접 접근하지 않는다.
 - 초성 추출 공식: `Math.floor((charCode - 0xAC00) / 588)` (588 = 21 × 28)
 
 ### Key Behaviors to Preserve
@@ -67,7 +63,6 @@ main.js   → 모두 (진입점)
 ### Common Patterns
 - DOM 셀렉터: `$('#id')`, `$$('.class')` (utils.js)
 - 설정 옵션 변경 후 항상 `saveSettings()` + `renderSettings()` 호출
-- 프로필 전환 후 항상 `loadSettings()` + `renderSettings()` + `renderProfileChip()` 호출
 
 ## Dependencies
 
@@ -78,6 +73,6 @@ main.js   → 모두 (진입점)
 ### External
 - Web Speech API (tts.js)
 - Web Audio API (sound.js)
-- localStorage (profiles.js, storage.js)
+- localStorage (storage.js)
 
 <!-- MANUAL: -->

@@ -94,6 +94,17 @@
 - [x] viewport 비례 사이즈: 이모지/이미지/단어/버튼에 `clamp()` + vh/vw 적용
 - [x] 세로 모드 회귀 없음 검증 (Chrome MCP로 portrait/landscape 양쪽 동작 확인)
 
+## ✅ v2.4 — 프로필 기능 제거 (완료)
+
+### Phase 11 — 프로필 시스템 제거
+- [x] `profiles.js` / `profile-ui.js` 삭제 — v2.3에서 UI 비활성화(숨김) 상태였던 기능 완전 제거
+- [x] `storage.js` — localStorage 직접 저장/로드로 회귀 (`chosung-quiz-settings-v2` 키)
+  - 레거시 `chosung-quiz-profiles-v1` 데이터는 현재 프로필 설정을 1회 자동 마이그레이션 후 키 제거
+- [x] `index.html` — 프로필 칩·프로필 모달 마크업 제거
+- [x] `components.css` — 프로필 칩/목록/생성 폼 + 모달 스타일 제거 (프로필 모달이 유일한 사용처)
+- [x] `main.js` — 프로필 전역 노출(`openProfileModal` 등 6개) 및 `initProfiles()` 호출 제거
+- [x] 문서 정합화 — PRD(F17·F18 제거 기록), TRD(구조·의존성·마이그레이션), README, AGENTS.md
+
 ## 🚧 v3 — 다음 로드맵 (아이디어)
 
 ### P1 후보
@@ -142,7 +153,12 @@ main              # 배포 가능한 안정 버전
 
 ## 📝 릴리즈 노트
 
-### v2.3.0 (현재)
+### v2.4.0 (현재)
+- 프로필 기능 제거 (`profiles.js`, `profile-ui.js` 삭제) — 미사용 기능 정리
+- 설정 저장이 단일 localStorage 키(`chosung-quiz-settings-v2`) 직접 저장으로 회귀
+- 기존 프로필 데이터(`chosung-quiz-profiles-v1`)는 현재 프로필 설정을 1회 자동 마이그레이션
+
+### v2.3.0
 - 가로 모드 2컬럼 적응형 레이아웃: 가로 + 낮은 높이 환경에서 플레이 화면 자동 2컬럼 (카드 좌 / 입력+버튼 우)
 - viewport 비례 사이즈: 이모지/이미지/단어/버튼이 `clamp()` + vh/vw로 작은 휴대폰부터 태블릿까지 자동 적응
 - 카드가 row 높이만큼 stretch되어 빈 공백 없이 꽉 채움

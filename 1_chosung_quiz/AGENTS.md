@@ -1,4 +1,4 @@
-<!-- Generated: 2026-04-25 | Updated: 2026-05-05 -->
+<!-- Generated: 2026-04-25 | Updated: 2026-06-12 -->
 
 # chosung-quiz
 
@@ -27,8 +27,6 @@
 | `tts.js` | Web Speech API TTS 래퍼 |
 | `timer.js` | setInterval 기반 카운트다운 타이머 |
 | `sound.js` | Web Audio API 정답/오답 효과음 (오실레이터, 외부 파일 불필요) |
-| `profiles.js` | 사용자 프로필 관리 — 최대 8개, `chosung-quiz-profiles-v1` 키 |
-| `profile-ui.js` | 프로필 선택·생성 UI 렌더링 |
 | `ui.js` | 화면 전환 (`goTo`), TTS/타이머 정지 통합 |
 | `settings.js` | 설정 화면 로직 (`filterWords` 포함) |
 | `game.js` | 게임 루프 — 문제 생성, 채점, 타임아웃 처리 |
@@ -76,7 +74,7 @@ settings ──┘    (replay/settings)
 | 파일 | 역할 |
 |------|------|
 | `src/css/tokens.css` | CSS 변수 팔레트 (`--coral #FF7757`, `--navy #2D3047`, `--cream #FFF6E4` 등) |
-| `src/css/components.css` | 버튼·카드·모달 등 공통 컴포넌트 스타일 (`.btn`, `.btn.big`, `.btn.small`) |
+| `src/css/components.css` | 버튼·카드 등 공통 컴포넌트 스타일 (`.btn`, `.btn.big`, `.btn.small`) |
 | `src/css/screens.css` | 화면별 스타일 (`.start-screen h1`, `.settings-header h2`, `.end-screen h2`) |
 | `index.html` `<link>` | Google Fonts `Jua`(제목), `Gowun Dodum`(설명·본문) 로드 패턴 |
 

@@ -4,15 +4,10 @@
  * - 초기화 수행
  */
 
-import { initProfiles } from './profiles.js';
 import { loadSettings } from './storage.js';
 import { renderSettings, openSettings, toggleSetting, resetSettings, startFromSettings, startWithLevel } from './settings.js';
 import { startGame, revealAnswer, markAnswer, speakCurrent, toggleReview, quitGame, useHint } from './game.js';
 import { goTo } from './ui.js';
-import {
-  renderProfileChip, openProfileModal, closeProfileModal, closeProfileModalBg,
-  showCreateProfileForm, cancelCreateProfile, confirmCreateProfile,
-} from './profile-ui.js';
 
 // HTML의 onclick="..."에서 호출할 수 있게 전역으로 노출
 window.goTo                   = goTo;
@@ -28,15 +23,7 @@ window.toggleSetting          = toggleSetting;
 window.resetSettings          = resetSettings;
 window.quitGame               = quitGame;
 window.useHint                = useHint;
-window.openProfileModal       = openProfileModal;
-window.closeProfileModal      = closeProfileModal;
-window.closeProfileModalBg    = closeProfileModalBg;
-window.showCreateProfileForm  = showCreateProfileForm;
-window.cancelCreateProfile    = cancelCreateProfile;
-window.confirmCreateProfile   = confirmCreateProfile;
 
-// 초기화 — 프로필 먼저, 그 다음 설정 로드/렌더
-initProfiles();
+// 초기화 — 설정 로드 후 렌더
 loadSettings();
 renderSettings();
-renderProfileChip();

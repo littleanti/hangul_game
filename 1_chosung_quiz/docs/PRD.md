@@ -1,7 +1,7 @@
 # 📋 PRD — 초성 퀴즈 v2
 
 > Product Requirements Document
-> Last updated: 2026-05-05
+> Last updated: 2026-06-12
 
 ## 1. 제품 개요
 
@@ -66,8 +66,6 @@
 | ID | 기능 | 설명 |
 |---|---|---|
 | F16 | 효과음 | Web Audio API 오실레이터 기반 정답(`playCorrect`) / 오답(`playIncorrect`) 톤 |
-| F17 | 다중 프로필 | 최대 8개 프로필, emoji 아바타, 프로필별 독립 설정 저장 (`profiles.js`) |
-| F18 | 프로필 UI | 프로필 선택·생성 화면 (`profile-ui.js`), 기존 v2 설정 자동 마이그레이션 |
 
 ### 추가 구현 (v2.2, 완료)
 | ID | 기능 | 설명 |
@@ -82,6 +80,12 @@
 |---|---|---|
 | F23 | 가로 모드 2컬럼 레이아웃 | 가로 모드(orientation: landscape) + 낮은 높이(max-height: 700px) 환경에서 플레이 화면을 자동으로 2컬럼 그리드로 전환. 왼쪽: 그림 카드 / 오른쪽: 글자 입력 영역 + 정답 확인 버튼. 모바일 가로/iPad 가로/저해상도 모니터 모두 자동 적응 |
 | F24 | viewport 비례 컨텐츠 | 가로 모드에서 이모지·이미지·단어 글자·버튼 사이즈가 `clamp()` + vh/vw로 viewport에 비례 (작은 화면에서 자동 축소, 큰 화면에서 확장). 카드는 row 높이만큼 stretch되어 빈 공백 없이 꽉 채움 |
+
+### 제거된 기능 (v2.4)
+| ID | 기능 | 제거 사유 |
+|---|---|---|
+| F17 | 다중 프로필 (`profiles.js`) | 사용되지 않아 제거. 설정 저장은 단일 localStorage 키(`chosung-quiz-settings-v2`) 직접 저장으로 회귀 (F15) |
+| F18 | 프로필 UI (`profile-ui.js`) | v2.3에서 이미 비활성화(숨김) 상태였던 UI를 완전 제거. 기존 프로필 데이터(`chosung-quiz-profiles-v1`)는 로드 시 현재 프로필 설정을 1회 자동 마이그레이션 |
 
 ### P2 (향후)
 - 타이핑 모드 (직접 입력)

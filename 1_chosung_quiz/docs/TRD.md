@@ -38,8 +38,6 @@ src/
     ├── sound.js          # Web Audio API 효과음 (playCorrect/playIncorrect)
     ├── ui.js             # 화면전환 헬퍼
     ├── settings.js       # 설정 화면 렌더링 + 필터링
-    ├── profiles.js       # 다중 프로필 관리 (최대 8개, localStorage)
-    ├── profile-ui.js     # 프로필 선택·생성 UI 렌더링
     └── game.js           # 게임 로직 (출제, 정답, 종료)
 ```
 
@@ -48,8 +46,6 @@ src/
 main.js
   ├─ storage.js ─→ state.js, config.js, words.js
   ├─ settings.js ─→ state.js, storage.js, tts.js, ui.js, game.js, words.js
-  ├─ profiles.js ─→ config.js, words.js
-  ├─ profile-ui.js ─→ profiles.js, storage.js
   └─ game.js ─→ state.js, utils.js, timer.js, tts.js, ui.js, settings.js, sound.js
 
 공통 의존:
@@ -214,6 +210,8 @@ try {
 ```
 
 Private Browsing 등에서 실패해도 `try/catch`로 무시 → 앱은 정상 동작.
+
+**레거시 마이그레이션**: v2.1~v2.3의 프로필 시스템이 사용하던 `chosung-quiz-profiles-v1` 키가 남아 있고 `chosung-quiz-settings-v2` 키가 없으면, 로드 시 현재 프로필의 settings를 1회 이전한 뒤 레거시 키를 제거한다 (`storage.js`).
 
 ## 5. 렌더링 전략
 

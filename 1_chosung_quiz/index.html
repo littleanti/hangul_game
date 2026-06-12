@@ -22,12 +22,6 @@
 
   <!-- =========== 시작 화면 =========== -->
   <div id="start-screen" class="screen active start-screen">
-    <!-- DISABLED: 프로필 기능 — 나중에 재활성화 시 style 제거 -->
-    <button class="profile-chip" id="profile-chip" onclick="openProfileModal()" style="display:none;">
-      <span class="profile-chip-emoji" id="profile-chip-emoji">🧒</span>
-      <span class="profile-chip-name"  id="profile-chip-name">게스트</span>
-      <span class="profile-chip-caret">▼</span>
-    </button>
     <div class="start-emoji">🎨</div>
     <h1>초성 퀴즈</h1>
     <p class="subtitle">그림을 보고 단어를 맞혀봐요 🧩</p>
@@ -183,29 +177,6 @@
     </div>
   </div>
 
-</div>
-
-<!-- =========== 프로필 모달 (DISABLED) =========== -->
-<div class="modal-overlay" id="profile-modal" style="display:none !important;" onclick="closeProfileModalBg(event)">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>👤 프로필</h2>
-      <button class="close-btn" onclick="closeProfileModal()">✕</button>
-    </div>
-    <div class="profile-list" id="profile-list"></div>
-    <button class="btn mint" id="add-profile-btn" onclick="showCreateProfileForm()">+ 새 프로필</button>
-
-    <div class="create-profile-form" id="create-profile-form" style="display:none;">
-      <div class="form-label">이름 (1~8자)</div>
-      <input type="text" id="new-profile-name" maxlength="8" placeholder="예: 민이" autocomplete="off" />
-      <div class="form-label">캐릭터 선택</div>
-      <div class="emoji-picker" id="emoji-picker"></div>
-      <div class="form-buttons">
-        <button class="btn ghost small" onclick="cancelCreateProfile()">취소</button>
-        <button class="btn big"         onclick="confirmCreateProfile()">만들기</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- ES Module 진입점 -->
