@@ -7,7 +7,7 @@
 
 ## 현재 상태
 
-**M0 완료 (디자인 시스템 스캐폴딩), M1 착수 대기**
+**M1 완료 (데이터 레이어), M2 착수 대기**
 
 | 문서 | 상태 |
 |---|---|
@@ -15,7 +15,8 @@
 | TRD.md | 완료 |
 | PLAN.md | 완료 |
 | M0 — 스캐폴딩 (HTML/CSS/main.js 스텁) | 완료 |
-| M1~M5 — 데이터·게임 로직·PWA·QA | 미착수 |
+| M1 — 데이터 레이어 (idioms.js·config·state·storage·utils) | 완료 |
+| M2~M5 — 게임 로직·PWA·QA | 미착수 |
 
 ---
 
@@ -68,18 +69,18 @@
 
 ### 콘텐츠 데이터
 
-- [ ] `src/data/idioms.js` — `IdiomEntry[]` + `SyllableEntry[]` 완전 작성
-  - [ ] 10개 사자성어 전체 `word`, `hanja`, `meaning`, `hint`, `contextStory` 입력
-  - [ ] 각 사자성어 4개 음절 × `syllable`, `hanjaChar`, `hanjaSound`, `hanjaMeaning` 입력
-  - [ ] 각 음절 `distractors` 4개 — 초성 또는 모음 1자만 다른 유사 음절로 구성
-  - [ ] `IDIOMS` 배열 `export` 확인 (S10 `BOSS_IDIOMS` 스키마 하위 호환)
+- [x] `src/data/idioms.js` — `IdiomEntry[]` + `SyllableEntry[]` 완전 작성
+  - [x] 10개 사자성어 전체 `word`, `hanja`, `meaning`, `hint`, `contextStory` 입력
+  - [x] 각 사자성어 4개 음절 × `syllable`, `hanjaChar`, `hanjaSound`, `hanjaMeaning` 입력
+  - [x] 각 음절 `distractors` 4개 — 초성 또는 모음 1자만 다른 유사 음절로 구성
+  - [x] `IDIOMS` 배열 `export` 확인 (S10 `BOSS_IDIOMS` 스키마 하위 호환)
 
 ### JS 모듈 — 기반
 
-- [ ] `src/js/config.js` — `STORAGE_PREFIX = '11ist_'`, `CACHE_VERSION = '11_idiom_syllable_typer-v1'`, 애니메이션 지연 상수 (`SLOT_POP_DURATION`, `SHAKE_DURATION`, `POPUP_AUTO_CLOSE`, `IDIOM_COMPLETE_DELAY`)
-- [ ] `src/js/state.js` — `settings`, `session`, `result` 싱글톤 초기값. `slotLevels`, `slotStates`, `wrongSlots` 포함
-- [ ] `src/js/storage.js` — `save(key, value)` / `load(key, fallback)` 래퍼. `try/catch` Incognito 안전. `markIdiomCompleted(word)` 구현
-- [ ] `src/js/utils.js` — `shuffle()`, `getChosung()`, `assembleSyllable()`, `isCompleteHangul()`, `buildDockPool()`, `CHOSUNG`·`JUNGSUNG`·`JONGSUNG` 배열
+- [x] `src/js/config.js` — `STORAGE_PREFIX = '11ist_'`, `CACHE_VERSION = '11_idiom_syllable_typer-v1'`, 애니메이션 지연 상수 (`SLOT_POP_DURATION`, `SHAKE_DURATION`, `POPUP_AUTO_CLOSE`, `IDIOM_COMPLETE_DELAY`)
+- [x] `src/js/state.js` — `settings`, `session`, `result` 싱글톤 초기값. `slotLevels`, `slotStates`, `wrongSlots` 포함
+- [x] `src/js/storage.js` — `save(key, value)` / `load(key, fallback)` 래퍼. `try/catch` Incognito 안전. `markIdiomCompleted(word)` 구현
+- [x] `src/js/utils.js` — `shuffle()`, `getChosung()`, `assembleSyllable()`, `isCompleteHangul()`, `buildDockPool()`, `CHOSUNG`·`JUNGSUNG`·`JONGSUNG` 배열
 
 ---
 
