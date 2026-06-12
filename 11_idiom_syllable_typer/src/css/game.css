@@ -448,6 +448,22 @@
   transform: translateX(-50%);
 }
 
+/* ----- 좁은 화면 (≤360px) — 320px 최소 폭에서 overflow 방지 -----
+   body 좌우 패딩 20px × 2 기준 가용 폭 280px:
+   슬롯은 표시 전용이라 축소 허용, Lv.1 도크 블록은 64dp 터치 타겟 유지 (gap 만 축소) */
+@media (max-width: 360px) {
+  .slot-row { gap: 6px; }
+  .slot {
+    width: 58px;
+    height: 66px;
+    font-size: 1.7rem;
+  }
+  .lv1-dock {
+    gap: 6px;
+    max-width: 274px; /* 64×4 + 6×3 = 274 ≤ 280 */
+  }
+}
+
 /* ----- 모션 민감 사용자 배려 ----- */
 @media (prefers-reduced-motion: reduce) {
   .slot.active,
@@ -455,7 +471,11 @@
   .slot.wrong,
   .slot-row.complete .slot,
   .tts-button.speaking,
-  #etymology-popup .modal {
+  #etymology-popup .modal,
+  /* 공용 화면 장식 애니메이션 (base/screens 정의 — S11 소유 game.css 에서 일괄 생략) */
+  .screen,
+  .start-emoji,
+  .celebration-emojis {
     animation: none;
   }
   .toast,

@@ -27,6 +27,8 @@ function bindEvents() {
     const gotoBtn = e.target.closest('[data-goto]');
     if (gotoBtn) {
       const target = gotoBtn.dataset.goto;
+      /* 게임 이탈 시 진행 타이머 정리 — 숨겨진 화면 렌더·TTS 발화 방지 (M5 QA) */
+      game.stop();
       ui.showScreen(target);
       if (target === 'game-screen') game.startSession();
       if (target === 'leaderboard-screen') leaderboard.render();

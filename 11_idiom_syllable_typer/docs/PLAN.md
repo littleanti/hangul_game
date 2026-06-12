@@ -7,7 +7,7 @@
 
 ## 현재 상태
 
-**M4 완료 (PWA + 리더보드), M5 착수 대기**
+**M5 완료 (QA + 결함 3건 수정) — 전체 마일스톤 완료. 실기기(iOS Safari·Chrome Android·Safari/Edge) 항목만 잔여**
 
 | 문서 | 상태 |
 |---|---|
@@ -19,7 +19,7 @@
 | M2 — 게임 플레이 핵심 로직 Lv.1 (tts·sound·ui·game·end·main·game.css) | 완료 |
 | M3 — 3단 페이딩 / 난이도 완성 Lv.2·3 (settings.js·자모 키패드·자유 IME·슬롯 독립 페이딩) | 완료 |
 | M4 — PWA + 리더보드 (manifest·sw.js·leaderboard.js·localStorage 4키 검증) | 완료 |
-| M5 — QA / 크로스브라우저 검증 | 미착수 |
+| M5 — QA / 크로스브라우저 검증 | 완료 (실기기 항목 제외) |
 
 ---
 
@@ -172,37 +172,46 @@
 ## M5 — QA / 크로스브라우저 검증
 
 > 목표: TRD §13 수동 테스트 체크리스트 전항목 통과.
+> 2026-06-12 수행: 코드 리뷰 + Playwright(Chromium) 로컬 E2E 전수 검증. 실기기 항목만 잔여.
 
 ### 게임 로직 QA
 
-- [ ] Lv.1: 8개 음절블록 정상 표시, 정답·오답 즉각 피드백 (녹색/흔들림)
-- [ ] Lv.2: 초성 힌트 배지 표시, 자모 키패드 조합 → 완성 음절 채점
-- [ ] Lv.3: IME 타이핑, 완성형 한글만 채점, 자모 단독 입력 거부
-- [ ] 슬롯 오답 → 해당 슬롯만 Lv.1 재강화, 나머지 슬롯 레벨 유지 확인
-- [ ] 자동 페이딩 진급: 오답 없는 문항 완료 후 다음 문항 레벨 +1 확인
-- [ ] 어원 팝업: 정답 슬롯마다 즉시 표시 → 2초 자동 닫힘 → 수동 닫기
-- [ ] 10개 완료 → 완료 화면 전환 + localStorage 결과 저장 확인
+- [x] Lv.1: 8개 음절블록 정상 표시, 정답·오답 즉각 피드백 (녹색/흔들림)
+- [x] Lv.2: 초성 힌트 배지 표시, 자모 키패드 조합 → 완성 음절 채점 (복합 모음 ㅘ·ㅝ·ㅟ 조합 포함)
+- [x] Lv.3: IME 타이핑, 완성형 한글만 채점, 자모 단독 입력 거부
+- [x] 슬롯 오답 → 해당 슬롯만 Lv.1 재강화, 나머지 슬롯 레벨 유지 확인 (Lv.3 오답 → 도크 전환 → 정답 후 다음 슬롯 Lv.3 복귀 확인)
+- [x] 자동 페이딩 진급: 오답 없는 문항 완료 후 다음 문항 레벨 +1 확인 (`11ist_settings` 즉시 저장 포함)
+- [x] 어원 팝업: 정답 슬롯마다 즉시 표시 → 2초 자동 닫힘 → 수동 닫기
+- [x] 10개 완료 → 완료 화면 전환 + localStorage 결과 저장 확인 (오답 1회 세션: 39/40·98% 정확 산출)
 
 ### 영속화 QA
 
-- [ ] 리더보드: 세션 완료 후 최고 레벨·정답률 정확히 반영
-- [ ] `11ist_completedIdioms`: 완료 어휘 누적 저장 확인
-- [ ] Incognito 모드: localStorage 실패해도 게임 정상 동작
+- [x] 리더보드: 세션 완료 후 최고 레벨·정답률 정확히 반영 (10개 어휘 전부 레벨 뱃지 + 세션 카드 1건)
+- [x] `11ist_completedIdioms`: 완료 어휘 누적 저장 확인 (string[] 10건)
+- [x] Incognito 모드: localStorage 실패해도 게임 정상 동작 (window.localStorage getter throw 시뮬레이션 — pageerror 0건, 문항 진행 정상)
 
 ### 크로스브라우저 / 반응형 QA
 
-- [ ] Chrome (최신), Safari, Edge — 기본 플레이 플로 확인
-- [ ] iOS Safari 15+ — TTS, 소프트 키보드 미노출(Lv.1·2), 레이아웃
-- [ ] Chrome Android 최신 — 터치 타겟 64dp 검증, Lv.3 IME 입력
-- [ ] 320px 너비(최소) ~ 768px 모바일 — 레이아웃 overflow 없음
-- [ ] `prefers-reduced-motion` 적용 시 애니메이션 생략 확인
-- [ ] TTS 미지원 브라우저 — 토글 비활성화 + 앱 정상 동작
+- [ ] Chrome (최신), Safari, Edge — 기본 플레이 플로 확인 (Chromium 로컬 검증 완료, Safari·Edge 실브라우저 확인 잔여)
+- [ ] iOS Safari 15+ — TTS, 소프트 키보드 미노출(Lv.1·2), 레이아웃 (실기기 필요)
+- [ ] Chrome Android 최신 — 터치 타겟 64dp 검증, Lv.3 IME 입력 (실기기 필요)
+- [x] 320px 너비(최소) ~ 768px 모바일 — 레이아웃 overflow 없음 (320px 가용 폭 280px 기준 슬롯/도크 overflow 결함 발견 → game.css ≤360px 미디어쿼리로 수정. 도크 블록 64dp 유지 검증)
+- [x] `prefers-reduced-motion` 적용 시 애니메이션 생략 확인 (game.css 분기 존재 + 공용 화면 장식 애니메이션 float·wiggle·fadeIn 까지 생략 범위 확장)
+- [x] TTS 미지원 브라우저 — 토글 비활성화 + 앱 정상 동작 (speechSynthesis 삭제 시뮬레이션 — 토글 disabled + 안내 문구 + 플레이 정상)
 
 ### PWA QA
 
-- [ ] Lighthouse PWA 점수 확인 (installable, offline 통과)
-- [ ] `start_url` `./`, `scope` `./` — 동일 오리진 타 게임과 독립 작동 확인
-- [ ] 오프라인 상태 재로드 → Service Worker 캐시 응답 확인
+- [ ] Lighthouse PWA 점수 확인 (installable, offline 통과) — Lighthouse 실행 환경 필요 (offline·manifest 요건은 아래 2항으로 코드 검증 완료)
+- [x] `start_url` `./`, `scope` `./` — 동일 오리진 타 게임과 독립 작동 확인 (고유 캐시 키 `11_idiom_syllable_typer-v1` + `11ist_` 접두사)
+- [x] 오프라인 상태 재로드 → Service Worker 캐시 응답 확인 (정적 자산 22건 프리캐시, offline 재로드 후 앱 로드·게임 시작 정상)
+
+### M5 결함 수정 내역
+
+| # | 결함 | 수정 |
+|---|---|---|
+| D1 | 문항 완성 후 0.8초 내 "홈으로" 이탈 시 advanceTimer 가 살아남아 숨겨진 게임 화면에서 다음 문항 렌더 + TTS 발화 | `game.js` 에 `stop()` export + `wrongTimer` 추적·정리, `main.js` 화면 전환 시 `game.stop()` 호출 |
+| D2 | 320px 폭(가용 280px)에서 `.slot-row`(286px)·`.lv1-dock`(286px) 가로 overflow 6px | `game.css` `@media (max-width: 360px)` — 슬롯 58px·gap 6px, 도크 gap 6px (블록 64dp 터치 타겟 유지) |
+| D3 | `prefers-reduced-motion` 분기가 게임 화면 애니메이션만 커버 (공용 화면 float·wiggle·fadeIn 미적용) | `game.css` reduced-motion 블록에 `.screen`·`.start-emoji`·`.celebration-emojis` 추가 |
 
 ---
 
@@ -212,45 +221,45 @@
 
 ### 폰트
 
-- [ ] Google Fonts `<link>` — `Jua` + `Gowun+Dodum` `preconnect` 포함 여부
-- [ ] 시작 화면 `h1` — `font-family: 'Jua'`, `font-size: 3rem`, `letter-spacing: 2px`, `color: var(--coral)`
-- [ ] 설정 화면 `h2` — `font-family: 'Jua'`, `font-size: 1.8rem`, `color: var(--coral)`
-- [ ] 완료 화면 `h2` — `font-family: 'Jua'`, `font-size: 2.1rem`, `color: var(--coral)`
-- [ ] 본문/설명 텍스트 — `font-family: 'Gowun Dodum'`, `font-size: clamp(0.9rem, 3vw, 1.2rem)`
-- [ ] 섹션 레이블(설정) — `font-family: 'Jua'`, `font-size: 1.05rem`
-- [ ] 리더보드 본문 — `Gowun Dodum` 적용 확인
+- [x] Google Fonts `<link>` — `Jua` + `Gowun+Dodum` `preconnect` 포함 여부
+- [x] 시작 화면 `h1` — `font-family: 'Jua'`, `font-size: 3rem`, `letter-spacing: 2px`, `color: var(--coral)`
+- [x] 설정 화면 `h2` — `font-family: 'Jua'`, `font-size: 1.8rem`, `color: var(--coral)`
+- [x] 완료 화면 `h2` — `font-family: 'Jua'`, `font-size: 2.1rem`, `color: var(--coral)`
+- [x] 본문/설명 텍스트 — `font-family: 'Gowun Dodum'`, `font-size: clamp(0.9rem, 3vw, 1.2rem)`
+- [x] 섹션 레이블(설정) — `font-family: 'Jua'`, `font-size: 1.05rem`
+- [x] 리더보드 본문 — `Gowun Dodum` 적용 확인
 
 ### 색상 토큰
 
-- [ ] `--cream: #FFF6E4` — 배경 `body { background: var(--cream) }` 적용
-- [ ] `--coral: #FF7757` — 제목·버튼 배경 사용 확인
-- [ ] `--coral-dark: #d45a40` — 버튼 그림자 확인
-- [ ] `--mint: #6BCAB8` — 정답 피드백 슬롯 배경 (`--slot-correct-bg`) 참조 확인
-- [ ] `--navy: #2D3047` — 기본 텍스트·테두리 사용 확인
-- [ ] `--yellow: #FFD166` — 힌트 배지·초성 힌트 강조 사용 확인
-- [ ] `--red: #E84545` — 오답 피드백 슬롯 배경 (`--slot-wrong-bg`) 참조 확인
-- [ ] `tokens.css` 내 수치를 임의 변경하지 않았는지 원본과 diff 대조
+- [x] `--cream: #FFF6E4` — 배경 `body { background: var(--cream) }` 적용 (원본 base.css 방식: `body::before` fixed 레이어의 `background: var(--cream)`)
+- [x] `--coral: #FF7757` — 제목·버튼 배경 사용 확인
+- [x] `--coral-dark: #d45a40` — 버튼 그림자 확인
+- [x] `--mint: #6BCAB8` — 정답 피드백 슬롯 배경 (`--slot-correct-bg`) 참조 확인
+- [x] `--navy: #2D3047` — 기본 텍스트·테두리 사용 확인
+- [x] `--yellow: #FFD166` — 힌트 배지·초성 힌트 강조 사용 확인
+- [x] `--red: #E84545` — 오답 피드백 슬롯 배경 (`--slot-wrong-bg`) 참조 확인
+- [x] `tokens.css` 내 수치를 임의 변경하지 않았는지 원본과 diff 대조 (차이 = 헤더 주석 + 문서화된 `/* S11 확장 */` 블록뿐)
 
 ### 버튼 규격
 
-- [ ] `.btn` — `font-family: 'Jua'`, `letter-spacing: 0.5px`, `font-size: 1.2rem`, `padding: 14px 28px`, `border-radius: 100px`, `background: var(--coral)`, `color: #fff`, `box-shadow: 0 5px 0 var(--coral-dark)`
-- [ ] `.btn.big` — `font-size: 1.45rem`, `padding: 16px 44px`
-- [ ] `.btn.small` — `font-size: 1rem`, `padding: 10px 20px`
-- [ ] `.btn:active` — `transform: translateY(4px)`, `box-shadow: 0 1px 0 var(--coral-dark)`
-- [ ] `components.css` 원본 수치와 diff 대조 (임의 변경 없음 확인)
+- [x] `.btn` — `font-family: 'Jua'`, `letter-spacing: 0.5px`, `font-size: 1.2rem`, `padding: 14px 28px`, `border-radius: 100px`, `background: var(--coral)`, `color: #fff`, `box-shadow: 0 5px 0 var(--coral-dark)`
+- [x] `.btn.big` — `font-size: 1.45rem`, `padding: 16px 44px`
+- [x] `.btn.small` — `font-size: 1rem`, `padding: 10px 20px`
+- [x] `.btn:active` — `transform: translateY(4px)`, `box-shadow: 0 1px 0 var(--coral-dark)`
+- [x] `components.css` 원본 수치와 diff 대조 (임의 변경 없음 확인 — 차이는 헤더 주석 1줄뿐)
 
 ### 레이아웃
 
-- [ ] `body { background: var(--cream) }` 전 화면 동일
-- [ ] `.container { max-width: 480px; margin: 0 auto; padding: 16px }` — 게임 플레이 화면 포함 전 화면 적용
-- [ ] `min-height: 100dvh` — iOS Safari 주소창 변동 대응 확인
+- [x] `body { background: var(--cream) }` 전 화면 동일
+- [x] `.container { max-width: 480px; margin: 0 auto; padding: 16px }` — 게임 플레이 화면 포함 전 화면 적용 (패딩은 원본 base.css 방식 그대로 `body` 20px + safe-area 로 충족 — `1_chosung_quiz` 와 동일 구조, 컨테이너 폭만 TRD 규격 480px)
+- [x] `min-height: 100dvh` — iOS Safari 주소창 변동 대응 확인 (`100vh` 폴백 포함)
 
 ### 공용 화면 레이아웃 (`1_chosung_quiz` 동일 구조)
 
-- [ ] `#start-screen` — `h1` + `.btn.big` + `.btn` + `.chip` 그룹 순서·여백 동일
-- [ ] `#settings-screen` — `h2` + `.settings-section` + `.section-label` + `.toggle-row` 구조 동일
-- [ ] `#leaderboard-screen` — `h2` + 표/목록 + `.btn.small` 배치. `1_chosung_quiz` 완료 화면 여백 기준 준수
-- [ ] `#end-screen` — `h2` + 결과 요약 + `.review-list` + `.btn.big` + `.btn.small` 순서 동일
+- [x] `#start-screen` — `h1` + `.btn.big` + `.btn` + `.chip` 그룹 순서·여백 동일
+- [x] `#settings-screen` — `h2` + `.settings-section` + `.section-label` + `.toggle-row` 구조 동일
+- [x] `#leaderboard-screen` — `h2` + 표/목록 + `.btn.small` 배치. `1_chosung_quiz` 완료 화면 여백 기준 준수
+- [x] `#end-screen` — `h2` + 결과 요약 + `.review-list` + `.btn.big` + `.btn.small` 순서 동일
 
 ---
 
@@ -258,17 +267,17 @@
 
 ### 이전 단계 (S10 — 문해력 해독기) 핸드오프
 
-- [ ] `src/data/idioms.js`의 `word`, `hanja`, `meaning`, `hint`, `contextStory` 필드가 S10 `BOSS_IDIOMS` 스키마와 동일 구조인지 확인
-- [ ] 10개 사자성어 목록이 S10 보스 스테이지 노출 목록과 완전 일치하는지 대조
+- [x] `src/data/idioms.js`의 `word`, `hanja`, `meaning`, `hint`, `contextStory` 필드가 S10 `BOSS_IDIOMS` 스키마와 동일 구조인지 확인 (S10 전용 `id` 제외, S11 신규 `syllables` 추가 — 하위 호환)
+- [x] 10개 사자성어 목록이 S10 보스 스테이지 노출 목록과 완전 일치하는지 대조 (Node 스크립트로 word 집합 동일성 확인)
   - 일석이조, 이심전심, 동문서답, 오리무중, 일취월장, 청출어람, 천고마비, 화룡점정, 대기만성, 백발백중
-- [ ] S10 → S11 진입 시 신규 어휘 부하 0 정책 — 어휘 DB 항목 수 10개 고정 확인
-- [ ] 난이도 연속성 — S10 탭/드래그(수용)에서 S11 Lv.1 탭(수용+산출 비계)으로 1칸 전진만 이루어지는지
+- [x] S10 → S11 진입 시 신규 어휘 부하 0 정책 — 어휘 DB 항목 수 10개 고정 확인
+- [x] 난이도 연속성 — S10 탭/드래그(수용)에서 S11 Lv.1 탭(수용+산출 비계)으로 1칸 전진만 이루어지는지 (Lv.1 은 `<button>` 탭만 사용, IME 미노출)
 
 ### 다음 단계 (S12 — 사자성어 크로스워드) 핸드오프
 
-- [ ] `11ist_completedIdioms` — S12가 읽을 공유 스키마 `string[]` 정상 기록 확인
-- [ ] S11 Lv.3 자유 IME 패러다임이 S12 `commitChar` (U+AC00~D7A3) 방식과 동일하게 구현되었는지 코드 레벨 확인
-- [ ] 크로스워드 공간 추론(교차 슬롯·Tab 순환·단어 방향)이 S11 코드에 진입하지 않았는지 검토
+- [x] `11ist_completedIdioms` — S12가 읽을 공유 스키마 `string[]` 정상 기록 확인 (세션 완주 E2E 에서 10건 기록)
+- [x] S11 Lv.3 자유 IME 패러다임이 S12 `commitChar` (U+AC00~D7A3) 방식과 동일하게 구현되었는지 코드 레벨 확인 (`utils.isCompleteHangul` — U+AC00~D7A3 1글자만 채점)
+- [x] 크로스워드 공간 추론(교차 슬롯·Tab 순환·단어 방향)이 S11 코드에 진입하지 않았는지 검토 (`Tab|교차|방향|across|down` grep — 해당 로직 없음)
 - [ ] S12 팀과 `learner.completedIdioms` 공유 스키마 키 컨벤션 합의 여부 (오픈 이슈)
 
 ---

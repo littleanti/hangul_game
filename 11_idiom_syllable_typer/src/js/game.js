@@ -60,6 +60,9 @@ let popupTimer = null;
 /** 문항 전환 타이머 (홈 이탈 시 정리) */
 let advanceTimer = null;
 
+/** 오답 shake 후 슬롯 리셋 타이머 (홈 이탈 시 정리) */
+let wrongTimer = null;
+
 /* ── Lv.2 자모 조합 상태 ────────────────────────── */
 
 /** QWERTY(두벌식) 계열 임시 배열 (PLAN R2 — 천지인 채택 여부는 사용자 테스트 후 결정) */
@@ -146,8 +149,21 @@ function clearTimers() {
     clearTimeout(advanceTimer);
     advanceTimer = null;
   }
+  if (wrongTimer) {
+    clearTimeout(wrongTimer);
+    wrongTimer = null;
+  }
   hideEtymologyPopup();
   inputLocked = false;
+}
+
+/**
+ * 게임 화면 이탈 시 정리 (main.js 화면 전환에서 호출).
+ * 진행 중인 문항 전환·오답 리셋 타이머를 멈춰 숨겨진 화면에서의
+ * 렌더링·TTS 발화(예: 홈 이탈 직후 다음 문항 자동 발화)를 방지한다.
+ */
+export function stop() {
+  clearTimers();
 }
 
 /* ── 렌더링 ─────────────────────────────────────── */
@@ -526,7 +542,8 @@ function gradeSyllable(syllable, slotIdx, btnEl) {
     renderSlots();
 
     inputLocked = true;
-    setTimeout(() => {
+    wrongTimer = setTimeout(() => {
+      wrongTimer = null;
       inputLocked = false;
       if (state.session.slotStates[slotIdx] === 'wrong') {
         state.session.slotStates[slotIdx] = 'empty';
