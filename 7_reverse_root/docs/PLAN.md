@@ -165,7 +165,7 @@
   - L2: `.hint-segment.l2` 하이라이트만 (`.hint-label` 없음)
   - L3: `.hint-overlay` 제거 (합성어 카드만 표시)
   - 설정 `hintVisible=false` 시에도 오버레이 비움 (설정 토글 연동)
-- [x] `.hint-overlay` position absolute, pointer-events none — 기준을 카드(`inset: 0`)가 아닌 글자 래퍼 `.word-wrap`(inline-block shrink-wrap, `inset: -10px 0`)으로 변경. 카드 기준 분할은 좌우 패딩 48px 탓에 칩·하이라이트가 음절과 어긋났음. 세그먼트 간격은 gap 대신 대칭 마진(`margin: 0 3px`)으로 음절 중심 보존 (버그픽스, TRD §5.2 정렬 원리)
+- [x] `.hint-overlay` position absolute, pointer-events none — 기준을 카드(`inset: 0`)가 아닌 글자 래퍼 `.word-wrap`(inline-block shrink-wrap, `inset: -22px 0`)으로 변경. 카드 기준 분할은 카드 좌우 패딩 탓에 칩·하이라이트가 음절과 어긋났음. 세그먼트 크기는 음절 대칭 패딩(`0 0.4em`)으로 크게 유지해 큰 박스 정중앙에 글자 배치, 세그먼트 간격은 gap 대신 대칭 마진(`margin: 0 3px`)으로 음절 중심 보존 (버그픽스, TRD §5.2 정렬 원리)
 - [x] `.hint-label` position absolute, Jua 0.9rem, `--mint` 배경, 100px border-radius — 자기 음절 위 정중앙 + 2행 지그재그(1음절 윗행 -58px / 2음절 아랫행 -26px)로 인접 칩 겹침 방지
 - [x] L2→L1 CSS transition 0.3s (background, border-color)
 

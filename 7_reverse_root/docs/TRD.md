@@ -414,7 +414,7 @@ function buildDockItems(vocabItem) {
   background: #fff;
   border-radius: 20px;
   box-shadow: 0 6px 0 var(--gray), 0 10px 24px var(--shadow);
-  padding: 32px 48px;
+  padding: 32px 24px;   /* 가로 24px — 음절 자체 패딩(0.4em)이 폭을 채움 (§5.2) */
   font-family: 'Jua', sans-serif;
   font-size: clamp(2rem, 8vw, 3.5rem);
   color: var(--navy);
@@ -476,17 +476,22 @@ function buildDockItems(vocabItem) {
 
 합성어 글자 래퍼(`.word-wrap`) 위에 절대위치 오버레이로 렌더링된다.
 
-> **정렬 원리 (오버레이↔음절 매핑 버그픽스):** 오버레이를 카드(`.compound-card`,
-> padding 32px 48px) 기준 `inset: 0`으로 깔면 `.hint-segment{flex:1}`가 **카드 전폭**을
-> 균등 분할한다. 세그먼트 중심(= `.hint-label` 칩 위치)이 카드 폭의 1/4·3/4 지점에
-> 찍히는 반면 실제 음절 글리프는 카드 중앙 텍스트 영역에만 있으므로, 칩·하이라이트가
-> 글자와 어긋난다(카드 좌우 패딩 48px만큼 바깥으로 퍼짐). 따라서 오버레이는 글자를
-> shrink-wrap하는 `.word-wrap`(inline-block) 내부에 두고 **음절 영역만** 분할한다.
-> 한글 음절 글리프는 전각(고정폭 advance)이므로 `flex: 1` 균등 분할이 음절 경계와
-> 1:1로 일치하며, 폰트 로딩·뷰포트 리사이즈(clamp 폰트)에도 JS 측정 없이 정렬이 유지된다.
-> 세그먼트 간 시각 간격은 `gap`/가로 `inset` 확장 대신 **세그먼트 자체의 대칭 마진**
-> (`margin: 0 3px`)으로 만든다 — gap·inset은 세그먼트 중심을 음절 중심 바깥으로
-> 밀어내지만(±6px 오차), 대칭 마진은 중심을 보존한다(실측 오차 0.2px 이내).
+> **정렬 원리 (오버레이↔음절 매핑 버그픽스):** 오버레이를 카드(`.compound-card`)
+> 기준 `inset: 0`으로 깔면 `.hint-segment{flex:1}`가 카드 좌우 패딩까지 포함한
+> **카드 전폭**을 균등 분할한다. 세그먼트 중심(= `.hint-label` 칩 위치)이 카드 폭의
+> 1/4·3/4 지점에 찍히는 반면 실제 음절 글리프는 카드 중앙 텍스트 영역에만 있으므로,
+> 칩·하이라이트가 글자와 어긋난다. 따라서 오버레이는 글자를 shrink-wrap하는
+> `.word-wrap`(inline-block) 내부에 두고 **음절 박스 영역만** 분할한다.
+> 세그먼트 크기는 기존처럼 크게 유지한다 — 글자에 박스를 맞추는 게 아니라,
+> 음절(`.syllable`)에 **대칭 패딩 `0 0.4em`**(폰트 비례)을 줘 한글 사이 공백을 늘리고
+> 음절 박스 자체를 키운다. 한글 글리프는 전각(고정폭 advance)이라 음절 박스 폭이
+> 균일하므로 `flex: 1` 균등 분할이 박스 경계와 1:1 일치 → **큰 세그먼트 정중앙에
+> 글자가 위치**하며(대칭 패딩 = 중심 보존, 실측 오차 0.3px 이내), 폰트 로딩·뷰포트
+> 리사이즈(clamp 폰트)에도 JS 측정 없이 정렬이 유지된다. 세로는 `inset: -22px 0`으로
+> 카드 안쪽 10px 지점까지 확장(기존 박스 높이 복원), 세그먼트 간 시각 간격은
+> `gap`/가로 `inset` 확장 대신 **세그먼트 자체의 대칭 마진**(`margin: 0 3px`)으로
+> 만든다 — gap·inset은 세그먼트 중심을 음절 중심 바깥으로 밀어내지만, 대칭 마진은
+> 중심을 보존한다.
 >
 > **뜻 라벨 칩 겹침 방지:** 세그먼트가 음절 폭(전각 1자)으로 좁아지므로, 칩("시장·도시 시"
 > 등 최대 7자)이 세그먼트보다 넓어 같은 높이에선 인접 칩이 반드시 겹친다. 칩은 항상
@@ -520,12 +525,15 @@ L3 상태:
 ```
 
 ```css
+.syllable {
+  padding: 0 0.4em;        /* 한글 사이 공백 — 큰 세그먼트 정중앙에 글자 (대칭 = 중심 보존) */
+}
 .word-wrap {
   position: relative;      /* .hint-overlay absolute 기준 — 글자 영역에 정렬 */
   display: inline-block;   /* 글자 폭만큼 shrink-wrap */
 }
 .hint-overlay {
-  position: absolute; inset: -10px 0;  /* 세로만 확장 — 가로는 글자 폭과 1:1 */
+  position: absolute; inset: -22px 0;  /* 세로 확장 — 카드 안쪽 10px까지 큰 박스 */
   display: flex;
   pointer-events: none;
 }
