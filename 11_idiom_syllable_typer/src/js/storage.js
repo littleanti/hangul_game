@@ -6,7 +6,7 @@
  * 앱은 정상 동작을 유지한다 (TRD §8.1, §12).
  */
 
-import { STORAGE_PREFIX } from './config.js';
+import { STORAGE_PREFIX, LEADERBOARD_MAX } from './config.js';
 
 /**
  * 값 저장 (JSON 직렬화). 실패 시 무시.
@@ -57,4 +57,21 @@ export function markIdiomCompleted(word) {
   const completed = new Set(load('completedIdioms', []));
   completed.add(word);
   save('completedIdioms', [...completed]);
+}
+
+/**
+ * 세션 결과를 `11ist_leaderboard`(LeaderboardEntry[])에 기록 (TRD §8.2).
+ * 최신 항목을 맨 앞에 추가하고 최대 LEADERBOARD_MAX 건 유지 (FIFO).
+ * @param {{ correctRate: number, levelReached: number, idiomLevels: Object.<string, number> }} sessionResult
+ */
+export function saveResult(sessionResult) {
+  const board = load('leaderboard', []);
+  board.unshift({
+    date: new Date().toISOString(),
+    correctRate: sessionResult.correctRate,
+    levelReached: sessionResult.levelReached,
+    idiomLevels: sessionResult.idiomLevels,
+  });
+  if (board.length > LEADERBOARD_MAX) board.length = LEADERBOARD_MAX;
+  save('leaderboard', board);
 }

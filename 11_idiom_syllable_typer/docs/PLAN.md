@@ -7,7 +7,7 @@
 
 ## 현재 상태
 
-**M1 완료 (데이터 레이어), M2 착수 대기**
+**M2 완료 (게임 플레이 핵심 로직 Lv.1), M3 착수 대기**
 
 | 문서 | 상태 |
 |---|---|
@@ -16,7 +16,8 @@
 | PLAN.md | 완료 |
 | M0 — 스캐폴딩 (HTML/CSS/main.js 스텁) | 완료 |
 | M1 — 데이터 레이어 (idioms.js·config·state·storage·utils) | 완료 |
-| M2~M5 — 게임 로직·PWA·QA | 미착수 |
+| M2 — 게임 플레이 핵심 로직 Lv.1 (tts·sound·ui·game·end·main·game.css) | 완료 |
+| M3~M5 — 페이딩 Lv.2·3·PWA·QA | 미착수 |
 
 ---
 
@@ -90,25 +91,25 @@
 
 ### 공용 JS 모듈
 
-- [ ] `src/js/tts.js` — `speak(text, rate, pitch)`, `cancel()`, `isSupported()`. `voiceschanged` 비동기 대기. `ko-KR` 우선 → `ko*` → default 폴백
-- [ ] `src/js/sound.js` — Web Audio API `playCorrect()` (상승 아르페지오), `playWrong()` (하강 톤). `AudioContext` 최초 인터랙션 이후 생성
-- [ ] `src/js/ui.js` — `showScreen(name)`: 전환 전 `tts.cancel()` + `sound.stopAll()` 호출. `el(id)` 헬퍼, `showToast(msg)`, `updateProgress(current, total)`
+- [x] `src/js/tts.js` — `speak(text, rate, pitch)`, `cancel()`, `isSupported()`. `voiceschanged` 비동기 대기. `ko-KR` 우선 → `ko*` → default 폴백
+- [x] `src/js/sound.js` — Web Audio API `playCorrect()` (상승 아르페지오), `playWrong()` (하강 톤). `AudioContext` 최초 인터랙션 이후 생성
+- [x] `src/js/ui.js` — `showScreen(name)`: 전환 전 `tts.cancel()` + `sound.stopAll()` 호출. `el(id)` 헬퍼, `showToast(msg)`, `updateProgress(current, total)`
 
 ### 게임 루프
 
-- [ ] `src/js/game.js` — `startSession()`: 10개 문항 순서 확정, `slotLevels` 초기화
-- [ ] `src/js/game.js` — `renderIdiom(idx)`: 한자 카드(4글자·한글독음·의미) 렌더링 + TTS 자동 발화
-- [ ] `src/js/game.js` — `renderSlots()`: 4×1 슬롯 상태 클래스 토글 (`empty` → `correct`/`wrong`). 활성 슬롯 `--slot-active-border` 맥동 애니메이션
-- [ ] `src/js/game.js` — `renderLv1Dock(slotIdx)`: `buildDockPool()` 호출 → 8개 블록 64dp 그리드 렌더링. `<button>` 탭 이벤트만 사용 (`<input>` 미사용)
-- [ ] `src/js/game.js` — `selectSyllable(syllable, slotIdx)`: 채점 → 정답 시 `slotPop` 애니메이션 + `sound.playCorrect()` + TTS 음절 발화 + 어원 팝업. 오답 시 `shake` 애니메이션 + `sound.playWrong()` + 0.6초 후 리셋
-- [ ] `src/js/game.js` — `showEtymologyPopup(syllableEntry)`: `.modal-overlay` + `.modal` 재사용. 2초 자동 닫힘. 수동 닫기 버튼. 논블로킹
-- [ ] `src/js/game.js` — `onIdiomComplete()`: 4슬롯 전체 정답 팝 애니메이션 + TTS 사자성어 전체 발화 + 0.8초 후 다음 문항 또는 완료 화면 전환
-- [ ] `src/js/end.js` — 완료 화면 렌더링: 정답률, 오답 목록, TTS 복습 버튼. `storage.saveResult()` 호출
-- [ ] `src/js/main.js` — 진입점: 모듈 부트스트랩, 화면 전환 이벤트 바인딩, `window.*` 노출 (`onclick` 속성 연결용)
+- [x] `src/js/game.js` — `startSession()`: 10개 문항 순서 확정, `slotLevels` 초기화
+- [x] `src/js/game.js` — `renderIdiom(idx)`: 한자 카드(4글자·한글독음·의미) 렌더링 + TTS 자동 발화
+- [x] `src/js/game.js` — `renderSlots()`: 4×1 슬롯 상태 클래스 토글 (`empty` → `correct`/`wrong`). 활성 슬롯 `--slot-active-border` 맥동 애니메이션
+- [x] `src/js/game.js` — `renderLv1Dock(slotIdx)`: `buildDockPool()` 호출 → 8개 블록 64dp 그리드 렌더링. `<button>` 탭 이벤트만 사용 (`<input>` 미사용)
+- [x] `src/js/game.js` — `selectSyllable(syllable, slotIdx)`: 채점 → 정답 시 `slotPop` 애니메이션 + `sound.playCorrect()` + TTS 음절 발화 + 어원 팝업. 오답 시 `shake` 애니메이션 + `sound.playWrong()` + 0.6초 후 리셋
+- [x] `src/js/game.js` — `showEtymologyPopup(syllableEntry)`: `.modal-overlay` + `.modal` 재사용. 2초 자동 닫힘. 수동 닫기 버튼. 논블로킹
+- [x] `src/js/game.js` — `onIdiomComplete()`: 4슬롯 전체 정답 팝 애니메이션 + TTS 사자성어 전체 발화 + 0.8초 후 다음 문항 또는 완료 화면 전환
+- [x] `src/js/end.js` — 완료 화면 렌더링: 정답률, 오답 목록, TTS 복습 버튼. `storage.saveResult()` 호출
+- [x] `src/js/main.js` — 진입점: 모듈 부트스트랩, 화면 전환 이벤트 바인딩, `window.*` 노출 (`onclick` 속성 연결용)
 
 ### CSS — 게임 플레이 고유
 
-- [ ] `src/css/game.css` 완성 — 한자 카드 (`clamp(2rem,8vw,3.2rem)` 한자, Gowun Dodum 독음), 4×1 슬롯 행 레이아웃, Lv.1 도크 `grid 4×2` 64dp 블록, 어원 팝업, `slotPop`·`shake` 키프레임, `prefers-reduced-motion` 분기
+- [x] `src/css/game.css` 완성 — 한자 카드 (`clamp(2rem,8vw,3.2rem)` 한자, Gowun Dodum 독음), 4×1 슬롯 행 레이아웃, Lv.1 도크 `grid 4×2` 64dp 블록, 어원 팝업, `slotPop`·`shake` 키프레임, `prefers-reduced-motion` 분기
 
 ---
 

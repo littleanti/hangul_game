@@ -1,7 +1,7 @@
 /* ==========================================
    게임 플레이 고유 스타일 (#game-screen)
-   — M0 placeholder 스켈레톤. M2/M3 에서 완성한다.
-   레이아웃: 헤더 → 진행바 → 한자 카드 → 4×1 슬롯 → 도크/키패드 → 어원 팝업
+   — M2 완성: 헤더 → 진행바 → 한자 카드 → 4×1 슬롯 → Lv.1 도크 →
+     어원 팝업(논블로킹) → 토스트. Lv.2 키패드 고도화는 M3.
    ========================================== */
 
 /* ----- 게임 헤더 ----- */
@@ -185,6 +185,17 @@
   75%      { transform: translateX(6px); }
 }
 
+/* 4슬롯 전체 정답 — 사자성어 완성 전체 팝 (왼쪽부터 시차 적용) */
+.slot-row.complete .slot {
+  background: var(--slot-correct-bg);
+  border-color: var(--mint-dark);
+  color: white;
+  animation: slotPop 0.4s ease;
+}
+.slot-row.complete .slot:nth-child(2) { animation-delay: 0.07s; }
+.slot-row.complete .slot:nth-child(3) { animation-delay: 0.14s; }
+.slot-row.complete .slot:nth-child(4) { animation-delay: 0.21s; }
+
 /* ----- Lv.1 음절블록 도크 (하단 오버레이) ----- */
 .lv1-dock {
   display: grid;
@@ -262,7 +273,7 @@
   box-shadow: 0 1px 0 var(--navy);
 }
 
-/* ----- 어원 팝업 (모달, M2 완성) ----- */
+/* ----- 어원 팝업 (모달) ----- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -274,6 +285,25 @@
   padding: 20px;
 }
 .modal-overlay[hidden] { display: none; }
+
+/* 어원 팝업 논블로킹 변형 (TRD §5.4):
+   오버레이는 터치를 가로채지 않고(다음 슬롯 입력 가능),
+   팝업 카드만 상단에 떠서 닫기 버튼 상호작용 허용 */
+#etymology-popup {
+  pointer-events: none;
+  background: transparent;
+  align-items: flex-start;
+  padding-top: 14vh;
+}
+#etymology-popup .modal {
+  pointer-events: auto;
+  animation: popupIn 0.2s ease;
+}
+
+@keyframes popupIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.95); }
+  to   { opacity: 1; transform: none; }
+}
 
 .modal {
   background: white;
@@ -306,12 +336,43 @@
   margin-bottom: 1rem;
 }
 
+/* ----- 토스트 메시지 (ui.showToast) ----- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--navy);
+  color: white;
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.95rem;
+  padding: 10px 20px;
+  border-radius: 100px;
+  box-shadow: 0 4px 12px var(--shadow);
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 200;
+  pointer-events: none;
+  max-width: 90vw;
+  text-align: center;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%);
+}
+
 /* ----- 모션 민감 사용자 배려 ----- */
 @media (prefers-reduced-motion: reduce) {
   .slot.active,
   .slot.correct,
   .slot.wrong,
-  .tts-button.speaking {
+  .slot-row.complete .slot,
+  .tts-button.speaking,
+  #etymology-popup .modal {
     animation: none;
+  }
+  .toast,
+  .progress-fill {
+    transition: none;
   }
 }
