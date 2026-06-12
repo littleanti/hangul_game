@@ -1,9 +1,10 @@
-// game.js — 라운드 컨트롤러 (M2 본 구현, TRD §2.1, §9.1, §10)
-// 흐름: startSession → startRound → (탭/드래그) onBlocksSelected → checkAnswer
-//       → 정답: 분해 팝업 → 다음 라운드 / 오답: shake 후 재시도 → endSession
+// game.js — 라운드 컨트롤러 (M2 본 구현 → M6 점진 변환 개편, TRD §2.1, §9.1, §10)
+// 흐름: startSession → startRound → (탭/드래그) onBlockSelected — 한자 1개 단위 즉시 판정
+//       → 부분 정답: 카드 음절 한글→한자 제자리 변환 → 전부 변환 시 분해 팝업 → 다음 라운드
+//       → 오답: 해당 블록만 shake 후 재시도 → endSession
 
 import { state } from './state.js';
-import { ROUND_SUMMARY_MS } from './config.js';
+import { ROUND_SUMMARY_MS, WORD_COMPLETE_MS } from './config.js';
 import { shuffle } from './utils.js';
 import * as ui from './ui.js';
 import * as storage from './storage.js';
@@ -14,6 +15,7 @@ import * as hint from './hint.js';
 import * as dock from './dock.js';
 import * as decomp from './decomp.js';
 import { VOCAB } from '../data/vocab.js';
+import { HANJA } from '../data/hanja.js';
 
 // ====== 큐 구성 (TRD §10.2, §10.3) ======
 
@@ -44,15 +46,15 @@ export function pickQueue(vocab) {
 
 // ====== 판정·점수 (TRD §9.1, §10.1) ======
 
-/** 순서 무관 집합 비교 (Set 기반) */
-export function checkAnswer(selectedIds, vocabItem) {
-  const correct = new Set(vocabItem.components);
-  const selected = new Set(selectedIds);
-  if (correct.size !== selected.size) return false;
-  for (const id of correct) {
-    if (!selected.has(id)) return false;
-  }
-  return true;
+/**
+ * 한자 1개 단위 판정 — 아직 변환되지 않은 음절 중 id와 일치하는 인덱스 반환.
+ * 순서 무관(어느 음절부터 골라도 됨), 불일치·중복 정답이면 -1.
+ * @param {object} vocabItem
+ * @param {string} id - 선택한 한자 블록 ID
+ * @param {boolean[]} solved - 음절별 변환 완료 여부
+ */
+export function componentIndexFor(vocabItem, id, solved) {
+  return vocabItem.components.findIndex((c, i) => c === id && !solved[i]);
 }
 
 /** 별 계산 — 정답률 ≥0.9 → 3, ≥0.7 → 2, 그 외 1 */
@@ -95,12 +97,12 @@ export function startRound(idx) {
   state.session.currentIdx = idx;
   state.session.hintLevel = hint.levelForRound(idx, state.session.queue.length);
   state.round.phase = 'presenting';
-  state.round.selectedComponents = [];
+  state.round.solvedComponents = item.components.map(() => false);
   state.round.attemptCount = 0;
 
-  // 합성어 카드 + 힌트 레이어 (M3: L1 라벨+하이라이트 / L2 하이라이트 / L3 없음)
-  const wordEl = document.getElementById('compound-word');
-  if (wordEl) wordEl.textContent = item.word;
+  // 합성어 카드(음절 단위 span — 정답 시 제자리 한글→한자 변환 대상)
+  // + 힌트 레이어 (M3: L1 라벨+하이라이트 / L2 하이라이트 / L3 없음)
+  renderWord(item);
   hint.renderHint(item, state.session.hintLevel);
 
   // 진행률 바 + 힌트 레벨 배지
@@ -109,41 +111,82 @@ export function startRound(idx) {
   const badge = document.getElementById('hint-level-badge');
   if (badge) badge.textContent = `힌트 ${state.session.hintLevel}단계`;
 
-  // 도크 — 2개 선택 완료 시 onBlocksSelected로 라우팅
-  dock.renderDock(item, onBlocksSelected);
+  // 도크 — 블록 1개 탭/스냅마다 onBlockSelected로 즉시 라우팅
+  dock.renderDock(item, onBlockSelected);
 
   tts.speak(item.word);
   state.round.phase = 'awaiting';
 }
 
-/** 블록 2개 선택 완료 — dock.js가 호출. 정답/오답 분기 */
-export function onBlocksSelected(ids) {
+/** 합성어 카드를 음절 단위 span으로 렌더링 — 정답 음절의 제자리 변환 대상 */
+function renderWord(item) {
+  const wordEl = document.getElementById('compound-word');
+  if (!wordEl) return;
+  wordEl.textContent = '';
+  // 2형태소 합성어 = 음절:한자 1:1 대응 (vocab 스키마 보장). 불일치 데이터는 통짜 폴백.
+  if (item.word.length !== item.components.length) {
+    wordEl.textContent = item.word;
+    return;
+  }
+  [...item.word].forEach((ch, i) => {
+    const syl = document.createElement('span');
+    syl.className = 'syllable';
+    syl.dataset.idx = String(i);
+    syl.textContent = ch;
+    wordEl.appendChild(syl);
+  });
+}
+
+/** 정답 음절 한글→한자 제자리 변환 — 한자 + 한글 루비(가독 비계 유지) */
+function transformSyllable(idx, hanjaId, hangulCh) {
+  const syl = document.querySelector(`#compound-word .syllable[data-idx="${idx}"]`);
+  if (!syl) return;
+  syl.textContent = hanjaId;
+  const ruby = document.createElement('span');
+  ruby.className = 'syl-ruby';
+  ruby.textContent = hangulCh;
+  syl.appendChild(ruby);
+  syl.classList.add('solved');
+}
+
+/** 블록 1개 선택 — dock.js가 호출. 한자 단위 즉시 판정 (M6 점진 변환) */
+export function onBlockSelected(id) {
   const idx = state.session.currentIdx;
   const item = state.session.queue[idx];
-  if (!item || state.round.phase !== 'awaiting') return;
+  if (!item || state.round.phase !== 'awaiting') {
+    dock.unlock(); // 제출이 무시된 경우 도크 잠금 복구
+    return;
+  }
 
   state.round.attemptCount += 1;
+  const solved = state.round.solvedComponents;
+  const compIdx = componentIndexFor(item, id, solved);
 
-  if (checkAnswer(ids, item)) {
-    // ----- 정답 -----
-    state.round.phase = 'correct';
-    state.session.correctCount += 1;
-    state.session.wrongPerRound[idx] = state.session.wrongPerRound[idx] ?? 0;
-    state.session.solvedPerRound[idx] = true; // 완료 화면 라운드별 요약용
+  if (compIdx >= 0) {
+    // ----- 부분 정답 — 해당 음절 제자리 변환 -----
+    solved[compIdx] = true;
     audio.playCorrect();
-    dock.markCorrect();
-    // 분해 애니메이션 + 결과 팝업 → "다음" 버튼으로 다음 라운드
-    state.round.phase = 'result';
-    decomp.playDecomp(item, () => nextRound());
+    dock.markBlockCorrect(id);
+    transformSyllable(compIdx, id, item.word[compIdx]);
+
+    if (solved.every(Boolean)) {
+      // ----- 라운드 완성 — 변환 연출을 보여준 뒤 음·뜻 확인 팝업 -----
+      state.round.phase = 'result';
+      state.session.correctCount += 1;
+      state.session.wrongPerRound[idx] = state.session.wrongPerRound[idx] ?? 0;
+      state.session.solvedPerRound[idx] = true; // 완료 화면 라운드별 요약용
+      setTimeout(() => decomp.playDecomp(item, () => nextRound()), WORD_COMPLETE_MS);
+    } else {
+      // 마지막 블록이 아니면 음·뜻 즉시 발화 (완성 시엔 팝업 TTS가 담당)
+      const h = HANJA[id];
+      if (h) tts.speak(`${h.meaning} ${h.reading}`);
+    }
   } else {
-    // ----- 오답 — 힌트 레벨 유지(강등 없음), 재시도 -----
-    state.round.phase = 'wrong';
+    // ----- 오답 — 해당 블록만 shake, 힌트 레벨 유지(강등 없음), 재시도 -----
     state.session.wrongCount += 1;
     state.session.wrongPerRound[idx] = (state.session.wrongPerRound[idx] ?? 0) + 1;
     audio.playWrong();
-    dock.playWrongSelection(); // shake + 선택 해제 후 재시도 가능
-    state.round.selectedComponents = [];
-    state.round.phase = 'awaiting';
+    dock.playWrongBlock(id); // 선택한 블록만 shake — 피드백 귀속 명확화
   }
 }
 

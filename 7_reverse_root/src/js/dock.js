@@ -1,17 +1,15 @@
-// dock.js — 한자 블록 도크 렌더링·탭·드래그·스냅 (M2 본 구현, TRD §3.5, §6.1, §6.2)
+// dock.js — 한자 블록 도크 렌더링·탭·드래그·스냅 (M2 본 구현 → M6 점진 변환 개편, TRD §3.5, §6.1, §6.2)
 // 6_morpheme_detective 자성 스냅(40dp) 패러다임 계승.
-// 탭(선택 토글)과 드래그+자성 스냅 모두 동일한 제출 경로(onSubmit)로 라우팅.
+// 탭과 드래그+자성 스냅 모두 동일한 제출 경로(onSubmit)로 라우팅 — 블록 1개 단위 즉시 판정.
 
-import { state } from './state.js';
 import { shuffle, clamp, dist } from './utils.js';
 import { MAGNET_PX, WRONG_SHAKE_MS } from './config.js';
 import * as pointer from './pointer.js';
 import { HANJA } from '../data/hanja.js';
 
 // ----- 모듈 내부 상태 -----
-let selected = new Set();   // 선택된 한자 ID
-let onSubmit = null;        // 2개 선택 완료 콜백 — game.onBlocksSelected
-let locked = false;         // 판정 중 입력 잠금
+let onSubmit = null;        // 블록 1개 제출 콜백 — game.onBlockSelected(id)
+let locked = false;         // 판정·오답 shake 중 입력 잠금
 
 /** 정답 2개 + 디스트랙터 2~3개 셔플 (TRD §3.5) */
 export function buildDockItems(vocabItem) {
@@ -23,13 +21,12 @@ export function buildDockItems(vocabItem) {
 /**
  * #hanja-dock에 블록 렌더링 + 탭/드래그 핸들러 부착.
  * @param {object} vocabItem
- * @param {(ids: string[]) => void} submitCb — 2개 선택 완료 시 호출
+ * @param {(id: string) => void} submitCb — 블록 1개 탭/스냅마다 호출
  */
 export function renderDock(vocabItem, submitCb) {
   const dockEl = document.getElementById('hanja-dock');
   if (!dockEl) return;
   dockEl.textContent = '';
-  selected = new Set();
   onSubmit = submitCb || null;
   locked = false;
 
@@ -48,13 +45,12 @@ function makeBlock(id) {
   el.setAttribute('role', 'button');
   el.tabIndex = 0;
   el.setAttribute('aria-label', `${h.reading} (${h.meaning} ${h.reading})`);
-  el.setAttribute('aria-pressed', 'false');
 
-  // 키보드 접근성 — Enter/Space로 선택 토글 (TRD §8.2)
+  // 키보드 접근성 — Enter/Space로 제출 (TRD §8.2)
   el.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      toggleSelect(el);
+      submitBlock(el);
     }
   });
 
@@ -63,10 +59,10 @@ function makeBlock(id) {
   let card = null;  // 합성어 카드 DOMRect
 
   pointer.attach(el, {
-    onTap: () => toggleSelect(el),
+    onTap: () => submitBlock(el),
 
     onDragStart: () => {
-      if (locked) return;
+      if (locked || el.classList.contains('solved')) return;
       const r = el.getBoundingClientRect(); // transform 0 시점 → base
       base = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
       card = document.getElementById('compound-card')?.getBoundingClientRect() ?? null;
@@ -103,34 +99,23 @@ function makeBlock(id) {
       base = null;
       card = null;
       if (locked || cancelled) return;
-      // 카드에 스냅된 채 손을 떼면 = 선택 제출 (탭과 동일 경로, TRD §6.1)
-      if (wasSnapped && !selected.has(el.dataset.id)) toggleSelect(el);
+      // 카드에 스냅된 채 손을 떼면 = 제출 (탭과 동일 경로, TRD §6.1)
+      if (wasSnapped) submitBlock(el);
     },
   });
 
   return el;
 }
 
-/** 탭/드롭 공통 선택 토글 — 2개 선택 완료 시 자동 제출 */
-function toggleSelect(el) {
-  if (locked) return;
-  const id = el.dataset.id;
-  if (selected.has(id)) {
-    selected.delete(id);
-    el.classList.remove('selected');
-    el.setAttribute('aria-pressed', 'false');
-  } else {
-    if (selected.size >= 2) return; // 안전장치 (2개 도달 시 잠금이라 통상 불가)
-    selected.add(id);
-    el.classList.add('selected');
-    el.setAttribute('aria-pressed', 'true');
-  }
-  state.round.selectedComponents = [...selected];
-
-  if (selected.size === 2 && onSubmit) {
-    locked = true; // 판정 동안 입력 잠금
-    onSubmit([...selected]);
-  }
+/**
+ * 탭/드롭 공통 제출 — 블록 1개 단위 즉시 판정 경로.
+ * game.onBlockSelected가 동기적으로 markBlockCorrect / playWrongBlock을
+ * 호출해 잠금을 해제한다 (라운드 완성 시엔 phase 가드가 추가 입력 차단).
+ */
+function submitBlock(el) {
+  if (locked || el.classList.contains('solved') || !onSubmit) return;
+  locked = true;
+  onSubmit(el.dataset.id);
 }
 
 /** 오답 shake 피드백 — 단일 블록 (TRD §6.2) */
@@ -138,30 +123,33 @@ export function playWrongFeedback(blockEl) {
   if (!blockEl) return;
   blockEl.classList.add('wrong-shake');
   blockEl.addEventListener('animationend', () => {
-    blockEl.classList.remove('wrong-shake', 'selected');
+    blockEl.classList.remove('wrong-shake');
   }, { once: true });
 }
 
-/** 오답 처리 — 선택된 블록 전체 shake 후 선택 해제·재시도 가능 상태로 복귀 */
-export function playWrongSelection() {
-  const dockEl = document.getElementById('hanja-dock');
-  if (!dockEl) return;
-  for (const el of dockEl.querySelectorAll('.hanja-block.selected')) {
-    el.setAttribute('aria-pressed', 'false');
-    playWrongFeedback(el);
-  }
-  selected = new Set();
-  state.round.selectedComponents = [];
-  // shake가 끝날 때까지 잠금 유지 — animationend의 .selected 제거가
-  // 새 선택을 지우는 경합 방지. 종료 후 재시도 입력 허용.
+function findBlock(id) {
+  return document.querySelector(`#hanja-dock .hanja-block[data-id="${id}"]`);
+}
+
+/** 판정 잠금 해제 — game.js 가드가 제출을 무시한 경우의 복구 경로 */
+export function unlock() {
+  locked = false;
+}
+
+/** 오답 처리 — 선택한 블록만 shake 후 재시도 가능 상태로 복귀 (피드백 귀속 명확화) */
+export function playWrongBlock(id) {
+  playWrongFeedback(findBlock(id));
+  // shake가 끝날 때까지 잠금 유지 — 연타로 인한 중복 판정 방지
   setTimeout(() => { locked = false; }, WRONG_SHAKE_MS + 50);
 }
 
-/** 정답 블록 하이라이트 (분해 팝업 전 시각 피드백) */
-export function markCorrect() {
-  const dockEl = document.getElementById('hanja-dock');
-  if (!dockEl) return;
-  for (const el of dockEl.querySelectorAll('.hanja-block.selected')) {
-    el.classList.add('snapped');
+/** 부분 정답 처리 — 해당 블록 비활성(.solved) 후 즉시 다음 입력 허용 */
+export function markBlockCorrect(id) {
+  const el = findBlock(id);
+  if (el) {
+    el.classList.add('solved');
+    el.setAttribute('aria-disabled', 'true');
+    el.tabIndex = -1;
   }
+  locked = false;
 }

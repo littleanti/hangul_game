@@ -81,6 +81,37 @@
   color: var(--navy);
 }
 
+/* ----- 음절 단위 제자리 변환 (M6 — 정답 한자마다 한글→한자) ----- */
+.syllable {
+  position: relative;
+  display: inline-block;
+}
+
+/* 변환 완료 음절 — 한자 강조 + pop 연출 (transform/opacity만 — compositor 친화) */
+.syllable.solved {
+  color: var(--coral);
+  animation: syllablePop 0.45s ease-out;
+}
+
+@keyframes syllablePop {
+  0%   { transform: scale(0.55); opacity: 0.2; }
+  60%  { transform: scale(1.18); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* 변환된 한자 위 한글 루비 — 읽기 비계 유지 (absolute라 레이아웃 불변) */
+.syl-ruby {
+  position: absolute;
+  bottom: 96%;   /* 음절 글리프 바로 위 — 카드 padding-top(32px) 안에 머무름 */
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Gowun Dodum', sans-serif;
+  font-size: 0.28em;
+  line-height: 1;
+  color: var(--color-text-dim);
+  pointer-events: none;
+}
+
 /* ----- 힌트 레이어 (TRD §5.2 — hint.js가 채움, M3) ----- */
 .hint-overlay {
   position: absolute;
@@ -156,10 +187,13 @@
   user-select: none;
 }
 
-.hanja-block.selected {
-  border-color: var(--coral);
-  box-shadow: 0 4px 0 var(--coral-dark);
-  transform: translateY(-4px) scale(1.05);
+/* 정답 처리된 블록 — 비활성 표시, 남은 블록에 집중 유도 (M6) */
+.hanja-block.solved {
+  border-color: var(--mint);
+  box-shadow: 0 2px 0 var(--mint-dark);
+  opacity: 0.4;
+  cursor: default;
+  transition: opacity 0.3s;
 }
 
 .hanja-block.snapped {

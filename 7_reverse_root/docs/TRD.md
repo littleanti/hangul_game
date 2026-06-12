@@ -2,7 +2,7 @@
 
 > Technical Requirements Document
 > Last updated: 2026-06-12
-> Status: **구현 완료** — M0~M4 구현 완료, M5 QA·디바이스 검증 진행 중
+> Status: **구현 완료** — M0~M5 완료, M6 점진 변환 UX 개편(한자 1개 단위 즉시 판정·음절 제자리 변환) 반영
 
 ---
 
@@ -204,12 +204,10 @@ export const state = {
   round: {
     phase: 'idle'                 // 현재 라운드 단계
            | 'presenting'        // 합성어 카드 제시 중
-           | 'awaiting'          // 사용자 입력 대기
-           | 'correct'           // 정답 판정 후 분해 애니메이션
-           | 'wrong'             // 오답 피드백 후 복귀
-           | 'result',           // 분해 결과 팝업 표시
-    selectedComponents: string[], // 사용자가 선택한 한자 블록 ID 배열 (최대 2개)
-    attemptCount: number,         // 현재 라운드 시도 횟수
+           | 'awaiting'          // 사용자 입력 대기 (부분 정답 포함)
+           | 'result',           // 전 음절 변환 완료 → 음·뜻 확인 팝업 표시
+    solvedComponents: boolean[],  // 음절별 한글→한자 변환 완료 여부 (M6 한자 1개 단위 판정)
+    attemptCount: number,         // 현재 라운드 블록 제출 횟수 (정답·오답 합산)
   },
   progress: {
     totalSessions: number,        // 누적 세션 수 (localStorage 영속)
@@ -525,9 +523,9 @@ L3 상태:
 }
 ```
 
-### 5.3 분해 결과 팝업 `decomp-result` (game.css)
+### 5.3 음·뜻 확인 팝업 `decomp-result` (game.css)
 
-정답 확인 후 play-screen 위에 오버레이로 표시. 합성어가 두 한자 조각으로 갈라지는 CSS 애니메이션.
+전 음절 변환 완료 후 `WORD_COMPLETE_MS`(700ms — 마지막 음절 변환 연출 노출) 지연을 두고 play-screen 위에 오버레이로 표시. 분해 연출 자체는 카드 내 음절 제자리 변환(M6, §6.1)이 담당하므로, 팝업은 각 한자의 음·뜻 카드 확인 + TTS 발화 역할에 집중한다.
 
 ```css
 .decomp-overlay {
@@ -573,17 +571,18 @@ L3 상태:
 export const MAGNET_DP = 40;    // 자성 스냅 흡착 거리 (dp 단위)
 export const MAGNET_PX = () => MAGNET_DP * (window.devicePixelRatio || 1);
 
-// dock.js — 한자 블록 상호작용
+// dock.js — 한자 블록 상호작용 (M6: 블록 1개 단위 즉시 판정)
 // 1. pointerdown: 블록 선택, setPointerCapture
 // 2. pointermove: 블록 드래그, 합성어 카드 영역 근접 시 자석 스냅
-// 3. pointerup:   드롭 위치 판정 → game.js onBlockDrop(hanjaId) 호출
-// 4. 단순 탭(pointermove 없음, 이동 < 8px): 블록 선택 토글 → 2개 선택 완료 시 자동 제출
+// 3. pointerup:   스냅 상태로 드롭 → game.js onBlockSelected(hanjaId) 호출
+// 4. 단순 탭(pointermove 없음, 이동 < 8px): 즉시 제출 → onBlockSelected(hanjaId)
 ```
 
-입력 방식:
-- **탭(발견)**: 한자 블록 탭 → 선택 상태(`.selected`), 2개 선택 완료 시 자동 정답 판정
+입력 방식 (M6 — 한자 1개 단위 즉시 판정):
+- **탭(발견)**: 한자 블록 탭 → 즉시 판정. 정답이면 카드의 해당 음절이 한글→한자 제자리 변환(`.syllable.solved`, 한글 루비 병기) + 블록 비활성(`.hanja-block.solved`)
 - **드래그+스냅**: 블록 드래그 → 합성어 카드 영역 40dp 이내 접근 시 자성 스냅 효과 → 손 떼면 제출
-- 두 방식 모두 동일한 정답 판정 로직으로 라우팅
+- 두 방식 모두 동일한 판정 경로(`onBlockSelected`)로 라우팅. 음절↔한자 1:1 대응이므로 선택 순서 무관 — 어느 한자를 먼저 골라도 대응 음절이 변환된다
+- 전 음절 변환 완료 → `phase: 'result'` 전환 후 음·뜻 확인 팝업(§5.3)
 
 IME 완전 회피:
 - 모든 대화형 요소는 `<button>`, `<div role="button">` 또는 커스텀 Pointer Events 처리
@@ -643,8 +642,8 @@ function playWrongFeedback(blockEl) {
 ```js
 // service-worker.js
 
-// 이 게임 고유 CACHE_VERSION — 다른 게임 SW와 충돌 없음
-const CACHE_VERSION = '7_reverse_root-v1';
+// 이 게임 고유 CACHE_VERSION — 다른 게임 SW와 충돌 없음 (자산 변경 시 bump)
+const CACHE_VERSION = '7_reverse_root-v2';
 const CACHE_NAME = `hangul-games-${CACHE_VERSION}`;
 
 // 캐시할 정적 자산 목록 (릴리즈 시 수동 또는 스크립트로 갱신)
@@ -801,6 +800,7 @@ function calcStars(correctCount, total) {
   return 1;
 }
 // 점수 = (정답 수 × 10) + (오답 없는 라운드 수 × 5)
+// wrongPerRound는 블록 탭 단위 오답 수 (M6) — 무오답 보너스 기준 동일
 function calcScore(session) {
   const bonus = session.queue.filter((_, i) => session.wrongPerRound[i] === 0).length;
   return session.correctCount * 10 + bonus * 5;
@@ -850,21 +850,21 @@ export function renderLeaderboard() {
 
 ## 10. 핵심 알고리즘
 
-### 10.1 정답 판정
+### 10.1 정답 판정 (M6 — 한자 1개 단위)
 
 ```js
-// game.js
-function checkAnswer(selectedIds, vocabItem) {
-  // 순서 무관 집합 비교
-  const correct = new Set(vocabItem.components);
-  const selected = new Set(selectedIds);
-  if (correct.size !== selected.size) return false;
-  for (const id of correct) {
-    if (!selected.has(id)) return false;
-  }
-  return true;
+// game.js — 블록 1개 제출마다 즉시 판정
+// 아직 변환되지 않은 음절 중 id와 일치하는 인덱스 반환 (순서 무관), 불일치면 -1
+function componentIndexFor(vocabItem, id, solved) {
+  return vocabItem.components.findIndex((c, i) => c === id && !solved[i]);
 }
+// ≥ 0  → 부분 정답: solved[i] = true, 해당 음절 한글→한자 변환
+//        solved 전부 true → 라운드 완성 (correctCount++, 음·뜻 확인 팝업)
+// -1   → 오답: wrongCount++, wrongPerRound[idx]++, 해당 블록만 shake
 ```
+
+> 오답 카운트는 **블록 탭 단위**다. 즉시 판정으로 인한 대입(hill-climbing) 시도는
+> 무오답 보너스(`wrongPerRound === 0` × 5점) 상실로 점수에서 상쇄된다 (§9.1).
 
 ### 10.2 어휘 풀 세션 배열
 
@@ -930,8 +930,9 @@ function pickQueue(vocab) {
 #### 핵심 시나리오
 - [ ] 첫 진입 → "시작" 탭 → SpeechSynthesis + AudioContext unlock 성공
 - [ ] L1 라운드: 힌트 하이라이트 + 뜻 라벨 표시 확인 (화산 → 불 화 / 뫼 산)
-- [ ] 정답 블록 2개 탭 → 분해 애니메이션 + TTS 발화 → 팝업 표시
-- [ ] 오답 블록 탭 → shake 애니메이션 + 오답 효과음 → 재시도
+- [ ] 정답 블록 1개 탭 → 카드 음절 한글→한자 제자리 변환(한글 루비) + 음·뜻 TTS, 블록 비활성
+- [ ] 정답 블록 2개째 탭 → 전 음절 변환 → 음·뜻 확인 팝업 + TTS 표시
+- [ ] 오답 블록 탭 → 해당 블록만 shake 애니메이션 + 오답 효과음 → 재시도
 - [ ] L1 5라운드 → L2 전환 (뜻 라벨 사라지고 하이라이트만)
 - [ ] L2 5라운드 → L3 전환 (힌트 없음)
 - [ ] 세션 완료 → 완료 화면, 별 표시, 점수 계산
@@ -949,7 +950,7 @@ function pickQueue(vocab) {
 - [ ] 시스템 음소거 → 시각 피드백만으로 게임 진행 가능
 
 ### 자동화 (P2 후보)
-- Vitest + jsdom: `checkAnswer`, `buildDockItems`, `calcScore`, `calcStars` 유닛 테스트
+- Vitest + jsdom: `componentIndexFor`, `buildDockItems`, `calcScore`, `calcStars` 유닛 테스트
 - Playwright (모바일 에뮬레이션): 핵심 3개 시나리오 E2E
 
 ---

@@ -20,9 +20,9 @@ export const state = {
     lastPlayedWords: null, // Set<string> — 직전 세션 어휘 (메모리 내, 미영속)
   },
   round: {
-    phase: 'idle',         // 'idle'|'presenting'|'awaiting'|'correct'|'wrong'|'result'
-    selectedComponents: [],// 사용자가 선택한 한자 블록 ID (최대 2개)
-    attemptCount: 0,       // 현재 라운드 시도 횟수
+    phase: 'idle',         // 'idle'|'presenting'|'awaiting'|'result'
+    solvedComponents: [],  // 음절별 변환 완료 여부 boolean[] (한자 1개 단위 판정, M6)
+    attemptCount: 0,       // 현재 라운드 블록 제출 횟수 (정답·오답 합산)
   },
   progress: {
     totalSessions: 0,      // 누적 세션 수 (localStorage 영속)

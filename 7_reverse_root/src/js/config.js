@@ -2,7 +2,7 @@
 
 export const PORT = 4330;                          // 개발 서버 포트 (루트 컨벤션)
 export const STORAGE_PREFIX = '7rr:';              // localStorage 키 접두사 (TRD §7.3)
-export const CACHE_VERSION = '7_reverse_root-v1';  // SW 캐시 버전 (M4)
+export const CACHE_VERSION = '7_reverse_root-v2';  // SW 캐시 버전 (M4 — M6 점진 변환 개편으로 bump)
 
 export const HINT_LEVELS = [1, 2, 3];              // L1: 라벨+하이라이트, L2: 하이라이트, L3: 없음
 export const ROUND_COUNTS_PER_LEVEL = [5, 5, 5];   // 힌트 레벨별 라운드 수 (TRD §3.4)
@@ -16,3 +16,4 @@ export const DECOMP_ANIM_MS = 400;                 // 분해 pieceReveal
 export const WRONG_SHAKE_MS = 350;                 // 오답 shake
 export const HINT_TRANSITION_MS = 300;             // L2→L1 하이라이트 전환
 export const ROUND_SUMMARY_MS = 2600;              // round-summary 인터스티셜 자동 진행 대기 (M3)
+export const WORD_COMPLETE_MS = 700;               // 마지막 음절 변환 연출 → 분해 팝업 지연 (M6)
